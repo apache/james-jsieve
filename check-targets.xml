@@ -1,0 +1,149 @@
+<!--
+This build.xml snippet contains targets for ant 1.5 that check whether
+a specific libary is present, and offers targets for downloading them
+if they're not.
+
+It's kinda of a replacement for some maven functionality until maven
+becomes stable.
+-->
+
+    <!-- Set up properties -->
+    <property file="check-targets.properties"/>
+    <target name="setup-dependencies">
+
+        <available property="javax.activation.present"
+               classname="javax.activation.URLDataSource"
+               classpathref="project.class.path" />
+        <available property="javax.mail.present"
+               classname="javax.mail.Message"
+               classpathref="project.class.path" />
+<!--
+        <available property="junit.present"
+               classname="junit.framework.Test"
+               classpathref="project.class.path" />
+      <echo message="JUNIT: ${junit.jar}"/>
+-->
+    </target>
+
+  <!-- called if a dependency is missing which has a BSD or ASL or
+       similar license for which autodownload is okay. -->
+  <target name="missing-dependency">
+	<echo>
+	*************************************************************************
+	Classes needed for compiling ${Name} against the ${id} API
+	are not available. The build may fail or some functionality may
+	not be available.
+
+	Resource: ${id}.jar
+	
+	Recovery:
+	Run the build target import-${id} and it will download
+	the needed jar - you should be online for that.
+	
+	If you have a fast connection you can also just run the build target
+	import-all-auto-dependencies, which will download all external jars this
+	buildfile knows about.
+	Note this may download unused jars as well.
+	*************************************************************************
+	</echo>
+	<echo/>
+  </target>
+
+  <!-- called if a dependency is missing which we cannot autodownload
+       due to licensing-->
+  <target name="missing-dependency-noauto">
+	<echo>
+	*************************************************************************
+	Classes needed for compiling ${Name} against the ${id} API
+	are not available. The build may fail or some functionality may
+	not be available.
+	
+	Resource: ${id}.jar
+
+	Recovery:
+	Get the ${id} jar from the ${id} distribution at
+	${dist.url}
+	and place it in ${lib.dir}.
+	
+	Please note that ${id} is licensed under the ${license}
+	and that by downloading it you are agreeing to that license. You can read
+	this license at
+	${license.url}
+	*************************************************************************
+	</echo>
+	<echo/>
+  </target>
+  
+  <!-- this target fetches a file from a maven repository -->
+  <target name="import-dependency">
+	<get src="${license.url}"
+		dest="${lib.dir}/${id}.LICENSE.html"
+		usetimestamp="true"/>
+	<loadfile property="license.text" srcFile="${lib.dir}/${id}.LICENSE.html"/>
+	<echo>
+	*************************************************************************
+	You have requested to download the ${id} jar, which is licensed under
+	the ${license}. A copy of this license has been saved to
+	${lib.dir}/${id}.LICENSE.html
+	
+	Please view it now.
+	*************************************************************************
+	</echo>
+	<input message="Do you agree to the terms of this license?"
+		validargs="y,n"
+		addproperty="do.download"/>
+
+	<condition property="do.abort">
+		<equals arg1="n" arg2="${do.download}"/>
+	</condition>
+	<fail if="do.abort">Download aborted.</fail>
+	
+	<get src="${jar.repository}/${id}/jars/${id}-${version}.jar"
+		dest="${lib.dir}/${id}-${version}.jar"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+
+  <!-- JavaMail -->
+  <target name="javamail-check" unless="javax.mail.present" depends="setup-dependencies">
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${javamail.id}"/>
+      <param name="version" value="${javamail.version}"/>
+      <param name="license" value="${javamail.license}"/>
+      <param name="license.url" value="${javamail.license.url}"/>
+      <param name="dist.url" value="${javamail.dist.url}"/>
+    </antcall>
+  </target>
+
+  <!-- JAF -->
+  <target name="activation-check" unless="javax.activation.present" depends="setup-dependencies">
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${activation.id}"/>
+      <param name="version" value="${activation.version}"/>
+      <param name="license" value="${activation.license}"/>
+      <param name="license.url" value="${activation.license.url}"/>
+      <param name="dist.url" value="${activation.dist.url}"/>
+    </antcall>
+  </target>
+
+  <!-- JUnit -->
+<!--
+  <target name="junit-check" unless="junit.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+      <param name="id" value="${junit.id}"/>
+      <param name="version" value="${junit.version}"/>
+      <param name="license" value="${junit.license}"/>
+      <param name="license.url" value="${junit.license.url}"/>
+    </antcall>
+  </target>
+
+  <target name="import-junit" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${junit.id}"/>
+      <param name="version" value="${junit.version}"/>
+      <param name="license" value="${junit.license}"/>
+      <param name="license.url" value="${junit.license.url}"/>
+    </antcall>
+  </target>
+-->

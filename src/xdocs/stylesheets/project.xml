@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="jSieve"
+        href="http://james.apache.org">
+
+    <title>jSieve - An RFC 3028 Compliant Mail Filtering Processor</title>
+    <logo href="/images/james-logo.jpg">jSieve - Mail Filtering Processor</logo>
+
+    <body>
+    <menu name="jSieve">
+        <item name="Overview"          href="/index.html"/>
+    </menu>
+    
+    <menu name="Downloads">
+        <item name="Binaries"              href="http://jakarta.apache.org/site/binindex.cgi"/>
+        <item name="Source Code"           href="http://jakarta.apache.org/site/sourceindex.cgi"/>
+    </menu>    
+    
+    <menu name="Documentation">
+        <item name="Javadocs"      href="/javadocs/index.html"/>
+    </menu>    
+    </body>
+</project>

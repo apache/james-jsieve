@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Overview</title>
+  <author email="jsieve-dev@jakarta.apache.org">jSieve Project</author>
+ </properties>
+
+<body>
+<section name="What is jSieve?">
+<p>jSieve is a Java implementation of the Sieve mail filtering language defined by 
+RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
+internet mail application to add Sieve support.</p>
+</section>
+
+<section name="Getting Started">
+<p>Until these pages are fleshed out, the best way to understand jSieve is read the 
+Javadocs and look at the source code. 
+<ul>
+<li>To understand how to invoke jSieve, see 
+<code>org.apache.jsieve.SieveFactory</code>.</li>
+<li>To understand how to implement a MailAdapter for jSieve, see
+<code>org.apache.jsieve.mail.MailAdapter</code>.</li>
+<li>To understand how to add a custom extension to jSieve, see
+<code>org.apache.jsieve.commands.extensions.Log</code>.</li>
+<li>The jUnit tests in <code>org.apache.jsieve.junit</code> illustrate many aspects
+of the implementation.</li>
+</ul>
+</p>
+</section>
+
+<section name="Comments, Questions and Bugs">
+<p>jSieve is a sub-project of Apache James. Please direct your comments, questions and
+bug reports to the relevant James list and Issue Tracker.
+</p>
+<p>As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
+helpful for bug reports to be accompanied by an illustrative jUnit test case.
+</p>
+</section>
+</body>
+</document>

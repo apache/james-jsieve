@@ -26,15 +26,19 @@ Javadocs and look at the source code.
 <code>org.apache.jsieve.commands.extensions.Log</code>.</li>
 <li>The jUnit tests in <code>org.apache.jsieve.junit</code> illustrate many aspects
 of the implementation.</li>
+<li>To build jSieve, run build.sh or build.bat as appropriate for your environment.
+</li>
 </ul>
 </p>
 </section>
 
-<section name="Comments, Questions and Bugs">
-<p>jSieve is a sub-project of Apache James. Please direct your comments, questions and
-bug reports to the relevant James list and Issue Tracker.
+<section name="Comments, Questions and Issues">
+<p>jSieve is a sub-project of Apache James. Please direct your comments and questions
+to the relevant James list.
 </p>
-<p>As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
+<p>To report issues, such as bugs, go to the
+<a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10412">jSieve Issue Tracker</a>.
+As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
 helpful for bug reports to be accompanied by an illustrative jUnit test case.
 </p>
 </section>

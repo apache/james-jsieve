@@ -39,6 +39,7 @@ public class ActionDispatcherTest extends TestCase
 
     /**
      * Constructor for ActionDispatcherTest.
+     * 
      * @param arg0
      */
     public ActionDispatcherTest(String arg0)
@@ -67,7 +68,7 @@ public class ActionDispatcherTest extends TestCase
     {
         super.tearDown();
     }
-    
+
     /**
      * Test execute of ActionKeep
      */
@@ -79,10 +80,8 @@ public class ActionDispatcherTest extends TestCase
         Action action = new ActionKeep();
         try
         {
-            ActionDispatcher.getInstance().execute(
-                action,
-                aMail,
-                aMailetContext);
+            ActionDispatcher.getInstance().execute(action, aMail,
+                    aMailetContext);
             isTestPassed = true;
         }
         catch (NoSuchMethodException e)
@@ -97,9 +96,10 @@ public class ActionDispatcherTest extends TestCase
         catch (MessagingException e)
         {
         }
+
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test execute of ActionAbsent. Should throw a NoSuchMethodException.
      */
@@ -107,15 +107,16 @@ public class ActionDispatcherTest extends TestCase
     {
         boolean isTestPassed = false;
         Mail aMail = new MailImpl();
-        MailetContext aMailetContext = new MockMailetContext();                         
+        MailetContext aMailetContext = new MockMailetContext();
         Action action = new ActionAbsent();
         try
         {
-            ActionDispatcher.getInstance().execute(action, aMail, aMailetContext);
+            ActionDispatcher.getInstance().execute(action, aMail,
+                    aMailetContext);
         }
         catch (NoSuchMethodException e)
         {
-            isTestPassed = true;            
+            isTestPassed = true;
         }
         catch (IllegalAccessException e)
         {
@@ -125,8 +126,8 @@ public class ActionDispatcherTest extends TestCase
         }
         catch (MessagingException e)
         {
-        }        
-        assertTrue(isTestPassed);        
-    }            
+        }
+        assertTrue(isTestPassed);
+    }
 
 }

@@ -147,7 +147,7 @@ public class Arguments
         return "Arguments: "
             + getArgumentList().toString()
             + " Tests: "
-            + getTestList().toString();
+            + (hasTests() ? getTestList().toString(): "null");
     }
 
 }

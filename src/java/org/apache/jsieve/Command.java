@@ -34,7 +34,7 @@ public class Command implements Executable
     {
         Log log = Logger.getLog();
         if (log.isDebugEnabled())
-            log.debug("Command: " + getName());
+            log.debug(toString());
         return CommandManager.getInstance().newInstance(getName()).execute(
             mail,
             getArguments(),
@@ -98,9 +98,9 @@ public class Command implements Executable
     {
         return "Command name: "
             + getName()
-            + " Arguments: "
+            + " "
             + ((getArguments() == null) ? "null" : getArguments().toString())
-            + "Block: "
+            + " Block: "
             + ((getBlock() == null) ? "null" : getBlock().toString());
     }
 

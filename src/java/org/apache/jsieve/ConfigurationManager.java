@@ -1,65 +1,58 @@
-/***********************************************************************
- * Copyright (c) 2003-2004 The Apache Software Foundation.             *
- * All rights reserved.                                                *
+/*******************************************************************************
+ * Copyright (c) 2003-2004 The Apache Software Foundation. * All rights
+ * reserved. *
  * ------------------------------------------------------------------- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you *
- * may not use this file except in compliance with the License. You    *
- * may obtain a copy of the License at:                                *
- *                                                                     *
- *     http://www.apache.org/licenses/LICENSE-2.0                      *
- *                                                                     *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you * may
+ * not use this file except in compliance with the License. You * may obtain a
+ * copy of the License at: * * http://www.apache.org/licenses/LICENSE-2.0 * *
  * Unless required by applicable law or agreed to in writing, software *
- * distributed under the License is distributed on an "AS IS" BASIS,   *
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or     *
- * implied.  See the License for the specific language governing       *
- * permissions and limitations under the License.                      *
- ***********************************************************************/
-
+ * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or * implied. See the
+ * License for the specific language governing * permissions and limitations
+ * under the License. *
+ ******************************************************************************/
 package org.apache.jsieve;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.digester.Digester;
 import org.apache.commons.logging.Log;
 import org.xml.sax.SAXException;
-
 /**
- * <p>Singleton class <code>ConfigurationManager</code> parses the XML statements in
- * the Sieve configuration file and translates them to Java objects.</p>
+ * <p>
+ * Singleton class <code>ConfigurationManager</code> parses the XML
+ * statements in the Sieve configuration file and translates them to Java
+ * objects.
+ * </p>
  * 
- * <p>The Sieve configuration file is named <code>sieveConfig.xml</code>. It is
- * located by searching the classpath of the current ClassLoader.</p>
+ * <p>
+ * The Sieve configuration file is named <code>sieveConfig.xml</code>. It is
+ * located by searching the classpath of the current ClassLoader.
+ * </p>
  */
 public class ConfigurationManager
 {
     /**
      * The sole instance of the receiver.
-     */ 
+     */
     static private ConfigurationManager fieldInstance;
-    
     /**
      * The Digester used to process the Sieve configuration XML.
-     */ 
+     */
     private Digester fieldDigester;
-    
     /**
      * A Map of the Command names and their associated class names.
-     */ 
+     */
     private Map fieldCommandMap;
-    
     /**
      * A Map of the Test names and their associated class names.
-     */ 
+     */
     private Map fieldTestMap;
-    
     /**
      * A Map of the Comparator names and their associated class names.
-     */ 
+     */
     private Map fieldComparatorMap;
-
     /**
      * Constructor for ConfigurationManager.
      * 
@@ -72,27 +65,26 @@ public class ConfigurationManager
         try
         {
             parse();
-        }
-        catch (SAXException e)
+        } catch (SAXException e)
         {
             if (log.isErrorEnabled())
                 log.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             if (log.isErrorEnabled())
                 log.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         }
     }
-
     /**
-     * Returns the sole instance of the receiver, lazily initialised if required.
+     * Returns the sole instance of the receiver, lazily initialised if
+     * required.
+     * 
      * @return ConfigurationManager
      */
     static public synchronized ConfigurationManager getInstance()
-        throws SieveConfigurationException
+            throws SieveConfigurationException
     {
         ConfigurationManager instance = null;
         if (null == (instance = getInstanceBasic()))
@@ -102,35 +94,34 @@ public class ConfigurationManager
         }
         return instance;
     }
-    
     /**
      * Returns the sole instance of the receiver.
+     * 
      * @return ConfigurationManager
      */
     static private ConfigurationManager getInstanceBasic()
     {
         return fieldInstance;
     }
-    
     /**
      * Returns a new instance of the receiver.
+     * 
      * @return ConfigurationManager
      */
     static protected ConfigurationManager computeInstance()
-        throws SieveConfigurationException
+            throws SieveConfigurationException
     {
         return new ConfigurationManager();
-    }        
-
+    }
     /**
      * Sets the instance.
+     * 
      * @param instance The instance to set
      */
     static protected void setInstance(ConfigurationManager instance)
     {
         fieldInstance = instance;
     }
-    
     /**
      * Updates the instance.
      */
@@ -138,27 +129,32 @@ public class ConfigurationManager
     {
         setInstance(computeInstance());
     }
-    
     /**
      * Method getConfigName answers the name of the Sieve configuration file.
+     * 
      * @return String
      */
     static protected String getConfigName()
     {
         return "sieveConfig.xml";
-    }    
-
+    }
     /**
-     * Method getConfigStream answers an InputStream over the Sieve configuration 
-     * file. It is located by searching the classpath of the current ClassLoader.
+     * Method getConfigStream answers an InputStream over the Sieve
+     * configuration file. It is located by searching the classpath of the
+     * current ClassLoader.
      * 
      * @return InputStream
+     * @throws IOException
      */
-    static protected InputStream getConfigStream()
-    {    
-        return ClassLoader.getSystemResourceAsStream(getConfigName());
-    }    
-    
+    static protected InputStream getConfigStream() throws IOException
+    {
+        InputStream stream = ConfigurationManager.class.getClassLoader()
+                .getResourceAsStream(getConfigName());
+        if (null == stream)
+            throw new IOException("Resource \"" + getConfigName()
+                    + "\" not found");
+        return stream;
+    }
     /**
      * Method getCommandMap answers a Map of Command names and their associated
      * class names, lazily initialized if required.
@@ -172,13 +168,12 @@ public class ConfigurationManager
         {
             updateCommandMap();
             return getCommandMap();
-        }    
+        }
         return commandMap;
     }
-    
     /**
-     * Method getTestMap answers a Map of Test names and their associated
-     * class names, lazily initialized if required.
+     * Method getTestMap answers a Map of Test names and their associated class
+     * names, lazily initialized if required.
      * 
      * @return Map
      */
@@ -189,13 +184,12 @@ public class ConfigurationManager
         {
             updateTestMap();
             return getTestMap();
-        }    
+        }
         return testMap;
     }
-    
     /**
-     * Method getComparatorMap answers a Map of Comparator names and their associated
-     * class names, lazily initialized if required.
+     * Method getComparatorMap answers a Map of Comparator names and their
+     * associated class names, lazily initialized if required.
      * 
      * @return Map
      */
@@ -206,13 +200,12 @@ public class ConfigurationManager
         {
             updateComparatorMap();
             return getComparatorMap();
-        }    
+        }
         return comparatorMap;
-    }        
-    
+    }
     /**
-     * Method getCommandMapBasic answers a Map of Command names and their associated
-     * class names.
+     * Method getCommandMapBasic answers a Map of Command names and their
+     * associated class names.
      * 
      * @return Map
      */
@@ -220,7 +213,6 @@ public class ConfigurationManager
     {
         return fieldCommandMap;
     }
-    
     /**
      * Method getTestMapBasic answers a Map of Test names and their associated
      * class names.
@@ -231,48 +223,46 @@ public class ConfigurationManager
     {
         return fieldTestMap;
     }
-    
     /**
-     * Method getComparatorMapBasic answers a Map of Comparator names and their a
-     * ssociated class names.
+     * Method getComparatorMapBasic answers a Map of Comparator names and their
+     * a ssociated class names.
      * 
      * @return Map
      */
     private Map getComparatorMapBasic()
     {
         return fieldComparatorMap;
-    }            
-    
+    }
     /**
      * Method computeCommandMap answers a new CommandMap.
+     * 
      * @return Map
      */
     protected Map computeCommandMap()
     {
         return new HashMap();
     }
-    
     /**
      * Method computeTestMap answers a new TestMap.
+     * 
      * @return Map
      */
     protected Map computeTestMap()
     {
         return new HashMap();
-    } 
-    
+    }
     /**
      * Method computeComparatorMap answers a new ComparatorMap.
+     * 
      * @return Map
      */
     protected Map computeComparatorMap()
     {
         return new HashMap();
-    }       
-    
+    }
     /**
-     * Method putCommandMapEntry adds an association between a Command name and an
-     * implementation class to the Command Map.
+     * Method putCommandMapEntry adds an association between a Command name and
+     * an implementation class to the Command Map.
      * 
      * @param name
      * @param className
@@ -281,7 +271,6 @@ public class ConfigurationManager
     {
         getCommandMap().put(name, className);
     }
-    
     /**
      * Method putTestMapEntry adds an association between a Test name and an
      * implementation class to the Test Map.
@@ -293,10 +282,9 @@ public class ConfigurationManager
     {
         getTestMap().put(name, className);
     }
-    
     /**
-     * Method putComparatorMapEntry adds an association between a Comparator name and
-     * an implementation class to the Comparator Map.
+     * Method putComparatorMapEntry adds an association between a Comparator
+     * name and an implementation class to the Comparator Map.
      * 
      * @param name
      * @param className
@@ -304,10 +292,10 @@ public class ConfigurationManager
     public void putComparatorMapEntry(String name, String className)
     {
         getComparatorMap().put(name, className);
-    }                        
-
+    }
     /**
      * Returns the digester, lazily initialised if required.
+     * 
      * @return Digester
      */
     protected synchronized Digester getDigester()
@@ -316,23 +304,22 @@ public class ConfigurationManager
         if (null == (digester = getDigesterBasic()))
         {
             updateDigester();
-            return getDigester();    
-        }    
+            return getDigester();
+        }
         return digester;
     }
-    
     /**
      * Returns the digester.
+     * 
      * @return Digester
      */
     private Digester getDigesterBasic()
     {
         return fieldDigester;
     }
-    
     /**
-     * Method computeDigester answers a new digester intialised with the rules to
-     * parse the Sieve configuration file.
+     * Method computeDigester answers a new digester intialised with the rules
+     * to parse the Sieve configuration file.
      * 
      * @return Digester
      */
@@ -341,46 +328,33 @@ public class ConfigurationManager
         Digester digester = new Digester();
         digester.push(this);
         digester.setValidating(false);
-
         // CommandMap rules
-        digester.addCallMethod(
-            "sieve/commandMap/entry",
-            "putCommandMapEntry",
-            2,
-            new Class[] { String.class, String.class });
+        digester.addCallMethod("sieve/commandMap/entry", "putCommandMapEntry",
+                2, new Class[]{String.class, String.class});
         digester.addCallParam("sieve/commandMap/entry/name", 0);
         digester.addCallParam("sieve/commandMap/entry/class", 1);
-        
         // TestMap rules
-        digester.addCallMethod(
-            "sieve/testMap/entry",
-            "putTestMapEntry",
-            2,
-            new Class[] { String.class, String.class });
+        digester.addCallMethod("sieve/testMap/entry", "putTestMapEntry", 2,
+                new Class[]{String.class, String.class});
         digester.addCallParam("sieve/testMap/entry/name", 0);
         digester.addCallParam("sieve/testMap/entry/class", 1);
-        
         // ComparatorMap rules
-        digester.addCallMethod(
-            "sieve/comparatorMap/entry",
-            "putComparatorMapEntry",
-            2,
-            new Class[] { String.class, String.class });
+        digester.addCallMethod("sieve/comparatorMap/entry",
+                "putComparatorMapEntry", 2, new Class[]{String.class,
+                        String.class});
         digester.addCallParam("sieve/comparatorMap/entry/name", 0);
-        digester.addCallParam("sieve/comparatorMap/entry/class", 1);                  
-
+        digester.addCallParam("sieve/comparatorMap/entry/class", 1);
         return digester;
-    }       
-
+    }
     /**
      * Sets the digester.
+     * 
      * @param digester The digester to set
      */
     protected void setDigester(Digester digester)
     {
         fieldDigester = digester;
     }
-    
     /**
      * Updates the digester.
      */
@@ -388,9 +362,8 @@ public class ConfigurationManager
     {
         setDigester(computeDigester());
     }
-    
     /**
-     * Method parse uses the Digester to parse the XML statements in the Sieve 
+     * Method parse uses the Digester to parse the XML statements in the Sieve
      * configuration file into Java objects.
      * 
      * @return Object
@@ -400,35 +373,34 @@ public class ConfigurationManager
     protected Object parse() throws SAXException, IOException
     {
         return getDigester().parse(getConfigStream());
-    }        
-
+    }
     /**
      * Sets the commandMap.
+     * 
      * @param commandMap The commandMap to set
      */
     protected void setCommandMap(Map commandMap)
     {
         fieldCommandMap = commandMap;
     }
-    
     /**
      * Sets the testMap.
+     * 
      * @param testMap The testMap to set
      */
     protected void setTestMap(Map testMap)
     {
         fieldTestMap = testMap;
     }
-    
     /**
      * Sets the comparatorMap.
+     * 
      * @param comparatorMap The comparatorMap to set
      */
     protected void setComparatorMap(Map comparatorMap)
     {
         fieldComparatorMap = comparatorMap;
-    }        
-    
+    }
     /**
      * Updates the commandMap.
      */
@@ -436,7 +408,6 @@ public class ConfigurationManager
     {
         setCommandMap(computeCommandMap());
     }
-    
     /**
      * Updates the testMap.
      */
@@ -444,13 +415,11 @@ public class ConfigurationManager
     {
         setTestMap(computeTestMap());
     }
-    
     /**
      * Updates the comparatorMap.
      */
     protected void updateComparatorMap()
     {
         setComparatorMap(computeComparatorMap());
-    }            
-
+    }
 }

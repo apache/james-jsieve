@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<!--
+
+  @(#)package.html
+
+   Copyright (c) 2003-2004 The Apache Software Foundation.
+   All rights reserved.
+   -------------------------------------------------------------------
+   Licensed under the Apache License, Version 2.0 (the "License"); you
+   may not use this file except in compliance with the License. You
+   may obtain a copy of the License at:
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+   implied.  See the License for the specific language governing
+   permissions and limitations under the License.
+
+-->
+
+</HEAD>
+<BODY>
+
+<p>This package implements.a sample implementation of a Mailet that invokes
+jSieve to perform local mail delivery processing. The Mailet is implemented
+by Class <code>JSieve</code>. The remaining classes implement supporting
+behaviours. See the class comments for details.
+</p>
+<p>This code is for DEMONSTRATION purposes only and should not be considered
+to be of production quality.
+</p>
+<p>Note that there is currently a dependency on 
+<code>org.apache.james.utils.mail.mdn.MDNFactory</code>. This binds the 
+implementation to versions of Apache James that include this class. To achieve
+a truly portable Mailet implementation, the Mailet API may need to be extended
+to include the ability to create an MDN.
+</p>
+</BODY>
+</HTML>

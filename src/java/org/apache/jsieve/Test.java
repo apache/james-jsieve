@@ -41,7 +41,7 @@ public class Test implements Executable
     {
         Log log = Logger.getLog();
         if (log.isDebugEnabled())
-            log.debug("Test: " + getName());
+            log.debug(toString());
         return new Boolean(
             TestManager.getInstance().newInstance(getName()).execute(
                 mail,
@@ -111,7 +111,7 @@ public class Test implements Executable
     {
         return "Test name: "
             + getName()
-            + " Arguments: "
+            + " "
             + (getArguments() == null ? "null" : getArguments().toString());
     }
 

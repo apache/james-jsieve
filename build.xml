@@ -181,6 +181,8 @@
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>
+        <include name="org/apache/jsieve/**"/>
+        <exclude name="**/samples/*/**"/>
       </javac>
       <copy todir="${build.classes}">
         <fileset dir="${java.dir}">
@@ -202,7 +204,7 @@
 
       <delete dir="${build.javadocs}"/>
       <mkdir dir="${build.javadocs}"/>
-      <javadoc failonerror="yes" packagenames="org.apache.jsieve.*" destdir="${build.javadocs}"> 
+      <javadoc failonerror="yes" packagenames="org.apache.jsieve.*" excludepackagenames="org.apache.jsieve.samples.*" destdir="${build.javadocs}">
         <sourcepath>
             <pathelement path="${java.dir}"/>
             <pathelement path="${build.src}"/>            
@@ -260,7 +262,7 @@
     <target name="website" depends="xdocs,javadocs">
 
       <echo message="preparing website in ${www.dir}"/>
-      <delete>
+      <delete quiet="true">
         <fileset dir="${www.dir}">
           <exclude name="CVS/**"/>
           <exclude name="rfclist/**"/>
@@ -297,7 +299,7 @@
 
     <!--
     ===================================================================
-                                  Make jSieve jar
+                                  Make jSieve jars
     ===================================================================
     -->
 
@@ -310,14 +312,14 @@
       <jar jarfile="${build.lib}/${name}-${version}.jar" basedir="${build.classes}" manifest="${src.dir}/Manifest.mf">
           <include name="org/apache/jsieve/**"/>
           <exclude name="**/junit/*/**"/>
+          <exclude name="**/samples/*/**"/>
       </jar>
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-jUnit-${version}.jar)"/>
       <jar jarfile="${build.lib}/${name}-jUnit-${version}.jar" basedir="${build.classes}" manifest="${src.dir}/Manifest.mf">
-        <include name="org/apache/jsieve/junit/**"/>
+          <include name="org/apache/jsieve/junit/**"/>
       </jar>
-
     </target>
 
     <!--

@@ -89,12 +89,11 @@
       <copy todir="${dist.dir}">
         <fileset dir=".">
           <include name="LICENSE.txt"/>
-          <include name="README"/>
+          <include name="README.txt"/>
+          <include name="NOTICE.txt"/>
         </fileset>
       </copy>
       <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-      <fixcrlf srcdir="${java.dir}" includes="**/*.minfo" eol="lf" tab="remove" tablength="4" />
-      <fixcrlf srcdir="${java.dir}" includes="**/*.xinfo" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${xdocs.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${conf.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
@@ -102,18 +101,7 @@
       <fixcrlf srcdir="." includes="build.bat" eol="crlf"/>
       <fixcrlf srcdir="." includes="build.xml" eol="lf"/>
       <fixcrlf srcdir="${javacc.dir}" includes="**/*.jj*" eol="lf" tab="remove" tablength="4" />
-      <chmod perm="+x">
-        <fileset dir=".">
-          <include name="build.sh"/>
-        </fileset>
-      </chmod>    
       <mkdir dir="${build.src}"/>
-<!--
-      <copy todir="${build.src}">
-        <fileset dir="${java.dir}">
-        </fileset>
-      </copy>      
--->
     </target>
 
     <!--
@@ -188,8 +176,6 @@
       <copy todir="${build.classes}">
         <fileset dir="${java.dir}">
           <include name="**/*.properties"/>
-          <include name="**/*.xinfo"/>
-          <include name="**/*.mxinfo"/>
         </fileset>
       </copy>
     </target>
@@ -268,7 +254,6 @@
           <exclude name="CVS/**"/>
           <exclude name="rfclist/**"/>
           <exclude name="javadocs/**"/>
-          <exclude name="mailet/**"/>
         </fileset>
       </delete>
       <mkdir dir="${www.dir}"/>
@@ -401,14 +386,14 @@
         <zip zipfile="${dist.binary.dir}/${dist.name}-bin.zip">
             <fileset dir="${dist.dir}">
                 <include name="lib/**"/>
-                <include name="README"/>
+                <include name="*.txt"/>
                 <include name="KEYS"/>
             </fileset>
         </zip>
         <tar longfile="gnu" tarfile="${dist.binary.dir}/${dist.name}-bin.tar">
             <tarfileset dir="${dist.dir}" username="${name}" group="${name}">
                 <include name="lib/**"/>
-                <include name="README"/>
+                <include name="*.txt"/>
                 <include name="KEYS"/>
             </tarfileset>
         </tar>
@@ -433,10 +418,9 @@
                 <include name="www/**"/>
                 <include name="tools/**"/>
                 <include name="*.xml"/>
+                <include name="*.properties"/>
                 <include name="*.txt"/>
-                <include name="README"/>
                 <include name="KEYS"/>
-                <include name="build.*"/>
             </fileset>
         </zip>
         <tar longfile="gnu" tarfile="${dist.source.dir}/${dist.name}-src.tar">
@@ -446,10 +430,9 @@
                 <include name="www/**"/>
                 <include name="tools/**"/>
                 <include name="*.xml"/>
+                <include name="*.properties"/>
                 <include name="*.txt"/>
-                <include name="README"/>
                 <include name="KEYS"/>
-                <include name="build.*"/>
             </tarfileset>
         </tar>
         <gzip zipfile="${dist.source.dir}/${dist.name}-src.tar.gz" src="${dist.source.dir}/${dist.name}-src.tar"/>

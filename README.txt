@@ -30,3 +30,10 @@ To report issues, such as bugs, go to
 http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10412.
 As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
 helpful for bug reports to be accompanied by an illustrative jUnit test case.
+
+
+Licensing and legal issues
+--------------------------
+
+For legal and licensing issues, please look in the legal section of
+the documentation or read the LICENSE.txt and NOTICE.txt files.  

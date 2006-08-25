@@ -54,7 +54,6 @@
         <pathelement location="${commons-logging.jar}"/>
         <pathelement location="${jakarta-oro.jar}"/>
         <pathelement location="${log4j.jar}"/>
-        <pathelement location="${junit.jar}"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${build.classes}" />
     </path>
@@ -152,10 +151,12 @@
        Make the generated parse classes an extension of the relevant base node to add the 
        augumented behaviors Sieve nodes expect.
        -->
+        <!-- NO MORE NEEDED WITH JAVACC 4.0 
         <replace file="${build.src}/org/apache/jsieve/parser/generated/SimpleNode.java">
             <replacetoken>public class SimpleNode</replacetoken>
             <replacevalue>public class SimpleNode extends org.apache.jsieve.parser.SieveNode</replacevalue>
         </replace>
+        -->
 
         <!-- Generate Java source from the JavaCC source -->
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
@@ -351,7 +352,6 @@
       <copy todir="${dist.dir}/lib" file="${commons-logging.jar}"/>
       <copy todir="${dist.dir}/lib" file="${jakarta-oro.jar}"/>
       <copy todir="${dist.dir}/lib" file="${log4j.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${junit.jar}"/>
 
       <!--Copies the configuration files -->
       <mkdir dir="${dist.dir}/conf"/>

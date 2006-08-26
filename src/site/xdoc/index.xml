@@ -37,7 +37,7 @@ of the implementation.</li>
 to the relevant James list.
 </p>
 <p>To report issues, such as bugs, go to the
-<a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10412">jSieve Issue Tracker</a>.
+<a href="https://issues.apache.org/jira/browse/JSIEVE">jSieve Issue Tracker</a>.
 As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
 helpful for bug reports to be accompanied by an illustrative jUnit test case.
 </p>

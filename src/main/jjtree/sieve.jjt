@@ -21,11 +21,12 @@ options {
   MULTI=true;
   VISITOR=true;
   VISITOR_EXCEPTION="org.apache.jsieve.SieveException";
+  NODE_PACKAGE="org.apache.jsieve.parser.generated";
   NODE_DEFAULT_VOID=false;
   STATIC = false;
   JAVA_UNICODE_ESCAPE = true;  
   DEBUG_PARSER = false;
-  OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated";  
+  OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated";
   NODE_EXTENDS="org.apache.jsieve.parser.SieveNode";
 }
 

@@ -78,7 +78,7 @@ public class AllOfTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -103,7 +103,7 @@ public class AllOfTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -128,7 +128,7 @@ public class AllOfTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -153,7 +153,7 @@ public class AllOfTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -178,7 +178,7 @@ public class AllOfTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {

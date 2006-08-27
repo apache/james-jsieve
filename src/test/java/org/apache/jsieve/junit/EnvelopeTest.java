@@ -27,7 +27,7 @@ import org.apache.jsieve.SieveException;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.SieveEnvelopeMailAdapter;
-import org.apache.jsieve.junit.utils.TestUtils;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
@@ -77,9 +77,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -103,9 +103,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is \"from\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -129,9 +129,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("uSeR@dOmAiN");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }        
         catch (ThrowTestException.TestException e)
         {
@@ -155,9 +155,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");           
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }       
         catch (ThrowTestException.TestException e)
@@ -181,9 +181,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");              
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -207,9 +207,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain1");
-            TestUtils.interpret(mail, script);              
+            JUnitUtils.interpret(mail, script);              
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -233,10 +233,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
             mail.setEnvelopeTo("user@domain");                       
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }    
         catch (ThrowTestException.TestException e)
         {
@@ -260,10 +260,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
             mail.setEnvelopeTo("user@domain");           
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }       
         catch (ThrowTestException.TestException e)
         {
@@ -287,10 +287,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
             mail.setEnvelopeTo("tweety@pie");          
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -314,10 +314,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
             mail.setEnvelopeTo("tweety@pie");           
-            TestUtils.interpret(mail, script);           
+            JUnitUtils.interpret(mail, script);           
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -341,9 +341,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :matches \"From\" \"*@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");          
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -367,9 +367,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");              
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }     
         catch (ThrowTestException.TestException e)
         {
@@ -393,9 +393,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");           
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }       
         catch (ThrowTestException.TestException e)
         {
@@ -419,9 +419,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :matches \"From\" \"*er\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }       
         catch (ThrowTestException.TestException e)
         {
@@ -445,9 +445,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }      
         catch (ThrowTestException.TestException e)
         {
@@ -472,9 +472,9 @@ public class EnvelopeTest extends TestCase
 
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }       
         catch (ThrowTestException.TestException e)
         {
@@ -498,9 +498,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :domain :matches \"From\" \"*main\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");           
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }       
         catch (ThrowTestException.TestException e)
         {
@@ -524,9 +524,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }        
         catch (ThrowTestException.TestException e)
         {
@@ -550,9 +550,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -576,9 +576,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");          
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }        
         catch (ThrowTestException.TestException e)
@@ -602,9 +602,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -628,9 +628,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -654,9 +654,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }        
         catch (ThrowTestException.TestException e)
@@ -680,9 +680,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }        
         catch (ThrowTestException.TestException e)
@@ -707,9 +707,9 @@ public class EnvelopeTest extends TestCase
 
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }       
         catch (ThrowTestException.TestException e)
@@ -733,9 +733,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -759,9 +759,9 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");          
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }       
         catch (ThrowTestException.TestException e)
@@ -785,10 +785,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");
             mail.setEnvelopeTo("bugs@bunny");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)
@@ -812,10 +812,10 @@ public class EnvelopeTest extends TestCase
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveEnvelopeMailAdapter mail = TestUtils.createEnvelopeMail();
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");
             mail.setEnvelopeTo("bugs@bunny");              
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }      
         catch (ThrowTestException.TestException e)

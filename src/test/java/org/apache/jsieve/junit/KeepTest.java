@@ -79,7 +79,7 @@ public class KeepTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -105,7 +105,7 @@ public class KeepTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -131,8 +131,8 @@ public class KeepTest extends TestCase
 
         try
         {
-            MailAdapter mail = TestUtils.createMail();
-            TestUtils.interpret(mail, script);
+            MailAdapter mail = JUnitUtils.createMail();
+            JUnitUtils.interpret(mail, script);
             assertTrue(mail.getActions().size() == 1);
             assertTrue(mail.getActions().get(0) instanceof ActionKeep);
             isTestPassed = true;

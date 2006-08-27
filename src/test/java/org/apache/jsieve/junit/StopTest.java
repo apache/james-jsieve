@@ -27,7 +27,7 @@ import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.commands.ThrowTestException;
-import org.apache.jsieve.junit.utils.TestUtils;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
@@ -80,8 +80,8 @@ public class StopTest extends TestCase
 
         try
         {          
-            MailAdapter mail = TestUtils.createMail();
-            TestUtils.interpret(mail, script);
+            MailAdapter mail = JUnitUtils.createMail();
+            JUnitUtils.interpret(mail, script);
             assertTrue(mail.getActions().size() == 1);
             assertTrue(mail.getActions().get(0) instanceof ActionKeep);
             isTestPassed = true;                        
@@ -108,7 +108,7 @@ public class StopTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -133,7 +133,7 @@ public class StopTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {

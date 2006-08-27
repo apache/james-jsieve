@@ -79,7 +79,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
             isTestPassed = true;
         }     
         catch (ParseException e)
@@ -101,7 +101,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
             isTestPassed = true;
         }     
         catch (ParseException e)
@@ -123,7 +123,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
             isTestPassed = true;
         }     
         catch (ParseException e)
@@ -145,7 +145,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
             isTestPassed = true;
         }     
         catch (ParseException e)
@@ -167,7 +167,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (FeatureException e)
         {
@@ -192,7 +192,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (FeatureException e)
         {
@@ -217,7 +217,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -242,7 +242,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -267,7 +267,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -292,7 +292,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (CommandException e)
         {
@@ -317,7 +317,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -342,7 +342,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (FeatureException e)
         {
@@ -367,7 +367,7 @@ public class RequireTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (FeatureException e)
         {

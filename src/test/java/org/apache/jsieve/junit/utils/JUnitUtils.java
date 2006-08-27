@@ -32,9 +32,9 @@ import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
- * Class TestUtils implements utility methods used during unit testing.
+ * Class JUnitUtils implements utility methods used during unit testing.
  */
-public class TestUtils
+public class JUnitUtils
 {
     /**
      * Method interpret parses a script and evaluates it against a MailAdapter.
@@ -99,9 +99,9 @@ public class TestUtils
 
 
     /**
-     * Constructor for TestUtils.
+     * Constructor for JUnitUtils.
      */
-    private TestUtils()
+    private JUnitUtils()
     {
         super();
     }

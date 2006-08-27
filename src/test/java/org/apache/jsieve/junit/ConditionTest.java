@@ -28,7 +28,7 @@ import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.commands.ThrowTestException;
-import org.apache.jsieve.junit.utils.TestUtils;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
@@ -80,7 +80,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -105,7 +105,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -130,7 +130,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -155,7 +155,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -181,7 +181,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -206,7 +206,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -231,7 +231,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -256,7 +256,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (CommandException e)
         {
@@ -281,7 +281,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -306,7 +306,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -331,7 +331,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -356,7 +356,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -381,7 +381,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -406,7 +406,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -431,7 +431,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -456,7 +456,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (CommandException e)
         {
@@ -481,7 +481,7 @@ public class ConditionTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (CommandException e)
         {

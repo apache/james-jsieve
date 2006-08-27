@@ -80,9 +80,9 @@ public class ExistsTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -110,9 +110,9 @@ public class ExistsTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("from", "tweety@pie");
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -140,10 +140,10 @@ public class ExistsTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
             mail.getMessage().addHeader("X-Files", "spooks@everywhere");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -171,9 +171,9 @@ public class ExistsTest extends TestCase
             "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -201,8 +201,8 @@ public class ExistsTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
-            TestUtils.interpret(mail, script);
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            JUnitUtils.interpret(mail, script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -227,8 +227,8 @@ public class ExistsTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
-            TestUtils.interpret(mail, script);
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            JUnitUtils.interpret(mail, script);
         }
         catch (ThrowTestException.TestException e)
         {
@@ -253,7 +253,7 @@ public class ExistsTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {
@@ -278,7 +278,7 @@ public class ExistsTest extends TestCase
 
         try
         {
-            TestUtils.interpret(TestUtils.createMail(), script);
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
         }
         catch (SyntaxException e)
         {

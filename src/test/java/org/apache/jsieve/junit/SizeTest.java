@@ -29,7 +29,7 @@ import org.apache.jsieve.SieveException;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
-import org.apache.jsieve.junit.utils.TestUtils;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.generated.ParseException;
 
@@ -81,12 +81,12 @@ public class SizeTest extends TestCase
         int size = 0;
         try
         {
-            mail = (SieveMailAdapter) TestUtils.createMail();
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");           
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
             // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) TestUtils.copyMail(mail);
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
         }
         catch (SieveMailException e)
@@ -103,7 +103,7 @@ public class SizeTest extends TestCase
         try
         {
 
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
 
         catch (ThrowTestException.TestException e)
@@ -129,12 +129,12 @@ public class SizeTest extends TestCase
         int size = 0;
         try
         {
-            mail = (SieveMailAdapter) TestUtils.createMail();
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");           
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
             // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) TestUtils.copyMail(mail);
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
         }
         catch (SieveMailException e)
@@ -151,7 +151,7 @@ public class SizeTest extends TestCase
         try
         {
 
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
 
@@ -177,12 +177,12 @@ public class SizeTest extends TestCase
         int size = 0;
         try
         {
-            mail = (SieveMailAdapter) TestUtils.createMail();
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
             // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) TestUtils.copyMail(mail);
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
         }
         catch (SieveMailException e)
@@ -199,7 +199,7 @@ public class SizeTest extends TestCase
         try
         {
 
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
 
         catch (ThrowTestException.TestException e)
@@ -224,12 +224,12 @@ public class SizeTest extends TestCase
         int size = 0;
         try
         {
-            mail = (SieveMailAdapter) TestUtils.createMail();
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
             // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) TestUtils.copyMail(mail);
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
         }
         catch (SieveMailException e)
@@ -246,7 +246,7 @@ public class SizeTest extends TestCase
         try
         {
 
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;
         }
 

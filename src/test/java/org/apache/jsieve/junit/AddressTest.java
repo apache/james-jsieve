@@ -29,7 +29,7 @@ import org.apache.jsieve.SieveException;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
-import org.apache.jsieve.junit.utils.TestUtils;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
@@ -79,9 +79,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -108,9 +108,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :is \"from\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -137,9 +137,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -166,9 +166,9 @@ public class AddressTest extends TestCase
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "uSeR@dOmAiN");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -195,9 +195,9 @@ public class AddressTest extends TestCase
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -224,9 +224,9 @@ public class AddressTest extends TestCase
         String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -253,9 +253,9 @@ public class AddressTest extends TestCase
         String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "user@domain1");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -282,10 +282,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
             mail.getMessage().addHeader("To", "user@domain");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -312,10 +312,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
             mail.getMessage().addHeader("To", "user@domain");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -342,10 +342,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
             mail.getMessage().addHeader("To", "tweety@pie");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -372,10 +372,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
             mail.getMessage().addHeader("To", "tweety@pie");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -402,9 +402,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :matches \"From\" \"*@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -431,9 +431,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -460,9 +460,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -489,9 +489,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :matches \"From\" \"*er\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -518,9 +518,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -548,9 +548,9 @@ public class AddressTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -577,9 +577,9 @@ public class AddressTest extends TestCase
         String script = "if address :domain :matches \"From\" \"*main\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -606,9 +606,9 @@ public class AddressTest extends TestCase
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "user@domain");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -635,9 +635,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -664,9 +664,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -693,9 +693,9 @@ public class AddressTest extends TestCase
         String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -722,9 +722,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -751,9 +751,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -780,9 +780,9 @@ public class AddressTest extends TestCase
         String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -810,9 +810,9 @@ public class AddressTest extends TestCase
 
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -839,9 +839,9 @@ public class AddressTest extends TestCase
         String script = "if address :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -868,9 +868,9 @@ public class AddressTest extends TestCase
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -897,10 +897,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "bugs@bunny");            
             mail.getMessage().addHeader("To", "bugs@bunny");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -927,10 +927,10 @@ public class AddressTest extends TestCase
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "bugs@bunny");            
             mail.getMessage().addHeader("To", "bugs@bunny");             
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)

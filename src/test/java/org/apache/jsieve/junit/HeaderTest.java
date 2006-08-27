@@ -81,9 +81,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -110,9 +110,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("x-caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -139,9 +139,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -168,10 +168,10 @@ public class HeaderTest extends TestCase
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "stuff");
             mail.getMessage().addHeader("X-Decaf", "more stuff");                          
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -198,9 +198,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" [\"absent\", \"C8H10N4O2\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -228,10 +228,10 @@ public class HeaderTest extends TestCase
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] [\"absent\", \"C8H10N4O2\"] {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "stuff"); 
             mail.getMessage().addHeader("X-Decaf", "C8H10N4O2");                         
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -258,9 +258,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -287,9 +287,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffein", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -316,9 +316,9 @@ public class HeaderTest extends TestCase
         String script = "if header :contains \"X-Caffeine\" \"C8H10\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -345,9 +345,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "izzy");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -374,9 +374,9 @@ public class HeaderTest extends TestCase
         String script = "if header :contains \"X-Caffeine\" \"\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", null);            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -403,9 +403,9 @@ public class HeaderTest extends TestCase
         String script = "if header :is \"X-Caffeine\" \"\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", null);            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)
@@ -432,9 +432,9 @@ public class HeaderTest extends TestCase
         String script = "if header :matches \"X-Caffeine\" \"*10N?O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)
         {
@@ -461,9 +461,9 @@ public class HeaderTest extends TestCase
         String script = "if header :matches \"X-Caffeine\" \"*10N?O2\" {throwTestException;}";
         try
         {
-            SieveMailAdapter mail = (SieveMailAdapter) TestUtils.createMail();
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "C8H10N4O3");            
-            TestUtils.interpret(mail, script);
+            JUnitUtils.interpret(mail, script);
             isTestPassed = true;            
         }
         catch (MessagingException e)

@@ -95,6 +95,7 @@
       </copy>
       <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${xdocs.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${conf.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="." includes="build.sh" eol="lf"/>
@@ -170,6 +171,7 @@
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>
+        <src path="${test.dir}"/>
         <include name="org/apache/jsieve/**"/>
         <exclude name="**/samples/*/**"/>
       </javac>

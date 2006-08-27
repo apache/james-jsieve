@@ -20,8 +20,13 @@
 package org.apache.jsieve.samples.james.junit;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.Properties;
 
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.ParseException;
 
 import junit.framework.TestCase;
 
@@ -32,6 +37,7 @@ import org.apache.jsieve.samples.james.ActionDispatcher;
 import org.apache.jsieve.samples.james.junit.utils.ActionAbsent;
 import org.apache.jsieve.samples.james.junit.utils.MockMailetContext;
 import org.apache.mailet.Mail;
+import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
 
 /**
@@ -74,11 +80,16 @@ public class ActionDispatcherTest extends TestCase
 
     /**
      * Test execute of ActionKeep
+     * @throws MessagingException 
      */
-    public void testExecuteActionKeep()
+    public void testExecuteActionKeep() throws MessagingException
     {
         boolean isTestPassed = false;
         Mail aMail = new MailImpl();
+        aMail.setRecipients(Arrays.asList(new MailAddress[] { new MailAddress("a","a.com")}));
+        MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
+        mimeMessage.setText("TEST");
+				aMail.setMessage(mimeMessage);
         MailetContext aMailetContext = new MockMailetContext();
         Action action = new ActionKeep();
         try

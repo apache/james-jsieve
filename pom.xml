@@ -30,7 +30,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>james-jsieve</artifactId>
-  <name>Apache James jSieve</name>
+  <name>Apache JAMES jSieve</name>
   <version>0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
@@ -43,6 +43,13 @@
   </parent>
   <url>http://james.apache.org/jsieve/index.html</url>
   <inceptionYear>2004</inceptionYear>
+
+  <distributionManagement>
+    <site>
+      <id>jsieve-website</id>
+      <url>scp://minotaur.apache.org/www/james.apache.org/jsieve/</url>
+    </site>
+  </distributionManagement>
 
   <issueManagement>
     <system>JIRA</system>

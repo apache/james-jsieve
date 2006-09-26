@@ -214,4 +214,12 @@ public class MockMailetContext implements MailetContext
         // TODO Auto-generated method stub
         return null;
     }
+
+    /**
+     * @see org.apache.mailet.MailetContext#isLocalEmail(org.apache.mailet.MailAddress)
+     */
+    public boolean isLocalEmail(MailAddress arg0) {
+        // TODO Auto-generated method stub
+        return false;
+		}
 }

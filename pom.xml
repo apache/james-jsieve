@@ -39,7 +39,7 @@
   <parent>
     <groupId>org.apache.james</groupId>
     <artifactId>james-project</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <url>http://james.apache.org/jsieve/index.html</url>
   <inceptionYear>2004</inceptionYear>
@@ -69,14 +69,52 @@
   </scm>
 
   <repositories>
+  <!--
     <repository>
-      <id>bago-dist-m1</id>
-      <name>Temporary Repository</name>
-      <url>http://people.apache.org/~bago/maven/dist-m1</url>
+      <id>local-jsieve-3rd-party-m1</id>
+      <name>Local jSieve third party repository</name>
+      <url>file://${basedir}/repos/third-party-m1</url>
       <layout>legacy</layout>
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
         <checksumPolicy>ignore</checksumPolicy>
+      </snapshots>
+    </repository>
+  -->
+    <repository>
+      <id>central</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+   
+    <!-- 
+     this should be removed and custom jars should 
+     be copied to a local files based repository.
+    -->
+    <repository>
+      <id>ibiblio</id>
+      <name>Main maven repo</name>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -86,7 +124,7 @@
     <dependency>
     	<groupId>org.apache.james</groupId>
     	<artifactId>james-server</artifactId>
-    	<version>2.3.0-SNAPSHOT</version>
+    	<version>3.0-SNAPSHOT</version>
     </dependency>
  
     <dependency>

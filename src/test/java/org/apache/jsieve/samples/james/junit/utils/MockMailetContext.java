@@ -221,5 +221,5 @@ public class MockMailetContext implements MailetContext
     public boolean isLocalEmail(MailAddress arg0) {
         // TODO Auto-generated method stub
         return false;
-		}
+    }
 }

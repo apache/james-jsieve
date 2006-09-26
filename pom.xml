@@ -41,7 +41,7 @@
     <artifactId>james-project</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
-  <url>http://james.apache.org/jsieve/index.html</url>
+  <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
 
   <distributionManagement>

@@ -29,7 +29,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
-  <artifactId>james-jsieve</artifactId>
+  <artifactId>jsieve</artifactId>
   <name>Apache JAMES jSieve</name>
   <version>0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -142,7 +142,7 @@
     <dependency>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
-      <version>1.7</version>
+      <version>1.8</version>
     </dependency>
     
     <dependency>

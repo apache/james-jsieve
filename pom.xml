@@ -47,7 +47,7 @@
   <distributionManagement>
     <site>
       <id>jsieve-website</id>
-      <url>scp://minotaur.apache.org/www/james.apache.org/jsieve/</url>
+      <url>scp://people.apache.org/www/james.apache.org/jsieve/</url>
     </site>
   </distributionManagement>
 
@@ -245,5 +245,22 @@
       </plugin>
     </plugins>
   </reporting>
+  
+    <mailingLists>
+      <mailingList>
+	    <name>Apache James User</name>
+	    <subscribe>server-user-subscribe@james.apache.org</subscribe>
+	    <unsubscribe>server-user-unsubscribe@james.apache.org</unsubscribe>
+	    <post>server-user@james.apache.org</post>
+	    <archive>http://mail-archives.apache.org/mod_mbox/james-server-user/</archive>
+      </mailingList>
+      <mailingList>
+       <name>Apache James Developer</name>
+       <subscribe>server-dev-subscribe@james.apache.org</subscribe>
+       <unsubscribe>server-dev-unsubscribe@james.apache.org</unsubscribe>
+       <post>server-dev@james.apache.org</post>
+       <archive>http://mail-archives.apache.org/mod_mbox/james-server-dev/</archive>
+      </mailingList>
+  </mailingLists>
 
 </project>

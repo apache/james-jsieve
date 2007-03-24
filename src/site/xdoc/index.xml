@@ -9,27 +9,184 @@
 
 <body>
 <section name="What is jSieve?">
-<p>jSieve is a Java implementation of the Sieve mail filtering language defined by 
-RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
-internet mail application to add Sieve support.</p>
+<p>
+jSieve is a Java implementation of the Sieve mail filtering language defined by 
+<a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>. jSieve is implemented 
+as a language processor that can be plugged into any internet mail application to add 
+Sieve support.
+</p>
+<p>
+jSieve is a subproject of <a href='http://james.apache.org'>Apache JAMES</a>.
+All who are interested in developing jSieve and JAMES will be warmly
+welcomed on the <a href='mail-lists.html'>mailing lists</a>.
+</p>
+<subsection name='What is Sieve?'>
+<p>
+Sieve is an extensible mail filtering language. It's limited expressiveness (no loops
+or variables, no tests with side effects) allows user created scripts to be run 
+safely on email servers. Sieve is targeted at the final delivery phase 
+(where an incoming email is transfered to a user's mailbox).
+</p>
+<p>
+Sieve scripts are composed of commands. Control commands manage the execution of the script.
+Test commands define side-effect free criteria. 
+Action commands are mail operations to be performed.
+</p>
+
+</subsection>
+<subsection name='Sieve Features Supported By jSieve'>
+<p>
+jSieve is limited only by the platform on which it runs.
+</p>
+<table>
+<tr><th>Limits</th><th/></tr>
+<tr><td>Maximum Number Of Actions</td><td>No intrinsic limit</td></tr>
+<tr><td>Maximum Number Of Nested Blocks</td><td>No intrinsic limit</td></tr>
+<tr><td>Maximum Number Of Nested Test Lists</td><td>No intrinsic limit</td></tr>
+</table>
+<p>
+jSieve supports the standard control commands specified in RFC 3028.
+</p>
+<table>
+<tr>
+<th>Control Command</th><th>Specification</th><th>Supported</th>
+</tr>
+<tr>
+<td>If</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+<td>Require</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+<tr>
+<td>Stop</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+</table>
+<p>
+jSieve supports all action commands (both required and optional) 
+specified in RFC 3028. 
+</p><p>
+<strong>Note</strong> that jSieve uses a pluggable 
+<code>MailAdapter</code> as an interface to the mail server.
+Not all implementations may fully support all actions.
+</p>  
+<table>
+<tr>
+<th>Action Command</th><th>Specification</th><th>Supported</th>
+</tr><tr>
+<td>reject</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>fileinto</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>redirect</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+</table>
+<p>
+jSieve supports all tests commands specified in RFC 3028.
+</p>
+<table>
+<tr>
+<th>Test Command</th><th>Specification</th><th>Supported</th>
+</tr><tr>
+<td>address</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>allof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>anyof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>envelope</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>exists</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>false</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>header</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>not</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+</table>
+</subsection>
+<subsection name='jSieve Extension Commands'>
+<p>
+jSieve allows extension commands to be developed
+and plugged in at run time.
+The following extension commands ship with jSieve:
+</p>
+<table>
+<tr><th>Name</th><th>Function</th></tr>
+<tr><td>Log</td><td>Logs messages</td></tr>
+</table>
+</subsection>
 </section>
 
 <section name="Getting Started">
 <p>Until these pages are fleshed out, the best way to understand jSieve is read the 
-Javadocs and look at the source code. 
-<ul>
-<li>To understand how to invoke jSieve, see 
-<code>org.apache.jsieve.SieveFactory</code>.</li>
-<li>To understand how to implement a MailAdapter for jSieve, see
-<code>org.apache.jsieve.mail.MailAdapter</code>.</li>
-<li>To understand how to add a custom extension to jSieve, see
-<code>org.apache.jsieve.commands.extensions.Log</code>.</li>
-<li>The jUnit tests in <code>org.apache.jsieve.junit</code> illustrate many aspects
-of the implementation.</li>
-<li>To build jSieve, run build.sh or build.bat as appropriate for your environment.
-</li>
-</ul>
+<a href='apidocs/index.html'>Javadocs</a> 
+and look at the <a href='xref/index.html'>source code</a>. 
+The jUnit tests illustrate many aspects
+of the implementation.
 </p>
+<subsection name='Using jSieve'>
+<subsection name='Standalone'>
+<p>
+<a href='xref/org/apache/jsieve/SieveFactory.html'>
+<code>org.apache.jsieve.SieveFactory</code></a> is the primary invocation
+point for all Sieve operations. The API is clean and simple.
+See the 
+<a href='apidocs/index.html'>javadocs</a> for more details.
+</p>
+</subsection>
+<subsection name='In JAMES'>
+<p>
+The <code>SieveToMultiMailbox</code> mailet is included in JAMES.
+It is integrated with the message delivery spool and provides per-user 
+Sieve scripting using jSieve. 
+</p>
+</subsection>
+</subsection>
+<subsection name='Implementing A Mail Adapter'>
+<p>
+<a href='xref/org/apache/jsieve/mail/MailAdapter.html'>
+<code>org.apache.jsieve.mail.MailAdapter</code></a> is the interface API used
+by jSieve to interact with a mail server. 
+</p><p>
+The mail adapter wraps an email
+and supplies information (required by the script) about the email. It is 
+responsible for accumulating <code>Action</code>s during the parsing of a
+script and for executing them once the parsing is complete.
+</p><p>
+See the 
+<a href='apidocs/index.html'>javadocs</a> for more details and this
+<a href='xref/org/apache/jsieve/samples/james/SieveMailAdapter.html'>sample</a>.
+</p>
+</subsection>
+<subsection name='Creating A Custom Extension Command'>
+<p>
+<a href='xref/org/apache/jsieve/commands/extensions/Log.html'>
+<code>org.apache.jsieve.commands.extensions.Log</code></a> is an example
+of a custom extension command. It is recommended that custom commands
+extend <a href='xref/org/apache/jsieve/commands/AbstractCommand.html'>
+<code>AbstractCommand</code></a>. See the 
+<a href='apidocs/index.html'>javadocs</a> for more details.
+</p><p>
+Custom commands need to be registered with 
+<a href='xref/org/apache/jsieve/ConfigurationManager.html'>
+<code>ConfigurationManager</code></a> before they can be used. This
+may be done programmatically but the recommended method is by altering
+the <code>sieveConfig.xml</code> configuration file. 
+</p>
+</subsection>
+<subsection name='Building jSieve'>
+<p>
+jSieve uses <a href='http://ant.apache.org'>Ant</a>. <code>ant -projecthelp</code>
+describes appropriate targets. <code>ant</code> runs the default target.
+</p>
+</subsection>
 </section>
 
 <section name="Comments, Questions and Issues">

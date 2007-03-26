@@ -40,14 +40,16 @@ public interface MailAdapter
 {
     /**
      * Method getActions answers the List of Actions accumulated by the receiver.
-     * @return Action
+     * Implementations may elect to supply an unmodifiable collection.
+     * @return <code>List</code> of {@link Action}'s, not null, possibly unmodifiable
      */
     public List getActions();
     
     /**
      * Method getActionIteraror answers an Iterator over the List of Actions
-     * accumulated by the receiver.
-     * @return Action
+     * accumulated by the receiver. Implementations may elect to supply
+     * an unmodifiable iterator.
+     * @return <code>ListIterator</code>, not null, possibly unmodifiable
      */
     public ListIterator getActionsIterator();
     
@@ -57,7 +59,7 @@ public interface MailAdapter
      * returned.
      * 
      * @param name
-     * @return List
+     * @return <code>List</code> not null, possibly empty, possible unmodifiable
      * @throws SieveMailException
      */
     public List getHeader(String name) throws SieveMailException;
@@ -75,7 +77,7 @@ public interface MailAdapter
      * </p>
      * 
      * @param name
-     * @return List
+     * @return <code>List</code>, not null possibly empty, possible unmodifiable
      * @throws SieveMailException
      */
     public List getMatchingHeader(String name)
@@ -84,7 +86,7 @@ public interface MailAdapter
     /**
      * Method getHeaderNames answers a List of all of the headers in the receiver.
      * No duplicates are allowed.
-     * @return List
+     * @return <code>List</code>, not null possible empty, possible unmodifiable
      * @throws SieveMailException
      */
     public List getHeaderNames() throws SieveMailException;       

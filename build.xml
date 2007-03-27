@@ -54,6 +54,7 @@
         <pathelement location="${commons-logging.jar}"/>
         <pathelement location="${jakarta-oro.jar}"/>
         <pathelement location="${log4j.jar}"/>
+        <pathelement location="${junit.jar}"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${build.classes}" />
     </path>
@@ -364,6 +365,7 @@
                 </fileset>
                 <pathelement location="${dist.dir}/conf/"/>
                 <pathelement path="${java.class.path}"/>
+                <pathelement location="${junit.jar}"/>
             </classpath>
             <formatter type="plain"/>
             <batchtest fork="yes" todir="${dist.dir}/reports">

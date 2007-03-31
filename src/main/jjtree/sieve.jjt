@@ -28,6 +28,7 @@ options {
   DEBUG_PARSER = false;
   OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated";
   NODE_EXTENDS="org.apache.jsieve.parser.SieveNode";
+  NODE_SCOPE_HOOK=true;
 }
 
 PARSER_BEGIN(SieveParser)
@@ -35,8 +36,18 @@ PARSER_BEGIN(SieveParser)
 package org.apache.jsieve.parser.generated;
 
 import org.apache.jsieve.*;
+import org.apache.jsieve.parser.*;
 
-public class SieveParser { }
+public class SieveParser { 
+
+  public void jjtreeOpenNodeScope(Node n) {
+    ((SieveNode) n).setFirstToken(getToken(1));
+  }
+  
+  public void jjtreeCloseNodeScope(Node n) {
+    ((SieveNode) n).setLastToken(getToken(0));
+  }
+}
 
 PARSER_END(SieveParser)
 

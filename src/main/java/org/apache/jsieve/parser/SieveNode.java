@@ -20,6 +20,9 @@
 
 package org.apache.jsieve.parser;
 
+import org.apache.jsieve.ScriptCoordinate;
+import org.apache.jsieve.parser.generated.Token;
+
 /**
  * Class SieveNode defines aspects all jjTree parse nodes may require.
  * 
@@ -36,6 +39,9 @@ public class SieveNode
         super();
     }
 
+    private Token firstToken;
+    private Token lastToken;
+    
     /**
      * The name associated to this node or null 
      */     
@@ -81,4 +87,49 @@ public class SieveNode
         fieldValue = value;
     }
 
+    /**
+     * Gets the first token comprising this node.
+     * @return <code>Token</code>, not null
+     */
+    public Token getFirstToken() {
+        return firstToken;
+    }
+    
+    /**
+     * Sets the first token comprising this node.
+     * @param firstToken <code>Token</code>, not null
+     */
+    public void setFirstToken(Token firstToken) {
+        this.firstToken = firstToken;
+    }
+
+    /**
+     * Gets the last token comprising this node.
+     * @return <code>Token</code>, not null
+     */
+    public Token getLastToken() {
+        return lastToken;
+    }
+
+    /**
+     * Sets the last token comprising this node.
+     * @param lastToken <code>Token</code>, not null
+     */
+    public void setLastToken(Token lastToken) {
+        this.lastToken = lastToken;
+    }
+    
+    /**
+     * Gets the position of this node in the script.
+     * @return <code>ScriptCoordinate</code> containing the position of this node, 
+     * not null
+     */
+    public ScriptCoordinate getCoordinate() {
+        final int lastColumn = lastToken.endColumn;
+        final int lastList = lastToken.endLine;
+        final int firstColumn = firstToken.beginColumn;
+        final int firstLine = firstToken.beginLine;
+        final ScriptCoordinate scriptCoordinate = new ScriptCoordinate(firstLine, firstColumn, lastList, lastColumn);
+        return scriptCoordinate;
+    }
 }

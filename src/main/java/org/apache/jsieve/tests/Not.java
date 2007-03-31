@@ -24,8 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.Test;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -44,14 +44,14 @@ public class Not extends AbstractTest
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments) throws SieveException
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context) throws SieveException
     {
         boolean result = true;
         List tests = arguments.getTestList().getTests();
         if (tests.size() != 1)
-            throw new SyntaxException(
+            throw context.getCoordinate().syntaxException(
                 "Exactly 1 test permitted. Found " + tests.size());
         Iterator testsIter = tests.iterator();
         while (testsIter.hasNext())

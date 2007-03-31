@@ -20,14 +20,15 @@
 
 package org.apache.jsieve.tests;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.comparators.ComparatorNames;
 import org.apache.jsieve.comparators.ComparatorUtils;
@@ -59,9 +60,9 @@ public class Header
      * order of the optional parts is different, so I guess that the order is
      * optional too!</p>
      * 
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SieveException
     {
         String comparator = null;
@@ -91,11 +92,11 @@ public class Header
                             List stringList =
                                 ((StringListArgument) argument).getList();
                             if (stringList.size() != 1)
-                                throw new SyntaxException("Expecting exactly one String");
+                                throw context.getCoordinate().syntaxException("Expecting exactly one String");
                             comparator = (String) stringList.get(0);
                         }
                         else
-                            throw new SyntaxException("Expecting a StringList");
+                            throw context.getCoordinate().syntaxException("Expecting a StringList");
                     }
                 }
                 // [MATCH-TYPE]?
@@ -106,7 +107,7 @@ public class Header
                             || tag.equals(MATCHES_TAG)))
                     matchType = tag;
                 else
-                    throw new SyntaxException(
+                    throw context.getCoordinate().syntaxException(
                         "Found unexpected TagArgument: \"" + tag + "\"");
             }
             else
@@ -125,7 +126,7 @@ public class Header
                 headerNames = ((StringListArgument) argument).getList();
         }
         if (null == headerNames)
-            throw new SyntaxException("Expecting a StringListof header names");
+            throw context.getCoordinate().syntaxException("Expecting a StringListof header names");
 
         // The next argument MUST be a string-list of keys
         if (argumentsIter.hasNext())
@@ -135,10 +136,10 @@ public class Header
                 keys = ((StringListArgument) argument).getList();
         }
         if (null == keys)
-            throw new SyntaxException("Expecting a StringList of keys");
+            throw context.getCoordinate().syntaxException("Expecting a StringList of keys");
 
         if (argumentsIter.hasNext())
-            throw new SyntaxException("Found unexpected arguments");
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
 
         return match(
             mail,
@@ -203,10 +204,13 @@ public class Header
         // else 
         //     not matched
         if (headerValues.isEmpty())
-            if (matchType.equals(CONTAINS_TAG))
+            if (matchType.equals(CONTAINS_TAG)) {
+                // header values may be immutable
+                headerValues = new ArrayList(headerValues);
                 headerValues.add("");
-            else
+            } else {
                 return false;
+            }
         // Iterate over the header values looking for a match
         boolean isMatched = false;
         Iterator headerValuesIter = headerValues.iterator();
@@ -254,12 +258,12 @@ public class Header
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         if (arguments.hasTests())
-            throw new SyntaxException("Found unexpected tests");
+            throw context.getCoordinate().syntaxException("Found unexpected tests");
     }
 
 }

@@ -26,6 +26,7 @@ import java.util.ListIterator;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.Logger;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.SyntaxException;
@@ -50,12 +51,12 @@ public class Log extends AbstractCommand implements LogLevelTags
     }
 
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      */
     protected Object executeBasic(
         MailAdapter mail,
         Arguments arguments,
-        Block block)
+        Block block, SieveContext context)
         throws SieveException
     {
         String logLevel = null;
@@ -84,7 +85,7 @@ public class Log extends AbstractCommand implements LogLevelTags
                         || tag.equals(TRACE_TAG)))
                     logLevel = tag;
                 else
-                    throw new SyntaxException("Found unexpected TagArgument");
+                    throw context.getCoordinate().syntaxException("Found unexpected TagArgument");
             }
             else
             {
@@ -106,13 +107,13 @@ public class Log extends AbstractCommand implements LogLevelTags
             }
         }
         if (null == message)
-            throw new SyntaxException("Expecting a String");
+            throw context.getCoordinate().syntaxException("Expecting a String");
 
         // Everthing else is an error
         if (argumentsIter.hasNext())
-            throw new SyntaxException("Found unexpected arguments");
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
 
-        log(null == logLevel ? ":info" : logLevel, message);
+        log(null == logLevel ? ":info" : logLevel, message, context);
 
         return null;
     }
@@ -123,7 +124,7 @@ public class Log extends AbstractCommand implements LogLevelTags
      * @param message
      * @throws SyntaxException
      */
-    protected void log(String logLevel, String message) throws SyntaxException
+    protected void log(String logLevel, String message, SieveContext context) throws SyntaxException
     {
         if (logLevel.equals(INFO_TAG))
             logInfo(message);
@@ -138,7 +139,7 @@ public class Log extends AbstractCommand implements LogLevelTags
         else if (logLevel.equals(TRACE_TAG))
             logTrace(message);
         else
-            throw new SyntaxException("Unsupported logging level: " + logLevel);
+            throw context.getCoordinate().syntaxException("Unsupported logging level: " + logLevel);
     }
 
     
@@ -209,9 +210,9 @@ public class Log extends AbstractCommand implements LogLevelTags
     }    
 
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         // Validation is performed in executeBasic()
     }

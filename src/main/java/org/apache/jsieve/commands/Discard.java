@@ -22,6 +22,7 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -43,10 +44,10 @@ public class Discard extends AbstractActionCommand
      * <p>Discard silently discards a Mail by cancelling the implicit keep as 
      * specified in RFC 3028, Section 4.5.</p>
      *<p>
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */  
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block)
+    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException
     {                
 //        mail.addAction(new ActionDiscard());

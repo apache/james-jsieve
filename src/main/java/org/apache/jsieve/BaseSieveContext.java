@@ -17,41 +17,30 @@
  * under the License.                                           *
  ****************************************************************/
 
-
-package org.apache.jsieve.commands;
-
-import org.apache.jsieve.Arguments;
-import org.apache.jsieve.Block;
-import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.mail.ActionKeep;
-import org.apache.jsieve.mail.MailAdapter;
+package org.apache.jsieve;
 
 /**
- * Class Keep implements the Keep Command as defined in RFC 3028, section 4.4.
+ * Bean based implementation of context. 
+ *
  */
-public class Keep extends AbstractActionCommand
-{
+public class BaseSieveContext extends SieveContext {
 
+    private ScriptCoordinate coordinate;
+    
     /**
-     * Constructor for Keep.
+     * Gets the script position of the current operation.
+     * @return <code>ScriptCoordinate</code>, not null
      */
-    public Keep()
-    {
-        super();
+    public ScriptCoordinate getCoordinate() {
+        return coordinate;
     }
-
+    
     /**
-     * <p>Add an ActionKeep to the List of Actions to be performed.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
-     * </p>
-     */ 
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {                 
-        mail.addAction(new ActionKeep());
-        return null;
+     * Sets the script position of the current operation.
+     * @param coordinate <code>ScriptCoordinate</code>, not null
+     */
+    public void setCoordinate(ScriptCoordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
 }

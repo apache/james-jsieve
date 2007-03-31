@@ -22,6 +22,7 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StopException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -44,10 +45,10 @@ public class Stop extends AbstractControlCommand
     /**
      * <p>Throws a StopException.</p>
      * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */ 
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block)
+    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException
     {
         throw new StopException("Stop requested");

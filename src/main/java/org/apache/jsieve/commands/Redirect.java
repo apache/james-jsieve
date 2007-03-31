@@ -24,9 +24,9 @@ import java.util.List;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -48,13 +48,13 @@ public class Redirect extends AbstractActionCommand
      * <p>Add an ActionRedirect to the List of Actions to be performed passing the
      * sole StringList argument as the recipient.</p>
      * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */  
     protected Object executeBasic(
         MailAdapter mail,
         Arguments arguments,
-        Block block)
+        Block block, SieveContext context)
         throws SieveException
     {
         String recipient =
@@ -69,21 +69,21 @@ public class Redirect extends AbstractActionCommand
     }
 
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
-            throw new SyntaxException(
+            throw context.getCoordinate().syntaxException(
                 "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw new SyntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException("Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw new SyntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
     }
 
 }

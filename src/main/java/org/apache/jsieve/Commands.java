@@ -26,7 +26,6 @@ import java.util.List;
 import org.apache.jsieve.mail.*;
 
 /**
-/**
  * <p>A parsed representation of the RFC3028 BNF...</p>
  * 
  * <code>commands = *command</code>
@@ -85,5 +84,11 @@ public class Commands implements Executable
             ((Executable)commandsIter.next()).execute(mail);
         return null; 
     }
+
+    public String toString() {
+        return "COMMANDS: " + fieldChildren;
+    }
+    
+    
 
 }

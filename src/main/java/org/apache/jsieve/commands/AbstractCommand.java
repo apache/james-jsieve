@@ -23,8 +23,8 @@ package org.apache.jsieve.commands;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.CommandException;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -46,10 +46,11 @@ public abstract class AbstractCommand implements ExecutableCommand
      * Framework method validateState is invoked before a Sieve Command is 
      * executed to validate its state. Subclass methods are expected to override
      * or extend this method to perform their own validation as appropriate.
-     * 
+     * @param context <code>SieveContext</code> giving contextual information,
+     * not null
      * @throws CommandException
      */
-    protected void validateState()
+    protected void validateState(SieveContext context)
             throws CommandException
     {
     }
@@ -69,12 +70,14 @@ public abstract class AbstractCommand implements ExecutableCommand
      * or extend this method to perform their own validation as appropriate.
      * 
      * @param arguments
+     * @param context <code>SieveContext</code> giving contextual information,
+     * not null
      * @throws SieveException
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         if (!arguments.getArgumentList().isEmpty())
-            throw new SyntaxException("Found unexpected arguments");
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
     }
     
     /**
@@ -83,13 +86,15 @@ public abstract class AbstractCommand implements ExecutableCommand
      * or extend this method to perform their own validation as appropriate.
      * 
      * @param block
+     * @param context <code>ScriptCoordinate</code> giving positional information,
+     * not null
      * @throws SieveException
      */
-    protected void validateBlock(Block block)
+    protected void validateBlock(Block block, SieveContext context)
             throws SieveException
     {           
         if (null != block)
-            throw new SyntaxException("Found unexpected Block");         
+            throw context.getCoordinate().syntaxException("Found unexpected Block. Missing ';'?");         
     }        
     
     /**
@@ -100,13 +105,13 @@ public abstract class AbstractCommand implements ExecutableCommand
      * 
      * <p>Also, @see org.apache.jsieve.Executable#execute()</p>
      */
-    public Object execute(MailAdapter mail, Arguments arguments, Block block)
+    public Object execute(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException
     {
-        validateState();
-        validateArguments(arguments);        
-        validateBlock(block);         
-        Object result = executeBasic( mail, arguments, block);
+        validateState(context);
+        validateArguments(arguments, context);        
+        validateBlock(block, context);         
+        Object result = executeBasic( mail, arguments, block, context);
         updateState();
         return result;
     } 
@@ -116,10 +121,12 @@ public abstract class AbstractCommand implements ExecutableCommand
      * @param mail
      * @param arguments
      * @param block
+     * @param context <code>SieveContext</code> giving contextual information,
+     * not null
      * @return Object
      * @throws SieveException
      */
-    abstract protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block)
+    abstract protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException;           
 
 }

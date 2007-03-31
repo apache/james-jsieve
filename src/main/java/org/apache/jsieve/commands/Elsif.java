@@ -23,8 +23,8 @@ package org.apache.jsieve.commands;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.CommandException;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TestList;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -46,10 +46,10 @@ public class Elsif extends AbstractConditionalCommand
      * <p>Conditionally eexecute a Block if an Elsif Condition is allowed and
      * runnable.</p> 
      * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block)
+    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException
     {
         // Check Syntax
@@ -76,13 +76,13 @@ public class Elsif extends AbstractConditionalCommand
     }
     
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         TestList testList = arguments.getTestList();
         if (null == testList || testList.getTests().isEmpty())
-            throw new SyntaxException("Expecting a Test");
+            throw context.getCoordinate().syntaxException("Expecting a Test");
     }
     
 

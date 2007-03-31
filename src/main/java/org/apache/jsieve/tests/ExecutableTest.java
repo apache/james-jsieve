@@ -21,6 +21,7 @@
 package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -34,9 +35,11 @@ public interface ExecutableTest
      * was passed. 
      * @param mail
      * @param arguments
+     * @param context <code>SieveContext</code> giving contextual information,
+     * not null
      * @return boolean
      * @throws SieveException
      */
-    public boolean execute(MailAdapter mail, Arguments arguments) throws SieveException;
+    public boolean execute(MailAdapter mail, Arguments arguments, SieveContext context) throws SieveException;
 
 }

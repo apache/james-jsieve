@@ -23,6 +23,7 @@ package org.apache.jsieve.commands;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.CommandException;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -43,13 +44,13 @@ public class Else extends AbstractConditionalCommand
     /**
      * <p>Conditionally eexecute a Block if an Else Condition is runnable.</p> 
      * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */
     protected Object executeBasic(
         MailAdapter mail,
         Arguments arguments,
-        Block block)
+        Block block, SieveContext context)
         throws SieveException
     {
         // Check Syntax

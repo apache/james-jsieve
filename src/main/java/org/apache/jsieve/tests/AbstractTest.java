@@ -20,7 +20,10 @@
 
 package org.apache.jsieve.tests;
 
+import org.apache.commons.logging.Log;
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.Logger;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -54,21 +57,23 @@ public abstract class AbstractTest implements ExecutableTest
      * 
      * <p>Also, @see org.apache.jsieve.tests.ExecutableTest#execute(MailAdapter, Arguments)
      */
-    public boolean execute(MailAdapter mail, Arguments arguments)
+    public boolean execute(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SieveException
     {
-        validateArguments(arguments);
-        return executeBasic(mail, arguments);
+        validateArguments(arguments, context);
+        return executeBasic(mail, arguments, context);
     }
     
     /**
      * Abstract method executeBasic invokes a Sieve Test.
      * @param mail
      * @param arguments
+     * @param context <code>SieveContext</code> giving contextual information,
+     * not null
      * @return boolean
      * @throws SieveException
      */
-    protected abstract boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected abstract boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SieveException;
         
     /**
@@ -76,16 +81,21 @@ public abstract class AbstractTest implements ExecutableTest
      * executed to validate its arguments. Subclass methods are expected to override
      * or extend this method to perform their own validation as appropriate.
      * @param arguments
+     * @param context <code>SieveContext</code> giving comntextual information,
+     * not null
      * @throws SieveException
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
-        if (!arguments.getArgumentList().isEmpty())
-            throw new SyntaxException("Found unexpected arguments");
+        if (!arguments.getArgumentList().isEmpty()) {
+            final Log logger = Logger.getLog();
+            if (logger.isWarnEnabled()) {
+                logger.warn("Unexpected arguments for " + getClass().getName());
+            }
+            context.getCoordinate().logDiagnosticsInfo(logger);
+            logger.debug(arguments);
+            final String message = context.getCoordinate().addStartLineAndColumn("Found unexpected arguments.");
+            throw new SyntaxException(message);
+        }
     }
-    
-
-        
-   
-
 }

@@ -41,7 +41,7 @@ public class Command implements Executable
         return CommandManager.getInstance().newInstance(getName()).execute(
             mail,
             getArguments(),
-            getBlock());
+            getBlock(), context);
     }
 
 
@@ -52,7 +52,9 @@ public class Command implements Executable
     private Arguments fieldArguments;
  
     // The Block for this Command   
-    private Block fieldBlock;    
+    private Block fieldBlock;  
+    
+    private SieveContext context;
     
     /**
      * Constructor for Test.
@@ -68,9 +70,10 @@ public class Command implements Executable
      * @param arguments
      * @param block
      */
-    public Command(String name, Arguments arguments, Block block)
+    public Command(String name, Arguments arguments, Block block, SieveContext context)
     {
         this();
+        this.context = context;
         setName(name);
         setArguments(arguments);
         setBlock(block);        

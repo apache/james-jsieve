@@ -21,8 +21,8 @@
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -64,13 +64,13 @@ public abstract class AbstractConditionalCommand extends AbstractControlCommand
     }
     
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateBlock(Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateBlock(Block, SieveContext)
      */
-    protected void validateBlock(Block block)
+    protected void validateBlock(Block block, SieveContext context)
             throws SieveException
     {           
         if (null == block)
-            throw new SyntaxException("Expecting a Block.");         
+            throw context.getCoordinate().syntaxException("Expecting a Block.");         
     }        
     
 

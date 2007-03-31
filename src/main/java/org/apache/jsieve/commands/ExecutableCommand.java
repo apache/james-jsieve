@@ -22,6 +22,7 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -35,9 +36,12 @@ public interface ExecutableCommand
      * @param mail - The mail against which the Command is executed.
      * @param arguments - The Command arguments
      * @param block - An optional Block to be evaluated
+     * @param context <code>SieveContext</code> containing contextual information,
+     * not null
      * @return Object - The result of evaluating the Command
      * @throws SieveException
      */
-    public Object execute(MailAdapter mail, Arguments arguments, Block block) throws SieveException;
+    public Object execute(MailAdapter mail, Arguments arguments, Block block, 
+            SieveContext context) throws SieveException;
 
 }

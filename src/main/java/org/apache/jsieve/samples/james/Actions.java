@@ -298,10 +298,10 @@ public class Actions
     protected static MailAddress getSoleRecipient(Mail aMail)
             throws MessagingException
     {
-    	  if (aMail.getRecipients() == null) {
+          if (aMail.getRecipients() == null) {
           throw new MessagingException("Invalid number of recipients - 0"
               + ". Exactly 1 recipient is expected.");
-    	  } else if (1 != aMail.getRecipients().size())
+          } else if (1 != aMail.getRecipients().size())
             throw new MessagingException("Invalid number of recipients - "
                     + new Integer(aMail.getRecipients().size()).toString()
                     + ". Exactly 1 recipient is expected.");

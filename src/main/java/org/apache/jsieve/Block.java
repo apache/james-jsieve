@@ -79,4 +79,9 @@ public class Block implements Executable
         return getChildren().execute(mail); 
     }
 
+    public String toString() {
+        return "BLOCK: " + getChildren();
+    }
+
+    
 }

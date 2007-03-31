@@ -21,6 +21,7 @@
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.CommandException;
+import org.apache.jsieve.SieveContext;
 
 /**
  * Abstract class AbstractActionCommand defines the common state validation and state
@@ -56,7 +57,7 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand
      * 
      * <p>Also, @see org.apache.jsieve.commands.AbstractCommand#validateState()
      */
-    protected void validateState() throws CommandException
+    protected void validateState(SieveContext context) throws CommandException
     {
         if (CommandStateManager.getInstance().isRejected())
             throw new CommandException("Cannot perform Actions on a rejected message.");

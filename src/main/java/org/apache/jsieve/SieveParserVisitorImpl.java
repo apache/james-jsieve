@@ -42,10 +42,15 @@ import org.apache.jsieve.parser.generated.*;
  * 
  * <p>See https://javacc.dev.java.net/doc/JJTree.html for indepth information about 
  * Visitor support.</p>
+ * 
+ * <p><strong>Note</strong> that this class is not thread safe. It's use should
+ * be restricted to a single thread for the duration of a visit.
+ * </p> 
  */
 public class SieveParserVisitorImpl implements SieveParserVisitor
 {
-
+    private BaseSieveContext context = new BaseSieveContext();
+    
     /**
      * Constructor for NodeVisitor.
      */
@@ -156,7 +161,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor
                 block = (Block) next;
         }
 
-        Command command = new Command(node.getName(), arguments, block);
+        context.setCoordinate(node.getCoordinate());
+        Command command = new Command(node.getName(), arguments, block, context);
         ((List) data).add(command);
         return data;
     }
@@ -251,7 +257,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor
                 arguments = (Arguments) next;
         }
 
-        Test test = new Test(node.getName(), arguments);
+        context.setCoordinate(node.getCoordinate());
+        Test test = new Test(node.getName(), arguments, context);
         ((List) data).add(test);
         return data;
     }

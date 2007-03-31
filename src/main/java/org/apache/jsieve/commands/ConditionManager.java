@@ -31,12 +31,12 @@ public class ConditionManager
      */     
     static private ThreadLocal fieldInstance;
     
-    /*
+    /**
      * Is an Else Condition allowed
      */ 
     private boolean fieldElseAllowed;
     
-    /*
+    /**
      * The result of the last Test
      */ 
     private boolean fieldTestResult;    

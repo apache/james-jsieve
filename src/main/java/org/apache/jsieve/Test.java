@@ -31,6 +31,8 @@ import org.apache.jsieve.mail.*;
  */
 public class Test implements Executable
 {
+    private SieveContext context;
+    
     // The name of this Test
     private String fieldName;
     
@@ -48,7 +50,7 @@ public class Test implements Executable
         return new Boolean(
             TestManager.getInstance().newInstance(getName()).execute(
                 mail,
-                getArguments()));
+                getArguments(), context));
     }
 
     /**
@@ -64,9 +66,10 @@ public class Test implements Executable
      * @param name
      * @param arguments
      */
-    public Test(String name, Arguments arguments)
+    public Test(String name, Arguments arguments, SieveContext context)
     {
         this();
+        this.context = context;
         setName(name);
         setArguments(arguments);
     }    

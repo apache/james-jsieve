@@ -21,6 +21,7 @@
 package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -38,9 +39,9 @@ public class True extends AbstractTest
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
     {
         return true;
     }

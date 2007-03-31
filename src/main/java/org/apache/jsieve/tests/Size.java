@@ -24,6 +24,7 @@ import java.util.ListIterator;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.NumberArgument;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TagArgument;
@@ -45,13 +46,13 @@ public class Size extends AbstractTest
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      * <p>From RFC 3028, Section 5.9... </p>
      * <code>  
      *    Syntax: size &lt;&quote;:over"&quote; / &quote;:under&quote;&gt; &lt;limit: number&gt;
      * </code>
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SyntaxException, SieveMailException
     {
         String comparator = null;
@@ -68,12 +69,12 @@ public class Size extends AbstractTest
                 if (tag.equals(":under") || tag.equals(":over"))
                     comparator = tag;
                 else
-                    throw new SyntaxException(
+                    throw context.getCoordinate().syntaxException(
                         "Found unexpected TagArgument: \"" + tag + "\"");
             }
         }
         if (null == comparator)
-            throw new SyntaxException("Expecting a Tag");
+            throw context.getCoordinate().syntaxException("Expecting a Tag");
 
         // Second argument MUST be a number
         if (argumentsIter.hasNext())
@@ -83,11 +84,11 @@ public class Size extends AbstractTest
                 size = ((NumberArgument) argument).getInteger();
         }
         if (null == size)
-            throw new SyntaxException("Expecting a Number");
+            throw context.getCoordinate().syntaxException("Expecting a Number");
 
         // There MUST NOT be any further arguments
         if (argumentsIter.hasNext())
-            throw new SyntaxException("Found unexpected argument(s)");               
+            throw context.getCoordinate().syntaxException("Found unexpected argument(s)");               
 
         return test(mail, comparator, size.intValue());
     }
@@ -141,9 +142,9 @@ public class Size extends AbstractTest
 
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         // All done in executeBasic()
     }

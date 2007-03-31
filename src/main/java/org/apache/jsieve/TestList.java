@@ -102,4 +102,9 @@ public class TestList implements Executable
         fieldTests = children;
     }
 
+    public String toString() {
+        return "TEST LIST: " + fieldTests;
+    }
+
+    
 }

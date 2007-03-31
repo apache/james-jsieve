@@ -25,9 +25,9 @@ import java.util.ListIterator;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.commands.AbstractActionCommand;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
@@ -56,13 +56,13 @@ public class FileInto extends AbstractActionCommand
      * Command is silently ignored. 
      * </p>
      * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block)
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
      * </p>
      */
     protected Object executeBasic(
         MailAdapter mail,
         Arguments arguments,
-        Block block)
+        Block block, SieveContext context)
         throws SieveException
     {
         String destination =
@@ -92,21 +92,21 @@ public class FileInto extends AbstractActionCommand
     }
     
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
-            throw new SyntaxException(
+            throw context.getCoordinate().syntaxException(
                 "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw new SyntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException("Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw new SyntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
     }
     
 

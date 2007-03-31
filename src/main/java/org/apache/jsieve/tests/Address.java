@@ -29,6 +29,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.InternetAddressException;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.SyntaxException;
@@ -63,9 +64,9 @@ public class Address
      * order of the optional parts is different, so I am assuming that the order of
      * the optional parts is optional too!</p>
      * 
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SieveException
     {
         String addressPart = null;
@@ -118,7 +119,7 @@ public class Address
                             || tag.equals(MATCHES_TAG)))
                     matchType = tag;
                 else
-                    throw new SyntaxException("Found unexpected TagArgument");
+                    throw context.getCoordinate().syntaxException("Found unexpected TagArgument");
             }
             else
             {
@@ -136,7 +137,7 @@ public class Address
                 headerNames = ((StringListArgument) argument).getList();
         }
         if (null == headerNames)
-            throw new SyntaxException("Expecting a StringList of header names");
+            throw context.getCoordinate().syntaxException("Expecting a StringList of header names");
 
         // The next argument MUST be a string-list of keys
         if (argumentsIter.hasNext())
@@ -146,10 +147,10 @@ public class Address
                 keys = ((StringListArgument) argument).getList();
         }
         else if (null == keys)
-            throw new SyntaxException("Expecting a StringList of keys");
+            throw context.getCoordinate().syntaxException("Expecting a StringList of keys");
 
         if (argumentsIter.hasNext())
-            throw new SyntaxException("Found unexpected arguments");
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
 
         return match(
             mail,
@@ -362,12 +363,12 @@ public class Address
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         if (arguments.hasTests())
-            throw new SyntaxException("Found unexpected tests");
+            throw context.getCoordinate().syntaxException("Found unexpected tests");
     }
 
 }

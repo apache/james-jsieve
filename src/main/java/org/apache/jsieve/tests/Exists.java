@@ -24,9 +24,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.Arguments;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -44,9 +44,9 @@ public class Exists extends AbstractTest
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments)
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
         throws SieveException
     {
 
@@ -65,19 +65,19 @@ public class Exists extends AbstractTest
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
      */
-    protected void validateArguments(Arguments arguments) throws SieveException
+    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {
         List argumentsList = arguments.getArgumentList();
         if (1 != argumentsList.size())
-            throw new SyntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
             
         if (!(argumentsList.get(0) instanceof StringListArgument))
-            throw new SyntaxException("Expecting a StringList");        
+            throw context.getCoordinate().syntaxException("Expecting a StringList");        
                
         if (arguments.hasTests())
-            throw new SyntaxException("Found unexpected tests");
+            throw context.getCoordinate().syntaxException("Found unexpected tests");
     }
 
 }

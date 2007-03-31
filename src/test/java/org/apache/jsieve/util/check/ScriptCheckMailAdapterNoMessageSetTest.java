@@ -27,34 +27,11 @@ import org.apache.jsieve.javaxmail.MockMimeMessage;
 
 public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
 
-    private static final String BCC = "Bcc";
-    private static final String TO = "To";
-    private static final String FROM = "From";
-    private static final int MESSAGE_SIZE = 100;
-    private static final String BCC_ADDRESS_ONE = "bugs@toons.example.org";
-    private static final String BCC_ADDRESS_TWO = "daffy@toons.example.org";
-    private static final String TO_ADDRESS = "roadrunner@acme.example.com";
-    private static final String X_HEADER_NAME = "X-Toon";
-    private static final String X_HEADER_WITH_WS = "   " + X_HEADER_NAME.toLowerCase();
-    private static final String X_HEADER_VALUE = "Road Runner";
-    private static final String X_HEADER_VALUE_ALT = "Wile E. Coyote And Road Runner";
-    private static final String FROM_ADDRESS = "coyote@desert.example.org";
     ScriptCheckMailAdapter adapter;
-    MockMimeMessage message;
     
     protected void setUp() throws Exception {
         super.setUp();
         adapter = new ScriptCheckMailAdapter();
-        message = new MockMimeMessage();
-        message.addHeader(FROM, FROM_ADDRESS);
-        message.addHeader(TO, TO_ADDRESS);
-        message.addHeader(BCC, BCC_ADDRESS_ONE);
-        message.addHeader(BCC, BCC_ADDRESS_TWO);
-        message.addHeader(X_HEADER_NAME, X_HEADER_VALUE);
-        message.addHeader(X_HEADER_NAME.toLowerCase(), X_HEADER_VALUE.toLowerCase());
-        message.addHeader(X_HEADER_WITH_WS, X_HEADER_VALUE_ALT);
-        message.setSize(MESSAGE_SIZE);
-        adapter.setMail(message);
     }
 
     protected void tearDown() throws Exception {
@@ -62,44 +39,22 @@ public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
     }
 
     public void testGetHeader() throws Exception {
-        List headers = adapter.getHeader(FROM);
+        List headers = adapter.getHeader("From");
         assertNotNull(headers);
-        assertEquals("From header", 1, headers.size());
-        assertEquals("From header", FROM_ADDRESS, headers.get(0));
-        headers = adapter.getHeader(BCC);
-        assertEquals("Bcc headers", 2, headers.size());
-        assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_ONE));
-        assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_TWO));
-        headers = adapter.getHeader(X_HEADER_NAME);
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE, headers.get(0));
-        headers = adapter.getHeader(X_HEADER_NAME.toLowerCase());
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE.toLowerCase(), headers.get(0));
-        headers = adapter.getHeader(X_HEADER_WITH_WS);
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE_ALT, headers.get(0));
     }
 
     public void testGetHeaderNames() throws Exception {
         List headers = adapter.getHeaderNames();
         assertNotNull(headers);
-        assertEquals("All headers set returned", 6, headers.size());
-        assertTrue("All headers set returned", headers.contains(BCC));
-        assertTrue("All headers set returned", headers.contains(TO));
-        assertTrue("All headers set returned", headers.contains(FROM));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME.toLowerCase()));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_WITH_WS));
     }
 
     public void testGetMatchingHeader() throws Exception {
-        List headers = adapter.getMatchingHeader(FROM);
+        List headers = adapter.getMatchingHeader("From");
         assertNotNull(headers);
     }
 
-    public void testGetSize() throws Exception {
+    public void tesGetSize() throws Exception {
         int size = adapter.getSize();
-        assertEquals("Message size set", MESSAGE_SIZE, size);
+        assertEquals("When mail not set, size is zero", 0, size);
     }
 }

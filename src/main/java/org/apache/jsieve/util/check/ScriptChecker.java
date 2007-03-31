@@ -30,6 +30,10 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.mail.ActionFileInto;
+import org.apache.jsieve.mail.ActionKeep;
+import org.apache.jsieve.mail.ActionRedirect;
+import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
@@ -95,13 +99,13 @@ public class ScriptChecker {
         private final Exception exception;
         private final List actionsExecuted;
         
-        private Results(final Exception ex) {
+        public Results(final Exception ex) {
             this.exception = ex;
             pass = false;
             actionsExecuted = null;
         }
         
-        private Results(final List actions) {
+        public Results(final List actions) {
             this.pass = true;
             exception = null;
             this.actionsExecuted = actions;
@@ -136,6 +140,74 @@ public class ScriptChecker {
         }
 
         /**
+         * Is the <code>n<code>'th action a <code>FileInto</code>
+         * with given destination?
+         * @param destination <code>String</code> destination for the file into
+         * @param n index to check
+         * @return  true if the <code>n<code>'th action is a <code>FileInto</code>
+         * with given destination
+         */
+        public boolean isActionFileInto(String destination, int n) {
+            boolean result = false;
+            Object action = actionsExecuted.get(n);
+            if (action != null && action instanceof ActionFileInto) {
+                ActionFileInto actionFileInto = (ActionFileInto) action;
+                result = destination.equals(actionFileInto.getDestination());
+            }
+            return result;
+        }
+        
+        /**
+         * Is the <code>n<code>'th action a <code>Redirect</code>
+         * with given address?
+         * @param address <code>String</code> redirect address
+         * @param n index to check
+         * @return  true if the <code>n<code>'th action is a <code>Redirect</code>
+         * with given redirect address
+         */
+        public boolean isActionRedirect(String address, int n) {
+            boolean result = false;
+            Object action = actionsExecuted.get(n);
+            if (action != null && action instanceof ActionRedirect) {
+                ActionRedirect actionRedirect = (ActionRedirect) action;
+                result = address.equals(actionRedirect.getAddress());
+            }
+            return result;
+        }
+        
+        /**
+         * Is the <code>n<code>'th action a <code>Reject</code>
+         * with given message?
+         * @param address <code>String</code> reject message
+         * @param n index to check
+         * @return  true if the <code>n<code>'th action is a <code>Reject</code>
+         * with given reject message
+         */
+        public boolean isActionReject(String message, int n) {
+            boolean result = false;
+            Object action = actionsExecuted.get(n);
+            if (action != null && action instanceof ActionReject) {
+                ActionReject actionReject = (ActionReject) action;
+                result = message.equals(actionReject.getMessage());
+            }
+            return result;
+        }
+        
+         /**
+         * Is the <code>n<code>'th action a <code>Keep</code>?
+         * @param n index to check
+         * @return  true if the <code>n<code>'th action is a <code>Keep</code>
+         */
+        public boolean isActionKeep(int n) {
+            boolean result = false;
+            Object action = actionsExecuted.get(n);
+            if (action != null && action instanceof ActionKeep) {
+                result = true;
+            }
+            return result;
+        }
+        
+        /**
          * Prints out details of results.
          */
         public String toString() {
@@ -155,5 +227,6 @@ public class ScriptChecker {
             }
             return buffer.toString();
         }
+
     }
 }

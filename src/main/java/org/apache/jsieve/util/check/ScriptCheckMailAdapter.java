@@ -33,6 +33,7 @@ import javax.mail.MessagingException;
 import org.apache.jsieve.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
+import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 
 /**
@@ -204,7 +205,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         List result = Collections.EMPTY_LIST;
         if (mail != null)
         {
-            // TODO: implementation
+            result = MailUtils.getMatchingHeader(this, name);
         }
         return result;
     }

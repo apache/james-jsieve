@@ -35,7 +35,6 @@ public class Stop extends AbstractControlCommand
 
     /**
      * Constructor for Require.
-     * @param children
      */
     public Stop()
     {

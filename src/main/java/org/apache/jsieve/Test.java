@@ -94,7 +94,7 @@ public class Test implements Executable
 
     /**
      * Sets the arguments.
-     * @param children The arguments to set
+     * @param arguments The arguments to set
      */
     protected void setArguments(Arguments arguments)
     {

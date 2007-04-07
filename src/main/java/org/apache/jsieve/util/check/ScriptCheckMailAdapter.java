@@ -40,7 +40,7 @@ import org.apache.jsieve.mail.SieveMailException;
  * Checks script execution for an email.
  * The wrapped email is set by called {@link #setMail}.
  * Actions are recorded on {@link #executedActions}
- * and can be retrieved by {@link #getExecutedActions().
+ * and can be retrieved by {@link #getExecutedActions()}.
  */
 public class ScriptCheckMailAdapter implements MailAdapter {
 

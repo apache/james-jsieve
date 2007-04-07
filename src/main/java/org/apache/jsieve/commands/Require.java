@@ -42,7 +42,6 @@ public class Require extends AbstractPrologCommand
 
     /**
      * Constructor for Require.
-     * @param children
      */
     public Require()
     {

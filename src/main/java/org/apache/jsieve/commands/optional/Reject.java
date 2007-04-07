@@ -49,7 +49,6 @@ public class Reject extends AbstractActionCommand
 
     /**
      * Constructor for Reject.
-     * @param children
      */
     public Reject()
     {

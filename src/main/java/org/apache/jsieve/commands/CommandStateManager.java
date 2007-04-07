@@ -116,7 +116,7 @@ public class CommandStateManager
 
     /**
      * Sets the CommandStateManager for the current thread.
-     * @param CommandStateManager The CommandStateManager to set
+     * @param conditionManager The CommandStateManager to set
      */
     static protected void setInstance(CommandStateManager conditionManager)
     {
@@ -136,7 +136,6 @@ public class CommandStateManager
 
     /**
      * Updates the current CommandStateManager.
-     * @param CommandStateManager - The CommandStateManager to set
      */
     static protected void updateInstance()
     {

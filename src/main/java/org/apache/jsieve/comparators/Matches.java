@@ -32,7 +32,7 @@ public interface Matches
      * <code>string1</code> matches the pattern in parameter <code>glob</code>
      * using the matching rules defind by the implementation.
      * @param string
-     * @param regex
+     * @param glob
      * @return boolean
      */
     public boolean matches(String string, String glob) throws SieveException;

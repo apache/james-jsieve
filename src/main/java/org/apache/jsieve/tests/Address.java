@@ -204,8 +204,8 @@ public class Address
      * @param addressPart
      * @param comparator
      * @param matchType
-     * @param headerNames
-     * @param string
+     * @param headerName
+     * @param keys
      * @return boolean
      * @throws SieveMailException
      */
@@ -363,7 +363,7 @@ public class Address
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, SieveContext)
      */
     protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {

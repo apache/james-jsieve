@@ -89,7 +89,7 @@ public class ActionDispatcherTest extends TestCase
         aMail.setRecipients(Arrays.asList(new MailAddress[] { new MailAddress("a","a.com")}));
         MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
         mimeMessage.setText("TEST");
-				aMail.setMessage(mimeMessage);
+                aMail.setMessage(mimeMessage);
         MailetContext aMailetContext = new MockMailetContext();
         Action action = new ActionKeep();
         try

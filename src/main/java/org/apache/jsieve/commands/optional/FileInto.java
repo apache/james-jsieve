@@ -42,7 +42,6 @@ public class FileInto extends AbstractActionCommand
 
     /**
      * Constructor for Require.
-     * @param children
      */
     public FileInto()
     {

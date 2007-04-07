@@ -68,7 +68,7 @@ public class ScriptChecker {
     /**
      * Checks the <code>sieve</code> script contained in the given file
      * by executing it against the given message.
-     * @param in <code>InputStream</code>, not null
+     * @param script <code>InputStream</code>, not null
      * @return <code>Results</code> of the check, not null
      * @throws IOException
      * @throws MessagingException 
@@ -178,7 +178,7 @@ public class ScriptChecker {
         /**
          * Is the <code>n<code>'th action a <code>Reject</code>
          * with given message?
-         * @param address <code>String</code> reject message
+         * @param message <code>String</code> rejection message
          * @param n index to check
          * @return  true if the <code>n<code>'th action is a <code>Reject</code>
          * with given reject message

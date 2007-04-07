@@ -258,7 +258,7 @@ public class Header
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, ScriptContext)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, SieveContext)
      */
     protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
     {

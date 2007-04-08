@@ -53,7 +53,7 @@ public class If extends AbstractConditionalCommand
     {
         // Check Syntax
         if (!ConditionManager.getInstance().isIfAllowed())
-            throw new CommandException(
+            throw context.getCoordinate().commandException(
                 "Unexpected Command: \"if\".");  
                 
         // Check Runnable                

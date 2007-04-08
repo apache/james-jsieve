@@ -55,7 +55,7 @@ public class Else extends AbstractConditionalCommand
     {
         // Check Syntax
         if (!ConditionManager.getInstance().isElseAllowed())
-            throw new CommandException("Unexpected Command: \"else\".");
+            throw context.getCoordinate().commandException("Unexpected Command: \"else\".");
 
         // Check Runnable                
         if (!ConditionManager.getInstance().isElseRunnable())

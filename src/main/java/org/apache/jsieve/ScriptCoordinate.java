@@ -95,6 +95,27 @@ public final class ScriptCoordinate {
         return result;
     }
     
+    
+    /**
+     * Creates a command exception based on the given message
+     * containing details of the script position.
+     * The message should end with a full stop.
+     * @param message <code>CharSequence</code> containing the base message,
+     * not null
+     * @return <code>CommandException</code> with details of the script position
+     * appended to the message, not null
+     */
+    public CommandException commandException(CharSequence message) {
+        final Log logger = Logger.getLog();
+        if (logger.isWarnEnabled()) {
+            logger.warn(message);
+        }
+        logDiagnosticsInfo(logger);
+        final String fullMessage = addStartLineAndColumn(message);
+        final CommandException result = new CommandException(fullMessage);
+        return result;
+    }
+    
     /**
      * Appends a standard position phrase to the given message.
      * This message should end with a full stop.

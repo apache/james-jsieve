@@ -82,7 +82,7 @@ public class Reject extends AbstractActionCommand
         super.validateState(context);
 
         if (CommandStateManager.getInstance().isHasActions())
-            throw new CommandException("The \"reject\" command is not allowed with other Action Commands");
+            throw context.getCoordinate().commandException("The \"reject\" command is not allowed with other Action Commands");
     }
     
     /**

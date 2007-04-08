@@ -51,7 +51,7 @@ public abstract class AbstractPrologCommand extends AbstractCommand
         super.validateState(context);
         
         if (!(CommandStateManager.getInstance().isInProlog()))
-            throw new CommandException("Invalid state for a prolog command.");     
+            throw context.getCoordinate().commandException("Invalid state for a prolog command.");     
     }
     
 

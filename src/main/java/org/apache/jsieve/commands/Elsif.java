@@ -54,7 +54,7 @@ public class Elsif extends AbstractConditionalCommand
     {
         // Check Syntax
         if (!ConditionManager.getInstance().isElsifAllowed())
-            throw new CommandException("Unexpected Command: \"elsif\".");         
+            throw context.getCoordinate().commandException("Unexpected Command: \"elsif\".");         
 
         // Check Runnable                
         if (!ConditionManager.getInstance().isElsifRunnable())

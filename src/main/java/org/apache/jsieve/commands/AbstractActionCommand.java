@@ -60,7 +60,7 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand
     protected void validateState(SieveContext context) throws CommandException
     {
         if (CommandStateManager.getInstance().isRejected())
-            throw new CommandException("Cannot perform Actions on a rejected message.");
+            throw context.getCoordinate().commandException("Cannot perform Actions on a rejected message.");
     }    
     
 }

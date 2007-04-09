@@ -36,8 +36,14 @@ public class Command implements Executable
     public Object execute(MailAdapter mail) throws SieveException
     {
         Log log = Logger.getLog();
-        if (log.isDebugEnabled())
+        if (log.isDebugEnabled()) {
             log.debug(toString());
+            coordinate.debugDiagnostics(log);
+        }
+        // commands are executed after the parsing phase
+        // recursively from the top level block
+        // so need to use the coordinate recorded from the parse
+        context.setCoordinate(coordinate);
         return CommandManager.getInstance().newInstance(getName()).execute(
             mail,
             getArguments(),
@@ -57,6 +63,14 @@ public class Command implements Executable
     private SieveContext context;
     
     /**
+     * Script coordinate for this command.
+     * Commands are executed after the document has been parse.
+     * So this must be recorded on construction
+     * and stored for later use.
+     */
+    private ScriptCoordinate coordinate;
+    
+    /**
      * Constructor for Test.
      */
     private Command()
@@ -74,6 +88,7 @@ public class Command implements Executable
     {
         this();
         this.context = context;
+        this.coordinate = context.getCoordinate();
         setName(name);
         setArguments(arguments);
         setBlock(block);        

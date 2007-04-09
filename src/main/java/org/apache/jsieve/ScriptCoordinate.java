@@ -148,4 +148,15 @@ public final class ScriptCoordinate {
             logger.info("Expression ends line " + endLineNumber + " column " + endColumnNumber);
         }
     }
+    
+    /**
+     * Logs diagnotic information about the script coordinate.
+     * @param logger <code>Log</code>, not null
+     */
+    public void debugDiagnostics(Log logger) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Expression starts line " + startLineNumber + " column " + startColumnNumber);
+            logger.debug("Expression ends line " + endLineNumber + " column " + endColumnNumber);
+        }
+    }
 }

@@ -45,8 +45,9 @@ public class Test implements Executable
     public Object execute(MailAdapter mail) throws SieveException
     {
         Log log = Logger.getLog();
-        if (log.isDebugEnabled())
+        if (log.isDebugEnabled()) {
             log.debug(toString());
+        }
         return new Boolean(
             TestManager.getInstance().newInstance(getName()).execute(
                 mail,

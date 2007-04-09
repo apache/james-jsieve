@@ -30,4 +30,10 @@ public abstract class SieveContext {
      * @return <code>ScriptCoordinate</code>, not null
      */
     public abstract ScriptCoordinate getCoordinate();
+    
+    /**
+     * Sets the script position of the current operation.
+     * @param coordinate <code>ScriptCoordinate</code>, not null
+     */
+    public abstract void setCoordinate(ScriptCoordinate coordinate);
 }

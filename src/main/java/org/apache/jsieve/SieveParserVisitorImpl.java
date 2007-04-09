@@ -199,7 +199,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor
         Commands commands =
             (Commands) ((List) node.childrenAccept(this, children)).get(0);
         Block block = new Block(commands);
-
+        context.setCoordinate(node.getCoordinate());
         // Answer the result of executing the Block
         return block.execute((MailAdapter)data);
     }

@@ -190,7 +190,9 @@
         <fileset dir="${java.dir}">
           <include name="**/*.properties"/>
         </fileset>
-      </copy>
+      </copy>   
+      <copy todir="${build.classes}/META-INF" file='LICENSE.txt'/>
+      <copy todir="${build.classes}/META-INF" file='NOTICE.txt'/>   
     </target>
 
     <!--
@@ -312,6 +314,7 @@
             jarfile="${build.lib}/${name}-${version}.jar" 
             basedir="${build.classes}">
           <include name="org/apache/jsieve/**"/>
+          <include name="META-INF/**"/> 
           <exclude name="**/junit/*/**"/>
           <exclude name="**/samples/*/**"/>
           <manifest> 

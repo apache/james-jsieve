@@ -171,7 +171,14 @@
     <target name="compile-main" depends="prepare">
       <echo message="Compiling jSieve Java sources"/>
       <mkdir dir="${build.classes}"/>
-      <javac destdir="${build.classes}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}">
+      <javac 
+            destdir="${build.classes}" 
+            debug="${debug}" 
+            optimize="${optimize}" 
+            deprecation="${deprecation}"
+            source="${jdk.source}"
+            target="${jdk.target}" 
+            >
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>

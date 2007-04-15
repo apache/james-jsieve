@@ -308,16 +308,35 @@
 
       <!-- Make jSieve jar-->
       <echo message="Making jSieve Jar (${name}-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-${version}.jar" basedir="${build.classes}" manifest="${src.dir}/Manifest.mf">
+      <jar 
+            jarfile="${build.lib}/${name}-${version}.jar" 
+            basedir="${build.classes}">
           <include name="org/apache/jsieve/**"/>
           <exclude name="**/junit/*/**"/>
           <exclude name="**/samples/*/**"/>
+          <manifest> 
+            <attribute name="Extension-Name" value='${extension.name}'/>
+            <attribute name="Specification-Title" value='${title.spec}'/>
+            <attribute name="Specification-Vendor" value='${vendor}'/>
+            <attribute name="Specification-Version" value='${version}'/>
+            <attribute name="Implementation-Vendor-Id" value='${vendor.id}'/>
+            <attribute name="Implementation-Title" value='${title.impl}'/>
+            <attribute name="Implementation-Vendor" value='${vendor}'/>
+            <attribute name="Implementation-Version" value='${version}'/>
+            <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>
+            <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
+          </manifest> 
       </jar>
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-jUnit-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-jUnit-${version}.jar" basedir="${build.classes}" manifest="${src.dir}/Manifest.mf">
-          <include name="org/apache/jsieve/junit/**"/>
+      <jar jarfile="${build.lib}/${name}-jUnit-${version}.jar" basedir="${build.classes}">
+            <include name="org/apache/jsieve/junit/**"/>
+            <manifest>
+              <attribute name="Created-By" value='${creator}'/> 
+              <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>
+              <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
+            </manifest>  
       </jar>
     </target>
 

@@ -89,7 +89,7 @@ public class SieveFactory
     {
         try
         {
-            return new SieveParser(inputStream).start();
+            return new SieveParser(inputStream, "UTF-8").start();
         }
         catch (ParseException ex)
         {

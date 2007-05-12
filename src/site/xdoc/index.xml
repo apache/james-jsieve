@@ -198,6 +198,20 @@ to the relevant James list.
 As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
 helpful for bug reports to be accompanied by an illustrative jUnit test case.
 </p>
+<section name='Frequently Asked Question'>
+    <section name='Why Do Tests Using Non-ASCII Characters Fail?'>
+        <p>
+SIEVE specifies that <a href='http://ietf.org/rfc/rfc2278.txt'>UTF-8</a> encoding is used for scripts.
+This format is an international standard and has wide support but not
+all platforms use this encoding by default. 
+        </p>
+        <p>
+By default, JSieve expects that scripts are encoding using <code>UTF-8</code>.
+Either set the encoding programmatically or ensure that the script is encoded using
+<code>UTF-8</code>.
+        </p>
+    </section>
+</section>
 </section>
 </body>
 </document>

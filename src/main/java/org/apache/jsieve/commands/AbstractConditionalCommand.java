@@ -54,13 +54,17 @@ public abstract class AbstractConditionalCommand extends AbstractControlCommand
         ConditionManager oldManager = ConditionManager.getInstance();
         ConditionManager.resetInstance();
 
-        // Execute the Block
-        Object result = block.execute(mail);
-
-        // Restore the old ConditionManager
-        ConditionManager.setInstance(oldManager);
-
-        return result;
+        try
+        {
+            // Execute the Block
+            Object result = block.execute(mail);
+            return result;
+        }
+        finally
+        {
+            // Always restore the old ConditionManager
+            ConditionManager.setInstance(oldManager);
+        }
     }
     
     /**

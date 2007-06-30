@@ -153,7 +153,7 @@ public class ConditionManager
      
 
     /**
-     * Answers a new instance of the reciver.
+     * Answers a new instance of the manager.
      * @return ConditionManager
      */
     static protected ConditionManager computeInstance()

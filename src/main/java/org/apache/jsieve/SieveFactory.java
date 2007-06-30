@@ -121,47 +121,59 @@ public class SieveFactory
         throws SieveException
     {
         SieveParserVisitor visitor = new SieveParserVisitorImpl();
+        reset();
+        try
+        {
+            try
+            {
+                // Evaluate the Nodes
+                startNode.jjtAccept(visitor, mail);
+
+            }
+            catch (StopException ex)
+            {
+                // Stop is OK
+            }
+            catch (SieveException ex)
+            {
+                Log log = Logger.getLog();
+                if (log.isErrorEnabled())
+                    log.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (log.isDebugEnabled())
+                    log.debug("Evaluation failed.", ex);
+                throw ex;
+            }
+
+            // If after evaluating all of the nodes or stopping, implicitKeep is still
+            // in effect, add a Keep to the list of Actions.
+            if (CommandStateManager.getInstance().isImplicitKeep())
+                mail.addAction(new ActionKeep());
+
+            // Execute the List of Actions   
+            try
+            {
+                mail.executeActions();
+            }
+            catch (SieveException ex)
+            {
+                Log log = Logger.getLog();
+                if (log.isErrorEnabled())
+                    log.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (log.isDebugEnabled())
+                    log.debug("Evaluation failed.", ex);
+                throw ex;
+            }
+        } 
+        finally 
+        {
+            // Tidy up managers stored in thread local variables
+            reset();
+        }
+    }
+
+    private void reset() {
         ConditionManager.resetInstance();
         CommandStateManager.resetInstance();
-        try
-        {
-            // Evaluate the Nodes
-            startNode.jjtAccept(visitor, mail);
-
-        }
-        catch (StopException ex)
-        {
-            // Stop is OK
-        }
-        catch (SieveException ex)
-        {
-            Log log = Logger.getLog();
-            if (log.isErrorEnabled())
-                log.error("Evaluation failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Evaluation failed.", ex);
-            throw ex;
-        }
-
-        // If after evaluating all of the nodes or stopping, implicitKeep is still
-        // in effect, add a Keep to the list of Actions.
-        if (CommandStateManager.getInstance().isImplicitKeep())
-            mail.addAction(new ActionKeep());
-
-        // Execute the List of Actions   
-        try
-        {
-            mail.executeActions();
-        }
-        catch (SieveException ex)
-        {
-            Log log = Logger.getLog();
-            if (log.isErrorEnabled())
-                log.error("Evaluation failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Evaluation failed.", ex);
-            throw ex;
-        }
     }
     
     

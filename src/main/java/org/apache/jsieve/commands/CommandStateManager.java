@@ -130,7 +130,7 @@ public class CommandStateManager
      */
     static public void resetInstance()
     {
-        fieldInstance = null;
+        setInstance(null);
     }    
     
 

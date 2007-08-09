@@ -210,7 +210,7 @@ public class ConditionManager
      */
     static public void resetInstance()
     {
-        fieldInstance = null;
+        setInstance(null);
     }    
     
 

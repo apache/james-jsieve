@@ -20,6 +20,8 @@
  
 package org.apache.jsieve.junit.utils;
 
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -242,5 +244,41 @@ public class SieveMailAdapter implements MailAdapter
             throw new SieveMailException(ex);
         }
     }
+
+    /**
+     * @see org.apache.jsieve.mail.MailAdapter#getContentType()
+     */
+    public String getContentType() throws SieveMailException
+    {
+        try
+        {
+            return getMessage().getContentType();
+        }
+        catch (MessagingException ex)
+        {
+            throw new SieveMailException(ex);
+        }
+    }
+
+    /**
+     * @see org.apache.jsieve.mail.MailAdapter#getContent()
+     */
+    public Object getContent() throws SieveMailException
+    {
+        try
+        {
+            return getMessage().getContent();
+        }
+        catch (MessagingException ex)
+        {
+            throw new SieveMailException(ex);
+        }
+        catch (IOException ex)
+        {
+            throw new SieveMailException(ex);
+        }
+    }
+
+
 
 }

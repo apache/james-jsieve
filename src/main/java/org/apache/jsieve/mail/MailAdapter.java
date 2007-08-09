@@ -112,4 +112,20 @@ public interface MailAdapter
      */
     int getSize() throws SieveMailException;
 
+
+    /**
+     * Method getContentType returns string/mime representation of the
+     * message type.
+     * @return String
+     * @throws SieveMailException
+     */
+    public String getContentType() throws SieveMailException;
+
+    /**
+     * Method getContent returns object containing the message content.
+     * @return Object
+     * @throws SieveMailException
+     */
+    public Object getContent() throws SieveMailException;
+
 }

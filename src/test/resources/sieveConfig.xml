@@ -107,6 +107,12 @@
             <name>envelope</name>
             <class>org.apache.jsieve.tests.optional.Envelope</class>
         </entry>            
+
+    <!-- Limited implementation-->
+        <entry>
+            <name>body</name>
+            <class>org.apache.jsieve.tests.optional.Body</class>
+        </entry>            
     </testMap>
 
     <!-- Declare supported comparator mappings -->    

@@ -19,6 +19,8 @@
 
 package org.apache.jsieve.util.check;
 
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -222,6 +224,46 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             try {
                 result = mail.getSize();
             } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * Method getContentType returns string/mime representation of the
+     * message type.
+     * @return String
+     * @throws SieveMailException
+     */
+    public String getContentType() throws SieveMailException {
+        String result = null;
+        if (mail != null)
+        {
+            try {
+                result = mail.getContentType();
+            } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Method getContent returns object containing the message content.
+     * @return Object
+     * @throws SieveMailException
+     */
+    public Object getContent() throws SieveMailException {
+        Object result = null;
+        if (mail != null)
+        {
+            try {
+                result = mail.getContent();
+            } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            } catch (IOException e) {
                 throw new SieveMailException(e);
             }
         }

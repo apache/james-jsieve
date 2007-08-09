@@ -108,6 +108,8 @@ jSieve supports all tests commands specified in RFC 3028.
 <td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
 </tr><tr>
 <td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>body</td><td><a href='http://tools.ietf.org/html/draft-ietf-sieve-body-00'>SIEVE body extension</a></td><td>partial</td>
 </tr>
 </table>
 </subsection>

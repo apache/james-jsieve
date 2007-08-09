@@ -29,7 +29,7 @@ public class ConditionManager
     /**
      * The Condition Manager instance for the current thread
      */     
-    static private ThreadLocal fieldInstance;
+    static private final ThreadLocal fieldInstance = new ThreadLocal();
     
     /**
      * Is an Else Condition allowed
@@ -188,8 +188,6 @@ public class ConditionManager
      */
     static private ConditionManager getInstanceBasic()
     {
-        if (null == fieldInstance)
-            return null;
         return (ConditionManager)fieldInstance.get();
     }    
     
@@ -200,8 +198,6 @@ public class ConditionManager
      */
     static protected void setInstance(ConditionManager conditionManager)
     {
-        if (null == fieldInstance)
-            fieldInstance = new ThreadLocal();
         fieldInstance.set(conditionManager);
     }
     

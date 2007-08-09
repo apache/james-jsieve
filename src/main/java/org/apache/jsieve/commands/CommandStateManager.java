@@ -49,7 +49,7 @@ public class CommandStateManager
     /**
      * The instance of the reciever for the current thread
      */     
-    static private ThreadLocal fieldInstance;
+    static private final ThreadLocal fieldInstance = new ThreadLocal();
     
     /**
      * Constructor for CommandStateManager.
@@ -108,8 +108,6 @@ public class CommandStateManager
      */
     static private CommandStateManager getInstanceBasic()
     {
-        if (null == fieldInstance)
-            return null;
         return (CommandStateManager)fieldInstance.get();
     }    
     
@@ -120,8 +118,6 @@ public class CommandStateManager
      */
     static protected void setInstance(CommandStateManager conditionManager)
     {
-        if (null == fieldInstance)
-            fieldInstance = new ThreadLocal();
         fieldInstance.set(conditionManager);
     }
     

@@ -145,19 +145,39 @@ public class ConfigurationManager
         return "sieveConfig.xml";
     }
     /**
+     * <p>
      * Method getConfigStream answers an InputStream over the Sieve
      * configuration file. It is located by searching the classpath of the
      * current ClassLoader.
-     * 
+     * </p><p>
+     * The context classloader is searched first. If a suitably named
+     * resource is found then this is returned. Otherwise, the classloader
+     * used to load this class is searched for the resource.
+     * </p>
      * @return InputStream
      * @throws IOException
      */
     static protected InputStream getConfigStream() throws IOException
     {
-        InputStream stream = ConfigurationManager.class.getClassLoader()
-                .getResourceAsStream(getConfigName());
+        InputStream stream = null;
+        final String configName = getConfigName();
+        // Context classloader is usually right in a JEE evironment
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        if (contextClassLoader != null)
+        {
+            stream = contextClassLoader.getResourceAsStream(configName);
+        }
+        
+        // Sometimes context classloader will not be set conventionally
+        // So, try class classloader
         if (null == stream)
-            throw new IOException("Resource \"" + getConfigName()
+        {
+            stream = ConfigurationManager.class.getClassLoader()
+                .getResourceAsStream(configName);
+        }
+
+        if (null == stream)
+            throw new IOException("Resource \"" + configName
                     + "\" not found");
         return stream;
     }

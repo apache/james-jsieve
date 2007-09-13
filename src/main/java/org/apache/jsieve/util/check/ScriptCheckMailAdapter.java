@@ -37,6 +37,7 @@ import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
+import org.apache.jsieve.parser.address.SieveAddressBuilder;
 
 /**
  * Checks script execution for an email.
@@ -268,6 +269,10 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             }
         }
         return result;
+    }
+
+    public Address[] parseAddresses(String headerName) throws SieveMailException {
+        return SieveAddressBuilder.parseAddresses(headerName, mail);
     }
 
 }

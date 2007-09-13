@@ -42,6 +42,8 @@ import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
+import org.apache.jsieve.parser.address.SieveAddressBuilder;
+import org.apache.jsieve.parser.generated.address.ParseException;
 
 /**
  * <p>Class SieveMailAdapter implements a mock MailAdapter for testing purposes.</p>
@@ -277,6 +279,10 @@ public class SieveMailAdapter implements MailAdapter
         {
             throw new SieveMailException(ex);
         }
+    }
+
+    public Address[] parseAddresses(final String headerName) throws SieveMailException {
+         return SieveAddressBuilder.parseAddresses(headerName, getMessage());
     }
 
 

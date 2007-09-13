@@ -38,6 +38,7 @@ import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.mail.optional.EnvelopeAccessors;
+import org.apache.jsieve.parser.address.SieveAddressBuilder;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
@@ -370,5 +371,20 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
                 + " Envelope To: "
                 + (null == getEnvelopeTo() ? "null" : getEnvelopeTo())
                 + " Message ID: " + (null == messageID ? "null" : messageID);
+    }
+    public Object getContent() throws SieveMailException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public String getContentType() throws SieveMailException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public Address[] parseAddresses(String headerName) throws SieveMailException {
+        try {
+            return SieveAddressBuilder.parseAddresses(headerName, getMail().getMessage());
+        } catch (MessagingException e) {
+            throw new SieveMailException(e);
+        }
     }
 }

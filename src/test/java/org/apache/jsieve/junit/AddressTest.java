@@ -138,7 +138,7 @@ public class AddressTest extends TestCase
         try
         {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From ", "user@domain");            
+            mail.getMessage().addHeader("From ", "user@domain");
             JUnitUtils.interpret(mail, script);
         }
         catch (MessagingException e)

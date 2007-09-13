@@ -131,14 +131,21 @@
         Generate JavaCC source inserting parse tree building actions 
         and the Java source for the parse classes.
         -->
-        <mkdir dir="${build.src}/org/apache/jsieve/parser/generated"/>
+        <mkdir dir="${build.src}/org/apache/jsieve/parser/generated/address"/>
         <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
             <arg line="${javacc.dir}/sieve.jjt"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />
             </classpath>
-       </java>
+        </java>
+        <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
+             <arg line="${javacc.dir}/AddressListParser.jjt"/>
+             <classpath>
+                 <pathelement location="${javacc.jar}"/>
+                 <pathelement path="${java.class.path}" />
+             </classpath>
+        </java>   
 
        <!--
        Make the generated parse classes an extension of the relevant base node to add the 
@@ -159,6 +166,13 @@
                 <pathelement path="${java.class.path}" />
             </classpath>
        </java>
+        <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
+            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated/address ${build.src}/AddressListParser.jj"/>
+            <classpath>
+                <pathelement location="${javacc.jar}"/>
+                <pathelement path="${java.class.path}" />
+            </classpath>
+       </java>   
     </target>
 
     <!--

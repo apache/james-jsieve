@@ -23,6 +23,7 @@ package org.apache.jsieve.mail;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.jsieve.InternetAddressException;
 import org.apache.jsieve.SieveException;
 
 /**
@@ -103,8 +104,6 @@ public interface MailAdapter
      */
     public void executeActions() throws SieveException;            
 
-
-
     /**
      * Method getSize answers the receiver's message size in octets.
      * @return int
@@ -128,4 +127,45 @@ public interface MailAdapter
      */
     public Object getContent() throws SieveMailException;
 
+    /**
+     * <p>Parses the named header value into individual addresses.</p>
+     * 
+     * <p>Headers should be matched in a way that ignores case and the 
+     * whitespace prefixes and suffixes of a header name when performing the
+     * match, as required by RFC 3028. Thus "From", "from ", " From" and " from "
+     * are considered equal.
+     * </p>
+     * 
+     * @param headerName name of the header whose value is to be split
+     * @return addresses listed in the given header not null, possibly empty
+     * @throws InternetAddressException when the header value is not an address
+     * or list of addresses. Implemetations may elect to support only
+     * standard headers known to containing one or more addresses rather 
+     * than parsing the value
+     * content
+     * @throws SieveMailException when the header value cannot be read
+     */
+    public Address[] parseAddresses(String headerName) throws SieveMailException, InternetAddressException;
+    
+    /**
+     * Contains address data required for SIEVE processing.
+     */
+    public interface Address {
+        
+        /**
+         * Gets the local part of the email address.
+         * Specified in 
+         * <a href='http://james.apache.org/server/rfclist/basic/rfc0822.txt'>RFC822</a>.
+         * @return local part, not null
+         */
+        public String getLocalPart();
+        
+        /**
+         * Gets the domain part of the email address.
+         * Specified in 
+         * <a href='http://james.apache.org/server/rfclist/basic/rfc0822.txt'>RFC822</a>.
+         * @return domain, not null
+         */
+        public String getDomain();
+    }
 }

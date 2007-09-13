@@ -26,14 +26,15 @@
  */
 
 options {
-	STATIC=false;
-	LOOKAHEAD=1;
-	VISITOR=true;
-	MULTI=true;
-	NODE_SCOPE_HOOK=true;
-	NODE_EXTENDS="org.apache.james.mime4j.field.address.parser.BaseNode"; 
-	//DEBUG_PARSER=true;
-	//DEBUG_TOKEN_MANAGER=true;
+    STATIC=false;
+    LOOKAHEAD=1;
+    VISITOR=true;
+    MULTI=true;
+    NODE_SCOPE_HOOK=true;
+    NODE_EXTENDS="org.apache.jsieve.parser.address.AddressNode"; 
+    OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated/address";
+    //DEBUG_PARSER=true;
+    //DEBUG_TOKEN_MANAGER=true;
 }
 
 PARSER_BEGIN(AddressListParser)
@@ -55,42 +56,26 @@ PARSER_BEGIN(AddressListParser)
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-package org.apache.james.mime4j.field.address.parser;
+package org.apache.jsieve.parser.generated.address;
 
-public class AddressListParser {
-    public static void main(String args[]) throws ParseException {
-		while (true) {
-		    try {
-				AddressListParser parser = new AddressListParser(System.in);
-		    	parser.parseLine();
-		    	((SimpleNode)parser.jjtree.rootNode()).dump("> ");
-		    } catch (Exception x) {
-				x.printStackTrace();
-				return;
-		    }
-		}
-    }
-    
-    private static void log(String msg) {
-    	System.out.print(msg);
-    }
-    
+public class AddressListParser {    
+
     public ASTaddress_list parse() throws ParseException {
         try {
-    	    parseAll();
-    	    return (ASTaddress_list)jjtree.rootNode();
-    	} catch (TokenMgrError tme) {
-    	    throw new ParseException(tme.getMessage());
-    	}
+            parseAll();
+            return (ASTaddress_list)jjtree.rootNode();
+        } catch (TokenMgrError tme) {
+            throw new ParseException(tme.getMessage());
+        }
     }
     
     
     void jjtreeOpenNodeScope(Node n) {
-    	((SimpleNode)n).firstToken = getToken(1);
+        ((SimpleNode)n).firstToken = getToken(1);
     }
     
     void jjtreeCloseNodeScope(Node n) {
-    	((SimpleNode)n).lastToken = getToken(0);
+        ((SimpleNode)n).lastToken = getToken(0);
     }
 }
 
@@ -99,195 +84,195 @@ PARSER_END(AddressListParser)
 void parseLine() #void :
 {}
 {
-	address_list() ["\r"] "\n"
+    address_list() ["\r"] "\n"
 }
 
 void parseAll() #void :
 {}
 {
-	address_list() <EOF>
+    address_list() <EOF>
 }
 
 void address_list() :
 {}
 {
-	[ address() ]
-	(
-		","
-		[ address() ]
-	)*
+    [ address() ]
+    (
+        ","
+        [ address() ]
+    )*
 }
 
 void address() :
 {}
 {
-	LOOKAHEAD(2147483647)
-	addr_spec()
-|	angle_addr()
-|	( phrase() (group_body() | angle_addr()) )
+    LOOKAHEAD(2147483647)
+    addr_spec()
+|   angle_addr()
+|   ( phrase() (group_body() | angle_addr()) )
 }
 
 void mailbox() :
 {}
 {
-	LOOKAHEAD(2147483647)
-	addr_spec()
-|	angle_addr()
-|	name_addr()
+    LOOKAHEAD(2147483647)
+    addr_spec()
+|   angle_addr()
+|   name_addr()
 }
 
 void name_addr() :
 {}
 {
-	phrase() angle_addr()
+    phrase() angle_addr()
 }
 
 void group_body() :
 {}
 {
-	":"
-	[ mailbox() ]
-	(
-		","
-		[ mailbox() ]
-	)*
-	";"
+    ":"
+    [ mailbox() ]
+    (
+        ","
+        [ mailbox() ]
+    )*
+    ";"
 }
 
 void angle_addr() :
 {}
 {
-	"<" [ route() ] addr_spec() ">"
+    "<" [ route() ] addr_spec() ">"
 }
 
 void route() :
 {}
 {
-	"@" domain() ( (",")* "@" domain() )* ":"
+    "@" domain() ( (",")* "@" domain() )* ":"
 }
 
 void phrase() :
 {}
 {
-(	<DOTATOM>
-|	<QUOTEDSTRING>
+(   <DOTATOM>
+|   <QUOTEDSTRING>
 )+
 }
 
 void addr_spec() :
 {}
 {
-	( local_part() "@" domain() )
+    ( local_part() "@" domain() )
 }
 
 void local_part() :
 { Token t; }
 {
-	( t=<DOTATOM> | t=<QUOTEDSTRING> )
-	(	[t="."]
-		{
-			if ( t.kind == AddressListParserConstants.QUOTEDSTRING || t.image.charAt(t.image.length() - 1) != '.')
-				throw new ParseException("Words in local part must be separated by '.'");
-		}
-		(	t=<DOTATOM> | t=<QUOTEDSTRING> )
-	)*
+    ( t=<DOTATOM> | t=<QUOTEDSTRING> )
+    (   [t="."]
+        {
+            if ( t.kind == AddressListParserConstants.QUOTEDSTRING || t.image.charAt(t.image.length() - 1) != '.')
+                throw new ParseException("Words in local part must be separated by '.'");
+        }
+        (   t=<DOTATOM> | t=<QUOTEDSTRING> )
+    )*
 }
 
 void domain() :
 { Token t; }
 {
-	(	t=<DOTATOM>
-		(	[t="."]
-			{
-				if (t.image.charAt(t.image.length() - 1) != '.')
-					throw new ParseException("Atoms in domain names must be separated by '.'");
-			}
-			t=<DOTATOM>
-		)*
-	)
-|	<DOMAINLITERAL>
+    (   t=<DOTATOM>
+        (   [t="."]
+            {
+                if (t.image.charAt(t.image.length() - 1) != '.')
+                    throw new ParseException("Atoms in domain names must be separated by '.'");
+            }
+            t=<DOTATOM>
+        )*
+    )
+|   <DOMAINLITERAL>
 }
 
 SPECIAL_TOKEN :
 {
- 	< WS: ( [" ", "\t"] )+ >
+    < WS: ( [" ", "\t"] )+ >
 }
 
 TOKEN :
 {
-	< #ALPHA: ["a" - "z", "A" - "Z"] >
-|	< #DIGIT: ["0" - "9"] >
-|	< #ATEXT: ( <ALPHA> | <DIGIT>
-			  | "!" | "#" | "$" | "%"
-			  | "&" | "'" | "*" | "+"
-			  | "-" | "/" | "=" | "?"
-			  | "^" | "_" | "`" | "{"
-			  | "|" | "}" | "~"
-			  )>
-|	< DOTATOM: <ATEXT> ( <ATEXT> | "." )* >
+    < #ALPHA: ["a" - "z", "A" - "Z"] >
+|   < #DIGIT: ["0" - "9"] >
+|   < #ATEXT: ( <ALPHA> | <DIGIT>
+              | "!" | "#" | "$" | "%"
+              | "&" | "'" | "*" | "+"
+              | "-" | "/" | "=" | "?"
+              | "^" | "_" | "`" | "{"
+              | "|" | "}" | "~"
+              )>
+|   < DOTATOM: <ATEXT> ( <ATEXT> | "." )* >
 }
 
 TOKEN_MGR_DECLS :
 {
-	// Keeps track of how many levels of comment nesting
-	// we've encountered.  This is only used when the 2nd
-	// level is reached, for example ((this)), not (this).
-	// This is because the outermost level must be treated
-	// specially anyway, because the outermost ")" has a 
-	// different token type than inner ")" instances.
-	static int commentNest;
+    // Keeps track of how many levels of comment nesting
+    // we've encountered.  This is only used when the 2nd
+    // level is reached, for example ((this)), not (this).
+    // This is because the outermost level must be treated
+    // specially anyway, because the outermost ")" has a 
+    // different token type than inner ")" instances.
+    static int commentNest;
 }
 
 MORE :
 {
-	// domain literal
-	"[" : INDOMAINLITERAL
+    // domain literal
+    "[" : INDOMAINLITERAL
 }
 
 <INDOMAINLITERAL>
 MORE :
 {
-	< <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|	< ~["[", "]", "\\"] >
+    < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
+|   < ~["[", "]", "\\"] >
 }
 
 <INDOMAINLITERAL>
 TOKEN :
 {
-	< DOMAINLITERAL: "]" > { matchedToken.image = image.toString(); }: DEFAULT
+    < DOMAINLITERAL: "]" > { matchedToken.image = image.toString(); }: DEFAULT
 }
 
 MORE :
 {
-	// starts a comment
-	"(" : INCOMMENT
+    // starts a comment
+    "(" : INCOMMENT
 }
 
 <INCOMMENT>
 SKIP :
 {
-	// ends a comment
-	< COMMENT: ")" > : DEFAULT
-	// if this is ever changed to not be a SKIP, need
-	// to make sure matchedToken.token = token.toString()
-	// is called.
+    // ends a comment
+    < COMMENT: ")" > : DEFAULT
+    // if this is ever changed to not be a SKIP, need
+    // to make sure matchedToken.token = token.toString()
+    // is called.
 }
 
 <INCOMMENT>
 MORE :
 {
-	< <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|	"(" { commentNest = 1; } : NESTED_COMMENT
-|	< <ANY>>
+    < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
+|   "(" { commentNest = 1; } : NESTED_COMMENT
+|   < <ANY>>
 }
 
 <NESTED_COMMENT>
 MORE :
 {
-	< <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|	"(" { ++commentNest; }
-|	")" { --commentNest; if (commentNest == 0) SwitchTo(INCOMMENT); }
-|	< <ANY>>
+    < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
+|   "(" { ++commentNest; }
+|   ")" { --commentNest; if (commentNest == 0) SwitchTo(INCOMMENT); }
+|   < <ANY>>
 }
 
 
@@ -295,20 +280,20 @@ MORE :
 
 MORE :
 {
-	"\"" { image.deleteCharAt(image.length() - 1); } : INQUOTEDSTRING
+    "\"" { image.deleteCharAt(image.length() - 1); } : INQUOTEDSTRING
 }
 
 <INQUOTEDSTRING>
 MORE :
 {
-	< <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|	< (~["\"", "\\"])+ >
+    < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
+|   < (~["\"", "\\"])+ >
 }
 
 <INQUOTEDSTRING>
 TOKEN :
 {
-	< QUOTEDSTRING: "\"" > { matchedToken.image = image.substring(0, image.length() - 1); } : DEFAULT
+    < QUOTEDSTRING: "\"" > { matchedToken.image = image.substring(0, image.length() - 1); } : DEFAULT
 }
 
 // GLOBALS
@@ -316,8 +301,8 @@ TOKEN :
 <*>
 TOKEN :
 {
-	< #QUOTEDPAIR: "\\" <ANY> >
-|	< #ANY: ~[] >
+    < #QUOTEDPAIR: "\\" <ANY> >
+|   < #ANY: ~[] >
 }
 
 // ERROR!
@@ -326,7 +311,7 @@ TOKEN :
 <*>
 TOKEN :
 {
-	< UNEXPECTED_CHAR: <ANY> >
+    < UNEXPECTED_CHAR: <ANY> >
 }
 
 */

@@ -43,7 +43,7 @@ import org.apache.jsieve.parser.generated.address.ParseException;
 import org.apache.jsieve.parser.generated.address.Token;
 
 /**
- * Builds {@link MailAdapter.Address}'s from address lists. Note that
+ * Builds <code>MailAdapter.Address</code> from address lists. Note that
  * implementators of {@link MailAdapter} are recommended to use a fully featured
  * and maintained parser such as <a href='http://james.apache.org/mime4j'>Apache
  * Mime4J</a>. This implementation is based on Mime4J code but is intended only

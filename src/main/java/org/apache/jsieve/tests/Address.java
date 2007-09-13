@@ -74,16 +74,7 @@ public class Address
     }
 
 
-    /**
-     * Method match.
-     * @param addressPart
-     * @param comparator
-     * @param matchType
-     * @param headerValue
-     * @param key
-     * @return boolean
-     * @throws SieveMailException
-     */
+    
     protected boolean match(String addressPart, String comparator, String matchType, 
             MailAdapter.Address address, String key) throws SieveException 
     {

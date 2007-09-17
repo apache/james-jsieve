@@ -170,11 +170,35 @@
             <id>generate-jjtree</id>
             <phase>generate-sources</phase>
             <configuration>
+              <sourceDirectory>${basedir}/src/main/jjtree/sieve</sourceDirectory>
               <nodePackage>org.apache.jsieve.parser.generated</nodePackage>
               <outputDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated</outputDirectory>
             </configuration>
             <goals>
               <goal>jjtree</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-jjtree-address</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceDirectory>${basedir}/src/main/jjtree/address</sourceDirectory>
+              <nodePackage>org.apache.jsieve.parser.generated.address</nodePackage>
+              <outputDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated/address</outputDirectory>
+            </configuration>
+            <goals>
+              <goal>jjtree</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-javacc-address</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated/address</sourceDirectory>
+              <packageName>org.apache.jsieve.parser.generated.address</packageName>
+            </configuration>
+            <goals>
+              <goal>javacc</goal>
             </goals>
           </execution>
           <execution>

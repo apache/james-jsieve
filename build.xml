@@ -133,14 +133,14 @@
         -->
         <mkdir dir="${build.src}/org/apache/jsieve/parser/generated/address"/>
         <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="${javacc.dir}/sieve.jjt"/>
+            <arg line="${javacc.dir}/sieve/sieve.jjt"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />
             </classpath>
         </java>
         <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
-             <arg line="${javacc.dir}/AddressListParser.jjt"/>
+             <arg line="${javacc.dir}/address/AddressListParser.jjt"/>
              <classpath>
                  <pathelement location="${javacc.jar}"/>
                  <pathelement path="${java.class.path}" />

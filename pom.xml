@@ -39,7 +39,7 @@
   <parent>
     <groupId>org.apache.james</groupId>
     <artifactId>james-project</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
   </parent>
   <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
@@ -69,53 +69,37 @@
   </scm>
 
   <repositories>
-  <!--
     <repository>
-      <id>local-jsieve-3rd-party-m1</id>
-      <name>Local jSieve third party repository</name>
-      <url>file://${basedir}/repos/third-party-m1</url>
+      <id>local-jsieve-stage-repository</id>
+      <name>Local jSieve stage repository</name>
+      <!-- Please note that due to http://jira.codehaus.org/browse/MNG-2896 -->
+      <!-- If you don't have james-project checked out in ../james-project -->
+      <!-- you will have to place your absolute path to the project instead -->
+      <!-- of ${basedir}, or, otherwise, manually install the parent poms -->
+      <!--
+           mvn -fignorepom.xml install:install-file 
+              -Dfile=stage\org.apache.james\poms\james-parent-1.1.pom 
+              -Dpackaging=pom 
+              -DgroupId=org.apache.james 
+              -DartifactId=james-parent 
+              -Dversion=1.1
+           mvn -fignorepom.xml install:install-file 
+              -Dfile=stage\org.apache.james\poms\james-project-1.1.pom 
+              -Dpackaging=pom 
+              -DgroupId=org.apache.james 
+              -DartifactId=james-project 
+              -Dversion=1.1
+       -->
+      <url>file://${basedir}/stage</url>
       <layout>legacy</layout>
-      <releases>
-        <enabled>true</enabled>
-        <checksumPolicy>ignore</checksumPolicy>
-      </releases>
       <snapshots>
         <enabled>true</enabled>
         <checksumPolicy>ignore</checksumPolicy>
       </snapshots>
-    </repository>
-  -->
-    <repository>
-      <id>central</id>
-      <name>Apache Snapshot Repository</name>
-      <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
       <releases>
         <enabled>true</enabled>
+        <checksumPolicy>ignore</checksumPolicy>
       </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Repository</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-   
-    <!-- 
-     this should be removed and custom jars should 
-     be copied to a local files based repository.
-    -->
-    <repository>
-      <id>ibiblio</id>
-      <name>Main maven repo</name>
-      <url>http://repo1.maven.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
     </repository>
   </repositories>
 
@@ -123,8 +107,27 @@
 
     <dependency>
     	<groupId>org.apache.james</groupId>
-    	<artifactId>james-server</artifactId>
-    	<version>3.0-SNAPSHOT</version>
+    	<artifactId>james</artifactId>
+    	<version>2.3.1</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>org.apache.avalon.framework</groupId>
+    	<artifactId>avalon-framework-api</artifactId>
+    	<version>4.3.1</version>
+    	<scope>compile</scope>
+    </dependency>
+
+    <dependency>
+    	<groupId>org.apache.james</groupId>
+    	<artifactId>mailet</artifactId>
+    	<version>2.3</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>org.apache.james</groupId>
+    	<artifactId>mailet-api</artifactId>
+    	<version>2.3</version>
     </dependency>
  
     <dependency>
@@ -134,9 +137,15 @@
     </dependency>
     
     <dependency>
+      <groupId>oro</groupId>
+      <artifactId>oro</artifactId>
+      <version>2.0.8</version>
+    </dependency>
+    
+    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.3</version>
     </dependency>
     
     <dependency>
@@ -150,6 +159,13 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
@@ -184,7 +200,7 @@
             <configuration>
               <sourceDirectory>${basedir}/src/main/jjtree/address</sourceDirectory>
               <nodePackage>org.apache.jsieve.parser.generated.address</nodePackage>
-              <outputDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated/address</outputDirectory>
+              <outputDirectory>${project.build.directory}/generated-sources/jjtree2/org/apache/jsieve/parser/generated/address</outputDirectory>
             </configuration>
             <goals>
               <goal>jjtree</goal>
@@ -194,7 +210,7 @@
             <id>generate-javacc-address</id>
             <phase>generate-sources</phase>
             <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated/address</sourceDirectory>
+              <sourceDirectory>${project.build.directory}/generated-sources/jjtree2/org/apache/jsieve/parser/generated/address</sourceDirectory>
               <packageName>org.apache.jsieve.parser.generated.address</packageName>
             </configuration>
             <goals>

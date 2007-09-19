@@ -246,11 +246,11 @@
     ===================================================================
     -->
     <target name="xdocs" depends="prepare">
-      <style style="${docs.src}/stylesheets/site.xsl"
+      <xslt style="${docs.src}/stylesheets/site.xsl"
                 basedir="${docs.src}/"
                 destdir="${build.docs}/" 
                 includes="**/*.xml" >
-      </style>
+      </xslt>
       <copy todir="${build.docs}" filtering="no">
         <fileset dir="${docs.src}">
           <include name="**/*.css"/>

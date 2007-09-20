@@ -32,8 +32,8 @@ import java.util.Random;
 import javax.mail.MessagingException;
 
 import org.apache.james.core.MailImpl;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.parser.generated.ParseException;
@@ -152,15 +152,15 @@ public class JSieve extends GenericMailet
         // matchers.
         try
         {
-            ((MailImpl) newMail).setRemoteAddr(java.net.InetAddress
+            newMail.setRemoteAddr(java.net.InetAddress
                     .getLocalHost().getHostAddress());
-            ((MailImpl) newMail).setRemoteHost(java.net.InetAddress
+            newMail.setRemoteHost(java.net.InetAddress
                     .getLocalHost().getHostName());
         }
         catch (java.net.UnknownHostException _)
         {
-            ((MailImpl) newMail).setRemoteAddr("127.0.0.1");
-            ((MailImpl) newMail).setRemoteHost("localhost");
+            newMail.setRemoteAddr("127.0.0.1");
+            newMail.setRemoteHost("localhost");
         }
         return newMail;
     }

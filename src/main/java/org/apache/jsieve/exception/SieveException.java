@@ -18,30 +18,49 @@
  ****************************************************************/
 
 
-package org.apache.jsieve.commands;
-
-import org.apache.jsieve.Arguments;
-import org.apache.jsieve.Block;
-import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.mail.MailAdapter;
+package org.apache.jsieve.exception;
 
 /**
- * Interface ExecutableCommand defines the method signatures for Sieve Commands. 
+ * Class <code>SieveException</code> indicates an exceptional condition encountered
+ * within Sieve.
  */
-public interface ExecutableCommand
+public class SieveException extends Exception
 {
+
     /**
-     * Method execute executes a Sieve Command.
-     * @param mail - The mail against which the Command is executed.
-     * @param arguments - The Command arguments
-     * @param block - An optional Block to be evaluated
-     * @param context <code>SieveContext</code> containing contextual information,
-     * not null
-     * @return Object - The result of evaluating the Command
-     * @throws SieveException
+     * Constructor for SieveException.
      */
-    public Object execute(MailAdapter mail, Arguments arguments, Block block, 
-            SieveContext context) throws SieveException;
+    public SieveException()
+    {
+        super();
+    }
+
+    /**
+     * Constructor for SieveException.
+     * @param message
+     */
+    public SieveException(String message)
+    {
+        super(message);
+    }
+
+    /**
+     * Constructor for SieveException.
+     * @param message
+     * @param cause
+     */
+    public SieveException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
+
+    /**
+     * Constructor for SieveException.
+     * @param cause
+     */
+    public SieveException(Throwable cause)
+    {
+        super(cause);
+    }
 
 }

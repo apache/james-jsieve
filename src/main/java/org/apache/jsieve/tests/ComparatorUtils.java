@@ -18,7 +18,7 @@
  ****************************************************************/
 
 
-package org.apache.jsieve.comparators;
+package org.apache.jsieve.tests;
 
 import org.apache.oro.text.GlobCompiler;
 import org.apache.oro.text.regex.MalformedPatternException;
@@ -27,6 +27,10 @@ import org.apache.oro.text.regex.PatternMatcher;
 import org.apache.oro.text.regex.Perl5Matcher;
 
 import org.apache.jsieve.*;
+import org.apache.jsieve.comparators.Contains;
+import org.apache.jsieve.comparators.Equals;
+import org.apache.jsieve.comparators.MatchTypeTags;
+import org.apache.jsieve.comparators.Matches;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;

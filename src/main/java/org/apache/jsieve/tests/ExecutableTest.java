@@ -22,7 +22,7 @@ package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**

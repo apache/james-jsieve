@@ -19,7 +19,7 @@
 
 package org.apache.jsieve.junit;
 
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.tests.Address;
 

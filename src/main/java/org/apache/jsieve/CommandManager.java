@@ -21,7 +21,7 @@
 package org.apache.jsieve;
 import java.util.Map;
 
-import org.apache.jsieve.commands.ExecutableCommand;
+import org.apache.jsieve.exception.LookupException;
 
 /**
  * Singleton class <code>CommandManager</code> maps Command names to configured

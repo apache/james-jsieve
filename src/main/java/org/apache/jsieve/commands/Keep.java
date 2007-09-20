@@ -23,7 +23,7 @@ package org.apache.jsieve.commands;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 

@@ -26,14 +26,13 @@ import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import org.apache.jsieve.InternetAddressException;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.comparators.ComparatorUtils;
+import org.apache.jsieve.exception.InternetAddressException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.mail.optional.EnvelopeAccessors;
 import org.apache.jsieve.tests.AbstractCompatatorTest;
-import org.apache.jsieve.tests.Address;
 
 /**
  * Class Envelope implements the optional Envelope Test as defined in RFC 3028, 

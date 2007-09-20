@@ -18,16 +18,50 @@
  ****************************************************************/
 
 
-package org.apache.jsieve.tests;
+package org.apache.jsieve.exception;
 
 /**
- * Interface MatchTypeTags defines the String constants used to specify
- * an MATCH-TYPE tag. 
+ * Class <code>TestException</code> indicates an exceptional condition encountered
+ * while executing a Test.
+ * 
  */
-public interface MatchTypeTags
+public class TestException extends OperationException
 {
-    public static final String IS_TAG = ":is";
-    public static final String CONTAINS_TAG = ":contains";
-    public static final String MATCHES_TAG = ":matches";         
+
+    /**
+     * Constructor for TestException.
+     */
+    public TestException()
+    {
+        super();
+    }
+
+    /**
+     * Constructor for TestException.
+     * @param message
+     */
+    public TestException(String message)
+    {
+        super(message);
+    }
+
+    /**
+     * Constructor for TestException.
+     * @param message
+     * @param cause
+     */
+    public TestException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
+
+    /**
+     * Constructor for TestException.
+     * @param cause
+     */
+    public TestException(Throwable cause)
+    {
+        super(cause);
+    }
 
 }

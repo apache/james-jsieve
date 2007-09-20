@@ -18,7 +18,7 @@
  ****************************************************************/
 
 
-package org.apache.jsieve.commands;
+package org.apache.jsieve;
 
 /**
  * Thread singleton class CommandStateManager records the state of a Sieve evaluation.
@@ -172,7 +172,7 @@ public class CommandStateManager
      * Sets the hasActions.
      * @param hasActions The hasActions to set
      */
-    protected void setHasActions(boolean hasActions)
+    public void setHasActions(boolean hasActions)
     {
         fieldHasActions = hasActions;
     }
@@ -181,7 +181,7 @@ public class CommandStateManager
      * Sets the inProlog.
      * @param inProlog The inProlog to set
      */
-    protected void setInProlog(boolean inProlog)
+    public void setInProlog(boolean inProlog)
     {
         fieldInProlog = inProlog;
     }
@@ -208,7 +208,7 @@ public class CommandStateManager
      * Sets the implicitKeep.
      * @param implicitKeep The implicitKeep to set
      */
-    protected void setImplicitKeep(boolean implicitKeep)
+    public void setImplicitKeep(boolean implicitKeep)
     {
         fieldImplicitKeep = implicitKeep;
     }

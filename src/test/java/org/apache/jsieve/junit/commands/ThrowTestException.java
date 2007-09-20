@@ -22,9 +22,9 @@ package org.apache.jsieve.junit.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.ExecutableCommand;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.commands.ExecutableCommand;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -85,7 +85,7 @@ public class ThrowTestException implements ExecutableCommand
     }
 
     /**
-     * @see org.apache.jsieve.commands.ExecutableCommand#execute(MailAdapter, Arguments, Block, SieveContext)
+     * @see org.apache.jsieve.ExecutableCommand#execute(MailAdapter, Arguments, Block, SieveContext)
      */
     public Object execute(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
         throws SieveException

@@ -22,12 +22,12 @@ package org.apache.jsieve.junit;
 
 import junit.framework.TestCase;
 
-import org.apache.jsieve.CommandException;
 import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.FeatureException;
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TestManager;
+import org.apache.jsieve.exception.CommandException;
+import org.apache.jsieve.exception.FeatureException;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.junit.utils.*;
 import org.apache.jsieve.parser.generated.ParseException;
 

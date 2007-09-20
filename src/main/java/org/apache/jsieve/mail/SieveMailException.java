@@ -20,7 +20,7 @@
 
 package org.apache.jsieve.mail;
 
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 
 /**
  * Class <code>SieveMailException</code> indicates an exceptional condition 

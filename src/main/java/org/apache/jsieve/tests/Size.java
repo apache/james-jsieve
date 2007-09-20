@@ -25,9 +25,9 @@ import java.util.ListIterator;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.NumberArgument;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TagArgument;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 

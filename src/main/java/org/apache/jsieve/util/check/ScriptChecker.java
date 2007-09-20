@@ -28,8 +28,8 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.ActionRedirect;

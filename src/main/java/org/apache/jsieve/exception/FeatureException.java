@@ -18,47 +18,47 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.exception;
 
 /**
- * Class <code>StopException</code> indicates that evaluation should be terminated.
- * Typically, this exception is thrown when a Stop Command is encountered.
+ * Class FeatureException indicates an exceptional condition encountered while
+ * evaluating a feature of Sieve.
  */
-public class StopException extends SieveException
+public class FeatureException extends SieveException
 {
 
     /**
-     * Constructor for StopException.
+     * Constructor for FeatureException.
      */
-    public StopException()
+    public FeatureException()
     {
         super();
     }
 
     /**
-     * Constructor for StopException.
+     * Constructor for FeatureException.
      * @param message
      */
-    public StopException(String message)
+    public FeatureException(String message)
     {
         super(message);
     }
 
     /**
-     * Constructor for StopException.
+     * Constructor for FeatureException.
      * @param message
      * @param cause
      */
-    public StopException(String message, Throwable cause)
+    public FeatureException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
     /**
-     * Constructor for StopException.
+     * Constructor for FeatureException.
      * @param cause
      */
-    public StopException(Throwable cause)
+    public FeatureException(Throwable cause)
     {
         super(cause);
     }

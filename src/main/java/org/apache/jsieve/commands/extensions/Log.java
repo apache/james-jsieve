@@ -27,11 +27,11 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.Logger;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.commands.AbstractCommand;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**

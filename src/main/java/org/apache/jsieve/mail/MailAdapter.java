@@ -23,8 +23,8 @@ package org.apache.jsieve.mail;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.jsieve.InternetAddressException;
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.InternetAddressException;
+import org.apache.jsieve.exception.SieveException;
 
 /**
  * <p>Interface <code>MailAdapter</code> defines the minimum functionality required of

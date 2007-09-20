@@ -18,48 +18,47 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.exception;
 
 /**
- * Class <code>TestException</code> indicates an exceptional condition encountered
- * while executing a Test.
- * 
+ * Class InternetAddressException indicates an exceptional condition encountered 
+ * while evaluating an Internet Address.
  */
-public class TestException extends OperationException
+public class InternetAddressException extends SieveException
 {
 
     /**
-     * Constructor for TestException.
+     * Constructor for InternetAddressException.
      */
-    public TestException()
+    public InternetAddressException()
     {
         super();
     }
 
     /**
-     * Constructor for TestException.
+     * Constructor for InternetAddressException.
      * @param message
      */
-    public TestException(String message)
+    public InternetAddressException(String message)
     {
         super(message);
     }
 
     /**
-     * Constructor for TestException.
+     * Constructor for InternetAddressException.
      * @param message
      * @param cause
      */
-    public TestException(String message, Throwable cause)
+    public InternetAddressException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
     /**
-     * Constructor for TestException.
+     * Constructor for InternetAddressException.
      * @param cause
      */
-    public TestException(Throwable cause)
+    public InternetAddressException(Throwable cause)
     {
         super(cause);
     }

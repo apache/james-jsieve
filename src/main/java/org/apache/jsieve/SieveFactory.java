@@ -24,8 +24,8 @@ import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 
-import org.apache.jsieve.commands.CommandStateManager;
-import org.apache.jsieve.commands.ConditionManager;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.StopException;
 import org.apache.jsieve.mail.*;
 import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.parser.generated.ParseException;

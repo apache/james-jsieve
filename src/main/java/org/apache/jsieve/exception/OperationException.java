@@ -18,47 +18,48 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.exception;
 
 /**
- * Class <code>SieveException</code> indicates an exceptional condition encountered
- * within Sieve.
+ * Class <code>OperationException</code> indicates an exceptional condition 
+ * encountered while executing an Operation.
+ * 
  */
-public class SieveException extends Exception
+public class OperationException extends SieveException
 {
 
     /**
-     * Constructor for SieveException.
+     * Constructor for OperationException.
      */
-    public SieveException()
+    public OperationException()
     {
         super();
     }
 
     /**
-     * Constructor for SieveException.
+     * Constructor for OperationException.
      * @param message
      */
-    public SieveException(String message)
+    public OperationException(String message)
     {
         super(message);
     }
 
     /**
-     * Constructor for SieveException.
+     * Constructor for OperationException.
      * @param message
      * @param cause
      */
-    public SieveException(String message, Throwable cause)
+    public OperationException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
     /**
-     * Constructor for SieveException.
+     * Constructor for OperationException.
      * @param cause
      */
-    public SieveException(Throwable cause)
+    public OperationException(Throwable cause)
     {
         super(cause);
     }

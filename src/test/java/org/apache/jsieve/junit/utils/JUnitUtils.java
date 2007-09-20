@@ -26,8 +26,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 

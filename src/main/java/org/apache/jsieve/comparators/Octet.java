@@ -20,7 +20,7 @@
 
 package org.apache.jsieve.comparators;
 
-import org.apache.jsieve.SievePatternException;
+import org.apache.jsieve.exception.SievePatternException;
 
 /**
  * Class Octet implements the EQUALITY operation of the i;octet comparator as defined

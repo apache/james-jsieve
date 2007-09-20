@@ -20,8 +20,9 @@
 
 package org.apache.jsieve.commands;
 
-import org.apache.jsieve.CommandException;
+import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.exception.CommandException;
 
 /**
  * Abstract class AbstractActionCommand defines the common state validation and state

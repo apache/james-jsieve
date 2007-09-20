@@ -18,47 +18,47 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.exception;
 
 /**
- * Class InternetAddressException indicates an exceptional condition encountered 
- * while evaluating an Internet Address.
+ * Class <code>SievePatternException</code> indicates an exceptional condition 
+ * encountered while evaluating a glob expression.
  */
-public class InternetAddressException extends SieveException
+public class SievePatternException extends SieveException
 {
 
     /**
-     * Constructor for InternetAddressException.
+     * Constructor for SievePatternException.
      */
-    public InternetAddressException()
+    public SievePatternException()
     {
         super();
     }
 
     /**
-     * Constructor for InternetAddressException.
+     * Constructor for SievePatternException.
      * @param message
      */
-    public InternetAddressException(String message)
+    public SievePatternException(String message)
     {
         super(message);
     }
 
     /**
-     * Constructor for InternetAddressException.
+     * Constructor for SievePatternException.
      * @param message
      * @param cause
      */
-    public InternetAddressException(String message, Throwable cause)
+    public SievePatternException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
     /**
-     * Constructor for InternetAddressException.
+     * Constructor for SievePatternException.
      * @param cause
      */
-    public InternetAddressException(Throwable cause)
+    public SievePatternException(Throwable cause)
     {
         super(cause);
     }

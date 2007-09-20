@@ -23,6 +23,7 @@ package org.apache.jsieve;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.*;
 
 /**

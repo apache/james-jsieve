@@ -20,20 +20,16 @@
 package org.apache.jsieve.tests.optional;
 
 import java.lang.String;
-import java.lang.ClassCastException;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-
-import org.apache.jsieve.SieveException;
-import org.apache.jsieve.SyntaxException;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.tests.AbstractTest;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 

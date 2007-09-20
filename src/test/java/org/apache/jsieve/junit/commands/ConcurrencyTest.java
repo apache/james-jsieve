@@ -19,8 +19,8 @@
 
 package org.apache.jsieve.junit.commands;
 
-import org.apache.jsieve.commands.CommandStateManager;
-import org.apache.jsieve.commands.ConditionManager;
+import org.apache.jsieve.CommandStateManager;
+import org.apache.jsieve.ConditionManager;
 
 import junit.framework.TestCase;
 

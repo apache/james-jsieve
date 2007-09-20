@@ -20,47 +20,25 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.mail.MailAdapter;
+
 /**
- * Class <code>SievePatternException</code> indicates an exceptional condition 
- * encountered while evaluating a glob expression.
+ * Interface ExecutableCommand defines the method signatures for Sieve Commands. 
  */
-public class SievePatternException extends SieveException
+public interface ExecutableCommand
 {
-
     /**
-     * Constructor for SievePatternException.
+     * Method execute executes a Sieve Command.
+     * @param mail - The mail against which the Command is executed.
+     * @param arguments - The Command arguments
+     * @param block - An optional Block to be evaluated
+     * @param context <code>SieveContext</code> containing contextual information,
+     * not null
+     * @return Object - The result of evaluating the Command
+     * @throws SieveException
      */
-    public SievePatternException()
-    {
-        super();
-    }
-
-    /**
-     * Constructor for SievePatternException.
-     * @param message
-     */
-    public SievePatternException(String message)
-    {
-        super(message);
-    }
-
-    /**
-     * Constructor for SievePatternException.
-     * @param message
-     * @param cause
-     */
-    public SievePatternException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
-
-    /**
-     * Constructor for SievePatternException.
-     * @param cause
-     */
-    public SievePatternException(Throwable cause)
-    {
-        super(cause);
-    }
+    public Object execute(MailAdapter mail, Arguments arguments, Block block, 
+            SieveContext context) throws SieveException;
 
 }

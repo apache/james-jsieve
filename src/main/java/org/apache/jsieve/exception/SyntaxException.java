@@ -18,7 +18,7 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.exception;
 
 /**
  * Class <code>SyntaxException</code> indicates an exceptional condition encountered

@@ -20,6 +20,8 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.SieveException;
+
 /**
  * Class <code>SieveConfigurationException</code> indicates an exceptional condition
  * encountered while evaluating the Sieve configuration.

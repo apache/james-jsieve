@@ -26,12 +26,12 @@ import java.util.List;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.FeatureException;
-import org.apache.jsieve.LookupException;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TestManager;
+import org.apache.jsieve.exception.FeatureException;
+import org.apache.jsieve.exception.LookupException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**

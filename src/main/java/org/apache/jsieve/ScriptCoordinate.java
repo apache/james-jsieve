@@ -20,6 +20,8 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
+import org.apache.jsieve.exception.CommandException;
+import org.apache.jsieve.exception.SyntaxException;
 
 /**
  * Specifies the positional extent of an element 

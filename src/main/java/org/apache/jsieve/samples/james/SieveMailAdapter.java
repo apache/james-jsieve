@@ -32,7 +32,8 @@ import java.util.Set;
 import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import org.apache.jsieve.SieveException;
+
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
@@ -313,7 +314,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
         String recipient = null;
         Iterator recipientIter = getMail().getRecipients().iterator();
         if (recipientIter.hasNext())
-            recipient = (String) recipientIter.next().toString();
+            recipient = recipientIter.next().toString();
         return recipient;
     }
     /**

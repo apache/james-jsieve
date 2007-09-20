@@ -32,7 +32,7 @@ import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;

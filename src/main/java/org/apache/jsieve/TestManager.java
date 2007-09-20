@@ -21,6 +21,7 @@
 package org.apache.jsieve;
 import java.util.Map;
 
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**

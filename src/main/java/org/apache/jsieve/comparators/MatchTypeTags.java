@@ -18,49 +18,16 @@
  ****************************************************************/
 
 
-package org.apache.jsieve;
+package org.apache.jsieve.comparators;
 
 /**
- * Class FeatureException indicates an exceptional condition encountered while
- * evaluating a feature of Sieve.
+ * Interface MatchTypeTags defines the String constants used to specify
+ * an MATCH-TYPE tag. 
  */
-public class FeatureException extends SieveException
+public interface MatchTypeTags
 {
-
-    /**
-     * Constructor for FeatureException.
-     */
-    public FeatureException()
-    {
-        super();
-    }
-
-    /**
-     * Constructor for FeatureException.
-     * @param message
-     */
-    public FeatureException(String message)
-    {
-        super(message);
-    }
-
-    /**
-     * Constructor for FeatureException.
-     * @param message
-     * @param cause
-     */
-    public FeatureException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
-
-    /**
-     * Constructor for FeatureException.
-     * @param cause
-     */
-    public FeatureException(Throwable cause)
-    {
-        super(cause);
-    }
+    public static final String IS_TAG = ":is";
+    public static final String CONTAINS_TAG = ":contains";
+    public static final String MATCHES_TAG = ":matches";         
 
 }

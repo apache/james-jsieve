@@ -21,8 +21,8 @@
 package org.apache.jsieve.junit;
 
 import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.TestManager;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 

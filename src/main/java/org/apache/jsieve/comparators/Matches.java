@@ -20,7 +20,7 @@
 
 package org.apache.jsieve.comparators;
 
-import org.apache.jsieve.SieveException;
+import org.apache.jsieve.exception.SieveException;
 
 /**
  * Interface Matches defines the method signatures for matches comparators.

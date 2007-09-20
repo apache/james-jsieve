@@ -22,6 +22,7 @@ package org.apache.jsieve;
 import java.util.Map;
 
 import org.apache.jsieve.comparators.Comparator;
+import org.apache.jsieve.exception.LookupException;
 
 /**
  * Singleton class <code>ComparatorManager</code> maps Comparator names to configured

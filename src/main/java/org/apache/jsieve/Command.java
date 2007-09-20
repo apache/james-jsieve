@@ -21,6 +21,7 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**

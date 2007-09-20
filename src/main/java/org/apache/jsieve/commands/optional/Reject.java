@@ -24,12 +24,12 @@ import java.util.List;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.CommandException;
+import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.commands.AbstractActionCommand;
-import org.apache.jsieve.commands.CommandStateManager;
+import org.apache.jsieve.exception.CommandException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.mail.MailAdapter;
 

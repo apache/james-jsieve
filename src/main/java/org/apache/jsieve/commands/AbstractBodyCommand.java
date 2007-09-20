@@ -20,6 +20,8 @@
 
 package org.apache.jsieve.commands;
 
+import org.apache.jsieve.CommandStateManager;
+
 
 /**
  * Abstract class AbstractBodyCommand defines the common state update behavior for 

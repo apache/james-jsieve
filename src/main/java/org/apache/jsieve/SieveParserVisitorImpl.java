@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.*;
 import org.apache.jsieve.parser.generated.*;
 

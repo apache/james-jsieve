@@ -18,7 +18,7 @@
  ****************************************************************/
 
 
-package org.apache.jsieve.commands;
+package org.apache.jsieve;
 
 /**
  * Thread singleton class ConditionManager manages Conditional Commands during a
@@ -196,7 +196,7 @@ public class ConditionManager
      * Sets the current conditionManager.
      * @param conditionManager The conditionManager to set
      */
-    static protected void setInstance(ConditionManager conditionManager)
+    public static void setInstance(ConditionManager conditionManager)
     {
         fieldInstance.set(conditionManager);
     }

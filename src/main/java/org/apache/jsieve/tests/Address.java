@@ -20,14 +20,9 @@
 
 package org.apache.jsieve.tests;
 
-import java.util.Iterator;
-
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
-import org.apache.jsieve.InternetAddressException;
-import org.apache.jsieve.SieveException;
 import org.apache.jsieve.comparators.ComparatorUtils;
+import org.apache.jsieve.exception.InternetAddressException;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 

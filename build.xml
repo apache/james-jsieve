@@ -47,8 +47,6 @@
     -->
 
     <path id="project.class.path">
-        <pathelement location="${xercesImpl.jar}"/>
-        <pathelement location="${xmlApis.jar}"/>        
         <pathelement location="${javax-mail.jar}"/>
         <pathelement location="${javax-activation.jar}"/>
         <pathelement location="${commons-digester.jar}"/>
@@ -376,8 +374,6 @@
       </copy>
 
       <!--Copies the required support jars -->
-      <copy todir="${dist.dir}/lib" file="${xercesImpl.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${xmlApis.jar}"/>        
       <copy todir="${dist.dir}/lib" file="${javax-mail.jar}"/>
       <copy todir="${dist.dir}/lib" file="${javax-activation.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-digester.jar}"/>

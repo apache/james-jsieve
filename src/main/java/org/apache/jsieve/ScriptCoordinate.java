@@ -140,7 +140,7 @@ public final class ScriptCoordinate {
         if (message instanceof StringBuffer) {
             buffer = (StringBuffer) message;
         } else {
-            buffer = new StringBuffer(message);
+            buffer = new StringBuffer(message.toString());
         }
         buffer.append(" Line ");
         buffer.append(startLineNumber);

@@ -17,28 +17,31 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Interface ExecutableCommand defines the method signatures for Sieve Commands. 
+ * Interface ExecutableCommand defines the method signatures for Sieve Commands.
  */
-public interface ExecutableCommand
-{
+public interface ExecutableCommand {
     /**
      * Method execute executes a Sieve Command.
-     * @param mail - The mail against which the Command is executed.
-     * @param arguments - The Command arguments
-     * @param block - An optional Block to be evaluated
-     * @param context <code>SieveContext</code> containing contextual information,
-     * not null
+     * 
+     * @param mail -
+     *                The mail against which the Command is executed.
+     * @param arguments -
+     *                The Command arguments
+     * @param block -
+     *                An optional Block to be evaluated
+     * @param context
+     *                <code>SieveContext</code> containing contextual
+     *                information, not null
      * @return Object - The result of evaluating the Command
      * @throws SieveException
      */
-    public Object execute(MailAdapter mail, Arguments arguments, Block block, 
+    public Object execute(MailAdapter mail, Arguments arguments, Block block,
             SieveContext context) throws SieveException;
 
 }

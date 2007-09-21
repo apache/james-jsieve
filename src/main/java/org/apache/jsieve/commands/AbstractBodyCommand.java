@@ -17,36 +17,37 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.CommandStateManager;
 
-
 /**
- * Abstract class AbstractBodyCommand defines the common state update behavior for 
- * Body Commands. All Commands which are not PrologCommands are Body Commands. 
+ * Abstract class AbstractBodyCommand defines the common state update behavior
+ * for Body Commands. All Commands which are not PrologCommands are Body
+ * Commands.
  */
-public abstract class AbstractBodyCommand extends AbstractCommand
-{
+public abstract class AbstractBodyCommand extends AbstractCommand {
 
     /**
      * Constructor for AbstractBodyCommand.
      */
-    public AbstractBodyCommand()
-    {
+    public AbstractBodyCommand() {
         super();
     }
-    
+
     /**
-     * <p>Method updateState() updates the CommandStateManager to indicate a Body
-     * Command has been processed.</p>
+     * <p>
+     * Method updateState() updates the CommandStateManager to indicate a Body
+     * Command has been processed.
+     * </p>
      * 
-     * <p>Also, @see org.apache.jsieve.commands.AbstractCommand#updateState()
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#updateState()
      */
-    protected void updateState()
-    {
-        CommandStateManager.getInstance().setInProlog(false);              
-    }    
+    protected void updateState() {
+        CommandStateManager.getInstance().setInProlog(false);
+    }
 
 }

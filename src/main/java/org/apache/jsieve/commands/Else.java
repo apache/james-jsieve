@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
@@ -30,50 +29,46 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Else implements the Else Command as defined in RFC 3028, section 3.1.
  */
-public class Else extends AbstractConditionalCommand
-{
-    
+public class Else extends AbstractConditionalCommand {
+
     /**
      * Constructor for Else.
      */
-    public Else()
-    {
+    public Else() {
         super();
-    }    
+    }
 
     /**
-     * <p>Conditionally eexecute a Block if an Else Condition is runnable.</p> 
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Conditionally eexecute a Block if an Else Condition is runnable.
      * </p>
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
      */
-    protected Object executeBasic(
-        MailAdapter mail,
-        Arguments arguments,
-        Block block, SieveContext context)
-        throws SieveException
-    {
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
         // Check Syntax
         if (!ConditionManager.getInstance().isElseAllowed())
-            throw context.getCoordinate().commandException("Unexpected Command: \"else\".");
+            throw context.getCoordinate().commandException(
+                    "Unexpected Command: \"else\".");
 
-        // Check Runnable                
+        // Check Runnable
         if (!ConditionManager.getInstance().isElseRunnable())
             return Boolean.FALSE;
 
-        // Execute the Block 
+        // Execute the Block
         execute(mail, block);
 
         // Update the ConditionManager
-        // 'Else' is always true             
+        // 'Else' is always true
         ConditionManager.getInstance().setElseTestResult(true);
 
         // Return the result
         return Boolean.TRUE;
     }
-
-
-
-
 
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
@@ -30,26 +29,28 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Keep implements the Keep Command as defined in RFC 3028, section 4.4.
  */
-public class Keep extends AbstractActionCommand
-{
+public class Keep extends AbstractActionCommand {
 
     /**
      * Constructor for Keep.
      */
-    public Keep()
-    {
+    public Keep() {
         super();
     }
 
     /**
-     * <p>Add an ActionKeep to the List of Actions to be performed.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Add an ActionKeep to the List of Actions to be performed.
      * </p>
-     */ 
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {                 
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
         mail.addAction(new ActionKeep());
         return null;
     }

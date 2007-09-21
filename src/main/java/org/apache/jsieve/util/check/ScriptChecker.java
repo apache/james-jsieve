@@ -37,43 +37,50 @@ import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
- * Checks a <code>sieve</code> script by executing it against a given mail
- * and reporting the results. 
+ * Checks a <code>sieve</code> script by executing it against a given mail and
+ * reporting the results.
  */
 public class ScriptChecker {
 
     private final ScriptCheckMailAdapter adapter;
-    
+
     public ScriptChecker() {
         adapter = new ScriptCheckMailAdapter();
     }
-    
+
     /**
-     * Checks the <code>sieve</code> script contained in the given file
-     * by executing it against the given message.
-     * @param message <code>File</code> containing the mail message to be fed to the script,
-     * not null
-     * @param script <code>File</code> containing the script to be checked
+     * Checks the <code>sieve</code> script contained in the given file by
+     * executing it against the given message.
+     * 
+     * @param message
+     *                <code>File</code> containing the mail message to be fed
+     *                to the script, not null
+     * @param script
+     *                <code>File</code> containing the script to be checked
      * @return <code>Results</code> of that execution
      * @throws IOException
      * @throws MessageException
      */
-    public Results check(final File message, final File script) throws IOException, MessagingException {
+    public Results check(final File message, final File script)
+            throws IOException, MessagingException {
         final FileInputStream messageStream = new FileInputStream(message);
         final FileInputStream scriptStream = new FileInputStream(script);
         final Results results = check(messageStream, scriptStream);
         return results;
     }
-    
+
     /**
-     * Checks the <code>sieve</code> script contained in the given file
-     * by executing it against the given message.
-     * @param script <code>InputStream</code>, not null
+     * Checks the <code>sieve</code> script contained in the given file by
+     * executing it against the given message.
+     * 
+     * @param script
+     *                <code>InputStream</code>, not null
      * @return <code>Results</code> of the check, not null
      * @throws IOException
-     * @throws MessagingException 
+     * @throws MessagingException
      */
-    public Results check(final InputStream message, final InputStream script) throws IOException, MessagingException {
+    public Results check(final InputStream message, final InputStream script)
+            throws IOException, MessagingException {
         MimeMessage mimeMessage = new MimeMessage(null, message);
         adapter.setMail(mimeMessage);
         Results results;
@@ -90,31 +97,34 @@ public class ScriptChecker {
         }
         return results;
     }
-    
+
     /**
      * Contains results of script execution.
      */
     public final static class Results {
         private final boolean pass;
+
         private final Exception exception;
+
         private final List actionsExecuted;
-        
+
         public Results(final Exception ex) {
             this.exception = ex;
             pass = false;
             actionsExecuted = null;
         }
-        
+
         public Results(final List actions) {
             this.pass = true;
             exception = null;
             this.actionsExecuted = actions;
         }
-        
+
         /**
          * Is this a pass?
-         * @return true if the script executed without error,
-         * false if errors were encountered
+         * 
+         * @return true if the script executed without error, false if errors
+         *         were encountered
          */
         public boolean isPass() {
             return pass;
@@ -122,18 +132,17 @@ public class ScriptChecker {
 
         /**
          * Gets the exception which was thrown during execution.
-         * @return <code>Exception</code> or null if no exception
-         * was thrown
+         * 
+         * @return <code>Exception</code> or null if no exception was thrown
          */
         public Exception getException() {
             return exception;
         }
-        
-        
+
         /**
          * Gets the actions executed by the script.
-         * @return <code>List</code> of actions
-         * or null if the script failed
+         * 
+         * @return <code>List</code> of actions or null if the script failed
          */
         public List getActionsExecuted() {
             return actionsExecuted;
@@ -156,7 +165,7 @@ public class ScriptChecker {
             }
             return result;
         }
-        
+
         /**
          * Is the <code>n<code>'th action a <code>Redirect</code>
          * with given address?
@@ -174,7 +183,7 @@ public class ScriptChecker {
             }
             return result;
         }
-        
+
         /**
          * Is the <code>n<code>'th action a <code>Reject</code>
          * with given message?
@@ -192,8 +201,8 @@ public class ScriptChecker {
             }
             return result;
         }
-        
-         /**
+
+        /**
          * Is the <code>n<code>'th action a <code>Keep</code>?
          * @param n index to check
          * @return  true if the <code>n<code>'th action is a <code>Keep</code>
@@ -206,7 +215,7 @@ public class ScriptChecker {
             }
             return result;
         }
-        
+
         /**
          * Prints out details of results.
          */
@@ -214,9 +223,9 @@ public class ScriptChecker {
             StringBuffer buffer = new StringBuffer("Results: ");
             if (pass) {
                 buffer.append("PASS");
-            } else { 
+            } else {
                 buffer.append("FAIL: ");
-                if (exception != null){
+                if (exception != null) {
                     if (exception instanceof ParseException) {
                         buffer.append("Cannot parse script");
                     } else {

@@ -17,22 +17,19 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 /**
- * Abstract class AbstractControlCommand defines a framework of common behavior 
- * for control Commands as defined in RFC 3028, section 3. 
+ * Abstract class AbstractControlCommand defines a framework of common behavior
+ * for control Commands as defined in RFC 3028, section 3.
  */
 
-public abstract class AbstractControlCommand extends AbstractBodyCommand
-{
+public abstract class AbstractControlCommand extends AbstractBodyCommand {
 
     /**
      * Constructor for AbstractControlCommand.
      */
-    public AbstractControlCommand()
-    {
+    public AbstractControlCommand() {
         super();
     }
 

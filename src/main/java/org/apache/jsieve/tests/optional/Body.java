@@ -35,55 +35,49 @@ import org.apache.jsieve.mail.SieveMailException;
 
 /**
  * This implements a single subset of the 'body' Sieve test as define here:
- *     http://tools.ietf.org/html/draft-ietf-sieve-body-00
- **/
-public class Body extends AbstractTest
-{
+ * http://tools.ietf.org/html/draft-ietf-sieve-body-00
+ */
+public class Body extends AbstractTest {
     private StringListArgument strings;
 
-    public Body()
-    {
+    public Body() {
         super();
         strings = null;
     }
 
     // Validate (sorta); we're only implementing part of the spec
     protected void validateArguments(Arguments args, SieveContext ctx)
-        throws SieveException
-    {
+            throws SieveException {
 
         List arglist = args.getArgumentList();
         if (arglist.size() != 2) {
-            throw new SyntaxException("Currently body-test can only two arguments");
+            throw new SyntaxException(
+                    "Currently body-test can only two arguments");
         }
 
         // FIXME: As this is a limited implementation force the use of
         // ':contains'.
         Object arg = arglist.get(0);
-        if (! (arg instanceof TagArgument)) {
+        if (!(arg instanceof TagArgument)) {
             throw new SyntaxException("Body expects a :contains tag");
         }
 
-        if (! ((TagArgument) arg).getTag().equals(":contains")) {
+        if (!((TagArgument) arg).getTag().equals(":contains")) {
             throw new SyntaxException("Body expects a :contains tag");
         }
 
         // Get list of strings to search for
         arg = arglist.get(1);
-        if (! (arg instanceof StringListArgument)) {
+        if (!(arg instanceof StringListArgument)) {
             throw new SyntaxException("Body expects a list of strings");
         }
         strings = (StringListArgument) args.getArgumentList().get(1);
     }
 
-
     // This implement body tests of the form
-    //   "body :contains ['string' 'string' ....]"
-    protected boolean executeBasic(MailAdapter mail,
-                                   Arguments args,
-                                   SieveContext ctx)
-        throws SieveException
-    {
+    // "body :contains ['string' 'string' ....]"
+    protected boolean executeBasic(MailAdapter mail, Arguments args,
+            SieveContext ctx) throws SieveException {
         // Attempt to fetch content as a string. If we can't do this it's
         // not a message we can handle.
         if (mail.getContentType().indexOf("text/") != 0) {
@@ -91,7 +85,6 @@ public class Body extends AbstractTest
         }
         String body = (String) mail.getContent();
         body = body.toLowerCase();
-
 
         // Compare each test string with body, ignoring case
         ListIterator iter = strings.getList().listIterator();
@@ -103,7 +96,5 @@ public class Body extends AbstractTest
         }
         return false;
     }
-
-
 
 }

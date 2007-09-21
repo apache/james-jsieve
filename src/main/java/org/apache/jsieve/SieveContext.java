@@ -21,19 +21,22 @@ package org.apache.jsieve;
 
 /**
  * Context for sieve operations.
- *
+ * 
  */
 public abstract class SieveContext {
 
     /**
      * Gets the script position of the current operation.
+     * 
      * @return <code>ScriptCoordinate</code>, not null
      */
     public abstract ScriptCoordinate getCoordinate();
-    
+
     /**
      * Sets the script position of the current operation.
-     * @param coordinate <code>ScriptCoordinate</code>, not null
+     * 
+     * @param coordinate
+     *                <code>ScriptCoordinate</code>, not null
      */
     public abstract void setCoordinate(ScriptCoordinate coordinate);
 }

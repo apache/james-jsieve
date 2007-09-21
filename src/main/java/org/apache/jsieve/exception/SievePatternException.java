@@ -17,49 +17,46 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>SievePatternException</code> indicates an exceptional condition 
+ * Class <code>SievePatternException</code> indicates an exceptional condition
  * encountered while evaluating a glob expression.
  */
-public class SievePatternException extends SieveException
-{
+public class SievePatternException extends SieveException {
 
     /**
      * Constructor for SievePatternException.
      */
-    public SievePatternException()
-    {
+    public SievePatternException() {
         super();
     }
 
     /**
      * Constructor for SievePatternException.
+     * 
      * @param message
      */
-    public SievePatternException(String message)
-    {
+    public SievePatternException(String message) {
         super(message);
     }
 
     /**
      * Constructor for SievePatternException.
+     * 
      * @param message
      * @param cause
      */
-    public SievePatternException(String message, Throwable cause)
-    {
+    public SievePatternException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for SievePatternException.
+     * 
      * @param cause
      */
-    public SievePatternException(Throwable cause)
-    {
+    public SievePatternException(Throwable cause) {
         super(cause);
     }
 

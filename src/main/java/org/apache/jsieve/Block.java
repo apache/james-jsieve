@@ -17,72 +17,70 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * <p>A parsed representation of the RFC3028 BNF...</p>
+ * <p>
+ * A parsed representation of the RFC3028 BNF...
+ * </p>
  * 
  * <code>block = "{" commands "}"</code>
  * 
  */
-public class Block implements Executable
-{
+public class Block implements Executable {
     /**
      * The chilren of the Block
-     */ 
+     */
     private Commands fieldChildren;
 
     /**
      * Constructor for Block.
      */
-    private Block()
-    {
+    private Block() {
         super();
     }
-    
+
     /**
      * Constructor for Block.
+     * 
      * @param commands
      */
-    public Block(Commands commands)
-    {
+    public Block(Commands commands) {
         this();
         setChildren(commands);
-    }    
+    }
 
     /**
      * Returns the commands.
+     * 
      * @return Commands
      */
-    public Commands getChildren()
-    {
+    public Commands getChildren() {
         return fieldChildren;
     }
 
     /**
      * Sets the commands.
-     * @param commands The commands to set
+     * 
+     * @param commands
+     *                The commands to set
      */
-    protected void setChildren(Commands commands)
-    {
+    protected void setChildren(Commands commands) {
         fieldChildren = commands;
     }
 
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter)
      */
-    public Object execute(MailAdapter mail) throws SieveException
-    {
-        return getChildren().execute(mail); 
+    public Object execute(MailAdapter mail) throws SieveException {
+        return getChildren().execute(mail);
     }
 
     public String toString() {
         return "BLOCK: " + getChildren();
     }
 
-    
 }

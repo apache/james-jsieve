@@ -17,50 +17,45 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 import org.apache.jsieve.exception.SievePatternException;
 
 /**
- * Class Octet implements the EQUALITY operation of the i;octet comparator as defined
- * by RFC2244, section 3.4 - "For the equality function, two strings are equal if 
- * they are the same length and contain the same octets in the same order. NIL is
- * equal only to itself".
+ * Class Octet implements the EQUALITY operation of the i;octet comparator as
+ * defined by RFC2244, section 3.4 - "For the equality function, two strings are
+ * equal if they are the same length and contain the same octets in the same
+ * order. NIL is equal only to itself".
  */
-public class Octet implements Comparator
-{
+public class Octet implements Comparator {
 
     /**
      * Constructor for Octet.
      */
-    public Octet()
-    {
+    public Octet() {
         super();
     }
 
     /**
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
-    public boolean equals(String string1, String string2)
-    {
+    public boolean equals(String string1, String string2) {
         return ComparatorUtils.equals(string1, string2);
     }
 
     /**
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
-    public boolean contains(String container, String content)
-    {
+    public boolean contains(String container, String content) {
         return ComparatorUtils.contains(container, content);
     }
 
     /**
      * @see org.apache.jsieve.comparators.Matches#matches(String, String)
      */
-    public boolean matches(String string, String glob) throws SievePatternException
-    {
-       return ComparatorUtils.matches(string, glob);      
+    public boolean matches(String string, String glob)
+            throws SievePatternException {
+        return ComparatorUtils.matches(string, glob);
     }
 
 }

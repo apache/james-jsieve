@@ -17,60 +17,53 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 /**
- * Class ActionRedirect encapsulates the information required to redirect a mail.
- * See RFC 3028, Section 4.3.
+ * Class ActionRedirect encapsulates the information required to redirect a
+ * mail. See RFC 3028, Section 4.3.
  */
-public class ActionRedirect implements Action
-{
+public class ActionRedirect implements Action {
     private String fieldAddress;
 
     /**
      * Constructor for ActionRedirect.
      */
-    private ActionRedirect()
-    {
+    private ActionRedirect() {
         super();
     }
-    
+
     /**
      * Constructor for ActionRedirect.
      */
-    public ActionRedirect(String address)
-    {
+    public ActionRedirect(String address) {
         this();
         setAddress(address);
     }
-    
+
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
-        return "Action: "
-            + getClass().getName()
-            + ", address: "
-            + getAddress();
-    }        
+    public String toString() {
+        return "Action: " + getClass().getName() + ", address: " + getAddress();
+    }
 
     /**
      * Returns the address.
+     * 
      * @return String
      */
-    public String getAddress()
-    {
+    public String getAddress() {
         return fieldAddress;
     }
 
     /**
      * Sets the address.
-     * @param address The address to set
+     * 
+     * @param address
+     *                The address to set
      */
-    protected void setAddress(String address)
-    {
+    protected void setAddress(String address) {
         fieldAddress = address;
     }
 

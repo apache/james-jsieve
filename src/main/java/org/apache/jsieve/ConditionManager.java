@@ -17,231 +17,226 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 /**
  * Thread singleton class ConditionManager manages Conditional Commands during a
  * Sieve evaluation.
  */
-public class ConditionManager
-{
+public class ConditionManager {
     /**
      * The Condition Manager instance for the current thread
-     */     
+     */
     static private final ThreadLocal fieldInstance = new ThreadLocal();
-    
+
     /**
      * Is an Else Condition allowed
-     */ 
+     */
     private boolean fieldElseAllowed;
-    
+
     /**
      * The result of the last Test
-     */ 
-    private boolean fieldTestResult;    
+     */
+    private boolean fieldTestResult;
 
     /**
      * Constructor for ConditionManager.
      */
-    private ConditionManager()
-    {
+    private ConditionManager() {
         super();
         initialize();
     }
-    
+
     /**
      * Initialize the receiver.
      */
-    protected void initialize()
-    {
+    protected void initialize() {
         setElseAllowed(false);
-        setTestResult(true);        
-    }    
-    
+        setTestResult(true);
+    }
+
     /**
-     * Method setIfTestResult enables a following Else Command and records the test 
-     * result.
+     * Method setIfTestResult enables a following Else Command and records the
+     * test result.
+     * 
      * @param result
      */
-    public void setIfTestResult(boolean result)
-    {
+    public void setIfTestResult(boolean result) {
         setElseAllowed(true);
-        setTestResult(result);    
-    } 
+        setTestResult(result);
+    }
 
     /**
-     * Method setElsifTestResult enables a following Else Command and records the 
-     * test result.
+     * Method setElsifTestResult enables a following Else Command and records
+     * the test result.
+     * 
      * @param result
-     */    
-    public void setElsifTestResult(boolean result)
-    {
+     */
+    public void setElsifTestResult(boolean result) {
         setElseAllowed(true);
-        setTestResult(result);                   
-    } 
+        setTestResult(result);
+    }
 
     /**
-     * Method setElseTestResult disables a following Else Command and records the 
-     * test result.
+     * Method setElseTestResult disables a following Else Command and records
+     * the test result.
+     * 
      * @param result
-     */     
-    public void setElseTestResult(boolean result)
-    {
+     */
+    public void setElseTestResult(boolean result) {
         setElseAllowed(false);
-        setTestResult(result);                   
-    }         
-    
+        setTestResult(result);
+    }
+
     /**
-     * Method isIfAllowed answers a boolean indicating if an If Command is allowed.
+     * Method isIfAllowed answers a boolean indicating if an If Command is
+     * allowed.
+     * 
      * @return boolean
      */
-    public boolean isIfAllowed()
-    {
+    public boolean isIfAllowed() {
         return true;
-    } 
-    
+    }
+
     /**
      * Method isElsifAllowed answers a boolean indicating if an Elsif Command is
      * allowed.
+     * 
      * @return boolean
      */
-    public boolean isElsifAllowed()
-    {
-        return isElseAllowed();        
-    } 
-    
+    public boolean isElsifAllowed() {
+        return isElseAllowed();
+    }
+
     /**
      * Method isElseAllowed answers a boolean indicating if an Else Command is
      * allowed.
+     * 
      * @return boolean
      */
-    public boolean isElseAllowed()
-    {
-        return fieldElseAllowed;          
+    public boolean isElseAllowed() {
+        return fieldElseAllowed;
     }
 
     /**
      * Method isIfRunnable answers a boolean indicating if an If Command is
      * runnable based upon the current evaluation state.
+     * 
      * @return boolean
-     */    
-    public boolean isIfRunnable()
-    {
+     */
+    public boolean isIfRunnable() {
         return true;
     }
 
     /**
-     * Method isElsifRunnable answers a boolean indicating if an Elsif Command is
-     * runnable based upon the current evaluation state.
+     * Method isElsifRunnable answers a boolean indicating if an Elsif Command
+     * is runnable based upon the current evaluation state.
+     * 
      * @return boolean
-     */    
-    public boolean isElsifRunnable()
-    {
+     */
+    public boolean isElsifRunnable() {
         return isElseRunnable();
     }
 
     /**
      * Method isElseRunnable answers a boolean indicating if an Else Command is
      * runnable based upon the current evaluation state.
+     * 
      * @return boolean
-     */     
-    public boolean isElseRunnable()
-    {
-        return !isTestResult();        
-    }                             
-     
+     */
+    public boolean isElseRunnable() {
+        return !isTestResult();
+    }
 
     /**
      * Answers a new instance of the manager.
+     * 
      * @return ConditionManager
      */
-    static protected ConditionManager computeInstance()
-    {
+    static protected ConditionManager computeInstance() {
         return new ConditionManager();
-    }    
-
+    }
 
     /**
-     * <p>Returns the conditionManager, lazily intialised if required.</p>
+     * <p>
+     * Returns the conditionManager, lazily intialised if required.
+     * </p>
      * 
-     * <p>Note that this must be synchronized to prevent another thread 
-     * detecting the null state while this thread is initialising.</p>
+     * <p>
+     * Note that this must be synchronized to prevent another thread detecting
+     * the null state while this thread is initialising.
+     * </p>
      * 
      * @return ConditionManager
      */
-    static synchronized public ConditionManager getInstance()
-    {
+    static synchronized public ConditionManager getInstance() {
         ConditionManager instance = null;
-        if (null == (instance = getInstanceBasic()))
-        {
+        if (null == (instance = getInstanceBasic())) {
             updateInstance();
             return getInstance();
         }
         return instance;
     }
-    
 
     /**
      * Returns the current conditionManager.
+     * 
      * @return ConditionManager
      */
-    static private ConditionManager getInstanceBasic()
-    {
-        return (ConditionManager)fieldInstance.get();
-    }    
-    
+    static private ConditionManager getInstanceBasic() {
+        return (ConditionManager) fieldInstance.get();
+    }
 
     /**
      * Sets the current conditionManager.
-     * @param conditionManager The conditionManager to set
+     * 
+     * @param conditionManager
+     *                The conditionManager to set
      */
-    public static void setInstance(ConditionManager conditionManager)
-    {
+    public static void setInstance(ConditionManager conditionManager) {
         fieldInstance.set(conditionManager);
     }
-    
+
     /**
      * resets the current conditionManager.
      */
-    static public void resetInstance()
-    {
+    static public void resetInstance() {
         setInstance(null);
-    }    
-    
+    }
 
     /**
      * Updates the current conditionManager.
      */
-    static protected void updateInstance()
-    {
+    static protected void updateInstance() {
         setInstance(computeInstance());
-    }      
+    }
 
     /**
      * Returns the testResult.
+     * 
      * @return boolean
      */
-    protected boolean isTestResult()
-    {
+    protected boolean isTestResult() {
         return fieldTestResult;
     }
 
     /**
      * Sets the elseAllowed.
-     * @param elseAllowed The elseAllowed to set
+     * 
+     * @param elseAllowed
+     *                The elseAllowed to set
      */
-    protected void setElseAllowed(boolean elseAllowed)
-    {
+    protected void setElseAllowed(boolean elseAllowed) {
         fieldElseAllowed = elseAllowed;
     }
 
     /**
      * Sets the testResult.
-     * @param testResult The testResult to set
+     * 
+     * @param testResult
+     *                The testResult to set
      */
-    protected void setTestResult(boolean testResult)
-    {
+    protected void setTestResult(boolean testResult) {
         fieldTestResult = testResult;
     }
 

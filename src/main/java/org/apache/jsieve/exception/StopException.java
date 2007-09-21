@@ -17,49 +17,47 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>StopException</code> indicates that evaluation should be terminated.
- * Typically, this exception is thrown when a Stop Command is encountered.
+ * Class <code>StopException</code> indicates that evaluation should be
+ * terminated. Typically, this exception is thrown when a Stop Command is
+ * encountered.
  */
-public class StopException extends SieveException
-{
+public class StopException extends SieveException {
 
     /**
      * Constructor for StopException.
      */
-    public StopException()
-    {
+    public StopException() {
         super();
     }
 
     /**
      * Constructor for StopException.
+     * 
      * @param message
      */
-    public StopException(String message)
-    {
+    public StopException(String message) {
         super(message);
     }
 
     /**
      * Constructor for StopException.
+     * 
      * @param message
      * @param cause
      */
-    public StopException(String message, Throwable cause)
-    {
+    public StopException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for StopException.
+     * 
      * @param cause
      */
-    public StopException(Throwable cause)
-    {
+    public StopException(Throwable cause) {
         super(cause);
     }
 

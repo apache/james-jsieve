@@ -17,49 +17,46 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
  * Class FeatureException indicates an exceptional condition encountered while
  * evaluating a feature of Sieve.
  */
-public class FeatureException extends SieveException
-{
+public class FeatureException extends SieveException {
 
     /**
      * Constructor for FeatureException.
      */
-    public FeatureException()
-    {
+    public FeatureException() {
         super();
     }
 
     /**
      * Constructor for FeatureException.
+     * 
      * @param message
      */
-    public FeatureException(String message)
-    {
+    public FeatureException(String message) {
         super(message);
     }
 
     /**
      * Constructor for FeatureException.
+     * 
      * @param message
      * @param cause
      */
-    public FeatureException(String message, Throwable cause)
-    {
+    public FeatureException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for FeatureException.
+     * 
      * @param cause
      */
-    public FeatureException(Throwable cause)
-    {
+    public FeatureException(Throwable cause) {
         super(cause);
     }
 

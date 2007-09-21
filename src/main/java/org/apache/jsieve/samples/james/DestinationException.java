@@ -25,33 +25,31 @@ import javax.mail.MessagingException;
  * Class <code>DestinationException</code> is thrown when a target
  * destionaition is invalid.
  */
-public class DestinationException extends MessagingException
-{
+public class DestinationException extends MessagingException {
 
     /**
      * Constructor for DestinationException.
      */
-    public DestinationException()
-    {
+    public DestinationException() {
         super();
     }
 
     /**
      * Constructor for DestinationException.
+     * 
      * @param arg0
      */
-    public DestinationException(String arg0)
-    {
+    public DestinationException(String arg0) {
         super(arg0);
     }
 
     /**
      * Constructor for DestinationException.
+     * 
      * @param arg0
      * @param arg1
      */
-    public DestinationException(String arg0, Exception arg1)
-    {
+    public DestinationException(String arg0, Exception arg1) {
         super(arg0, arg1);
     }
 

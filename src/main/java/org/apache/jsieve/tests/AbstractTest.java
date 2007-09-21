@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import org.apache.commons.logging.Log;
@@ -32,61 +31,70 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class | Interface Enter description here
  * 
  * Creation Date: 13-Jan-04
+ * 
  * @author sbrewin
  * 
  * Copyright 2003, Synergy Systems Limited
  */
 /**
- * Abstract class AbstractTest defines a framework of common behavior for 
- * Sieve Tests. 
+ * Abstract class AbstractTest defines a framework of common behavior for Sieve
+ * Tests.
  */
-public abstract class AbstractTest implements ExecutableTest
-{
+public abstract class AbstractTest implements ExecutableTest {
 
     /**
      * Constructor for AbstractTest.
      */
-    public AbstractTest()
-    {
+    public AbstractTest() {
         super();
     }
 
     /**
-     * <p>Method execute executes a basic Sieve Test after first invoking framework
-     * methods to validate the Command arguments.</p>
+     * <p>
+     * Method execute executes a basic Sieve Test after first invoking framework
+     * methods to validate the Command arguments.
+     * </p>
      * 
-     * <p>Also, @see org.apache.jsieve.tests.ExecutableTest#execute(MailAdapter, Arguments)
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.tests.ExecutableTest#execute(MailAdapter,
+     *      Arguments)
      */
-    public boolean execute(MailAdapter mail, Arguments arguments, SieveContext context)
-        throws SieveException
-    {
+    public boolean execute(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
         validateArguments(arguments, context);
         return executeBasic(mail, arguments, context);
     }
-    
+
     /**
      * Abstract method executeBasic invokes a Sieve Test.
+     * 
      * @param mail
      * @param arguments
-     * @param context <code>SieveContext</code> giving contextual information,
-     * not null
+     * @param context
+     *                <code>SieveContext</code> giving contextual information,
+     *                not null
      * @return boolean
      * @throws SieveException
      */
-    protected abstract boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-        throws SieveException;
-        
+    protected abstract boolean executeBasic(MailAdapter mail,
+            Arguments arguments, SieveContext context) throws SieveException;
+
     /**
-     * Framework method validateArguments is invoked before a Sieve Test is 
-     * executed to validate its arguments. Subclass methods are expected to override
-     * or extend this method to perform their own validation as appropriate.
+     * Framework method validateArguments is invoked before a Sieve Test is
+     * executed to validate its arguments. Subclass methods are expected to
+     * override or extend this method to perform their own validation as
+     * appropriate.
+     * 
      * @param arguments
-     * @param context <code>SieveContext</code> giving comntextual information,
-     * not null
+     * @param context
+     *                <code>SieveContext</code> giving comntextual
+     *                information, not null
      * @throws SieveException
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         if (!arguments.getArgumentList().isEmpty()) {
             final Log logger = Logger.getLog();
             if (logger.isWarnEnabled()) {
@@ -94,7 +102,8 @@ public abstract class AbstractTest implements ExecutableTest
             }
             context.getCoordinate().logDiagnosticsInfo(logger);
             logger.debug(arguments);
-            final String message = context.getCoordinate().addStartLineAndColumn("Found unexpected arguments.");
+            final String message = context.getCoordinate()
+                    .addStartLineAndColumn("Found unexpected arguments.");
             throw new SyntaxException(message);
         }
     }

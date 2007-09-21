@@ -17,29 +17,25 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 /**
- * Class ActionKeep encapsulates the information required to keep a mail.
- * See RFC 3028, Section 4.4.
+ * Class ActionKeep encapsulates the information required to keep a mail. See
+ * RFC 3028, Section 4.4.
  */
-public class ActionKeep implements Action
-{
+public class ActionKeep implements Action {
 
     /**
      * Constructor for ActionKeep.
      */
-    public ActionKeep()
-    {
+    public ActionKeep() {
         super();
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return "Action: " + getClass().getName();
     }
 

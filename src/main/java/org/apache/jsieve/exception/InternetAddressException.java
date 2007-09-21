@@ -17,49 +17,46 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class InternetAddressException indicates an exceptional condition encountered 
+ * Class InternetAddressException indicates an exceptional condition encountered
  * while evaluating an Internet Address.
  */
-public class InternetAddressException extends SieveException
-{
+public class InternetAddressException extends SieveException {
 
     /**
      * Constructor for InternetAddressException.
      */
-    public InternetAddressException()
-    {
+    public InternetAddressException() {
         super();
     }
 
     /**
      * Constructor for InternetAddressException.
+     * 
      * @param message
      */
-    public InternetAddressException(String message)
-    {
+    public InternetAddressException(String message) {
         super(message);
     }
 
     /**
      * Constructor for InternetAddressException.
+     * 
      * @param message
      * @param cause
      */
-    public InternetAddressException(String message, Throwable cause)
-    {
+    public InternetAddressException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for InternetAddressException.
+     * 
      * @param cause
      */
-    public InternetAddressException(Throwable cause)
-    {
+    public InternetAddressException(Throwable cause) {
         super(cause);
     }
 

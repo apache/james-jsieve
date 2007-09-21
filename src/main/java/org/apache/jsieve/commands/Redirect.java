@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import java.util.List;
@@ -31,37 +30,34 @@ import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Class Redirect implements the Redirect Command as defined in RFC 3028, section 4.3.
+ * Class Redirect implements the Redirect Command as defined in RFC 3028,
+ * section 4.3.
  */
-public class Redirect extends AbstractActionCommand
-{
+public class Redirect extends AbstractActionCommand {
 
     /**
      * Constructor for Redirect.
      */
-    public Redirect()
-    {
+    public Redirect() {
         super();
     }
 
     /**
-     * <p>Add an ActionRedirect to the List of Actions to be performed passing the
-     * sole StringList argument as the recipient.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Add an ActionRedirect to the List of Actions to be performed passing the
+     * sole StringList argument as the recipient.
      * </p>
-     */  
-    protected Object executeBasic(
-        MailAdapter mail,
-        Arguments arguments,
-        Block block, SieveContext context)
-        throws SieveException
-    {
-        String recipient =
-            (String) ((StringListArgument) arguments.getArgumentList().get(0))
-                .getList()
-                .get(
-                0);
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
+        String recipient = (String) ((StringListArgument) arguments
+                .getArgumentList().get(0)).getList().get(0);
 
         mail.addAction(new ActionRedirect(recipient));
 
@@ -69,21 +65,24 @@ public class Redirect extends AbstractActionCommand
     }
 
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
-                "Exactly 1 argument permitted. Found " + args.size());
+                    "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting exactly one argument");
     }
 
 }

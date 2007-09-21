@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import java.util.Iterator;
@@ -32,52 +31,52 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Exists implements the Exists Test as defined in RFC 3028, section 5.5.
  */
-public class Exists extends AbstractTest
-{
+public class Exists extends AbstractTest {
 
     /**
      * Constructor for Exists.
      */
-    public Exists()
-    {
+    public Exists() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-        throws SieveException
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
 
-        Iterator headerNamesIter =
-            ((StringListArgument) arguments.getArgumentList().get(0))
-                .getList()
-                .iterator();
-                
+        Iterator headerNamesIter = ((StringListArgument) arguments
+                .getArgumentList().get(0)).getList().iterator();
+
         boolean found = true;
-        while (found && headerNamesIter.hasNext())
-        {
-            List headers = mail.getMatchingHeader((String) headerNamesIter.next());
+        while (found && headerNamesIter.hasNext()) {
+            List headers = mail.getMatchingHeader((String) headerNamesIter
+                    .next());
             found = found && !headers.isEmpty();
         }
         return found;
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         List argumentsList = arguments.getArgumentList();
         if (1 != argumentsList.size())
-            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
-            
+            throw context.getCoordinate().syntaxException(
+                    "Expecting exactly one argument");
+
         if (!(argumentsList.get(0) instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a StringList");        
-               
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a StringList");
+
         if (arguments.hasTests())
-            throw context.getCoordinate().syntaxException("Found unexpected tests");
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

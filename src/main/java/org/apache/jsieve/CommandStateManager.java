@@ -17,199 +17,194 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 /**
- * Thread singleton class CommandStateManager records the state of a Sieve evaluation.
+ * Thread singleton class CommandStateManager records the state of a Sieve
+ * evaluation.
  */
-public class CommandStateManager
-{
-    
+public class CommandStateManager {
+
     /**
      * The evaluated script is processing Prolog Commands
-     */ 
+     */
     private boolean fieldInProlog = true;
-    
+
     /**
      * The evaluated script has rejected the mail
-     */ 
+     */
     private boolean fieldRejected = false;
-    
+
     /**
      * The evaluated script must keep the mail
-     */ 
-    private boolean fieldImplicitKeep = true;    
-    
+     */
+    private boolean fieldImplicitKeep = true;
+
     /**
-     * The evaluation has processed Action Commands  
-     */ 
+     * The evaluation has processed Action Commands
+     */
     private boolean fieldHasActions = false;
-    
+
     /**
      * The instance of the reciever for the current thread
-     */     
+     */
     static private final ThreadLocal fieldInstance = new ThreadLocal();
-    
+
     /**
      * Constructor for CommandStateManager.
      */
-    private CommandStateManager()
-    {
+    private CommandStateManager() {
         super();
         initialize();
     }
-    
+
     /**
      * Initialize the receiver.
      */
-    protected void initialize()
-    {
+    protected void initialize() {
         setInProlog(true);
         setRejected(false);
         setHasActions(false);
-        setImplicitKeep(true);         
-    }    
-    
+        setImplicitKeep(true);
+    }
+
     /**
      * Answers a new instance of the receiver.
+     * 
      * @return ConditionManager
      */
-    static protected CommandStateManager computeInstance()
-    {
+    static protected CommandStateManager computeInstance() {
         return new CommandStateManager();
-    }    
-
+    }
 
     /**
-     * <p>Returns an instance of the receiver for the current thread, lazily 
-     * intialised if required.</p>
+     * <p>
+     * Returns an instance of the receiver for the current thread, lazily
+     * intialised if required.
+     * </p>
      * 
-     * <p>Note that this must be synchronized to prevent another thread 
-     * detecting the null state while this thread is initialising.</p>
+     * <p>
+     * Note that this must be synchronized to prevent another thread detecting
+     * the null state while this thread is initialising.
+     * </p>
      * 
      * @return ConditionManager
      */
-    static synchronized public CommandStateManager getInstance()
-    {
+    static synchronized public CommandStateManager getInstance() {
         CommandStateManager instance = null;
-        if (null == (instance = getInstanceBasic()))
-        {
+        if (null == (instance = getInstanceBasic())) {
             updateInstance();
             return getInstance();
         }
         return instance;
     }
-    
 
     /**
      * Returns the current CommandStateManager for the current thread.
+     * 
      * @return CommandStateManager
      */
-    static private CommandStateManager getInstanceBasic()
-    {
-        return (CommandStateManager)fieldInstance.get();
-    }    
-    
+    static private CommandStateManager getInstanceBasic() {
+        return (CommandStateManager) fieldInstance.get();
+    }
 
     /**
      * Sets the CommandStateManager for the current thread.
-     * @param conditionManager The CommandStateManager to set
+     * 
+     * @param conditionManager
+     *                The CommandStateManager to set
      */
-    static protected void setInstance(CommandStateManager conditionManager)
-    {
+    static protected void setInstance(CommandStateManager conditionManager) {
         fieldInstance.set(conditionManager);
     }
-    
+
     /**
      * resets the current CommandStateManager.
      */
-    static public void resetInstance()
-    {
+    static public void resetInstance() {
         setInstance(null);
-    }    
-    
+    }
 
     /**
      * Updates the current CommandStateManager.
      */
-    static protected void updateInstance()
-    {
+    static protected void updateInstance() {
         setInstance(computeInstance());
-    }    
-
-
-    
+    }
 
     /**
      * Returns the hasActions.
+     * 
      * @return boolean
      */
-    public boolean isHasActions()
-    {
+    public boolean isHasActions() {
         return fieldHasActions;
     }
 
     /**
      * Returns the inProlog.
+     * 
      * @return boolean
      */
-    public boolean isInProlog()
-    {
+    public boolean isInProlog() {
         return fieldInProlog;
     }
 
     /**
      * Returns the isRejected.
+     * 
      * @return boolean
      */
-    public boolean isRejected()
-    {
+    public boolean isRejected() {
         return fieldRejected;
     }
 
     /**
      * Sets the hasActions.
-     * @param hasActions The hasActions to set
+     * 
+     * @param hasActions
+     *                The hasActions to set
      */
-    public void setHasActions(boolean hasActions)
-    {
+    public void setHasActions(boolean hasActions) {
         fieldHasActions = hasActions;
     }
 
     /**
      * Sets the inProlog.
-     * @param inProlog The inProlog to set
+     * 
+     * @param inProlog
+     *                The inProlog to set
      */
-    public void setInProlog(boolean inProlog)
-    {
+    public void setInProlog(boolean inProlog) {
         fieldInProlog = inProlog;
     }
 
     /**
      * Sets the isRejected.
-     * @param isRejected The isRejected to set
+     * 
+     * @param isRejected
+     *                The isRejected to set
      */
-    public void setRejected(boolean isRejected)
-    {
+    public void setRejected(boolean isRejected) {
         fieldRejected = isRejected;
     }
 
     /**
      * Returns the implicitKeep.
+     * 
      * @return boolean
      */
-    public boolean isImplicitKeep()
-    {
+    public boolean isImplicitKeep() {
         return fieldImplicitKeep;
     }
 
     /**
      * Sets the implicitKeep.
-     * @param implicitKeep The implicitKeep to set
+     * 
+     * @param implicitKeep
+     *                The implicitKeep to set
      */
-    public void setImplicitKeep(boolean implicitKeep)
-    {
+    public void setImplicitKeep(boolean implicitKeep) {
         fieldImplicitKeep = implicitKeep;
     }
 

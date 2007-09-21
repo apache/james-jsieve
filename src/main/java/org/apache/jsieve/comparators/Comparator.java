@@ -17,14 +17,12 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 /**
- * Interface Comparator defines the method signatures for Sieve comparators. It 
+ * Interface Comparator defines the method signatures for Sieve comparators. It
  * consists of Equals, Contains and Matches Comparisons.
  */
-public interface Comparator extends Equals, Contains, Matches
-{
+public interface Comparator extends Equals, Contains, Matches {
 
 }

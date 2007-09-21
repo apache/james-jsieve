@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
@@ -27,22 +26,21 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class False implements the False Test as defined in RFC 3028, section 5.6.
  */
-public class False extends AbstractTest
-{
+public class False extends AbstractTest {
 
     /**
      * Constructor for False.
      */
-    public False()
-    {
+    public False() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) {
         return false;
     }
 

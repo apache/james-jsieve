@@ -17,64 +17,58 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 /**
- * Class ActionFileInto encapsulates the information required to file a mail into a
- * location.
- * See RFC 3028, Section 4.2.
+ * Class ActionFileInto encapsulates the information required to file a mail
+ * into a location. See RFC 3028, Section 4.2.
  */
-public class ActionFileInto implements Action
-{
+public class ActionFileInto implements Action {
     /**
-     * A String representation of the location to which the message should be moved.
-     */ 
+     * A String representation of the location to which the message should be
+     * moved.
+     */
     private String fieldDestination;
 
     /**
      * Constructor for ActionFileInto.
      */
-    private ActionFileInto()
-    {
+    private ActionFileInto() {
         super();
     }
-    
+
     /**
      * Constructor for ActionFileInto.
      */
-    public ActionFileInto(String destination)
-    {
+    public ActionFileInto(String destination) {
         this();
         setDestination(destination);
-    }    
+    }
 
     /**
      * Returns the destination.
+     * 
      * @return String
      */
-    public String getDestination()
-    {
+    public String getDestination() {
         return fieldDestination;
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
-        return "Action: "
-            + getClass().getName()
-            + ", destination: "
-            + getDestination();
+    public String toString() {
+        return "Action: " + getClass().getName() + ", destination: "
+                + getDestination();
     }
 
     /**
      * Sets the destination.
-     * @param destination The destination to set
+     * 
+     * @param destination
+     *                The destination to set
      */
-    protected void setDestination(String destination)
-    {
+    protected void setDestination(String destination) {
         fieldDestination = destination;
     }
 

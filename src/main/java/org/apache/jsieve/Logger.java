@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
@@ -26,83 +25,83 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Singleton class Logger manages the configuartion of the Log used by Sieve.
  */
-public class Logger
-{
+public class Logger {
     /*
      * The sole instance of the Log.
-     */ 
+     */
     static private Log fieldLog;
 
     /**
      * Constructor for Logger.
      */
-    private Logger()
-    {
+    private Logger() {
         super();
     }
 
     /**
      * Returns the logger.
+     * 
      * @return Log
      */
-    public static Log getLog()
-    {
+    public static Log getLog() {
         Log log = null;
-        if (null == (log = getLogBasic()))
-        {
+        if (null == (log = getLogBasic())) {
             updateLog();
-            return getLog();    
-        } 
+            return getLog();
+        }
         return log;
     }
-    
+
     /**
      * Returns the log.
+     * 
      * @return Log
      */
-    private static Log getLogBasic()
-    {
+    private static Log getLogBasic() {
         return fieldLog;
     }
-    
+
     /**
      * Computes the log.
+     * 
      * @return Log
      */
-    protected static Log computeLog()
-    {
+    protected static Log computeLog() {
         return LogFactory.getLog(getLogName());
-    }        
+    }
 
     /**
      * Sets the logger.
-     * @param logger The logger to set
+     * 
+     * @param logger
+     *                The logger to set
      */
-    protected static void setLog(Log logger)
-    {
+    protected static void setLog(Log logger) {
         fieldLog = logger;
     }
-    
+
     /**
      * Updates the log.
      */
-    protected static void updateLog()
-    {
+    protected static void updateLog() {
         setLog(computeLog());
     }
-    
+
     /**
-     * <p>Answers the log name.</p>
+     * <p>
+     * Answers the log name.
+     * </p>
      * 
-     * <p>Note that this cannot be fetched from the ConfigurationManager as the
-     * ConfigurationManager itself uses the Logger. This would result in a loop! No
-     * points for deducing why I am sure of this!</p>
+     * <p>
+     * Note that this cannot be fetched from the ConfigurationManager as the
+     * ConfigurationManager itself uses the Logger. This would result in a loop!
+     * No points for deducing why I am sure of this!
+     * </p>
      * 
      * @return String The name of the log
      */
-    protected static String getLogName()
-    {
+    protected static String getLogName() {
         return "Sieve";
-    }            
+    }
 
 }

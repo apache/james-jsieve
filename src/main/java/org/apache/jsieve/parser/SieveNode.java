@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.parser;
 
 import org.apache.jsieve.ScriptCoordinate;
@@ -28,76 +27,81 @@ import org.apache.jsieve.parser.generated.Token;
  * 
  * Creation Date: 27-Jan-04
  */
-public class SieveNode
-{
+public class SieveNode {
 
     /**
      * Constructor for SieveNode.
      */
-    public SieveNode()
-    {
+    public SieveNode() {
         super();
     }
 
     private Token firstToken;
+
     private Token lastToken;
-    
+
     /**
-     * The name associated to this node or null 
-     */     
+     * The name associated to this node or null
+     */
     private String fieldName;
-    
+
     /**
-     * The value associated to this node or null 
-     */    
-    private Object fieldValue;    
+     * The value associated to this node or null
+     */
+    private Object fieldValue;
+
     /**
      * Returns the name.
+     * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return fieldName;
     }
 
     /**
      * Returns the value.
+     * 
      * @return Object
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return fieldValue;
     }
 
     /**
      * Sets the name.
-     * @param name The name to set
+     * 
+     * @param name
+     *                The name to set
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         fieldName = name;
     }
 
     /**
      * Sets the value.
-     * @param value The value to set
+     * 
+     * @param value
+     *                The value to set
      */
-    public void setValue(Object value)
-    {
+    public void setValue(Object value) {
         fieldValue = value;
     }
 
     /**
      * Gets the first token comprising this node.
+     * 
      * @return <code>Token</code>, not null
      */
     public Token getFirstToken() {
         return firstToken;
     }
-    
+
     /**
      * Sets the first token comprising this node.
-     * @param firstToken <code>Token</code>, not null
+     * 
+     * @param firstToken
+     *                <code>Token</code>, not null
      */
     public void setFirstToken(Token firstToken) {
         this.firstToken = firstToken;
@@ -105,6 +109,7 @@ public class SieveNode
 
     /**
      * Gets the last token comprising this node.
+     * 
      * @return <code>Token</code>, not null
      */
     public Token getLastToken() {
@@ -113,23 +118,27 @@ public class SieveNode
 
     /**
      * Sets the last token comprising this node.
-     * @param lastToken <code>Token</code>, not null
+     * 
+     * @param lastToken
+     *                <code>Token</code>, not null
      */
     public void setLastToken(Token lastToken) {
         this.lastToken = lastToken;
     }
-    
+
     /**
      * Gets the position of this node in the script.
-     * @return <code>ScriptCoordinate</code> containing the position of this node, 
-     * not null
+     * 
+     * @return <code>ScriptCoordinate</code> containing the position of this
+     *         node, not null
      */
     public ScriptCoordinate getCoordinate() {
         final int lastColumn = lastToken.endColumn;
         final int lastList = lastToken.endLine;
         final int firstColumn = firstToken.beginColumn;
         final int firstLine = firstToken.beginLine;
-        final ScriptCoordinate scriptCoordinate = new ScriptCoordinate(firstLine, firstColumn, lastList, lastColumn);
+        final ScriptCoordinate scriptCoordinate = new ScriptCoordinate(
+                firstLine, firstColumn, lastList, lastColumn);
         return scriptCoordinate;
     }
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import java.util.Iterator;
@@ -31,28 +30,26 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class AllOf implements the AllOf Test as defined in RFC 3028, section 5.2.
  */
-public class AllOf extends AbstractTest
-{
+public class AllOf extends AbstractTest {
 
     /**
      * Constructor for AnyOf.
      */
-    public AllOf()
-    {
+    public AllOf() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
         boolean result = true;
         Iterator testsIter = arguments.getTestList().getTests().iterator();
-        while (result && testsIter.hasNext())
-        {
-            result =
-                ((Boolean) ((Test) testsIter.next()).execute(mail)).booleanValue();
+        while (result && testsIter.hasNext()) {
+            result = ((Boolean) ((Test) testsIter.next()).execute(mail))
+                    .booleanValue();
         }
         return result;
     }

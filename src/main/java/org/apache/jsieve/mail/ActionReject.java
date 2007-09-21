@@ -17,23 +17,21 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 /**
  * Class ActionReject encapsulates the information required to reject a mail.
  * See RFC 3028, Section 4.1.
  */
-public class ActionReject implements Action
-{
+public class ActionReject implements Action {
     private String fieldMessage;
 
     /**
      * Constructor for ActionReject.
+     * 
      * @param aMessage
      */
-    public ActionReject(String aMessage)
-    {
+    public ActionReject(String aMessage) {
         this();
         setMessage(aMessage);
     }
@@ -41,35 +39,34 @@ public class ActionReject implements Action
     /**
      * Constructor ActionReject.
      */
-    private ActionReject()
-    {
+    private ActionReject() {
         super();
     }
-
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return "Action: " + getClass().getName();
     }
+
     /**
      * Returns the message explaining the reason for rejection.
+     * 
      * @return String
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return fieldMessage;
     }
 
     /**
      * Sets the message explaining the reason for rejection.
-     * @param message The message to set
+     * 
+     * @param message
+     *                The message to set
      */
-    protected void setMessage(String message)
-    {
+    protected void setMessage(String message) {
         fieldMessage = message;
     }
 
-}    
+}

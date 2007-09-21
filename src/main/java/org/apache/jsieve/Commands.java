@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import java.util.Iterator;
@@ -27,69 +26,67 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.*;
 
 /**
- * <p>A parsed representation of the RFC3028 BNF...</p>
+ * <p>
+ * A parsed representation of the RFC3028 BNF...
+ * </p>
  * 
  * <code>commands = *command</code>
  * 
  */
-public class Commands implements Executable
-{
+public class Commands implements Executable {
     /**
      * A List of children of the receiver
-     */ 
+     */
     private List fieldChildren;
 
     /**
      * Constructor for Commands.
      */
-    private Commands()
-    {
+    private Commands() {
         super();
     }
-    
+
     /**
      * Constructor for Commands.
+     * 
      * @param commands
      */
-    public Commands(List commands)
-    {
+    public Commands(List commands) {
         this();
         setChildren(commands);
-    }    
+    }
 
     /**
      * Returns the commands.
+     * 
      * @return List
      */
-    public List getChildren()
-    {
+    public List getChildren() {
         return fieldChildren;
     }
 
     /**
      * Sets the commands.
-     * @param commands The commands to set
+     * 
+     * @param commands
+     *                The commands to set
      */
-    protected void setChildren(List commands)
-    {
+    protected void setChildren(List commands) {
         fieldChildren = commands;
     }
 
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter)
      */
-    public Object execute(MailAdapter mail) throws SieveException
-    {
+    public Object execute(MailAdapter mail) throws SieveException {
         Iterator commandsIter = getChildren().iterator();
         while (commandsIter.hasNext())
-            ((Executable)commandsIter.next()).execute(mail);
-        return null; 
+            ((Executable) commandsIter.next()).execute(mail);
+        return null;
     }
 
     public String toString() {
         return "COMMANDS: " + fieldChildren;
     }
-    
-    
 
 }

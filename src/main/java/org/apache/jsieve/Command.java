@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
@@ -25,17 +24,17 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * <p>A parsed representation of the RFC3028 BNF...</p>
+ * <p>
+ * A parsed representation of the RFC3028 BNF...
+ * </p>
  * 
  * <code>command = identifier arguments ( ";" / block )</code>
  */
-public class Command implements Executable
-{
+public class Command implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter)
      */
-    public Object execute(MailAdapter mail) throws SieveException
-    {
+    public Object execute(MailAdapter mail) throws SieveException {
         Log log = Logger.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
@@ -46,119 +45,117 @@ public class Command implements Executable
         // so need to use the coordinate recorded from the parse
         context.setCoordinate(coordinate);
         return CommandManager.getInstance().newInstance(getName()).execute(
-            mail,
-            getArguments(),
-            getBlock(), context);
+                mail, getArguments(), getBlock(), context);
     }
-
 
     // The name of this Command
     private String fieldName;
-    
+
     // The Arguments for this Command
     private Arguments fieldArguments;
- 
-    // The Block for this Command   
-    private Block fieldBlock;  
-    
+
+    // The Block for this Command
+    private Block fieldBlock;
+
     private SieveContext context;
-    
+
     /**
-     * Script coordinate for this command.
-     * Commands are executed after the document has been parse.
-     * So this must be recorded on construction
-     * and stored for later use.
+     * Script coordinate for this command. Commands are executed after the
+     * document has been parse. So this must be recorded on construction and
+     * stored for later use.
      */
     private ScriptCoordinate coordinate;
-    
+
     /**
      * Constructor for Test.
      */
-    private Command()
-    {
+    private Command() {
         super();
     }
-    
+
     /**
      * Constructor for Command.
+     * 
      * @param name
      * @param arguments
      * @param block
      */
-    public Command(String name, Arguments arguments, Block block, SieveContext context)
-    {
+    public Command(String name, Arguments arguments, Block block,
+            SieveContext context) {
         this();
         this.context = context;
         this.coordinate = context.getCoordinate();
         setName(name);
         setArguments(arguments);
-        setBlock(block);        
-    }        
+        setBlock(block);
+    }
 
     /**
      * Returns the name.
+     * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return fieldName;
     }
 
     /**
      * Sets the name.
-     * @param name The name to set
+     * 
+     * @param name
+     *                The name to set
      */
-    protected void setName(String name)
-    {
+    protected void setName(String name) {
         fieldName = name;
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return "Command name: "
-            + getName()
-            + " "
-            + ((getArguments() == null) ? "null" : getArguments().toString())
-            + " Block: "
-            + ((getBlock() == null) ? "null" : getBlock().toString());
+                + getName()
+                + " "
+                + ((getArguments() == null) ? "null" : getArguments()
+                        .toString()) + " Block: "
+                + ((getBlock() == null) ? "null" : getBlock().toString());
     }
 
     /**
      * Returns the arguments.
+     * 
      * @return Arguments
      */
-    public Arguments getArguments()
-    {
+    public Arguments getArguments() {
         return fieldArguments;
     }
 
     /**
      * Returns the block.
+     * 
      * @return Block
      */
-    public Block getBlock()
-    {
+    public Block getBlock() {
         return fieldBlock;
     }
 
     /**
      * Sets the arguments.
-     * @param arguments The arguments to set
+     * 
+     * @param arguments
+     *                The arguments to set
      */
-    protected void setArguments(Arguments arguments)
-    {
+    protected void setArguments(Arguments arguments) {
         fieldArguments = arguments;
     }
 
     /**
      * Sets the block.
-     * @param block The block to set
+     * 
+     * @param block
+     *                The block to set
      */
-    protected void setBlock(Block block)
-    {
+    protected void setBlock(Block block) {
         fieldBlock = block;
     }
 

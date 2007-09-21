@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
@@ -27,22 +26,21 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class True implements the True Test as defined in RFC 3028, section 5.10.
  */
-public class True extends AbstractTest
-{
+public class True extends AbstractTest {
 
     /**
      * Constructor for True.
      */
-    public True()
-    {
+    public True() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) {
         return true;
     }
 

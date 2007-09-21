@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import java.util.Iterator;
@@ -32,34 +31,31 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Not implements the Not Test as defined in RFC 3028, section 5.8.
  */
-public class Not extends AbstractTest
-{
+public class Not extends AbstractTest {
 
     /**
      * Constructor for Not.
      */
-    public Not()
-    {
+    public Not() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
         boolean result = true;
         List tests = arguments.getTestList().getTests();
         if (tests.size() != 1)
             throw context.getCoordinate().syntaxException(
-                "Exactly 1 test permitted. Found " + tests.size());
+                    "Exactly 1 test permitted. Found " + tests.size());
         Iterator testsIter = tests.iterator();
-        while (testsIter.hasNext())
-        {
-            result =
-                result
+        while (testsIter.hasNext()) {
+            result = result
                     && ((Boolean) ((Test) testsIter.next()).execute(mail))
-                        .booleanValue();
+                            .booleanValue();
         }
         return !result;
     }

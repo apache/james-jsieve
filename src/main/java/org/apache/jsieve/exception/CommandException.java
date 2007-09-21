@@ -17,50 +17,47 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>CommandException</code> indicates an exceptional condition encountered
- * while executing a Command.
+ * Class <code>CommandException</code> indicates an exceptional condition
+ * encountered while executing a Command.
  * 
  */
-public class CommandException extends OperationException
-{
+public class CommandException extends OperationException {
 
     /**
      * Constructor for CommandException.
      */
-    public CommandException()
-    {
+    public CommandException() {
         super();
     }
 
     /**
      * Constructor for CommandException.
+     * 
      * @param message
      */
-    public CommandException(String message)
-    {
+    public CommandException(String message) {
         super(message);
     }
 
     /**
      * Constructor for CommandException.
+     * 
      * @param message
      * @param cause
      */
-    public CommandException(String message, Throwable cause)
-    {
+    public CommandException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for CommandException.
+     * 
      * @param cause
      */
-    public CommandException(Throwable cause)
-    {
+    public CommandException(Throwable cause) {
         super(cause);
     }
 

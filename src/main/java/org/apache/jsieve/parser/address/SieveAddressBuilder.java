@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.mail.Header;
 import javax.mail.Message;
@@ -53,36 +52,41 @@ public class SieveAddressBuilder {
 
     /**
      * Parses the value from the given message into addresses.
-     * @param headerName header name, to be matched case insensitively
-     * @param message <code>Message</code>, not null
+     * 
+     * @param headerName
+     *                header name, to be matched case insensitively
+     * @param message
+     *                <code>Message</code>, not null
      * @return <code>Address</code> array, not null possibly empty
      * @throws SieveMailException
      */
-    public static Address[] parseAddresses(final String headerName, final Message message) throws SieveMailException {
+    public static Address[] parseAddresses(final String headerName,
+            final Message message) throws SieveMailException {
         try {
             final SieveAddressBuilder builder = new SieveAddressBuilder();
 
-            for (Enumeration en = message.getAllHeaders();en.hasMoreElements();) {
+            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
                     builder.addAddresses(header.getValue());
                 }
             }
-            
+
             final Address[] results = builder.getAddresses();
             return results;
-            
+
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         } catch (ParseException ex) {
             throw new SieveMailException(ex);
         }
     }
-    
+
     private static final Address[] EMPTY_ADDRESSES = {};
 
     private final Collection addresses;
+
     private final Worker worker;
 
     public SieveAddressBuilder() {
@@ -101,12 +105,12 @@ public class SieveAddressBuilder {
      * Adds addresses in the given list.
      * 
      * @param addressList
-     *            RFC822 address list
-     * @throws ParseException 
+     *                RFC822 address list
+     * @throws ParseException
      */
     public void addAddresses(String addressList) throws ParseException {
         final StringReader reader = new StringReader(addressList);
-        worker.addAddressses(reader, addresses);    
+        worker.addAddressses(reader, addresses);
     }
 
     /**
@@ -122,12 +126,13 @@ public class SieveAddressBuilder {
     }
 
     /**
-     * Performs the actual work.
-     * Factored into an inner class so that the build interface is clean.
+     * Performs the actual work. Factored into an inner class so that the build
+     * interface is clean.
      */
     private final class Worker extends BaseAddressListVisitor {
 
-        public void addAddressses(final Reader reader, final Collection results) throws ParseException {
+        public void addAddressses(final Reader reader, final Collection results)
+                throws ParseException {
             AddressListParser parser = new AddressListParser(reader);
             ASTaddress_list root = parser.parse();
             root.childrenAccept(this, results);
@@ -160,12 +165,12 @@ public class SieveAddressBuilder {
             }
             return data;
         }
-        
+
         private String contents(AddressNode node) {
             StringBuffer buffer = new StringBuffer(32);
             Token last = node.lastToken;
             Token next = node.firstToken;
-            while(next != last) {
+            while (next != last) {
                 buffer.append(next.image);
                 next = next.next;
             }

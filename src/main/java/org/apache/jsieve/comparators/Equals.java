@@ -17,18 +17,17 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 /**
  * Interface Equals defines the method signatures for equals comparators.
  */
-public interface Equals
-{
+public interface Equals {
     /**
      * Method equals answers a <code>boolean</code> indicating if parameter
-     * <code>string1</code> is equal to parameter <code>string2</code> using the
-     * comparison rules defind by the implementation.
+     * <code>string1</code> is equal to parameter <code>string2</code> using
+     * the comparison rules defind by the implementation.
+     * 
      * @param string1
      * @param string2
      * @return boolean

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.CommandStateManager;
@@ -25,36 +24,39 @@ import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.CommandException;
 
 /**
- * <p>Abstract class AbstractPrologCommand defines the common state validation behavior
- * for Prolog Commands. In RFC 3028 the only Prolog Command is 'requires', however,
- * the specification may evolve.</p>
+ * <p>
+ * Abstract class AbstractPrologCommand defines the common state validation
+ * behavior for Prolog Commands. In RFC 3028 the only Prolog Command is
+ * 'requires', however, the specification may evolve.
+ * </p>
  */
-public abstract class AbstractPrologCommand extends AbstractCommand
-{
+public abstract class AbstractPrologCommand extends AbstractCommand {
 
     /**
      * Constructor for AbstractPrologCommand.
      */
-    public AbstractPrologCommand()
-    {
+    public AbstractPrologCommand() {
         super();
     }
 
     /**
-     * <p>Method validateState() ensures, via the CommandStateManager, that a Prolog
-     * Command is permissible.</p>
+     * <p>
+     * Method validateState() ensures, via the CommandStateManager, that a
+     * Prolog Command is permissible.
+     * </p>
      * 
-     * <p>Also, @see org.apache.jsieve.commands.AbstractCommand#validateState()</p>
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#validateState()
+     *      </p>
      */
-    protected void validateState(SieveContext context)
-            throws CommandException
-    {
+    protected void validateState(SieveContext context) throws CommandException {
         super.validateState(context);
-        
-        if (!(CommandStateManager.getInstance().isInProlog()))
-            throw context.getCoordinate().commandException("Invalid state for a prolog command.");     
-    }
-    
 
-    
+        if (!(CommandStateManager.getInstance().isInProlog()))
+            throw context.getCoordinate().commandException(
+                    "Invalid state for a prolog command.");
+    }
+
 }

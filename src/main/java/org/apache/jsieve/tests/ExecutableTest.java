@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
@@ -28,18 +27,20 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Interface ExecutableTest defines the method signatures for a Sieve Test.
  */
-public interface ExecutableTest
-{
+public interface ExecutableTest {
     /**
-     * Method execute executes a Test and answers a boolean indicating if the test
-     * was passed. 
+     * Method execute executes a Test and answers a boolean indicating if the
+     * test was passed.
+     * 
      * @param mail
      * @param arguments
-     * @param context <code>SieveContext</code> giving contextual information,
-     * not null
+     * @param context
+     *                <code>SieveContext</code> giving contextual information,
+     *                not null
      * @return boolean
      * @throws SieveException
      */
-    public boolean execute(MailAdapter mail, Arguments arguments, SieveContext context) throws SieveException;
+    public boolean execute(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException;
 
 }

@@ -17,202 +17,186 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
+
 import java.util.Map;
 
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Singleton class <code>ComparatorManager</code> maps Comparator names to configured
- * Comparator implementation classes.
+ * Singleton class <code>ComparatorManager</code> maps Comparator names to
+ * configured Comparator implementation classes.
  */
-public class ComparatorManager
-{
+public class ComparatorManager {
     /**
      * The sole instance of the receiver.
-     */ 
+     */
     static private ComparatorManager fieldInstance;
 
     /**
      * Constructor for ComparatorManager.
      */
-    private ComparatorManager()
-    {
+    private ComparatorManager() {
         super();
     }
 
     /**
-     * Returns the sole instance of the receiver, lazily initialised if required.
+     * Returns the sole instance of the receiver, lazily initialised if
+     * required.
+     * 
      * @return ComparatorManager
      */
-    public static synchronized ComparatorManager getInstance()
-    {
+    public static synchronized ComparatorManager getInstance() {
         ComparatorManager current = null;
-        if (null == (current = getInstanceBasic()))
-        {
+        if (null == (current = getInstanceBasic())) {
             updateInstance();
             return getInstance();
-        }    
+        }
         return current;
     }
-    
+
     /**
      * Returns the sole instance of the receiver.
+     * 
      * @return ComparatorManager
      */
-    private static ComparatorManager getInstanceBasic()
-    {
+    private static ComparatorManager getInstanceBasic() {
         return fieldInstance;
     }
-    
+
     /**
      * Computes a new instance of the receiver.
+     * 
      * @return ComparatorManager
      */
-    protected static ComparatorManager computeInstance()
-    {
+    protected static ComparatorManager computeInstance() {
         return new ComparatorManager();
-    }        
+    }
 
     /**
      * Sets the sole instance.
-     * @param instance The current instance to set
+     * 
+     * @param instance
+     *                The current instance to set
      */
-    protected static void setInstance(ComparatorManager instance)
-    {
+    protected static void setInstance(ComparatorManager instance) {
         fieldInstance = instance;
     }
-    
+
     /**
      * Resets the sole instance.
      */
-    public static void resetInstance()
-    {
+    public static void resetInstance() {
         setInstance(null);
-    }    
-    
+    }
+
     /**
      * Updates the sole instance.
      */
-    protected static void updateInstance()
-    {
+    protected static void updateInstance() {
         setInstance(computeInstance());
     }
-    
+
     /**
-     * <p>Method lookup answers the class to which a Comparator name is mapped.</p>
+     * <p>
+     * Method lookup answers the class to which a Comparator name is mapped.
+     * </p>
      * 
-     * @param name - The name of the Comparator
+     * @param name -
+     *                The name of the Comparator
      * @return Class - The class of the Comparator
      * @throws LookupException
      */
-    public Class lookup(String name) throws LookupException
-    {
+    public Class lookup(String name) throws LookupException {
         Class comparatorClass = null;
-        try
-        {
-            comparatorClass =
-                getClass().getClassLoader().loadClass(getClassName(name));
-        }
-        catch (ClassNotFoundException e)
-        {
-            throw new LookupException(
-                "Comparator named '" + name + "' not found.");
+        try {
+            comparatorClass = getClass().getClassLoader().loadClass(
+                    getClassName(name));
+        } catch (ClassNotFoundException e) {
+            throw new LookupException("Comparator named '" + name
+                    + "' not found.");
         }
         if (!Comparator.class.isAssignableFrom(comparatorClass))
-            throw new LookupException(
-                "Class "
-                    + comparatorClass.getName()
-                    + " must implement "
-                    + Comparator.class.getName());
+            throw new LookupException("Class " + comparatorClass.getName()
+                    + " must implement " + Comparator.class.getName());
         return comparatorClass;
     }
-    
+
     /**
-     * <p>Method newInstance answers an instance of the class to which a Comparator
-     * name is mapped.</p>
+     * <p>
+     * Method newInstance answers an instance of the class to which a Comparator
+     * name is mapped.
+     * </p>
      * 
-     * @param name - The name of the Comparator
+     * @param name -
+     *                The name of the Comparator
      * @return Class - The class of the Comparator
      * @throws LookupException
      */
-    public Comparator newInstance(String name) throws LookupException
-    {
-        try
-        {
+    public Comparator newInstance(String name) throws LookupException {
+        try {
             return (Comparator) lookup(name).newInstance();
-        }
-        catch (InstantiationException e)
-        {
+        } catch (InstantiationException e) {
+            throw new LookupException(e.getMessage());
+        } catch (IllegalAccessException e) {
             throw new LookupException(e.getMessage());
         }
-        catch (IllegalAccessException e)
-        {
-            throw new LookupException(e.getMessage());
-        }
-    }    
-
+    }
 
     /**
-     * Method isSupported answers a boolean indicating if a Comparator name is 
+     * Method isSupported answers a boolean indicating if a Comparator name is
      * configured.
-     * @param name - The Comparator name
+     * 
+     * @param name -
+     *                The Comparator name
      * @return boolean - True if the Comparator name is configured.
      */
-    public boolean isSupported(String name)
-    {
+    public boolean isSupported(String name) {
         boolean isSupported = true;
-        try
-        {
+        try {
             lookup(name);
-        }
-        catch (LookupException e)
-        {
+        } catch (LookupException e) {
             isSupported = false;
         }
         return isSupported;
     }
-    
+
     /**
-     * <p>Method getClassName answers the name of the class to which a Comparator
-     * name is mapped.</p>
+     * <p>
+     * Method getClassName answers the name of the class to which a Comparator
+     * name is mapped.
+     * </p>
      * 
-     * @param name - The name of the Comparator
+     * @param name -
+     *                The name of the Comparator
      * @return String - The name of the class
      * @throws LookupException
      */
-    protected String getClassName(String name) throws LookupException
-    {
+    protected String getClassName(String name) throws LookupException {
         String className;
-        try
-        {
+        try {
             className = (String) getClassNameMap().get(name.toLowerCase());
-        }
-        catch (SieveConfigurationException e)
-        {
+        } catch (SieveConfigurationException e) {
             throw new LookupException(
-                "Lookup failed due to a Configuration Exception: "
-                    + e.getMessage());
+                    "Lookup failed due to a Configuration Exception: "
+                            + e.getMessage());
         }
         if (null == className)
-            throw new LookupException(
-                "Command named '" + name + "' not mapped.");
+            throw new LookupException("Command named '" + name
+                    + "' not mapped.");
         return className;
     }
-    
+
     /**
-     * Method getClassNameMap answers a Map of Comparator names and their class 
+     * Method getClassNameMap answers a Map of Comparator names and their class
      * names.
+     * 
      * @return Map
      * @throws SieveConfigurationException
      */
-    protected Map getClassNameMap() throws SieveConfigurationException
-    {   
-        return ConfigurationManager.getInstance().getComparatorMap();        
-    }    
-    
-        
+    protected Map getClassNameMap() throws SieveConfigurationException {
+        return ConfigurationManager.getInstance().getComparatorMap();
+    }
 
 }

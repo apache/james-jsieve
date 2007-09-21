@@ -17,23 +17,22 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 /**
  * Interface Contains defines the method signatures for contains comparators.
  */
-public interface Contains
-{
-    
+public interface Contains {
+
     /**
      * Method contains answers a <code>boolean</code> indicating if parameter
-     * <code>container</code> contains parameter <code>content</code> using the
-     * comparison rules defind by the implementation.
+     * <code>container</code> contains parameter <code>content</code> using
+     * the comparison rules defind by the implementation.
+     * 
      * @param container
      * @param content
      * @return boolean
      */
-    public boolean contains(String container, String content);    
+    public boolean contains(String container, String content);
 
 }

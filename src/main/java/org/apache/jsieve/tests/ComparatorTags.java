@@ -17,14 +17,12 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 /**
- * Interface ComparatorTags defines the String constants used to specify
- * a COMPARATOR tag. 
+ * Interface ComparatorTags defines the String constants used to specify a
+ * COMPARATOR tag.
  */
-public interface ComparatorTags
-{
-    public static final String COMPARATOR_TAG = ":comparator";  
+public interface ComparatorTags {
+    public static final String COMPARATOR_TAG = ":comparator";
 }

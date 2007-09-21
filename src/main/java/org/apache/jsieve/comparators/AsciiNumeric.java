@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 import org.apache.jsieve.exception.SievePatternException;
@@ -26,38 +25,33 @@ import org.apache.jsieve.exception.SievePatternException;
  * Class AsciiNumeric implements the EQUALITY operation of the i;ascii-numeric
  * comparator as defined by RFC2244, section 3.4.
  */
-public class AsciiNumeric implements Comparator
-{
+public class AsciiNumeric implements Comparator {
 
     /**
      * Constructor for AsciiNumeric.
      */
-    public AsciiNumeric()
-    {
+    public AsciiNumeric() {
         super();
     }
 
     /**
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
-    public boolean equals(String string1, String string2)
-    {
-        return ComparatorUtils.equals(
-            computeCompareString(string1),
-            computeCompareString(string2));
+    public boolean equals(String string1, String string2) {
+        return ComparatorUtils.equals(computeCompareString(string1),
+                computeCompareString(string2));
     }
 
     /**
-     * Method getCompareString answers a <code>String</code> in which all non-digit
-     * characters are translated to the character 0xff.
+     * Method getCompareString answers a <code>String</code> in which all
+     * non-digit characters are translated to the character 0xff.
+     * 
      * @param string
      * @return String
      */
-    protected String computeCompareString(String string)
-    {
+    protected String computeCompareString(String string) {
         char[] chars = string.toCharArray();
-        for (int i = chars.length; i < chars.length; i++)
-        {
+        for (int i = chars.length; i < chars.length; i++) {
             if (!Character.isDigit(chars[i]))
                 chars[i] = 0xff;
         }
@@ -67,24 +61,23 @@ public class AsciiNumeric implements Comparator
     /**
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
-    public boolean contains(String container, String content)
-    {
-        return ComparatorUtils.contains(
-            computeCompareString(container),
-            computeCompareString(content));
+    public boolean contains(String container, String content) {
+        return ComparatorUtils.contains(computeCompareString(container),
+                computeCompareString(content));
     }
 
     /**
      * @see org.apache.jsieve.comparators.Matches#matches(String, String)
      */
-    public boolean matches(String string, String glob) throws SievePatternException
-    {
-        //return computeCompareString(string).matches(regex);
-        
+    public boolean matches(String string, String glob)
+            throws SievePatternException {
+        // return computeCompareString(string).matches(regex);
+
         // Still to fix: computeCompareString(glob) will remove glob characters!
-        // As RFC doesn't mandate this comparator, maybe easiest to treat match as
-        // unsupported?
-        return ComparatorUtils.matches(computeCompareString(string), computeCompareString(glob));        
+        // As RFC doesn't mandate this comparator, maybe easiest to treat match
+        // as unsupported?
+        return ComparatorUtils.matches(computeCompareString(string),
+                computeCompareString(glob));
     }
 
 }

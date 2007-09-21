@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 import org.apache.jsieve.exception.SieveException;
@@ -25,12 +24,12 @@ import org.apache.jsieve.exception.SieveException;
 /**
  * Interface Matches defines the method signatures for matches comparators.
  */
-public interface Matches
-{
+public interface Matches {
     /**
      * Method matches answers a <code>boolean</code> indicating if parameter
      * <code>string1</code> matches the pattern in parameter <code>glob</code>
      * using the matching rules defind by the implementation.
+     * 
      * @param string
      * @param glob
      * @return boolean

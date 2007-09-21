@@ -17,101 +17,95 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class StringListArgument is a parsed representation of the RFC3028 BNF...</p>
+ * Class StringListArgument is a parsed representation of the RFC3028 BNF...
+ * </p>
  * 
  * <code>string-list = "[" string *("," string) "]" / string</code>
  */
-public class StringListArgument implements Argument
-{
+public class StringListArgument implements Argument {
     private List fieldList;
 
     /**
      * Constructor for StringListArgument.
      */
-    private StringListArgument()
-    {
+    private StringListArgument() {
         super();
     }
-    
+
     /**
      * Constructor for StringListArgument.
      */
-    public StringListArgument(List stringList)
-    {
+    public StringListArgument(List stringList) {
         this();
         setList(stringList);
     }
 
     /**
      * Returns the list, lazy initialised if required.
+     * 
      * @return List
      */
-    public List getList()
-    {
+    public List getList() {
         List list = null;
-        if (null == (list = getListBasic()))
-        {
+        if (null == (list = getListBasic())) {
             updateList();
             return getList();
-        }    
+        }
         return list;
     }
-    
+
     /**
      * Returns the list.
+     * 
      * @return List
      */
-    private List getListBasic()
-    {
+    private List getListBasic() {
         return fieldList;
-    } 
-    
+    }
+
     /**
      * Returns a new list.
+     * 
      * @return List
      */
-    protected List computeList()
-    {
+    protected List computeList() {
         return new ArrayList();
-    }       
+    }
 
     /**
      * Sets the list.
-     * @param list The list to set
+     * 
+     * @param list
+     *                The list to set
      */
-    protected void setList(List list)
-    {
+    protected void setList(List list) {
         fieldList = list;
     }
-    
+
     /**
      * Updates the list.
      */
-    protected void updateList()
-    {
+    protected void updateList() {
         setList(computeList());
-    }    
+    }
 
     /**
      * @see org.apache.jsieve.Argument#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return getList();
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return (getValue() == null) ? "null" : getValue().toString();
     }
 

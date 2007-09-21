@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
@@ -27,30 +26,32 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Class Discard implements the Discard Command as defined in RFC 3028, section 4.5.
+ * Class Discard implements the Discard Command as defined in RFC 3028, section
+ * 4.5.
  */
-public class Discard extends AbstractActionCommand
-{
+public class Discard extends AbstractActionCommand {
 
     /**
      * Constructor for Discard.
      */
-    public Discard()
-    {
+    public Discard() {
         super();
     }
 
     /**
-     * <p>Discard silently discards a Mail by cancelling the implicit keep as 
-     * specified in RFC 3028, Section 4.5.</p>
-     *<p>
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Discard silently discards a Mail by cancelling the implicit keep as
+     * specified in RFC 3028, Section 4.5.
      * </p>
-     */  
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {                
-//        mail.addAction(new ActionDiscard());
+     * <p>
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
+        // mail.addAction(new ActionDiscard());
         return null;
     }
 

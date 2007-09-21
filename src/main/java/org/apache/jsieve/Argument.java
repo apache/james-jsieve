@@ -17,19 +17,17 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
-
 
 /**
  * A simple Interface for Arguments.
  * 
  * Creation Date: 24-Nov-03
  */
-public interface Argument
-{
+public interface Argument {
     /**
      * Method getValue answers the value of the receiver's Argument.
+     * 
      * @return Object
      */
     public Object getValue();

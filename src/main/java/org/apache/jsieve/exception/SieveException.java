@@ -17,49 +17,46 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>SieveException</code> indicates an exceptional condition encountered
- * within Sieve.
+ * Class <code>SieveException</code> indicates an exceptional condition
+ * encountered within Sieve.
  */
-public class SieveException extends Exception
-{
+public class SieveException extends Exception {
 
     /**
      * Constructor for SieveException.
      */
-    public SieveException()
-    {
+    public SieveException() {
         super();
     }
 
     /**
      * Constructor for SieveException.
+     * 
      * @param message
      */
-    public SieveException(String message)
-    {
+    public SieveException(String message) {
         super(message);
     }
 
     /**
      * Constructor for SieveException.
+     * 
      * @param message
      * @param cause
      */
-    public SieveException(String message, Throwable cause)
-    {
+    public SieveException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for SieveException.
+     * 
      * @param cause
      */
-    public SieveException(Throwable cause)
-    {
+    public SieveException(Throwable cause) {
         super(cause);
     }
 

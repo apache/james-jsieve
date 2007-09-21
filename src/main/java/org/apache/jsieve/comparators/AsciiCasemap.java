@@ -17,53 +17,48 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 import org.apache.jsieve.exception.SievePatternException;
 
 /**
  * Class AsciiCasemap implements the EQUALITY operation of the i;ascii-casemap
- * comparator as defined by RFC2244, section 3.4 - "With this function the values
- * "hello" and "HELLO" have the same ordinal value and are considered equal".
+ * comparator as defined by RFC2244, section 3.4 - "With this function the
+ * values "hello" and "HELLO" have the same ordinal value and are considered
+ * equal".
  */
-public class AsciiCasemap implements Comparator
-{
+public class AsciiCasemap implements Comparator {
 
     /**
      * Constructor for AsciiCasemap.
      */
-    public AsciiCasemap()
-    {
+    public AsciiCasemap() {
         super();
     }
 
     /**
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
-    public boolean equals(String string1, String string2)
-    {
-        return ComparatorUtils.equals(
-            string1.toUpperCase(),
-            string2.toUpperCase());
+    public boolean equals(String string1, String string2) {
+        return ComparatorUtils.equals(string1.toUpperCase(), string2
+                .toUpperCase());
     }
 
     /**
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
-    public boolean contains(String container, String content)
-    {
-        return ComparatorUtils.contains(
-            container.toUpperCase(),
-            content.toUpperCase());
+    public boolean contains(String container, String content) {
+        return ComparatorUtils.contains(container.toUpperCase(), content
+                .toUpperCase());
     }
 
     /**
      * @see org.apache.jsieve.comparators.Matches#matches(String, String)
      */
-    public boolean matches(String string, String glob) throws SievePatternException
-    {
-        return ComparatorUtils.matches(string.toUpperCase(), glob.toUpperCase()); 
+    public boolean matches(String string, String glob)
+            throws SievePatternException {
+        return ComparatorUtils
+                .matches(string.toUpperCase(), glob.toUpperCase());
     }
 
 }

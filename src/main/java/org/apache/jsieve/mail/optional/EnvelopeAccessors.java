@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail.optional;
 
 import java.util.List;
@@ -25,52 +24,48 @@ import java.util.List;
 import org.apache.jsieve.mail.SieveMailException;
 
 /**
- * Interface EnvelopeAccessors specifies the method signatures required to support
- * the Envelope Test.
+ * Interface EnvelopeAccessors specifies the method signatures required to
+ * support the Envelope Test.
  */
-public interface EnvelopeAccessors
-{
+public interface EnvelopeAccessors {
     /**
-     * Method getEnvelope answers a List of all of the envelope values in the 
-     * receiver whose name is equal to the passed name. If no values are found an 
-     * empty List is returned.
+     * Method getEnvelope answers a List of all of the envelope values in the
+     * receiver whose name is equal to the passed name. If no values are found
+     * an empty List is returned.
      * 
      * @param name
      * @return List
      * @throws SieveMailException
      */
     public List getEnvelope(String name) throws SieveMailException;
-    
 
     /**
-     * Method getEnvelopeNames answers a List of the names of the envelope values in
-     * the receiver.
-     * No duplicates are allowed.
+     * Method getEnvelopeNames answers a List of the names of the envelope
+     * values in the receiver. No duplicates are allowed.
+     * 
      * @return List
      * @throws SieveMailException
      */
-    public List getEnvelopeNames() throws SieveMailException;       
-    
+    public List getEnvelopeNames() throws SieveMailException;
 
     /**
-     * <p>Method getMatchingEnvelope answers a List of all of the envelope values in 
-     * the receiver with the passed name. If no matching names are found an empty 
-     * List is returned.
+     * <p>
+     * Method getMatchingEnvelope answers a List of all of the envelope values
+     * in the receiver with the passed name. If no matching names are found an
+     * empty List is returned.
      * </p>
      * 
-     * <p>This method differs from getEnvelope(String) in that it ignores case and 
-     * the whitespace prefixes and suffixes of an envelope value name when performing
-     * the match, as required by RFC 3028. Thus "From", "from ", " From" and " from "
-     * are considered equal.
+     * <p>
+     * This method differs from getEnvelope(String) in that it ignores case and
+     * the whitespace prefixes and suffixes of an envelope value name when
+     * performing the match, as required by RFC 3028. Thus "From", "from ", "
+     * From" and " from " are considered equal.
      * </p>
      * 
      * @param name
      * @return List
      * @throws SieveMailException
      */
-    public List getMatchingEnvelope(String name)
-        throws SieveMailException;
-        
-
+    public List getMatchingEnvelope(String name) throws SieveMailException;
 
 }

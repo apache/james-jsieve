@@ -17,17 +17,17 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 /**
- * Interface MatchTypeTags defines the String constants used to specify
- * an MATCH-TYPE tag. 
+ * Interface MatchTypeTags defines the String constants used to specify an
+ * MATCH-TYPE tag.
  */
-public interface MatchTypeTags
-{
+public interface MatchTypeTags {
     public static final String IS_TAG = ":is";
+
     public static final String CONTAINS_TAG = ":contains";
-    public static final String MATCHES_TAG = ":matches";         
+
+    public static final String MATCHES_TAG = ":matches";
 
 }

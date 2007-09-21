@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 import java.util.ArrayList;
@@ -25,30 +24,29 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Class MailUtils implements utility methods that are useful when processing Sieve
- * mail.
+ * Class MailUtils implements utility methods that are useful when processing
+ * Sieve mail.
  */
-public class MailUtils
-{
+public class MailUtils {
 
     /**
      * Constructor for MailUtils.
      */
-    protected MailUtils()
-    {
+    protected MailUtils() {
         super();
     }
 
-
     /**
-     * <p>Method getMatchingHeader answers a List of all of the headers in the mail
+     * <p>
+     * Method getMatchingHeader answers a List of all of the headers in the mail
      * with the passed name. If no headers are found an empty List is returned.
      * </p>
      * 
-     * <p>This method differs from MailAdapter.getHeader(String) in that it 
-     * ignores case and whitespace prefixes and suffixes to a header name when 
-     * performing the match, as required by RFC 3028. Thus "From", "from ", " From" 
-     * and " from " are considered equal.
+     * <p>
+     * This method differs from MailAdapter.getHeader(String) in that it ignores
+     * case and whitespace prefixes and suffixes to a header name when
+     * performing the match, as required by RFC 3028. Thus "From", "from ", "
+     * From" and " from " are considered equal.
      * </p>
      * 
      * @param name
@@ -56,17 +54,15 @@ public class MailUtils
      * @throws SieveMailException
      */
     static public List getMatchingHeader(MailAdapter mail, String name)
-        throws SieveMailException
-    {
+            throws SieveMailException {
         Iterator headerNamesIter = mail.getHeaderNames().iterator();
         List matchedHeaderValues = new ArrayList(32);
-        while (headerNamesIter.hasNext())
-        {
+        while (headerNamesIter.hasNext()) {
             String headerName = (String) headerNamesIter.next();
             if (headerName.trim().equalsIgnoreCase(name))
                 matchedHeaderValues.addAll(mail.getHeader(headerName));
         }
 
         return matchedHeaderValues;
-    }      
+    }
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.jsieve.exception.SieveException;
@@ -26,8 +25,7 @@ import org.apache.jsieve.mail.*;
 /**
  * Interface for an Executable operation.
  */
-public interface Executable
-{
+public interface Executable {
     public Object execute(MailAdapter mail) throws SieveException;
 
 }

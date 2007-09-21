@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import java.util.Iterator;
@@ -35,111 +34,102 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Class Require implements the Require Command as defined in RFC 3028, section 3.2.
+ * Class Require implements the Require Command as defined in RFC 3028, section
+ * 3.2.
  */
-public class Require extends AbstractPrologCommand
-{
+public class Require extends AbstractPrologCommand {
 
     /**
      * Constructor for Require.
      */
-    public Require()
-    {
+    public Require() {
         super();
     }
 
     /**
-     * <p>Ensure the required feature is configured.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Ensure the required feature is configured.
      * </p>
-     */ 
-    protected Object executeBasic(
-        MailAdapter mail,
-        Arguments arguments,
-        Block block, SieveContext context)
-        throws SieveException
-    {
-        Iterator stringsIter =
-            ((StringListArgument) arguments.getArgumentList().get(0))
-                .getList()
-                .iterator();
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
+        Iterator stringsIter = ((StringListArgument) arguments
+                .getArgumentList().get(0)).getList().iterator();
 
-        while (stringsIter.hasNext())
-        {
+        while (stringsIter.hasNext()) {
             validateFeature((String) stringsIter.next(), mail);
         }
         return null;
     }
 
     /**
-     * Method validateFeature validates the required feature is configured as either
-     * a Command or a Test.
+     * Method validateFeature validates the required feature is configured as
+     * either a Command or a Test.
+     * 
      * @param name
      * @param mail
      * @throws FeatureException
      */
     protected void validateFeature(String name, MailAdapter mail)
-        throws FeatureException
-    {
+            throws FeatureException {
         // Validate as a Command
-        try
-        {
+        try {
             validateCommand(name);
             return;
-        }
-        catch (LookupException e)
-        {
+        } catch (LookupException e) {
             // Not a command
-        }       
-        
-        // Validate as a Test             
-        try
-        {
-            validateTest(name);
         }
-        catch (LookupException e)
-        {
-            throw new FeatureException(
-                "Feature \"" + name + "\" is not supported.");
+
+        // Validate as a Test
+        try {
+            validateTest(name);
+        } catch (LookupException e) {
+            throw new FeatureException("Feature \"" + name
+                    + "\" is not supported.");
         }
     }
-    
+
     /**
      * Method validateCommand.
+     * 
      * @param name
      * @throws LookupException
      */
-    protected void validateCommand(String name)
-        throws LookupException
-    {
+    protected void validateCommand(String name) throws LookupException {
         CommandManager.getInstance().lookup(name);
     }
-    
+
     /**
      * Method validateTest.
+     * 
      * @param name
      * @throws LookupException
      */
-    protected void validateTest(String name)
-        throws LookupException
-    {
+    protected void validateTest(String name) throws LookupException {
         TestManager.getInstance().lookup(name);
     }
-    
+
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
-                "Exactly 1 argument permitted. Found " + args.size());
+                    "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a string-list");
     }
-    
+
 }

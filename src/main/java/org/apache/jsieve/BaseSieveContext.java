@@ -20,24 +20,27 @@
 package org.apache.jsieve;
 
 /**
- * Bean based implementation of context. 
- *
+ * Bean based implementation of context.
+ * 
  */
 public class BaseSieveContext extends SieveContext {
 
     private ScriptCoordinate coordinate;
-    
+
     /**
      * Gets the script position of the current operation.
+     * 
      * @return <code>ScriptCoordinate</code>, not null
      */
     public ScriptCoordinate getCoordinate() {
         return coordinate;
     }
-    
+
     /**
      * Sets the script position of the current operation.
-     * @param coordinate <code>ScriptCoordinate</code>, not null
+     * 
+     * @param coordinate
+     *                <code>ScriptCoordinate</code>, not null
      */
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;

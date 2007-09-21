@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import java.util.ArrayList;
@@ -38,34 +37,35 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Header implements the Header Test as defined in RFC 3028, section 5.7.
  */
-public class Header
-    extends AbstractTest
-    implements ComparatorTags, MatchTypeTags, ComparatorNames
-{
+public class Header extends AbstractTest implements ComparatorTags,
+        MatchTypeTags, ComparatorNames {
 
     /**
      * Constructor for Header.
      */
-    public Header()
-    {
+    public Header() {
         super();
     }
 
     /**
-     * <p>From RFC 3028, Section 5.7... </p>
+     * <p>
+     * From RFC 3028, Section 5.7...
+     * </p>
      * <code>  
      * Syntax: header [COMPARATOR] [MATCH-TYPE]
      *       &lt;header-names: string-list&gt; &lt;key-list: string-list&gt;
      * </code>
-     * <p>Note that the spec. then goes on to give an example where the
-     * order of the optional parts is different, so I guess that the order is
-     * optional too!</p>
+     * <p>
+     * Note that the spec. then goes on to give an example where the order of
+     * the optional parts is different, so I guess that the order is optional
+     * too!
+     * </p>
      * 
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-        throws SieveException
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
         String comparator = null;
         String matchType = null;
         List headerNames = null;
@@ -75,44 +75,36 @@ public class Header
         boolean stop = false;
 
         // Tag processing
-        while (!stop && argumentsIter.hasNext())
-        {
+        while (!stop && argumentsIter.hasNext()) {
             Object argument = argumentsIter.next();
-            if (argument instanceof TagArgument)
-            {
+            if (argument instanceof TagArgument) {
                 String tag = ((TagArgument) argument).getTag();
 
-                if (null == comparator && tag.equals(COMPARATOR_TAG))
-                {
+                if (null == comparator && tag.equals(COMPARATOR_TAG)) {
                     // The next argument must be a stringlist
-                    if (argumentsIter.hasNext())
-                    {
+                    if (argumentsIter.hasNext()) {
                         argument = argumentsIter.next();
-                        if (argument instanceof StringListArgument)
-                        {
-                            List stringList =
-                                ((StringListArgument) argument).getList();
+                        if (argument instanceof StringListArgument) {
+                            List stringList = ((StringListArgument) argument)
+                                    .getList();
                             if (stringList.size() != 1)
-                                throw context.getCoordinate().syntaxException("Expecting exactly one String");
+                                throw context.getCoordinate().syntaxException(
+                                        "Expecting exactly one String");
                             comparator = (String) stringList.get(0);
-                        }
-                        else
-                            throw context.getCoordinate().syntaxException("Expecting a StringList");
+                        } else
+                            throw context.getCoordinate().syntaxException(
+                                    "Expecting a StringList");
                     }
                 }
                 // [MATCH-TYPE]?
-                else if (
-                    null == matchType
-                        && (tag.equals(IS_TAG)
-                            || tag.equals(CONTAINS_TAG)
-                            || tag.equals(MATCHES_TAG)))
+                else if (null == matchType
+                        && (tag.equals(IS_TAG) || tag.equals(CONTAINS_TAG) || tag
+                                .equals(MATCHES_TAG)))
                     matchType = tag;
                 else
                     throw context.getCoordinate().syntaxException(
-                        "Found unexpected TagArgument: \"" + tag + "\"");
-            }
-            else
-            {
+                            "Found unexpected TagArgument: \"" + tag + "\"");
+            } else {
                 // Stop when a non-tag argument is encountered
                 argumentsIter.previous();
                 stop = true;
@@ -120,38 +112,37 @@ public class Header
         }
 
         // The next argument MUST be a string-list of header names
-        if (argumentsIter.hasNext())
-        {
+        if (argumentsIter.hasNext()) {
             Object argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 headerNames = ((StringListArgument) argument).getList();
         }
         if (null == headerNames)
-            throw context.getCoordinate().syntaxException("Expecting a StringListof header names");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a StringListof header names");
 
         // The next argument MUST be a string-list of keys
-        if (argumentsIter.hasNext())
-        {
+        if (argumentsIter.hasNext()) {
             Object argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 keys = ((StringListArgument) argument).getList();
         }
         if (null == keys)
-            throw context.getCoordinate().syntaxException("Expecting a StringList of keys");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a StringList of keys");
 
         if (argumentsIter.hasNext())
-            throw context.getCoordinate().syntaxException("Found unexpected arguments");
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected arguments");
 
-        return match(
-            mail,
-            (comparator == null ? ASCII_CASEMAP_COMPARATOR : comparator),
-            (matchType == null ? IS_TAG : matchType),
-            headerNames,
-            keys);
+        return match(mail, (comparator == null ? ASCII_CASEMAP_COMPARATOR
+                : comparator), (matchType == null ? IS_TAG : matchType),
+                headerNames, keys);
     }
 
     /**
      * Method match.
+     * 
      * @param mail
      * @param comparator
      * @param matchType
@@ -160,31 +151,22 @@ public class Header
      * @return boolean
      * @throws SieveException
      */
-    protected boolean match(
-        MailAdapter mail,
-        String comparator,
-        String matchType,
-        List headerNames,
-        List keys)
-        throws SieveException
-    {
+    protected boolean match(MailAdapter mail, String comparator,
+            String matchType, List headerNames, List keys)
+            throws SieveException {
         // Iterate over the header names looking for a match
         boolean isMatched = false;
         Iterator headerNamesIter = headerNames.iterator();
-        while (!isMatched && headerNamesIter.hasNext())
-        {
-            isMatched =
-                match(
-                    comparator,
-                    matchType,
-                    mail.getMatchingHeader((String) headerNamesIter.next()),
-                    keys);
+        while (!isMatched && headerNamesIter.hasNext()) {
+            isMatched = match(comparator, matchType, mail
+                    .getMatchingHeader((String) headerNamesIter.next()), keys);
         }
         return isMatched;
     }
 
     /**
      * Method match.
+     * 
      * @param comparator
      * @param matchType
      * @param headerValues
@@ -192,18 +174,13 @@ public class Header
      * @return boolean
      * @throws SieveException
      */
-    protected boolean match(
-        String comparator,
-        String matchType,
-        List headerValues,
-        List keys)
-        throws SieveException
-    {
+    protected boolean match(String comparator, String matchType,
+            List headerValues, List keys) throws SieveException {
         // Special case for empty values
         // If the matchType is :contains
-        //     add the headerValue of a null string
-        // else 
-        //     not matched
+        // add the headerValue of a null string
+        // else
+        // not matched
         if (headerValues.isEmpty())
             if (matchType.equals(CONTAINS_TAG)) {
                 // header values may be immutable
@@ -215,20 +192,16 @@ public class Header
         // Iterate over the header values looking for a match
         boolean isMatched = false;
         Iterator headerValuesIter = headerValues.iterator();
-        while (!isMatched && headerValuesIter.hasNext())
-        {
-            isMatched =
-                match(
-                    comparator,
-                    matchType,
-                    (String) headerValuesIter.next(),
-                    keys);
+        while (!isMatched && headerValuesIter.hasNext()) {
+            isMatched = match(comparator, matchType, (String) headerValuesIter
+                    .next(), keys);
         }
         return isMatched;
     }
 
     /**
      * Method match.
+     * 
      * @param comparator
      * @param matchType
      * @param headerValue
@@ -236,35 +209,27 @@ public class Header
      * @return boolean
      * @throws SieveException
      */
-    protected boolean match(
-        String comparator,
-        String matchType,
-        String headerValue,
-        List keys)
-        throws SieveException
-    {
+    protected boolean match(String comparator, String matchType,
+            String headerValue, List keys) throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
         Iterator keysIter = keys.iterator();
-        while (!isMatched && keysIter.hasNext())
-        {
-            isMatched =
-                ComparatorUtils.match(
-                    comparator,
-                    matchType,
-                    headerValue,
-                    (String) keysIter.next());
+        while (!isMatched && keysIter.hasNext()) {
+            isMatched = ComparatorUtils.match(comparator, matchType,
+                    headerValue, (String) keysIter.next());
         }
         return isMatched;
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         if (arguments.hasTests())
-            throw context.getCoordinate().syntaxException("Found unexpected tests");
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

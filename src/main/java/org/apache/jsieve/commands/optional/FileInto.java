@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands.optional;
 
 import java.util.List;
@@ -34,54 +33,46 @@ import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Class FileInto implements the FileInto Command as defined in RFC 3028, section 
- * 4.2.
+ * Class FileInto implements the FileInto Command as defined in RFC 3028,
+ * section 4.2.
  */
-public class FileInto extends AbstractActionCommand
-{
+public class FileInto extends AbstractActionCommand {
 
     /**
      * Constructor for Require.
      */
-    public FileInto()
-    {
+    public FileInto() {
         super();
     }
 
     /**
-     * <p>Add an ActionFileInto to the List of Actions to be performed passing the
+     * <p>
+     * Add an ActionFileInto to the List of Actions to be performed passing the
      * sole StringList argument as the destination. RFC 3028 mandates that there
      * should be only one FileInto per destination. If this is a duplicate, this
-     * Command is silently ignored. 
+     * Command is silently ignored.
      * </p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
-     * </p>
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
      */
-    protected Object executeBasic(
-        MailAdapter mail,
-        Arguments arguments,
-        Block block, SieveContext context)
-        throws SieveException
-    {
-        String destination =
-            (String) ((StringListArgument) arguments.getArgumentList().get(0))
-                .getList()
-                .get(
-                0);
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
+        String destination = (String) ((StringListArgument) arguments
+                .getArgumentList().get(0)).getList().get(0);
 
         // Only one fileinto per destination allowed, others should be
-        // discarded            
+        // discarded
         ListIterator actionsIter = mail.getActionsIterator();
         boolean isDuplicate = false;
-        while (actionsIter.hasNext())
-        {
+        while (actionsIter.hasNext()) {
             Action action = (Action) actionsIter.next();
-            isDuplicate =
-                (action instanceof ActionFileInto)
-                    && (((ActionFileInto) action)
-                        .getDestination()
-                        .equals(destination));
+            isDuplicate = (action instanceof ActionFileInto)
+                    && (((ActionFileInto) action).getDestination()
+                            .equals(destination));
         }
 
         if (!isDuplicate)
@@ -89,26 +80,26 @@ public class FileInto extends AbstractActionCommand
 
         return null;
     }
-    
+
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
-                "Exactly 1 argument permitted. Found " + args.size());
+                    "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting exactly one argument");
     }
-    
-
-    
 
 }

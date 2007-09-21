@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import java.util.ArrayList;
@@ -28,78 +27,79 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.*;
 
 /**
- * <p>A parsed representation of an RFC3028 testlist argument...</p>
+ * <p>
+ * A parsed representation of an RFC3028 testlist argument...
+ * </p>
  * 
  * <code>test-list = "(" test *("," test) ")"</code>
  */
-public class TestList implements Executable
-{
+public class TestList implements Executable {
     /**
      * List of Tests
-     */ 
+     */
     private List fieldTests;
 
     /**
      * Constructor for TestList.
      */
-    private TestList()
-    {
+    private TestList() {
         super();
     }
-    
+
     /**
      * Constructor for TestList.
-     * @param children - A List of Tests
+     * 
+     * @param children -
+     *                A List of Tests
      */
-    public TestList(List children)
-    {
+    public TestList(List children) {
         this();
         setTests(children);
     }
-    
+
     /**
      * Constructor for TestList.
-     * @param child - A Test
+     * 
+     * @param child -
+     *                A Test
      */
-    public TestList(Test child)
-    {
+    public TestList(Test child) {
         this();
         List children = new ArrayList();
         children.add(child);
-        setTests( children);
-    }        
+        setTests(children);
+    }
 
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter)
      */
-    public Object execute(MailAdapter mail) throws SieveException
-    {
+    public Object execute(MailAdapter mail) throws SieveException {
         boolean result = true;
 
         Iterator testsIter = getTests().iterator();
-        while (result && testsIter.hasNext())
-        {
-            result =
-                ((Boolean) ((Test) testsIter.next()).execute(mail)).booleanValue();
+        while (result && testsIter.hasNext()) {
+            result = ((Boolean) ((Test) testsIter.next()).execute(mail))
+                    .booleanValue();
         }
         return new Boolean(result);
     }
 
     /**
      * Returns the children.
+     * 
      * @return List
      */
-    public List getTests()
-    {
+    public List getTests() {
         return fieldTests;
     }
 
     /**
      * Sets the children.
-     * @param children The children to set
+     * 
+     * @param children
+     *                The children to set
      */
-    protected void setTests(List children)
-    {
+    protected void setTests(List children) {
         fieldTests = children;
     }
 
@@ -107,5 +107,4 @@ public class TestList implements Executable
         return "TEST LIST: " + fieldTests;
     }
 
-    
 }

@@ -17,14 +17,12 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 /**
- * Interface <code>Action</code> defines the final state of a 
+ * Interface <code>Action</code> defines the final state of a
  * <code>MailAdapter</code> instance.
  */
-public interface Action
-{
+public interface Action {
 
 }

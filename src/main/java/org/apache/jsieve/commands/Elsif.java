@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
@@ -31,65 +30,62 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Elsif implements the Elsif Command as defined in RFC 3028, section 3.1.
  */
-public class Elsif extends AbstractConditionalCommand
-{
-    
+public class Elsif extends AbstractConditionalCommand {
+
     /**
      * Constructor for Elsif.
      */
-    public Elsif()
-    {
+    public Elsif() {
         super();
-    }    
+    }
 
     /**
-     * <p>Conditionally eexecute a Block if an Elsif Condition is allowed and
-     * runnable.</p> 
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Conditionally eexecute a Block if an Elsif Condition is allowed and
+     * runnable.
      * </p>
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
      */
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
         // Check Syntax
         if (!ConditionManager.getInstance().isElsifAllowed())
-            throw context.getCoordinate().commandException("Unexpected Command: \"elsif\".");         
+            throw context.getCoordinate().commandException(
+                    "Unexpected Command: \"elsif\".");
 
-        // Check Runnable                
+        // Check Runnable
         if (!ConditionManager.getInstance().isElsifRunnable())
             return Boolean.FALSE;
 
         // Run the tests
-        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail);        
+        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail);
 
-        // If the tests answered TRUE, execute the Block 
+        // If the tests answered TRUE, execute the Block
         if (isTestPassed.booleanValue())
             execute(mail, block);
 
         // Update the ConditionManager
         ConditionManager.getInstance().setElsifTestResult(
-            isTestPassed.booleanValue());
+                isTestPassed.booleanValue());
 
         // Return the result
         return isTestPassed;
     }
-    
+
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         TestList testList = arguments.getTestList();
         if (null == testList || testList.getTests().isEmpty())
             throw context.getCoordinate().syntaxException("Expecting a Test");
     }
-    
-
-    
-
-
-
-    
 
 }

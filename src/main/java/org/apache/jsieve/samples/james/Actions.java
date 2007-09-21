@@ -49,15 +49,13 @@ import org.apache.mailet.MailetContext;
  * Singleton Class <code>Actions</code> implements <code>execute()</code>
  * methods for each of the supported Actions.
  */
-public class Actions
-{
+public class Actions {
     static private String fieldAttributePrefix;
 
     /**
      * Constructor for Actions.
      */
-    private Actions()
-    {
+    private Actions() {
         super();
     }
 
@@ -67,7 +65,8 @@ public class Actions
      * </p>
      * 
      * <p>
-     * This implementation accepts any destination with the root of <code>INBOX</code>.
+     * This implementation accepts any destination with the root of
+     * <code>INBOX</code>.
      * </p>
      * 
      * <p>
@@ -87,22 +86,19 @@ public class Actions
      * @throws MessagingException
      */
     static public void execute(ActionFileInto anAction, Mail aMail,
-            MailetContext aMailetContext) throws MessagingException
-    {
+            MailetContext aMailetContext) throws MessagingException {
         StringBuffer repositoryDestinationBuffer = null;
         MailAddress recipient = null;
         boolean delivered = false;
-        try
-        {
+        try {
             recipient = getSoleRecipient(aMail);
             // Validate and translate the destination
             // Note that we do not check that the repository implementation
             // supports the destination or that it exists. That is left
             // to the repository implementation
             int endOfRootDestination = anAction.getDestination().indexOf('/');
-            String rootDestination = (endOfRootDestination > -1
-                    ? anAction.getDestination().substring(0,
-                            endOfRootDestination)
+            String rootDestination = (endOfRootDestination > -1 ? anAction
+                    .getDestination().substring(0, endOfRootDestination)
                     : anAction.getDestination());
             if (!rootDestination.equalsIgnoreCase("INBOX"))
                 throw new DestinationException("Folder: \""
@@ -113,10 +109,8 @@ public class Actions
                         .substring(endOfRootDestination).replace('/', '.'));
             // Adapted from LocalDelivery Mailet
             // Add qmail's de facto standard Delivered-To header
-            MimeMessage localMessage = new MimeMessage(aMail.getMessage())
-            {
-                protected void updateHeaders() throws MessagingException
-                {
+            MimeMessage localMessage = new MimeMessage(aMail.getMessage()) {
+                protected void updateHeaders() throws MessagingException {
                     if (getMessageID() == null)
                         super.updateHeaders();
                     else
@@ -136,19 +130,14 @@ public class Actions
             aMailetContext
                     .storeMail(aMail.getSender(), recipient, localMessage);
             delivered = true;
-        }
-        catch (MessagingException ex)
-        {
+        } catch (MessagingException ex) {
             aMailetContext.log("Error while storing mail.", ex);
             throw ex;
-        }
-        finally
-        {
+        } finally {
             // Ensure the mail is always ghosted
             aMail.setState(Mail.GHOST);
         }
-        if (delivered)
-        {
+        if (delivered) {
             aMailetContext.log("Filed Message ID: "
                     + aMail.getMessage().getMessageID()
                     + " into destination: \""
@@ -172,8 +161,7 @@ public class Actions
      * @throws MessagingException
      */
     public static void execute(ActionKeep anAction, Mail aMail,
-            MailetContext aMailetContext) throws MessagingException
-    {
+            MailetContext aMailetContext) throws MessagingException {
         ActionFileInto action = new ActionFileInto("INBOX");
         execute(action, aMail, aMailetContext);
     }
@@ -187,8 +175,7 @@ public class Actions
      * @throws MessagingException
      */
     public static void execute(ActionRedirect anAction, Mail aMail,
-            MailetContext aMailetContext) throws MessagingException
-    {
+            MailetContext aMailetContext) throws MessagingException {
         detectAndHandleLocalLooping(aMail, aMailetContext, "redirect");
         Collection recipients = new ArrayList(1);
         recipients.add(new InternetAddress(anAction.getAddress()));
@@ -215,8 +202,7 @@ public class Actions
      * @throws MessagingException
      */
     public static void execute(ActionReject anAction, Mail aMail,
-            MailetContext aMailetContext) throws MessagingException
-    {
+            MailetContext aMailetContext) throws MessagingException {
         detectAndHandleLocalLooping(aMail, aMailetContext, "reject");
 
         // Create the MDN part
@@ -230,13 +216,10 @@ public class Actions
         humanText.append(anAction.getMessage());
 
         String reporting_UA_name = null;
-        try
-        {
+        try {
             reporting_UA_name = InetAddress.getLocalHost()
                     .getCanonicalHostName();
-        }
-        catch (UnknownHostException ex)
-        {
+        } catch (UnknownHostException ex) {
             reporting_UA_name = "localhost";
         }
 
@@ -245,8 +228,7 @@ public class Actions
         String[] originalRecipients = aMail.getMessage().getHeader(
                 "Original-Recipient");
         String original_recipient = null;
-        if (null != originalRecipients && originalRecipients.length > 0)
-        {
+        if (null != originalRecipients && originalRecipients.length > 0) {
             original_recipient = originalRecipients[0];
         }
 
@@ -255,7 +237,7 @@ public class Actions
 
         String original_message_id = aMail.getMessage().getMessageID();
 
-        DispositionModifier modifiers[] = {new ModifierError()};
+        DispositionModifier modifiers[] = { new ModifierError() };
         Disposition disposition = new Disposition(new ActionModeAutomatic(),
                 new SendingModeAutomatic(), new TypeDeleted(), modifiers);
 
@@ -269,18 +251,14 @@ public class Actions
         reply.setContent(multiPart);
         reply.saveChanges();
         Address[] recipientAddresses = reply.getAllRecipients();
-        if (null != recipientAddresses)
-        {
+        if (null != recipientAddresses) {
             Collection recipients = new ArrayList(recipientAddresses.length);
-            for (int i = 0; i < recipientAddresses.length; i++)
-            {
+            for (int i = 0; i < recipientAddresses.length; i++) {
                 recipients.add(new MailAddress(
                         (InternetAddress) recipientAddresses[i]));
             }
             aMailetContext.sendMail(null, recipients, reply);
-        }
-        else
-        {
+        } else {
             aMailetContext
                     .log("Unable to send reject MDN. Could not determine the recipient.");
         }
@@ -296,12 +274,11 @@ public class Actions
      * @throws MessagingException
      */
     protected static MailAddress getSoleRecipient(Mail aMail)
-            throws MessagingException
-    {
-          if (aMail.getRecipients() == null) {
-          throw new MessagingException("Invalid number of recipients - 0"
-              + ". Exactly 1 recipient is expected.");
-          } else if (1 != aMail.getRecipients().size())
+            throws MessagingException {
+        if (aMail.getRecipients() == null) {
+            throw new MessagingException("Invalid number of recipients - 0"
+                    + ". Exactly 1 recipient is expected.");
+        } else if (1 != aMail.getRecipients().size())
             throw new MessagingException("Invalid number of recipients - "
                     + new Integer(aMail.getRecipients().size()).toString()
                     + ". Exactly 1 recipient is expected.");
@@ -313,11 +290,9 @@ public class Actions
      * 
      * @return String
      */
-    protected static String getAttributePrefix()
-    {
+    protected static String getAttributePrefix() {
         String value = null;
-        if (null == (value = getAttributePrefixBasic()))
-        {
+        if (null == (value = getAttributePrefixBasic())) {
             updateAttributePrefix();
             return getAttributePrefix();
         }
@@ -329,8 +304,7 @@ public class Actions
      * 
      * @return String
      */
-    private static String getAttributePrefixBasic()
-    {
+    private static String getAttributePrefixBasic() {
         return fieldAttributePrefix;
     }
 
@@ -339,26 +313,24 @@ public class Actions
      * 
      * @return String
      */
-    protected static String computeAttributePrefix()
-    {
+    protected static String computeAttributePrefix() {
         return Actions.class.getPackage().getName() + ".";
     }
 
     /**
      * Sets the attributePrefix.
      * 
-     * @param attributePrefix The attributePrefix to set
+     * @param attributePrefix
+     *                The attributePrefix to set
      */
-    protected static void setAttributePrefix(String attributePrefix)
-    {
+    protected static void setAttributePrefix(String attributePrefix) {
         fieldAttributePrefix = attributePrefix;
     }
 
     /**
      * Updates the attributePrefix.
      */
-    protected static void updateAttributePrefix()
-    {
+    protected static void updateAttributePrefix() {
         setAttributePrefix(computeAttributePrefix());
     }
 
@@ -373,13 +345,11 @@ public class Actions
      */
     protected static void detectAndHandleLocalLooping(Mail aMail,
             MailetContext aMailetContext, String anAttributeSuffix)
-            throws MessagingException
-    {
+            throws MessagingException {
         MailAddress thisRecipient = getSoleRecipient(aMail);
         MailAddress lastRecipient = (MailAddress) aMail
                 .getAttribute(getAttributePrefix() + anAttributeSuffix);
-        if (null != lastRecipient && lastRecipient.equals(thisRecipient))
-        {
+        if (null != lastRecipient && lastRecipient.equals(thisRecipient)) {
             MessagingException ex = new MessagingException(
                     "This message is looping! Message ID: "
                             + aMail.getMessage().getMessageID());

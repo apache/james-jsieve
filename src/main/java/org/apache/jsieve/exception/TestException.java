@@ -17,50 +17,47 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>TestException</code> indicates an exceptional condition encountered
- * while executing a Test.
+ * Class <code>TestException</code> indicates an exceptional condition
+ * encountered while executing a Test.
  * 
  */
-public class TestException extends OperationException
-{
+public class TestException extends OperationException {
 
     /**
      * Constructor for TestException.
      */
-    public TestException()
-    {
+    public TestException() {
         super();
     }
 
     /**
      * Constructor for TestException.
+     * 
      * @param message
      */
-    public TestException(String message)
-    {
+    public TestException(String message) {
         super(message);
     }
 
     /**
      * Constructor for TestException.
+     * 
      * @param message
      * @param cause
      */
-    public TestException(String message, Throwable cause)
-    {
+    public TestException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for TestException.
+     * 
      * @param cause
      */
-    public TestException(Throwable cause)
-    {
+    public TestException(Throwable cause) {
         super(cause);
     }
 

@@ -17,50 +17,47 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>OperationException</code> indicates an exceptional condition 
+ * Class <code>OperationException</code> indicates an exceptional condition
  * encountered while executing an Operation.
  * 
  */
-public class OperationException extends SieveException
-{
+public class OperationException extends SieveException {
 
     /**
      * Constructor for OperationException.
      */
-    public OperationException()
-    {
+    public OperationException() {
         super();
     }
 
     /**
      * Constructor for OperationException.
+     * 
      * @param message
      */
-    public OperationException(String message)
-    {
+    public OperationException(String message) {
         super(message);
     }
 
     /**
      * Constructor for OperationException.
+     * 
      * @param message
      * @param cause
      */
-    public OperationException(String message, Throwable cause)
-    {
+    public OperationException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for OperationException.
+     * 
      * @param cause
      */
-    public OperationException(Throwable cause)
-    {
+    public OperationException(Throwable cause) {
         super(cause);
     }
 

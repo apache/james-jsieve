@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
@@ -30,26 +29,28 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Stop implements the Stop Command as defined in RFC 3028, section 3.3.
  */
-public class Stop extends AbstractControlCommand
-{
+public class Stop extends AbstractControlCommand {
 
     /**
      * Constructor for Require.
      */
-    public Stop()
-    {
+    public Stop() {
         super();
     }
 
     /**
-     * <p>Throws a StopException.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Throws a StopException.
      * </p>
-     */ 
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
         throw new StopException("Stop requested");
     }
 

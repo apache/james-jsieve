@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands.optional;
 
 import java.util.List;
@@ -37,79 +36,84 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class | Interface Enter description here
  * 
  * Creation Date: 11-Jan-04
+ * 
  * @author sbrewin
  * 
  * Copyright 2003, Synergy Systems Limited
  */
 /**
- * Class Reject implements the Reject Command as defined in RFC 3028, section 4.1.
+ * Class Reject implements the Reject Command as defined in RFC 3028, section
+ * 4.1.
  */
-public class Reject extends AbstractActionCommand
-{
+public class Reject extends AbstractActionCommand {
 
     /**
      * Constructor for Reject.
      */
-    public Reject()
-    {
+    public Reject() {
         super();
     }
 
     /**
-     * <p>Add an ActionReject to the List of Actions to be performed.</p>
-     * <p>Also,
-     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter, Arguments, Block, SieveContext)
+     * <p>
+     * Add an ActionReject to the List of Actions to be performed.
      * </p>
-     */  
-    protected Object executeBasic(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {
-        String message =
-            (String) ((StringListArgument) arguments.getArgumentList().get(0))
-                .getList()
-                .get(
-                0);
-                        
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
+     *      Arguments, Block, SieveContext)
+     *      </p>
+     */
+    protected Object executeBasic(MailAdapter mail, Arguments arguments,
+            Block block, SieveContext context) throws SieveException {
+        String message = (String) ((StringListArgument) arguments
+                .getArgumentList().get(0)).getList().get(0);
+
         mail.addAction(new ActionReject(message));
         return null;
     }
-    
+
     /**
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
-    protected void validateState(SieveContext context) throws CommandException
-    {
+    protected void validateState(SieveContext context) throws CommandException {
         super.validateState(context);
 
         if (CommandStateManager.getInstance().isHasActions())
-            throw context.getCoordinate().commandException("The \"reject\" command is not allowed with other Action Commands");
+            throw context
+                    .getCoordinate()
+                    .commandException(
+                            "The \"reject\" command is not allowed with other Action Commands");
     }
-    
+
     /**
      * @see org.apache.jsieve.commands.AbstractCommand#updateState()
      */
-    protected void updateState()
-    {
-        super.updateState();        
-        CommandStateManager.getInstance().setRejected(true);        
-    } 
-    
+    protected void updateState() {
+        super.updateState();
+        CommandStateManager.getInstance().setRejected(true);
+    }
+
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
-                "Exactly 1 argument permitted. Found " + args.size());
+                    "Exactly 1 argument permitted. Found " + args.size());
 
         Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
-    }  
+            throw context.getCoordinate().syntaxException(
+                    "Expecting exactly one argument");
+    }
 
 }

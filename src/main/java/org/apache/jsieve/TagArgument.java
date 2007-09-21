@@ -17,83 +17,80 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.jsieve.parser.generated.Token;
 
 /**
- * <p>A parsed representation of an RFC3028 TAG argument...</p>
+ * <p>
+ * A parsed representation of an RFC3028 TAG argument...
+ * </p>
  * 
  * <code>tag = ":" identifier</code>
  */
-public class TagArgument implements Argument
-{
-    
+public class TagArgument implements Argument {
+
     /**
      * The Tag
-     */ 
+     */
     private String fieldTag;
 
     /**
      * Constructor for TagArgument.
      */
-    private TagArgument()
-    {
+    private TagArgument() {
         super();
     }
-    
+
     /**
      * Constructor for TagArgument.
+     * 
      * @param token
      */
-    public TagArgument(Token token)
-    {
+    public TagArgument(Token token) {
         this();
         setTag(token);
     }
 
     /**
      * Method setTag.
+     * 
      * @param token
      */
-    protected void setTag(Token token)
-    {
+    protected void setTag(Token token) {
         setTag(token.image);
     }
-    
 
     /**
      * Returns the tag.
+     * 
      * @return String
      */
-    public String getTag()
-    {
+    public String getTag() {
         return fieldTag;
     }
 
     /**
      * Sets the tag.
-     * @param tag The tag to set
+     * 
+     * @param tag
+     *                The tag to set
      */
-    protected void setTag(String tag)
-    {
+    protected void setTag(String tag) {
         fieldTag = tag;
     }
 
     /**
      * @see org.apache.jsieve.Argument#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return getTag();
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return (getValue() == null) ? "null" : getValue().toString();
     }
 

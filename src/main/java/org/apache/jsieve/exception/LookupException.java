@@ -17,49 +17,46 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
  * Class LookupException indicates an exceptional condition encountered while
  * locating a Sieve resource.
  */
-public class LookupException extends SieveException
-{
+public class LookupException extends SieveException {
 
     /**
      * Constructor for LookupException.
      */
-    public LookupException()
-    {
+    public LookupException() {
         super();
     }
 
     /**
      * Constructor for LookupException.
+     * 
      * @param message
      */
-    public LookupException(String message)
-    {
+    public LookupException(String message) {
         super(message);
     }
 
     /**
      * Constructor for LookupException.
+     * 
      * @param message
      * @param cause
      */
-    public LookupException(String message, Throwable cause)
-    {
+    public LookupException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for LookupException.
+     * 
      * @param cause
      */
-    public LookupException(Throwable cause)
-    {
+    public LookupException(Throwable cause) {
         super(cause);
     }
 

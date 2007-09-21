@@ -43,96 +43,94 @@ import org.apache.mailet.MailetException;
 
 /**
  * <p>
- * Class JSieve is a DEMONSTRATION Mailet that invokes JSieve to 
- * perform mail processing. There is a single configuration parameter,
- * <code>scriptURL</code>. This a URL pointing to the resource containing
- * the Sieve script to run.
+ * Class JSieve is a DEMONSTRATION Mailet that invokes JSieve to perform mail
+ * processing. There is a single configuration parameter, <code>scriptURL</code>.
+ * This a URL pointing to the resource containing the Sieve script to run.
  * </p>
  * 
  * <p>
- * This Mailet is intended to replace the <code>LocalDelivery</code>
- * Mailet in James. Sieve's Keep Action is functionally equivalent to the
+ * This Mailet is intended to replace the <code>LocalDelivery</code> Mailet in
+ * James. Sieve's Keep Action is functionally equivalent to the
  * <code>LocalDelivery</code> Mailet's processing. The Sieve script may
- * explicitily or implicitly invoke this Action, and/or any other 
- * configured Action. Actions are configured in class
- * <code>ActionDispatcher</code>. 
+ * explicitily or implicitly invoke this Action, and/or any other configured
+ * Action. Actions are configured in class <code>ActionDispatcher</code>.
  * </p>
  * 
- * <p>IMPORTANT NOTES</p>
+ * <p>
+ * IMPORTANT NOTES
+ * </p>
  * 
  * <p>
  * This is NOT production quality code! It is a test harness for exercising
- * jSieve. At least the feutures listed below would be required to consider
- * this of production quality.
- * </p>
- * 
- * <p>REQUIRED FEATURES</p>
- * 
- * <p>
- * To be truly useful, this mailet needs to be configurable to invoke
- * user specific Sieve scripts so that indivual users have control of their
- * mail processing.
+ * jSieve. At least the feutures listed below would be required to consider this
+ * of production quality.
  * </p>
  * 
  * <p>
- * In a Mailet environment, a generic Sieve command to invoke a Mailet
- * would be extremely powerful as jSieve could then leverage the abilities
- * of all available Mailets. Currently, Sieve must wastefully duplicate 
- * the same behaviour as Sieve commands.
- * </p> 
+ * REQUIRED FEATURES
+ * </p>
  * 
- * <p>The converse also applies. Provision should be made for a Mailet to 
- * reuse jSieve commands. As the primary difference between the two is 
- * that Sieve deals with a single recipient while Mailets deal with
- * multiple recipients, a Mailet could simply iterate over all of its
- * recipients invoking the Sieve command for each recipient.  
+ * <p>
+ * To be truly useful, this mailet needs to be configurable to invoke user
+ * specific Sieve scripts so that indivual users have control of their mail
+ * processing.
+ * </p>
+ * 
+ * <p>
+ * In a Mailet environment, a generic Sieve command to invoke a Mailet would be
+ * extremely powerful as jSieve could then leverage the abilities of all
+ * available Mailets. Currently, Sieve must wastefully duplicate the same
+ * behaviour as Sieve commands.
+ * </p>
+ * 
+ * <p>
+ * The converse also applies. Provision should be made for a Mailet to reuse
+ * jSieve commands. As the primary difference between the two is that Sieve
+ * deals with a single recipient while Mailets deal with multiple recipients, a
+ * Mailet could simply iterate over all of its recipients invoking the Sieve
+ * command for each recipient.
  * </p>
  */
-public class JSieve extends GenericMailet
-{
+public class JSieve extends GenericMailet {
     private static final Random random = new Random();
+
     private URL fieldScriptURL;
+
     private Node fieldStartNode;
 
     /**
      * Constructor for JSieve.
      */
-    public JSieve()
-    {
+    public JSieve() {
         super();
     }
 
     /**
      * @see org.apache.mailet.Mailet#service(Mail)
      */
-    public void service(Mail mail) throws MessagingException
-    {
+    public void service(Mail mail) throws MessagingException {
         // If the mail has no recipients, do nothing
         if (mail.getRecipients().isEmpty())
             return;
         // Sieve expects a single recipient. If the mail has more we need to
         // clone the mail, with each mail having a single recipient and
         // resend them.
-        if (mail.getRecipients().size() == 1)
-        {
+        if (mail.getRecipients().size() == 1) {
             // Evaluate the mail against the script.
             // The default state for the mail is GHOST.
             // Actions executed as a result of evaluating the script may
             // change this.
             mail.setState(Mail.GHOST);
             evaluate(mail);
-        }
-        else
-        {
+        } else {
             Iterator recipientsIter = mail.getRecipients().iterator();
             List recipients = new ArrayList(1);
-            while (recipientsIter.hasNext())
-            {
-                //                MailImpl mailClone = duplicate((MailImpl) mail);
+            while (recipientsIter.hasNext()) {
+                // MailImpl mailClone = duplicate((MailImpl) mail);
                 recipients.clear();
                 recipients.add(recipientsIter.next());
-                //               mailClone.setRecipients(recipients);
-                //               getMailetContext().sendMail(mailClone);
+                // mailClone.setRecipients(recipients);
+                // getMailetContext().sendMail(mailClone);
                 getMailetContext().sendMail(mail.getSender(), recipients,
                         mail.getMessage(), mail.getState());
             }
@@ -141,8 +139,7 @@ public class JSieve extends GenericMailet
         }
     }
 
-    protected MailImpl duplicate(MailImpl aMail) throws MessagingException
-    {
+    protected MailImpl duplicate(MailImpl aMail) throws MessagingException {
         // duplicates the Mail object, to be able to modify the new mail
         // keeping
         // the original untouched
@@ -150,15 +147,12 @@ public class JSieve extends GenericMailet
         // We don't need to use the original Remote Address and Host,
         // and doing so would likely cause a loop with spam detecting
         // matchers.
-        try
-        {
-            newMail.setRemoteAddr(java.net.InetAddress
-                    .getLocalHost().getHostAddress());
-            newMail.setRemoteHost(java.net.InetAddress
-                    .getLocalHost().getHostName());
-        }
-        catch (java.net.UnknownHostException _)
-        {
+        try {
+            newMail.setRemoteAddr(java.net.InetAddress.getLocalHost()
+                    .getHostAddress());
+            newMail.setRemoteHost(java.net.InetAddress.getLocalHost()
+                    .getHostName());
+        } catch (java.net.UnknownHostException _) {
             newMail.setRemoteAddr("127.0.0.1");
             newMail.setRemoteHost("localhost");
         }
@@ -170,34 +164,29 @@ public class JSieve extends GenericMailet
      * 
      * Borrowed from org.apache.james.transport.mailets.AbstractRedirect
      * 
-     * @param mail the mail to use as the basis for the new mail name
+     * @param mail
+     *                the mail to use as the basis for the new mail name
      * @return a new name
      */
-    private String newName(MailImpl mail) throws MessagingException
-    {
+    private String newName(MailImpl mail) throws MessagingException {
         String oldName = mail.getName();
         // Checking if the original mail name is too long, perhaps because of a
         // loop caused by a configuration error.
         // it could cause a "null pointer exception" in AvalonMailRepository
         // much
         // harder to understand.
-        if (oldName.length() > 76)
-        {
+        if (oldName.length() > 76) {
             int count = 0;
             int index = 0;
-            while ((index = oldName.indexOf('!', index + 1)) >= 0)
-            {
+            while ((index = oldName.indexOf('!', index + 1)) >= 0) {
                 count++;
             }
             // It looks like a configuration loop. It's better to stop.
-            if (count > 7)
-            {
+            if (count > 7) {
                 throw new MessagingException(
                         "Unable to create a new message name: too long."
                                 + " Possible loop in config.xml.");
-            }
-            else
-            {
+            } else {
                 oldName = oldName.substring(0, 76);
             }
         }
@@ -212,19 +201,15 @@ public class JSieve extends GenericMailet
      * @param aMail
      * @throws MessagingException
      */
-    protected void evaluate(Mail aMail) throws MessagingException
-    {
+    protected void evaluate(Mail aMail) throws MessagingException {
         // Evaluate the script against the mail
-        try
-        {
+        try {
             MailAdapter aMailAdapter = new SieveMailAdapter(aMail,
                     getMailetContext());
             log("Evaluating " + aMailAdapter.toString() + "against \""
                     + getScriptURL().toExternalForm() + "\"");
             SieveFactory.getInstance().evaluate(aMailAdapter, getStartNode());
-        }
-        catch (SieveException ex)
-        {
+        } catch (SieveException ex) {
             log("Exception evaluating Sieve script", ex);
             // If there were errors, we redirect the email to the ERROR
             // processor.
@@ -247,18 +232,17 @@ public class JSieve extends GenericMailet
      * 
      * @return URL
      */
-    public URL getScriptURL()
-    {
+    public URL getScriptURL() {
         return fieldScriptURL;
     }
 
     /**
      * Sets the scriptURL.
      * 
-     * @param scriptURL The scriptURL to set
+     * @param scriptURL
+     *                The scriptURL to set
      */
-    protected void setScriptURL(URL scriptURL)
-    {
+    protected void setScriptURL(URL scriptURL) {
         fieldScriptURL = scriptURL;
     }
 
@@ -268,11 +252,9 @@ public class JSieve extends GenericMailet
      * @return Node
      * @throws MessagingException
      */
-    public Node getStartNode() throws MessagingException
-    {
+    public Node getStartNode() throws MessagingException {
         Node node = null;
-        if (null == (node = getStartNodeBasic()))
-        {
+        if (null == (node = getStartNodeBasic())) {
             updateStartNode();
             return getStartNode();
         }
@@ -284,8 +266,7 @@ public class JSieve extends GenericMailet
      * 
      * @return Node
      */
-    private Node getStartNodeBasic()
-    {
+    private Node getStartNodeBasic() {
         return fieldStartNode;
     }
 
@@ -295,14 +276,11 @@ public class JSieve extends GenericMailet
      * @return Node
      * @throws MessagingException
      */
-    protected Node computeStartNode() throws MessagingException
-    {
+    protected Node computeStartNode() throws MessagingException {
         Object content = null;
-        try
-        {
+        try {
             content = getScriptURL().getContent();
-            if (!(content instanceof InputStream))
-            {
+            if (!(content instanceof InputStream)) {
                 String msg = "Cannot get an InputStream for "
                         + getScriptURL().toExternalForm();
                 log(msg);
@@ -310,16 +288,12 @@ public class JSieve extends GenericMailet
             }
             return SieveFactory.getInstance().parse(
                     new BufferedInputStream((InputStream) content));
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             String msg = "Exception getting contents of script URL: "
                     + getScriptURL().toExternalForm();
             log(msg, ex);
             throw new MessagingException(msg, ex);
-        }
-        catch (ParseException ex)
-        {
+        } catch (ParseException ex) {
             String msg = "Exception parsing Sieve script: "
                     + getScriptURL().toExternalForm();
             log(msg, ex);
@@ -330,10 +304,10 @@ public class JSieve extends GenericMailet
     /**
      * Sets the startNode.
      * 
-     * @param startNode The startNode to set
+     * @param startNode
+     *                The startNode to set
      */
-    protected void setStartNode(Node startNode)
-    {
+    protected void setStartNode(Node startNode) {
         fieldStartNode = startNode;
     }
 
@@ -342,23 +316,18 @@ public class JSieve extends GenericMailet
      * 
      * @throws MessagingException
      */
-    protected void updateStartNode() throws MessagingException
-    {
+    protected void updateStartNode() throws MessagingException {
         setStartNode(computeStartNode());
     }
 
     /**
      * @see org.apache.mailet.GenericMailet#init()
      */
-    public void init() throws MessagingException
-    {
+    public void init() throws MessagingException {
         super.init();
-        try
-        {
+        try {
             setScriptURL(new URL(getInitParameter("scriptURL")));
-        }
-        catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             throw new MailetException(
                     "Error in configuration parameter \"scriptURL\"", e);
         }

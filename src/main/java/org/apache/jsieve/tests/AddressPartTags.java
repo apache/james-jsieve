@@ -17,17 +17,17 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 /**
- * Interface AddressPartTags defines the String constants used to specify
- * an ADDRESS-PART tag. 
+ * Interface AddressPartTags defines the String constants used to specify an
+ * ADDRESS-PART tag.
  */
-public interface AddressPartTags
-{
+public interface AddressPartTags {
     public static final String LOCALPART_TAG = ":localpart";
+
     public static final String DOMAIN_TAG = ":domain";
-    public static final String ALL_TAG = ":all";         
+
+    public static final String ALL_TAG = ":all";
 
 }

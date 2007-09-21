@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.tests;
 
 import java.util.ListIterator;
@@ -34,51 +33,48 @@ import org.apache.jsieve.mail.SieveMailException;
 /**
  * Class Size implements the Size Test as defined in RFC 3028, section 5.9.
  */
-public class Size extends AbstractTest
-{
+public class Size extends AbstractTest {
 
     /**
      * Constructor for Size.
      */
-    public Size()
-    {
+    public Size() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter, Arguments, SieveContext)
-     * <p>From RFC 3028, Section 5.9... </p>
-     * <code>  
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
+     *      <p>
+     *      From RFC 3028, Section 5.9...
+     *      </p>
+     *      <code>  
      *    Syntax: size &lt;&quote;:over"&quote; / &quote;:under&quote;&gt; &lt;limit: number&gt;
      * </code>
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments, SieveContext context)
-        throws SyntaxException, SieveMailException
-    {
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SyntaxException, SieveMailException {
         String comparator = null;
         Integer size = null;
         ListIterator argumentsIter = arguments.getArgumentList().listIterator();
 
         // First argument MUST be a tag of ":under" or ":over"
-        if (argumentsIter.hasNext())
-        {
+        if (argumentsIter.hasNext()) {
             Object argument = argumentsIter.next();
-            if (argument instanceof TagArgument)
-            {
+            if (argument instanceof TagArgument) {
                 String tag = ((TagArgument) argument).getTag();
                 if (tag.equals(":under") || tag.equals(":over"))
                     comparator = tag;
                 else
                     throw context.getCoordinate().syntaxException(
-                        "Found unexpected TagArgument: \"" + tag + "\"");
+                            "Found unexpected TagArgument: \"" + tag + "\"");
             }
         }
         if (null == comparator)
             throw context.getCoordinate().syntaxException("Expecting a Tag");
 
         // Second argument MUST be a number
-        if (argumentsIter.hasNext())
-        {
+        if (argumentsIter.hasNext()) {
             Object argument = argumentsIter.next();
             if (argument instanceof NumberArgument)
                 size = ((NumberArgument) argument).getInteger();
@@ -88,13 +84,15 @@ public class Size extends AbstractTest
 
         // There MUST NOT be any further arguments
         if (argumentsIter.hasNext())
-            throw context.getCoordinate().syntaxException("Found unexpected argument(s)");               
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected argument(s)");
 
         return test(mail, comparator, size.intValue());
     }
 
     /**
      * Method test.
+     * 
      * @param mail
      * @param comparator
      * @param size
@@ -102,8 +100,7 @@ public class Size extends AbstractTest
      * @throws SieveMailException
      */
     protected boolean test(MailAdapter mail, String comparator, int size)
-        throws SieveMailException
-    {
+            throws SieveMailException {
         boolean isTestPassed = false;
         if (comparator.equals(":over"))
             isTestPassed = testOver(mail, size);
@@ -114,38 +111,36 @@ public class Size extends AbstractTest
 
     /**
      * Method testUnder.
+     * 
      * @param mail
      * @param size
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean testUnder(MailAdapter mail, int size)
-        throws SieveMailException
-    {
+            throws SieveMailException {
         return mail.getSize() < size;
     }
 
-
     /**
      * Method testOver.
+     * 
      * @param mail
      * @param size
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean testOver(MailAdapter mail, int size)
-        throws SieveMailException
-    {
+            throws SieveMailException {
         return mail.getSize() > size;
     }
 
-
-
     /**
-     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
      */
-    protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException
-    {
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
         // All done in executeBasic()
     }
 

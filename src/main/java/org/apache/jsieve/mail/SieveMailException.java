@@ -17,51 +17,48 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.mail;
 
 import org.apache.jsieve.exception.SieveException;
 
 /**
- * Class <code>SieveMailException</code> indicates an exceptional condition 
+ * Class <code>SieveMailException</code> indicates an exceptional condition
  * encountered while processing Sieve Mail.
  */
-public class SieveMailException extends SieveException
-{
+public class SieveMailException extends SieveException {
 
     /**
      * Constructor for SieveMailException.
      */
-    public SieveMailException()
-    {
+    public SieveMailException() {
         super();
     }
 
     /**
      * Constructor for SieveMailException.
+     * 
      * @param message
      */
-    public SieveMailException(String message)
-    {
+    public SieveMailException(String message) {
         super(message);
     }
 
     /**
      * Constructor for SieveMailException.
+     * 
      * @param message
      * @param cause
      */
-    public SieveMailException(String message, Throwable cause)
-    {
+    public SieveMailException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for SieveMailException.
+     * 
      * @param cause
      */
-    public SieveMailException(Throwable cause)
-    {
+    public SieveMailException(Throwable cause) {
         super(cause);
     }
 

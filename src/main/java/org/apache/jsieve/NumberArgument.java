@@ -17,107 +17,102 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
 
 import org.apache.jsieve.parser.generated.Token;
 
 /**
- * <p>A parsed representation of the RFC3028 BNF...</p>
+ * <p>
+ * A parsed representation of the RFC3028 BNF...
+ * </p>
  * 
  * <code>1*DIGIT [QUANTIFIER]</code>
  * 
- * <p>Note that the stored value is the absolute value after applying the quantifier.
+ * <p>
+ * Note that the stored value is the absolute value after applying the
+ * quantifier.
  * </p>
  * 
  */
-public class NumberArgument implements Argument
-{
-    
+public class NumberArgument implements Argument {
+
     /**
-     * The absolute value of the number after applying the quentifier. 
-     */ 
+     * The absolute value of the number after applying the quentifier.
+     */
     private Integer fieldValue;
 
     /**
      * Constructor for NumberArgument.
      */
-    private NumberArgument()
-    {
+    private NumberArgument() {
         super();
     }
-    
+
     /**
      * Constructor for NumberArgument.
+     * 
      * @param token
      */
-    public NumberArgument(Token token)
-    {
+    public NumberArgument(Token token) {
         this();
         setValue(token);
     }
 
     /**
      * Sets the value of the reciver to an Integer.
-     * @param number The value to set
+     * 
+     * @param number
+     *                The value to set
      */
-    protected void setValue(Integer number)
-    {
+    protected void setValue(Integer number) {
         fieldValue = number;
     }
 
     /**
      * @see org.apache.jsieve.Argument#getValue()
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return fieldValue;
     }
-    
+
     /**
      * Method getInteger answers the value of the receiver as an Integer.
+     * 
      * @return Integer
      */
-    public Integer getInteger()
-    {
+    public Integer getInteger() {
         return fieldValue;
-    }    
+    }
 
     /**
      * Sets the value of the receiver from a Token.
-     * @param aToken The Token from which to extract the value to set
+     * 
+     * @param aToken
+     *                The Token from which to extract the value to set
      */
-    protected void setValue(Token aToken)
-    {
+    protected void setValue(Token aToken) {
         int endIndex = aToken.image.length();
         int magnitude = 1;
-        if (aToken.image.endsWith("K"))
-        {
+        if (aToken.image.endsWith("K")) {
             magnitude = 1024;
             endIndex--;
-        }
-        else if (aToken.image.endsWith("M"))
-        {
+        } else if (aToken.image.endsWith("M")) {
             magnitude = 1048576;
             endIndex--;
-        }
-        else if (aToken.image.endsWith("G"))
-        {
+        } else if (aToken.image.endsWith("G")) {
             magnitude = 1073741824;
             endIndex--;
         }
 
-        setValue(
-            new Integer(
-                Integer.parseInt(aToken.image.substring(0, endIndex))
-                    * magnitude));
+        setValue(new Integer(Integer.parseInt(aToken.image.substring(0,
+                endIndex))
+                * magnitude));
     }
 
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return (getValue() == null) ? "null" : getValue().toString();
     }
 

@@ -17,204 +17,184 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve;
+
 import java.util.Map;
 
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Singleton class <code>TestManager</code> maps Test names to configured
- * Test implementation classes.
+ * Singleton class <code>TestManager</code> maps Test names to configured Test
+ * implementation classes.
  */
-public class TestManager
-{
+public class TestManager {
     /**
      * The sole instance of the receiver.
-     */    
+     */
     static private TestManager fieldInstance;
 
     /**
      * Constructor for TestManager.
      */
-    public TestManager()
-    {
+    public TestManager() {
         super();
     }
 
     /**
-     * Returns the sole instance of the reciever, lazily initialised if required.
+     * Returns the sole instance of the reciever, lazily initialised if
+     * required.
+     * 
      * @return CommandManager
      */
-    public static TestManager getInstance()
-    {
+    public static TestManager getInstance() {
         TestManager current = null;
-        if (null == (current = getInstanceBasic()))
-        {
+        if (null == (current = getInstanceBasic())) {
             updateInstance();
             return getInstance();
-        }    
+        }
         return current;
     }
-    
+
     /**
      * Returns the sole instance of the reciever.
+     * 
      * @return CommandManager
      */
-    private static TestManager getInstanceBasic()
-    {
+    private static TestManager getInstanceBasic() {
         return fieldInstance;
     }
-    
+
     /**
      * Computes a new instance of the receiver.
+     * 
      * @return CommandManager
      */
-    protected static TestManager computeInstance()
-    {
+    protected static TestManager computeInstance() {
         return new TestManager();
-    }        
+    }
 
     /**
      * Sets the sole instance of the reciever.
-     * @param instance The instance to set
+     * 
+     * @param instance
+     *                The instance to set
      */
-    protected static void setInstance(TestManager instance)
-    {
+    protected static void setInstance(TestManager instance) {
         fieldInstance = instance;
     }
-    
+
     /**
      * Resets the sole instance of the reciever.
      */
-    public static void resetInstance()
-    {
+    public static void resetInstance() {
         setInstance(null);
-    }    
-    
+    }
 
-    
-    
     /**
      * Updates the sole instance of the reciever.
      */
-    protected static void updateInstance()
-    {
+    protected static void updateInstance() {
         setInstance(computeInstance());
     }
-    
+
     /**
-     * <p>Method lookup answers the class to which a Test name is mapped.</p>
+     * <p>
+     * Method lookup answers the class to which a Test name is mapped.
+     * </p>
      * 
-     * @param name - The name of the Test
+     * @param name -
+     *                The name of the Test
      * @return Class - The class of the Test
      * @throws LookupException
      */
-    public Class lookup(String name) throws LookupException
-    {
+    public Class lookup(String name) throws LookupException {
         Class testClass = null;
 
-        try
-        {
-            testClass =
-                getClass().getClassLoader().loadClass(getClassName(name));
-        }
-        catch (ClassNotFoundException e)
-        {
+        try {
+            testClass = getClass().getClassLoader().loadClass(
+                    getClassName(name));
+        } catch (ClassNotFoundException e) {
             throw new LookupException("Test named '" + name + "' not found.");
-        } 
+        }
         if (!ExecutableTest.class.isAssignableFrom(testClass))
-            throw new LookupException(
-                "Class "
-                    + testClass.getName()
-                    + " must implement "
-                    + ExecutableTest.class.getName());
+            throw new LookupException("Class " + testClass.getName()
+                    + " must implement " + ExecutableTest.class.getName());
         return testClass;
     }
-    
+
     /**
-     * <p>Method newInstance answers an instance of the class to which a Test name
-     * is mapped.</p>
+     * <p>
+     * Method newInstance answers an instance of the class to which a Test name
+     * is mapped.
+     * </p>
      * 
-     * @param name - The name of the Test
+     * @param name -
+     *                The name of the Test
      * @return Class - The class of the Test
      * @throws LookupException
-     */  
-    public ExecutableTest newInstance(String name) throws LookupException
-    {
-        try
-        {
-            return (ExecutableTest)lookup(name).newInstance();
-        }
-        catch (InstantiationException e)
-        {
+     */
+    public ExecutableTest newInstance(String name) throws LookupException {
+        try {
+            return (ExecutableTest) lookup(name).newInstance();
+        } catch (InstantiationException e) {
+            throw new LookupException(e.getMessage());
+        } catch (IllegalAccessException e) {
             throw new LookupException(e.getMessage());
         }
-        catch (IllegalAccessException e)
-        {
-            throw new LookupException(e.getMessage());
-        }
-    }    
-    
+    }
+
     /**
-     * Method isSupported answers a boolean indicating if a Test name is 
+     * Method isSupported answers a boolean indicating if a Test name is
      * configured.
-     * @param name - The Test name
+     * 
+     * @param name -
+     *                The Test name
      * @return boolean - True if the Test name is configured.
      */
-    public boolean isSupported(String name)
-    {
+    public boolean isSupported(String name) {
         boolean isSupported = true;
-        try
-        {
+        try {
             lookup(name);
-        }
-        catch (LookupException e)
-        {
+        } catch (LookupException e) {
             isSupported = false;
         }
         return isSupported;
-    }    
-    
+    }
+
     /**
-     * <p>Method getClassName answers the name of the class to which a Test name is
-     * mapped.</p>
+     * <p>
+     * Method getClassName answers the name of the class to which a Test name is
+     * mapped.
+     * </p>
      * 
-     * @param name - The name of the Test
+     * @param name -
+     *                The name of the Test
      * @return String - The name of the class
      * @throws LookupException
      */
-    protected String getClassName(String name)
-        throws LookupException
-    {
+    protected String getClassName(String name) throws LookupException {
         String className;
-        try
-        {
+        try {
             className = (String) getClassNameMap().get(name.toLowerCase());
-        }
-        catch (SieveConfigurationException e)
-        {
+        } catch (SieveConfigurationException e) {
             throw new LookupException(
-                "Lookup failed due to a Configuration Exception: "
-                    + e.getMessage());
+                    "Lookup failed due to a Configuration Exception: "
+                            + e.getMessage());
         }
         if (null == className)
             throw new LookupException("Test named '" + name + "' not mapped.");
         return className;
     }
-    
 
     /**
      * Method getClassNameMap answers a Map of Test names and their class names.
+     * 
      * @return Map
      * @throws SieveConfigurationException
      */
-    protected Map getClassNameMap() throws SieveConfigurationException
-    {    
+    protected Map getClassNameMap() throws SieveConfigurationException {
         return ConfigurationManager.getInstance().getTestMap();
-    }    
-    
-        
+    }
 
 }

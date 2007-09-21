@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.CommandStateManager;
@@ -25,43 +24,51 @@ import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.CommandException;
 
 /**
- * Abstract class AbstractActionCommand defines the common state validation and state
- * update behavior for Action Commands as per RFC 3028, section 8. 
+ * Abstract class AbstractActionCommand defines the common state validation and
+ * state update behavior for Action Commands as per RFC 3028, section 8.
  */
-public abstract class AbstractActionCommand extends AbstractBodyCommand
-{
+public abstract class AbstractActionCommand extends AbstractBodyCommand {
 
     /**
      * Constructor for AbstractActionCommand.
      */
-    public AbstractActionCommand()
-    {
+    public AbstractActionCommand() {
         super();
-    }
-    
-    /**
-     * <p>Method updateState() updates the CommandStateManager to indicate an Action
-     * Command has been processed and to cancel implicit keep.</p>
-     * 
-     * <p>Also, @see org.apache.jsieve.commands.AbstractCommand#updateState()</p>
-     */
-    protected void updateState()
-    {
-        super.updateState();
-        CommandStateManager.getInstance().setHasActions(true);
-        CommandStateManager.getInstance().setImplicitKeep(false);        
     }
 
     /**
-     * <p>Method validateState() validates via the CommandStateManager that an
-     * Action Command is legal at this time.</p>
+     * <p>
+     * Method updateState() updates the CommandStateManager to indicate an
+     * Action Command has been processed and to cancel implicit keep.
+     * </p>
      * 
-     * <p>Also, @see org.apache.jsieve.commands.AbstractCommand#validateState()
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#updateState()
+     *      </p>
      */
-    protected void validateState(SieveContext context) throws CommandException
-    {
+    protected void updateState() {
+        super.updateState();
+        CommandStateManager.getInstance().setHasActions(true);
+        CommandStateManager.getInstance().setImplicitKeep(false);
+    }
+
+    /**
+     * <p>
+     * Method validateState() validates via the CommandStateManager that an
+     * Action Command is legal at this time.
+     * </p>
+     * 
+     * <p>
+     * Also,
+     * 
+     * @see org.apache.jsieve.commands.AbstractCommand#validateState()
+     */
+    protected void validateState(SieveContext context) throws CommandException {
         if (CommandStateManager.getInstance().isRejected())
-            throw context.getCoordinate().commandException("Cannot perform Actions on a rejected message.");
-    }    
-    
+            throw context.getCoordinate().commandException(
+                    "Cannot perform Actions on a rejected message.");
+    }
+
 }

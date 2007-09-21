@@ -17,50 +17,47 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.exception;
 
 /**
- * Class <code>SyntaxException</code> indicates an exceptional condition encountered
- * while evaluating the operands of a Sieve operation, such as a Command, Test or 
- * Comparator.
+ * Class <code>SyntaxException</code> indicates an exceptional condition
+ * encountered while evaluating the operands of a Sieve operation, such as a
+ * Command, Test or Comparator.
  */
-public class SyntaxException extends SieveException
-{
+public class SyntaxException extends SieveException {
 
     /**
      * Constructor for SyntaxException.
      */
-    public SyntaxException()
-    {
+    public SyntaxException() {
         super();
     }
 
     /**
      * Constructor for SyntaxException.
+     * 
      * @param message
      */
-    public SyntaxException(String message)
-    {
+    public SyntaxException(String message) {
         super(message);
     }
 
     /**
      * Constructor for SyntaxException.
+     * 
      * @param message
      * @param cause
      */
-    public SyntaxException(String message, Throwable cause)
-    {
+    public SyntaxException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Constructor for SyntaxException.
+     * 
      * @param cause
      */
-    public SyntaxException(Throwable cause)
-    {
+    public SyntaxException(Throwable cause) {
         super(cause);
     }
 

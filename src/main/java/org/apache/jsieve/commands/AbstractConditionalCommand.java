@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Block;
@@ -27,58 +26,52 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Abstract class AbstractConditionalCommand defines a framework of common behavior 
- * for conditional Commands (if, elsif, else). Conditional commands use a 
- * ConditionManager to relate and validate Commands within their Blocks. 
- */ 
-public abstract class AbstractConditionalCommand extends AbstractControlCommand
-{
+ * Abstract class AbstractConditionalCommand defines a framework of common
+ * behavior for conditional Commands (if, elsif, else). Conditional commands use
+ * a ConditionManager to relate and validate Commands within their Blocks.
+ */
+public abstract class AbstractConditionalCommand extends AbstractControlCommand {
 
     /**
      * Constructor for AbstractConditionalCommand.
      */
-    public AbstractConditionalCommand()
-    {
+    public AbstractConditionalCommand() {
         super();
     }
 
     /**
-     * Method execute executes a Block within the context of a new ConditionManager.
+     * Method execute executes a Block within the context of a new
+     * ConditionManager.
+     * 
      * @param mail
      * @param block
      * @return Object
      * @throws SieveException
      */
-    protected Object execute(MailAdapter mail, Block block) throws SieveException
-    {
+    protected Object execute(MailAdapter mail, Block block)
+            throws SieveException {
         // Switch to a new ConditionManager
         ConditionManager oldManager = ConditionManager.getInstance();
         ConditionManager.resetInstance();
 
-        try
-        {
+        try {
             // Execute the Block
             Object result = block.execute(mail);
             return result;
-        }
-        finally
-        {
+        } finally {
             // Always restore the old ConditionManager
             ConditionManager.setInstance(oldManager);
         }
     }
-    
+
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#validateBlock(Block, SieveContext)
+     * @see org.apache.jsieve.commands.AbstractCommand#validateBlock(Block,
+     *      SieveContext)
      */
     protected void validateBlock(Block block, SieveContext context)
-            throws SieveException
-    {           
+            throws SieveException {
         if (null == block)
-            throw context.getCoordinate().syntaxException("Expecting a Block.");         
-    }        
-    
-
-    
+            throw context.getCoordinate().syntaxException("Expecting a Block.");
+    }
 
 }

@@ -17,15 +17,14 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.comparators;
 
 /**
- * Interface ComparatorNames defines the String constants used to specify
- * a COMPARATOR name. 
+ * Interface ComparatorNames defines the String constants used to specify a
+ * COMPARATOR name.
  */
-public interface ComparatorNames
-{
+public interface ComparatorNames {
     public static final String OCTET_COMPARATOR = "i;octet";
-    public static final String ASCII_CASEMAP_COMPARATOR = "i;ascii-casemap";        
+
+    public static final String ASCII_CASEMAP_COMPARATOR = "i;ascii-casemap";
 }

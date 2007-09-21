@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import javax.mail.MessagingException;
@@ -36,230 +35,171 @@ import org.apache.jsieve.parser.generated.ParseException;
 /**
  * Class SizeTest
  */
-public class SizeTest extends TestCase
-{
+public class SizeTest extends TestCase {
 
     /**
      * Constructor for SizeTest.
+     * 
      * @param arg0
      */
-    public SizeTest(String arg0)
-    {
+    public SizeTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(SizeTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();          
+        TestManager.resetInstance();
     }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Test 'size'
      */
-    public void testSizeIsOverTrue()
-    {
+    public void testSizeIsOverTrue() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
         int size = 0;
-        try
-        {
-            mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().setText("Hi!");           
-            mail.getMessage().saveChanges();
-            // Need to copy the mail to get JavaMail to report the message size
-            // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
-            size = mail.getSize();
-        }
-        catch (SieveMailException e)
-        {
-        }
-        catch (MessagingException e)
-        {
-        }
-
-        String script =
-            "if size :over "
-                + new Integer(size - 1).toString()
-                + " {throwTestException;}";
-        try
-        {
-
-            JUnitUtils.interpret(mail, script);
-        }
-
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }
-    
-    /**
-     * Test for Test 'size'
-     */
-    public void testSizeIsOverFalse()
-    {
-        boolean isTestPassed = false;
-        SieveMailAdapter mail = null;
-        int size = 0;
-        try
-        {
-            mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().setText("Hi!");           
-            mail.getMessage().saveChanges();
-            // Need to copy the mail to get JavaMail to report the message size
-            // correctly (saveChanges() only saves the headers!) 
-            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
-            size = mail.getSize();
-        }
-        catch (SieveMailException e)
-        {
-        }
-        catch (MessagingException e)
-        {
-        }
-
-        String script =
-            "if size :over "
-                + new Integer(size).toString()
-                + " {throwTestException;}";
-        try
-        {
-
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-
-        catch (ThrowTestException.TestException e)
-        {
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'size'
-     */
-    public void testSizeIsUnderTrue()
-    {
-        boolean isTestPassed = false;
-        SieveMailAdapter mail = null;
-        int size = 0;
-        try
-        {
+        try {
             mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
-            // correctly (saveChanges() only saves the headers!) 
+            // correctly (saveChanges() only saves the headers!)
             mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
-        }
-        catch (SieveMailException e)
-        {
-        }
-        catch (MessagingException e)
-        {
+        } catch (SieveMailException e) {
+        } catch (MessagingException e) {
         }
 
-        String script =
-            "if size :under "
-                + new Integer(size + 1).toString()
+        String script = "if size :over " + new Integer(size - 1).toString()
                 + " {throwTestException;}";
-        try
-        {
+        try {
 
             JUnitUtils.interpret(mail, script);
         }
 
-        catch (ThrowTestException.TestException e)
-        {
+        catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
+
     /**
      * Test for Test 'size'
      */
-    public void testSizeIsUnderFalse()
-    {
+    public void testSizeIsOverFalse() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
         int size = 0;
-        try
-        {
+        try {
             mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().setText("Hi!");
             mail.getMessage().saveChanges();
             // Need to copy the mail to get JavaMail to report the message size
-            // correctly (saveChanges() only saves the headers!) 
+            // correctly (saveChanges() only saves the headers!)
             mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
             size = mail.getSize();
-        }
-        catch (SieveMailException e)
-        {
-        }
-        catch (MessagingException e)
-        {
+        } catch (SieveMailException e) {
+        } catch (MessagingException e) {
         }
 
-        String script =
-            "if size :over "
-                + new Integer(size).toString()
+        String script = "if size :over " + new Integer(size).toString()
                 + " {throwTestException;}";
-        try
-        {
+        try {
 
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
         }
 
-        catch (ThrowTestException.TestException e)
-        {
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }        
+    }
+
+    /**
+     * Test for Test 'size'
+     */
+    public void testSizeIsUnderTrue() {
+        boolean isTestPassed = false;
+        SieveMailAdapter mail = null;
+        int size = 0;
+        try {
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().setText("Hi!");
+            mail.getMessage().saveChanges();
+            // Need to copy the mail to get JavaMail to report the message size
+            // correctly (saveChanges() only saves the headers!)
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
+            size = mail.getSize();
+        } catch (SieveMailException e) {
+        } catch (MessagingException e) {
+        }
+
+        String script = "if size :under " + new Integer(size + 1).toString()
+                + " {throwTestException;}";
+        try {
+
+            JUnitUtils.interpret(mail, script);
+        }
+
+        catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'size'
+     */
+    public void testSizeIsUnderFalse() {
+        boolean isTestPassed = false;
+        SieveMailAdapter mail = null;
+        int size = 0;
+        try {
+            mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().setText("Hi!");
+            mail.getMessage().saveChanges();
+            // Need to copy the mail to get JavaMail to report the message size
+            // correctly (saveChanges() only saves the headers!)
+            mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
+            size = mail.getSize();
+        } catch (SieveMailException e) {
+        } catch (MessagingException e) {
+        }
+
+        String script = "if size :over " + new Integer(size).toString()
+                + " {throwTestException;}";
+        try {
+
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        }
+
+        catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
 
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import javax.mail.MessagingException;
@@ -31,175 +30,131 @@ import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.*;
 import org.apache.jsieve.parser.generated.ParseException;
 
-
 /**
  * Class BodyTest
  */
-public class BodyTest extends TestCase
-{
+public class BodyTest extends TestCase {
 
     /**
      * Constructor for BodyTest.
+     * 
      * @param arg0
      */
-    public BodyTest(String arg0)
-    {
+    public BodyTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(BodyTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
-    }    
+        TestManager.resetInstance();
+    }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
 
-
-    protected SieveMailAdapter textMail() 
-        throws MessagingException
-    {
+    protected SieveMailAdapter textMail() throws MessagingException {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-        mail.getMessage().setContent("Wibble\n\n" +
-                                     "Wibble\n", "text/plain");
+        mail.getMessage().setContent("Wibble\n\n" + "Wibble\n", "text/plain");
         return mail;
     }
 
-    protected SieveMailAdapter nonTextMail()
-        throws MessagingException, SieveException
-    {
+    protected SieveMailAdapter nonTextMail() throws MessagingException,
+            SieveException {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         // FIXME: This doesn't work
         mail.getMessage().setContent(new MimeMultipart("image/png"));
         return mail;
     }
 
-    
     /**
      * Test for Test 'header'
      */
-    public void testBasic()
-    {
+    public void testBasic() {
         boolean isTestPassed = false;
         String script = "if body :contains [\"Wibble\"] {throwTestException;}";
-        try
-        {
+        try {
             JUnitUtils.interpret(textMail(), script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
 
-    
     /**
      * Test for Test 'body'
      */
-    public void testBodyCaseInsensitivity()
-    {
+    public void testBodyCaseInsensitivity() {
         boolean isTestPassed = false;
         String script = "if body :contains [\"wibble\"] {throwTestException;}";
-        try
-        {
+        try {
             JUnitUtils.interpret(textMail(), script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
+    }
 
     /**
      * Test for Test 'body'
      */
-    public void testBodyNoContains()
-    {
+    public void testBodyNoContains() {
         boolean isTestPassed = false;
         String script = "if body [\"wibble\"] {throwTestException;}";
-        try
-        {
+        try {
             JUnitUtils.interpret(textMail(), script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
             isTestPassed = true;
         }
         assertTrue(isTestPassed);
-    }    
-
+    }
 
     /**
      * Test for Test 'body'
      */
     // FIXME: I can't find a method of forcing the mime type, so this test
     // always fails ...
-//     public void testBodyNonText()
-//     {
-//         boolean isTestPassed = false;
-//         String script = "if body :contains [\"wibble\"] {throwTestException;}";
-//         try
-//         {
-//             JUnitUtils.interpret(nonTextMail(), script);
-//         }
-//         catch (MessagingException e)
-//         {
-//         }        
-//         catch (ThrowTestException.TestException e)
-//         {
-//         }        
-//         catch (ParseException e)
-//         {
-//         }
-//         catch (SieveException e)
-//         {
-//             isTestPassed = true;
-//         }
-//         assertTrue(isTestPassed);
-//     }    
-
+    // public void testBodyNonText()
+    // {
+    // boolean isTestPassed = false;
+    // String script = "if body :contains [\"wibble\"] {throwTestException;}";
+    // try
+    // {
+    // JUnitUtils.interpret(nonTextMail(), script);
+    // }
+    // catch (MessagingException e)
+    // {
+    // }
+    // catch (ThrowTestException.TestException e)
+    // {
+    // }
+    // catch (ParseException e)
+    // {
+    // }
+    // catch (SieveException e)
+    // {
+    // isTestPassed = true;
+    // }
+    // assertTrue(isTestPassed);
+    // }
 }

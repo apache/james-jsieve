@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import junit.framework.Test;
@@ -26,27 +25,24 @@ import junit.framework.TestSuite;
 /**
  * Class AllTests
  */
-public class AllTests
-{
+public class AllTests {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(AllTests.class);
     }
 
-    public static Test suite()
-    {
+    public static Test suite() {
         TestSuite suite = new TestSuite("Test for org.apache.jsieve.junit");
-        //$JUnit-BEGIN$
-        suite.addTest(new TestSuite(ConfigurationManagerTest.class));        
+        // $JUnit-BEGIN$
+        suite.addTest(new TestSuite(ConfigurationManagerTest.class));
         suite.addTest(new TestSuite(ConditionTest.class));
         suite.addTest(new TestSuite(RequireTest.class));
         suite.addTest(new TestSuite(StopTest.class));
-        suite.addTest(new TestSuite(KeepTest.class)); 
+        suite.addTest(new TestSuite(KeepTest.class));
         suite.addTest(new TestSuite(DiscardTest.class));
         suite.addTest(new TestSuite(FileIntoTest.class));
         suite.addTest(new TestSuite(RejectTest.class));
-        suite.addTest(new TestSuite(TrueTest.class));          
+        suite.addTest(new TestSuite(TrueTest.class));
         suite.addTest(new TestSuite(FalseTest.class));
         suite.addTest(new TestSuite(NotTest.class));
         suite.addTest(new TestSuite(AnyOfTest.class));
@@ -54,10 +50,10 @@ public class AllTests
         suite.addTest(new TestSuite(ExistsTest.class));
         suite.addTest(new TestSuite(AddressTest.class));
         suite.addTest(new TestSuite(HeaderTest.class));
-        suite.addTest(new TestSuite(SizeTest.class));                 
+        suite.addTest(new TestSuite(SizeTest.class));
         suite.addTest(new TestSuite(EnvelopeTest.class));
-        suite.addTest(new TestSuite(LogTest.class));          
-        //$JUnit-END$
+        suite.addTest(new TestSuite(LogTest.class));
+        // $JUnit-END$
         return suite;
     }
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import javax.mail.MessagingException;
@@ -35,262 +34,185 @@ import junit.framework.TestCase;
 /**
  * Class ExistsTest
  */
-public class ExistsTest extends TestCase
-{
+public class ExistsTest extends TestCase {
 
     /**
      * Constructor for TrueTest.
+     * 
      * @param arg0
      */
-    public ExistsTest(String arg0)
-    {
+    public ExistsTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(ExistsTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
-    }    
+        TestManager.resetInstance();
+    }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Test 'exists'
      */
-    public void testExistsTrue()
-    {
+    public void testExistsTrue() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {throwTestException;}";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'exists'
      */
-    public void testCaseInsensitivity()
-    {
+    public void testCaseInsensitivity() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {throwTestException;}";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("from", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'exists'
      */
-    public void testExistsTrueTrue()
-    {
+    public void testExistsTrueTrue() {
         boolean isTestPassed = false;
         String script = "if exists [\"From\", \"X-Files\"] {throwTestException;}";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
-            mail.getMessage().addHeader("X-Files", "spooks@everywhere");            
+            mail.getMessage().addHeader("X-Files", "spooks@everywhere");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    } 
-    
+    }
+
     /**
      * Test for Test 'exists'
      */
-    public void testExistsTrueFalse()
-    {
+    public void testExistsTrueFalse() {
         boolean isTestPassed = false;
-        String script =
-            "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
-        try
-        {
+        String script = "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }       
-    
+    }
+
     /**
      * Test for Test 'exists'
      */
-    public void testExistsFalse()
-    {
+    public void testExistsFalse() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {stop;} throwTestException;";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'exists'
      */
-    public void testExistsFalseFalse()
-    {
+    public void testExistsFalseFalse() {
         boolean isTestPassed = false;
         String script = "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }        
-    
-    /**
-     * Test for Test 'exists' with invalid numeric argument
-     */
-    public void testInvalidNumericArgument()
-    {
-        boolean isTestPassed = false;
-        String script = "if exists 1 {throwTestException;}";
-
-        try
-        {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
+    /**
+     * Test for Test 'exists' with invalid numeric argument
+     */
+    public void testInvalidNumericArgument() {
+        boolean isTestPassed = false;
+        String script = "if exists 1 {throwTestException;}";
+
+        try {
+            JUnitUtils.interpret(JUnitUtils.createMail(), script);
+        } catch (SyntaxException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
     /**
      * Test for Test 'exists' with invalid test argument
      */
-    public void testInvalidTestArgument()
-    {
+    public void testInvalidTestArgument() {
         boolean isTestPassed = false;
         String script = "if exists not {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }            
+    }
 
 }

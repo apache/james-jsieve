@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import org.apache.jsieve.CommandManager;
@@ -34,119 +33,88 @@ import junit.framework.TestCase;
 /**
  * Class KeepTest
  */
-public class KeepTest extends TestCase
-{
+public class KeepTest extends TestCase {
 
     /**
      * Constructor for KeepTest.
+     * 
      * @param arg0
      */
-    public KeepTest(String arg0)
-    {
+    public KeepTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(KeepTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();            
+        TestManager.resetInstance();
     }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Command 'keep' with invalid arguments
      */
-    public void testInvalidArguments()
-    {
+    public void testInvalidArguments() {
         boolean isTestPassed = false;
         String script = "keep 1 ;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
 
     /**
      * Test for Command 'keep' with an invalid block
      */
-    public void testInvalidBlock()
-    {
+    public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "keep 1 {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }            
-
+    }
 
     /**
      * Test for Command 'keep'
      */
-    public void testKeep()
-    {
+    public void testKeep() {
         boolean isTestPassed = false;
         String script = "keep;";
 
-        try
-        {
+        try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
             assertTrue(mail.getActions().size() == 1);
             assertTrue(mail.getActions().get(0) instanceof ActionKeep);
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
-
-    
 
 }

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import org.apache.jsieve.CommandManager;
@@ -34,196 +33,132 @@ import junit.framework.TestCase;
 /**
  * Class FileIntoTest
  */
-public class FileIntoTest extends TestCase
-{
+public class FileIntoTest extends TestCase {
 
     /**
      * Constructor for FileIntoTest.
+     * 
      * @param arg0
      */
-    public FileIntoTest(String arg0)
-    {
+    public FileIntoTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(FileIntoTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();             
+        TestManager.resetInstance();
     }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Command 'fileinto'
      */
-    public void testFileInto()
-    {
+    public void testFileInto() {
         boolean isTestPassed = false;
         String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test2\";";
 
-        try
-        {
+        try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
             assertTrue(mail.getActions().size() == 2);
             assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
-            assertTrue(
-                ((ActionFileInto) mail.getActions().get(0))
-                    .getDestination()
-                    .equals(
-                    "INBOX.test1"));
+            assertTrue(((ActionFileInto) mail.getActions().get(0))
+                    .getDestination().equals("INBOX.test1"));
             assertTrue(mail.getActions().get(1) instanceof ActionFileInto);
-            assertTrue(
-                ((ActionFileInto) mail.getActions().get(1))
-                    .getDestination()
-                    .equals(
-                    "INBOX.test2"));
+            assertTrue(((ActionFileInto) mail.getActions().get(1))
+                    .getDestination().equals("INBOX.test2"));
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
 
     /**
-     * Test for Command 'fileinto' with duplicate destinations.
-     * Only one ActionFileInto should result.
+     * Test for Command 'fileinto' with duplicate destinations. Only one
+     * ActionFileInto should result.
      */
-    public void testDuplicateFileInto()
-    {
+    public void testDuplicateFileInto() {
         boolean isTestPassed = false;
         String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test1\";";
 
-        try
-        {
+        try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
             assertTrue(mail.getActions().size() == 1);
             assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
-            assertTrue(
-                ((ActionFileInto) mail.getActions().get(0))
-                    .getDestination()
-                    .equals(
-                    "INBOX.test1"));
+            assertTrue(((ActionFileInto) mail.getActions().get(0))
+                    .getDestination().equals("INBOX.test1"));
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
-
-    
-
-
-    
-
 
     /**
      * Test for Command 'fileinto' with an invalid argument type
      */
-    public void testInvalidArgumentType()
-    {
+    public void testInvalidArgumentType() {
         boolean isTestPassed = false;
         String script = "fileinto 1 ;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'fileinto' with an invalid argument number
      */
-    public void testInvalidArgumentNumber()
-    {
+    public void testInvalidArgumentNumber() {
         boolean isTestPassed = false;
         String script = "fileinto [\"INBOX.test\", \"elsewhere\"];";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
-
-
+    }
 
     /**
      * Test for Command 'fileinto' with an invalid block
      */
-    public void testInvalidBlock()
-    {
+    public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "fileinto 1 {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }            
-
-
-
-
-    
+    }
 
 }

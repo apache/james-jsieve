@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import junit.framework.TestCase;
@@ -32,65 +31,53 @@ import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
- * Class <code>ConditionTest</code> tests the conditional commands if, elsif and
- * else.
+ * Class <code>ConditionTest</code> tests the conditional commands if, elsif
+ * and else.
  */
-public class ConditionTest extends TestCase
-{
+public class ConditionTest extends TestCase {
 
     /**
      * Constructor for ConditionTest.
+     * 
      * @param arg0
      */
-    public ConditionTest(String arg0)
-    {
+    public ConditionTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(ConditionTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();        
+        TestManager.resetInstance();
     }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Command 'if' with an argument of 'true'
      */
-    public void testIfTrue()
-    {
+    public void testIfTrue() {
         boolean isTestPassed = false;
         String script = "if true {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
@@ -98,402 +85,273 @@ public class ConditionTest extends TestCase
     /**
      * Test for Command 'if' with an argument of 'false'
      */
-    public void testIfFalse()
-    {
+    public void testIfFalse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} throwTestException;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'elsif' with an argument of 'true'
      */
-    public void testElsifTrue()
-    {
+    public void testElsifTrue() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif true {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'elsif' with an argument of 'false'
      */
-    public void testElsifFalse()
-    {
+    public void testElsifFalse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif false {stop;} throwTestException;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for nested Command 'elsif' with an argument of 'true'
      */
-    public void testElsifFalseElsifTrue()
-    {
+    public void testElsifFalseElsifTrue() {
         boolean isTestPassed = false;
-        String script =
-            "if false {stop;} elsif false {stop;} elsif true {throwTestException;}";
+        String script = "if false {stop;} elsif false {stop;} elsif true {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Command 'else' after 'elseif'
      */
-    public void testElsifFalseElse()
-    {
+    public void testElsifFalseElse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif false {stop;} else {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {          
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Command 'else'
      */
-    public void testElse()
-    {
+    public void testElse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} else {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    } 
-    
+    }
+
     /**
      * Test for Command 'else' out of sequence
      */
-    public void testOutOfSequenceElse()
-    {
+    public void testOutOfSequenceElse() {
         boolean isTestPassed = false;
         String script = "else {stop;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (CommandException e)
-        {
+        } catch (CommandException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'elsif' out of sequence
      */
-    public void testOutOfSequenceElsif()
-    {
+    public void testOutOfSequenceElsif() {
         boolean isTestPassed = false;
         String script = "elsif {stop;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'if' without a corresponding Block
      */
-    public void testIfMissingBlock()
-    {
+    public void testIfMissingBlock() {
         boolean isTestPassed = false;
         String script = "if true stop;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'if' without a test
      */
-    public void testIfMissingTest()
-    {
+    public void testIfMissingTest() {
         boolean isTestPassed = false;
         String script = "if {stop;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'if' without a test
      */
-    public void testElsifMissingTest()
-    {
+    public void testElsifMissingTest() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif {stop;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }        
-    
+    }
+
     /**
      * Test for Command 'elsif' without a corresponding Block
      */
-    public void testElsifMissingBlock()
-    {
+    public void testElsifMissingBlock() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif true stop;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'else' without a corresponding Block
      */
-    public void testElseMissingBlock()
-    {
+    public void testElseMissingBlock() {
         boolean isTestPassed = false;
         String script = "if false {stop;} else stop;";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }             
-    
+    }
+
     /**
      * Test for Command 'if' nested in a block
      */
-    public void testNestedIf()
-    {
+    public void testNestedIf() {
         boolean isTestPassed = false;
         String script = "if true {if true {throwTestException;}}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'else' out of sequence nested in a block
      */
-    public void testNestedOutOfSequenceElse()
-    {
+    public void testNestedOutOfSequenceElse() {
         boolean isTestPassed = false;
         String script = "if true {else {stop;}}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (CommandException e)
-        {
+        } catch (CommandException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'elsif' out of sequence nested in a block
      */
-    public void testNestedOutOfSequenceElsif()
-    {
+    public void testNestedOutOfSequenceElsif() {
         boolean isTestPassed = false;
         String script = "if true {elsif true {stop;}}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (CommandException e)
-        {
+        } catch (CommandException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }                                   
+    }
 
 }

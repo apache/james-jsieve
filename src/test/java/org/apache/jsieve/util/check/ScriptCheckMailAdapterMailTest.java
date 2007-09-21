@@ -26,9 +26,11 @@ import org.apache.jsieve.mail.Action;
 public class ScriptCheckMailAdapterMailTest extends TestCase {
 
     ScriptCheckMailAdapter adapter;
+
     Action action;
+
     Action anotherAction;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         adapter = new ScriptCheckMailAdapter();
@@ -44,7 +46,8 @@ public class ScriptCheckMailAdapterMailTest extends TestCase {
         adapter.addAction(action);
         adapter.addAction(anotherAction);
         adapter.executeActions();
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions().size());
+        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+                .size());
         assertEquals("Two actions", 2, adapter.getActions().size());
         adapter.setMail(null);
         assertEquals("Set mail resets", 0, adapter.getExecutedActions().size());

@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import org.apache.jsieve.CommandManager;
@@ -33,89 +32,69 @@ import junit.framework.TestCase;
 /**
  * Class TrueTest
  */
-public class TrueTest extends TestCase
-{
+public class TrueTest extends TestCase {
 
     /**
      * Constructor for TrueTest.
+     * 
      * @param arg0
      */
-    public TrueTest(String arg0)
-    {
+    public TrueTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(TrueTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
-    }    
+        TestManager.resetInstance();
+    }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Test 'true'
      */
-    public void testIfTrue()
-    {
+    public void testIfTrue() {
         boolean isTestPassed = false;
         String script = "if true {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'true' with invalid argument
      */
-    public void testInvalidArgument()
-    {
+    public void testInvalidArgument() {
         boolean isTestPassed = false;
         String script = "if true 1 {throwTestException;}";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        }
-        catch (SyntaxException e)
-        {
+        } catch (SyntaxException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }        
+    }
 
 }

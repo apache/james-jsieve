@@ -27,20 +27,34 @@ import junit.framework.TestCase;
 
 public class ScriptCheckMailAdapterHeadersTest extends TestCase {
     private static final String BCC = "Bcc";
+
     private static final String TO = "To";
+
     private static final String FROM = "From";
+
     private static final int MESSAGE_SIZE = 100;
+
     private static final String BCC_ADDRESS_ONE = "bugs@toons.example.org";
+
     private static final String BCC_ADDRESS_TWO = "daffy@toons.example.org";
+
     private static final String TO_ADDRESS = "roadrunner@acme.example.com";
+
     private static final String X_HEADER_NAME = "X-Toon";
-    private static final String X_HEADER_WITH_WS = "   " + X_HEADER_NAME.toLowerCase();
+
+    private static final String X_HEADER_WITH_WS = "   "
+            + X_HEADER_NAME.toLowerCase();
+
     private static final String X_HEADER_VALUE = "Road Runner";
+
     private static final String X_HEADER_VALUE_ALT = "Wile E. Coyote And Road Runner";
+
     private static final String FROM_ADDRESS = "coyote@desert.example.org";
+
     ScriptCheckMailAdapter adapter;
+
     MockMimeMessage message;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         adapter = new ScriptCheckMailAdapter();
@@ -50,7 +64,8 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
         message.addHeader(BCC, BCC_ADDRESS_ONE);
         message.addHeader(BCC, BCC_ADDRESS_TWO);
         message.addHeader(X_HEADER_NAME, X_HEADER_VALUE);
-        message.addHeader(X_HEADER_NAME.toLowerCase(), X_HEADER_VALUE.toLowerCase());
+        message.addHeader(X_HEADER_NAME.toLowerCase(), X_HEADER_VALUE
+                .toLowerCase());
         message.addHeader(X_HEADER_WITH_WS, X_HEADER_VALUE_ALT);
         message.setSize(MESSAGE_SIZE);
         adapter.setMail(message);
@@ -71,13 +86,16 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
         assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_TWO));
         headers = adapter.getHeader(X_HEADER_NAME);
         assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE, headers.get(0));
+        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE, headers
+                .get(0));
         headers = adapter.getHeader(X_HEADER_NAME.toLowerCase());
         assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE.toLowerCase(), headers.get(0));
+        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE
+                .toLowerCase(), headers.get(0));
         headers = adapter.getHeader(X_HEADER_WITH_WS);
         assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE_ALT, headers.get(0));
+        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE_ALT,
+                headers.get(0));
     }
 
     public void testGetHeaderNames() throws Exception {
@@ -88,8 +106,10 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
         assertTrue("All headers set returned", headers.contains(TO));
         assertTrue("All headers set returned", headers.contains(FROM));
         assertTrue("All headers set returned", headers.contains(X_HEADER_NAME));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME.toLowerCase()));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_WITH_WS));
+        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME
+                .toLowerCase()));
+        assertTrue("All headers set returned", headers
+                .contains(X_HEADER_WITH_WS));
     }
 
     public void testGetMatchingHeader() throws Exception {
@@ -99,10 +119,18 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
         assertTrue("From headers set returned", headers.contains(FROM_ADDRESS));
         headers = adapter.getMatchingHeader(X_HEADER_NAME);
         assertNotNull(headers);
-        assertEquals("Matches ignoring whitespace and capitalisation headers set returned", 3, headers.size());
-        assertTrue("Matches ignoring whitespace and capitalisation headers set returned", headers.contains(X_HEADER_VALUE));
-        assertTrue("Matches ignoring whitespace and capitalisation headers set returned", headers.contains(X_HEADER_VALUE_ALT));
-        assertTrue("Matches ignoring whitespace and capitalisation headers set returned", headers.contains(X_HEADER_VALUE.toLowerCase()));        
+        assertEquals(
+                "Matches ignoring whitespace and capitalisation headers set returned",
+                3, headers.size());
+        assertTrue(
+                "Matches ignoring whitespace and capitalisation headers set returned",
+                headers.contains(X_HEADER_VALUE));
+        assertTrue(
+                "Matches ignoring whitespace and capitalisation headers set returned",
+                headers.contains(X_HEADER_VALUE_ALT));
+        assertTrue(
+                "Matches ignoring whitespace and capitalisation headers set returned",
+                headers.contains(X_HEADER_VALUE.toLowerCase()));
     }
 
     public void testGetSize() throws Exception {

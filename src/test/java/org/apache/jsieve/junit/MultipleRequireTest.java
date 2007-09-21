@@ -25,7 +25,7 @@ import org.apache.jsieve.mail.MailAdapter;
 import junit.framework.TestCase;
 
 public class MultipleRequireTest extends TestCase {
-    
+
     private static final String MINIMAL_SIEVE = "require [\"fileinto\", \"reject\"];\n";
 
     private static final String MULTIPLE_REQUIRED_SIEVE = "# \n" +
@@ -41,7 +41,7 @@ public class MultipleRequireTest extends TestCase {
             "\n";
     
     MailAdapter mail;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         mail = JUnitUtils.createMail();

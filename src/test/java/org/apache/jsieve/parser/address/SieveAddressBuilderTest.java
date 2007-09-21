@@ -26,16 +26,24 @@ import junit.framework.TestCase;
 public class SieveAddressBuilderTest extends TestCase {
 
     public static final String DOMAIN = "example.org";
+
     public static final String COYOTE = "coyote";
+
     public static final String COYOTE_ADDRESS = COYOTE + "@" + DOMAIN;
+
     public static final String ROADRUNNER = "roadrunner";
+
     public static final String ROADRUNNER_ADDRESS = ROADRUNNER + "@" + DOMAIN;
+
     public static final String BUGS = "bugs";
+
     public static final String BUGS_ADDRESS = BUGS + "@" + DOMAIN;
-    public static final String HEROS = ROADRUNNER_ADDRESS + " , " + BUGS_ADDRESS;
-    
+
+    public static final String HEROS = ROADRUNNER_ADDRESS + " , "
+            + BUGS_ADDRESS;
+
     SieveAddressBuilder builder;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         builder = new SieveAddressBuilder();
@@ -44,10 +52,11 @@ public class SieveAddressBuilderTest extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     public void testNotAddress() throws Exception {
         try {
-            builder.addAddresses("What a load of rubbish - not an address in sight!");
+            builder
+                    .addAddresses("What a load of rubbish - not an address in sight!");
             fail("Parsing should fail when the input is not an address");
         } catch (ParseException e) {
             // expected

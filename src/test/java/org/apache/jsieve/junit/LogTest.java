@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import org.apache.jsieve.CommandManager;
@@ -31,205 +30,147 @@ import junit.framework.TestCase;
 /**
  * Class LogTest
  */
-public class LogTest extends TestCase
-{
+public class LogTest extends TestCase {
 
     /**
      * Constructor for LogTest.
+     * 
      * @param arg0
      */
-    public LogTest(String arg0)
-    {
+    public LogTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(LogTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
+        TestManager.resetInstance();
     }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogDebug()
-    {
+    public void testLogDebug() {
         boolean isTestPassed = false;
         String script = "log :debug \"Log a debug message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
-    }    
-    
+        assertTrue(isTestPassed);
+    }
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogError()
-    {
+    public void testLogError() {
         boolean isTestPassed = false;
         String script = "log :error \"Log an error message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
+        assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogFatal()
-    {
+    public void testLogFatal() {
         boolean isTestPassed = false;
         String script = "log :fatal \"Log a fatal message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
+        assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogInfo()
-    {
+    public void testLogInfo() {
         boolean isTestPassed = false;
         String script = "log :info \"Log an info message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
+        assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogTrace()
-    {
+    public void testLogTrace() {
         boolean isTestPassed = false;
         String script = "log :trace \"Log a trace message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
+        assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogWarn()
-    {
+    public void testLogWarn() {
         boolean isTestPassed = false;
         String script = "log :warn \"Log a warning message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
+        assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Command 'log'.
      */
-    public void testLogDefault()
-    {
+    public void testLogDefault() {
         boolean isTestPassed = false;
         String script = "log \"Log a default message.\";";
 
-        try
-        {
+        try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;            
-        }       
-        catch (ParseException e)
-        {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);        
-    }        
-
-
-        
-
-
-        
-
-
-        
-
-
-        
+        assertTrue(isTestPassed);
+    }
 
 }

@@ -26,7 +26,6 @@ import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.ParseException;
 
 import junit.framework.TestCase;
 
@@ -43,29 +42,25 @@ import org.apache.mailet.MailetContext;
 /**
  * Class <code>ActionDispatcherTest</code>.
  */
-public class ActionDispatcherTest extends TestCase
-{
+public class ActionDispatcherTest extends TestCase {
 
     /**
      * Constructor for ActionDispatcherTest.
      * 
      * @param arg0
      */
-    public ActionDispatcherTest(String arg0)
-    {
+    public ActionDispatcherTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(ActionDispatcherTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         ActionDispatcher.resetInstance();
     }
@@ -73,42 +68,34 @@ public class ActionDispatcherTest extends TestCase
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
      * Test execute of ActionKeep
-     * @throws MessagingException 
+     * 
+     * @throws MessagingException
      */
-    public void testExecuteActionKeep() throws MessagingException
-    {
+    public void testExecuteActionKeep() throws MessagingException {
         boolean isTestPassed = false;
         Mail aMail = new MailImpl();
-        aMail.setRecipients(Arrays.asList(new MailAddress[] { new MailAddress("a","a.com")}));
-        MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
+        aMail.setRecipients(Arrays.asList(new MailAddress[] { new MailAddress(
+                "a", "a.com") }));
+        MimeMessage mimeMessage = new MimeMessage(Session
+                .getDefaultInstance(new Properties()));
         mimeMessage.setText("TEST");
-                aMail.setMessage(mimeMessage);
+        aMail.setMessage(mimeMessage);
         MailetContext aMailetContext = new MockMailetContext();
         Action action = new ActionKeep();
-        try
-        {
+        try {
             ActionDispatcher.getInstance().execute(action, aMail,
                     aMailetContext);
             isTestPassed = true;
-        }
-        catch (NoSuchMethodException e)
-        {
-        }
-        catch (IllegalAccessException e)
-        {
-        }
-        catch (InvocationTargetException e)
-        {
-        }
-        catch (MessagingException e)
-        {
+        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+        } catch (MessagingException e) {
         }
 
         assertTrue(isTestPassed);
@@ -117,29 +104,19 @@ public class ActionDispatcherTest extends TestCase
     /**
      * Test execute of ActionAbsent. Should throw a NoSuchMethodException.
      */
-    public void testExecuteActionAbsent()
-    {
+    public void testExecuteActionAbsent() {
         boolean isTestPassed = false;
         Mail aMail = new MailImpl();
         MailetContext aMailetContext = new MockMailetContext();
         Action action = new ActionAbsent();
-        try
-        {
+        try {
             ActionDispatcher.getInstance().execute(action, aMail,
                     aMailetContext);
-        }
-        catch (NoSuchMethodException e)
-        {
+        } catch (NoSuchMethodException e) {
             isTestPassed = true;
-        }
-        catch (IllegalAccessException e)
-        {
-        }
-        catch (InvocationTargetException e)
-        {
-        }
-        catch (MessagingException e)
-        {
+        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+        } catch (MessagingException e) {
         }
         assertTrue(isTestPassed);
     }

@@ -23,12 +23,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.jsieve.javaxmail.MockMimeMessage;
-
 public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
 
     ScriptCheckMailAdapter adapter;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         adapter = new ScriptCheckMailAdapter();

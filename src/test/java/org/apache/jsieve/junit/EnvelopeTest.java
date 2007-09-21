@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit;
 
 import junit.framework.TestCase;
@@ -33,801 +32,565 @@ import org.apache.jsieve.parser.generated.ParseException;
 /**
  * Class EnvelopeTest
  */
-public class EnvelopeTest extends TestCase
-{
+public class EnvelopeTest extends TestCase {
 
     /**
      * Constructor for AddressTest.
+     * 
      * @param arg0
      */
-    public EnvelopeTest(String arg0)
-    {
+    public EnvelopeTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(EnvelopeTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
-    }    
+        TestManager.resetInstance();
+    }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsTrue()
-    {
+    public void testIfEnvelopeAllIsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testCaseInsensitiveEnvelopeName()
-    {
+    public void testCaseInsensitiveEnvelopeName() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"from\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testOctetComparatorTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("uSeR@dOmAiN");            
-            JUnitUtils.interpret(mail, script);
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testOctetComparatorFalse()
-    {
+    public void testOctetComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");           
+            mail.setEnvelopeFrom("uSeR@dOmAiN");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testAsciiComparatorTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");              
-            JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testAsciiComparatorFalse()
-    {
+    public void testOctetComparatorFalse() {
+        boolean isTestPassed = false;
+        String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testAsciiComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testAsciiComparatorFalse() {
+        boolean isTestPassed = false;
+        String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain1");
-            JUnitUtils.interpret(mail, script);              
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }               
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsMultiTrue1()
-    {
+    public void testIfEnvelopeAllIsMultiTrue1() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
-            mail.setEnvelopeTo("user@domain");                       
+            mail.setEnvelopeTo("user@domain");
             JUnitUtils.interpret(mail, script);
-        }    
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeAllIsMultiTrue2()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");
-            mail.setEnvelopeTo("user@domain");           
-            JUnitUtils.interpret(mail, script);
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsMultiTrue3()
-    {
+    public void testIfEnvelopeAllIsMultiTrue2() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
-            mail.setEnvelopeTo("tweety@pie");          
+            mail.setEnvelopeTo("user@domain");
             JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsMultiTrue4()
-    {
+    public void testIfEnvelopeAllIsMultiTrue3() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            mail.setEnvelopeTo("tweety@pie");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeAllIsMultiTrue4() {
+        boolean isTestPassed = false;
+        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
-            mail.setEnvelopeTo("tweety@pie");           
-            JUnitUtils.interpret(mail, script);           
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+            mail.setEnvelopeTo("tweety@pie");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }                
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllMatchesTrue()
-    {
+    public void testIfEnvelopeAllMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :all :matches \"From\" \"*@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");          
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeAllContainsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");              
-            JUnitUtils.interpret(mail, script);
-        }     
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeLocalpartIsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");           
-            JUnitUtils.interpret(mail, script);
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeLocalpartMatchesTrue()
-    {
+    public void testIfEnvelopeAllContainsTrue() {
+        boolean isTestPassed = false;
+        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeLocalpartIsTrue() {
+        boolean isTestPassed = false;
+        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeLocalpartMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :matches \"From\" \"*er\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }       
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeLocalpartContainsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeDomainIsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
-
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeDomainMatchesTrue()
-    {
+    public void testIfEnvelopeLocalpartContainsTrue() {
+        boolean isTestPassed = false;
+        String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeDomainIsTrue() {
+        boolean isTestPassed = false;
+        String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
+
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeDomainMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :matches \"From\" \"*main\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");           
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }       
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeDomainContainsTrue()
-    {
+    public void testIfEnvelopeDomainContainsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("user@domain");            
+            mail.setEnvelopeFrom("user@domain");
             JUnitUtils.interpret(mail, script);
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsFalse()
-    {
+    public void testIfEnvelopeAllIsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");             
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllMatchesFalse()
-    {
+    public void testIfEnvelopeAllMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("bugs@bunny");          
+            mail.setEnvelopeFrom("bugs@bunny");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeAllContainsFalse()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");             
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeLocalpartIsFalse()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");            
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeLocalpartMatchesFalse()
-    {
+    public void testIfEnvelopeAllContainsFalse() {
+        boolean isTestPassed = false;
+        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("tweety@pie");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeLocalpartIsFalse() {
+        boolean isTestPassed = false;
+        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("tweety@pie");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeLocalpartMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");            
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeLocalpartContainsFalse()
-    {
+    public void testIfEnvelopeLocalpartContainsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");            
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeDomainIsFalse()
-    {
+    public void testIfEnvelopeDomainIsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
 
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");            
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeDomainMatchesFalse()
-    {
+    public void testIfEnvelopeDomainMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");             
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeDomainContainsFalse()
-    {
+    public void testIfEnvelopeDomainContainsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("tweety@pie");          
+            mail.setEnvelopeFrom("tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }       
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'envelope'
      */
-    public void testIfEnvelopeAllIsMultiFalse1()
-    {
+    public void testIfEnvelopeAllIsMultiFalse1() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");
-            mail.setEnvelopeTo("bugs@bunny");            
+            mail.setEnvelopeTo("bugs@bunny");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'envelope'
-     */
-    public void testIfEnvelopeAllIsMultiFalse2()
-    {
-        boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
-            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
-            mail.setEnvelopeFrom("bugs@bunny");
-            mail.setEnvelopeTo("bugs@bunny");              
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }      
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
-            }
+
+    /**
+     * Test for Test 'envelope'
+     */
+    public void testIfEnvelopeAllIsMultiFalse2() {
+        boolean isTestPassed = false;
+        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        try {
+            SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+            mail.setEnvelopeFrom("bugs@bunny");
+            mail.setEnvelopeTo("bugs@bunny");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+}

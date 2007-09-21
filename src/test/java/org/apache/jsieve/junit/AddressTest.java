@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
- 
 package org.apache.jsieve.junit;
 
 import javax.mail.MessagingException;
@@ -35,917 +34,613 @@ import org.apache.jsieve.parser.generated.ParseException;
 /**
  * Class AddressTest
  */
-public class AddressTest extends TestCase
-{
+public class AddressTest extends TestCase {
 
     /**
      * Constructor for AddressTest.
+     * 
      * @param arg0
      */
-    public AddressTest(String arg0)
-    {
+    public AddressTest(String arg0) {
         super(arg0);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.swingui.TestRunner.run(AddressTest.class);
     }
 
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         CommandManager.resetInstance();
-        TestManager.resetInstance();         
-    }    
+        TestManager.resetInstance();
+    }
 
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsTrue()
-    {
+    public void testIfAddressAllIsTrue() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testCaseInsensitiveHeaderName()
-    {
+    public void testCaseInsensitiveHeaderName() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"from\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testTreatmentOfEmbededSpacesInHeaderName()
-    {
+    public void testTreatmentOfEmbededSpacesInHeaderName() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("From ", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testOctetComparatorTrue()
-    {
+    public void testOctetComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From ", "uSeR@dOmAiN");            
+            mail.getMessage().addHeader("From ", "uSeR@dOmAiN");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testOctetComparatorFalse()
-    {
+    public void testOctetComparatorFalse() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From ", "user@domain");            
+            mail.getMessage().addHeader("From ", "user@domain");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testAsciiComparatorTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From ", "user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testAsciiComparatorFalse()
-    {
+    public void testAsciiComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From ", "user@domain1");            
+            mail.getMessage().addHeader("From ", "user@domain");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }               
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsMultiTrue1()
-    {
+    public void testAsciiComparatorFalse() {
+        boolean isTestPassed = false;
+        String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From ", "user@domain1");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressAllIsMultiTrue1() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            mail.getMessage().addHeader("To", "user@domain");             
+            mail.getMessage().addHeader("From", "user@domain");
+            mail.getMessage().addHeader("To", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressAllIsMultiTrue2()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            mail.getMessage().addHeader("To", "user@domain");             
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsMultiTrue3()
-    {
+    public void testIfAddressAllIsMultiTrue2() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            mail.getMessage().addHeader("To", "tweety@pie");             
+            mail.getMessage().addHeader("From", "user@domain");
+            mail.getMessage().addHeader("To", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsMultiTrue4()
-    {
+    public void testIfAddressAllIsMultiTrue3() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
-            mail.getMessage().addHeader("To", "tweety@pie");             
+            mail.getMessage().addHeader("From", "user@domain");
+            mail.getMessage().addHeader("To", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }                
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllMatchesTrue()
-    {
+    public void testIfAddressAllIsMultiTrue4() {
+        boolean isTestPassed = false;
+        String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "tweety@pie");
+            mail.getMessage().addHeader("To", "tweety@pie");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressAllMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :all :matches \"From\" \"*@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressAllContainsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressLocalpartIsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressLocalpartMatchesTrue()
-    {
+    public void testIfAddressAllContainsTrue() {
+        boolean isTestPassed = false;
+        String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressLocalpartIsTrue() {
+        boolean isTestPassed = false;
+        String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressLocalpartMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :localpart :matches \"From\" \"*er\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressLocalpartContainsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressDomainIsTrue()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :domain :is \"From\" \"domain\" {throwTestException;}";
-
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
-            JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-            isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressDomainMatchesTrue()
-    {
+    public void testIfAddressLocalpartContainsTrue() {
+        boolean isTestPassed = false;
+        String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressDomainIsTrue() {
+        boolean isTestPassed = false;
+        String script = "if address :domain :is \"From\" \"domain\" {throwTestException;}";
+
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "user@domain");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressDomainMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :domain :matches \"From\" \"*main\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressDomainContainsTrue()
-    {
+    public void testIfAddressDomainContainsTrue() {
         boolean isTestPassed = false;
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "user@domain");            
+            mail.getMessage().addHeader("From", "user@domain");
             JUnitUtils.interpret(mail, script);
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsFalse()
-    {
+    public void testIfAddressAllIsFalse() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllMatchesFalse()
-    {
+    public void testIfAddressAllMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressAllContainsFalse()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    }    
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressLocalpartIsFalse()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressLocalpartMatchesFalse()
-    {
+    public void testIfAddressAllContainsFalse() {
+        boolean isTestPassed = false;
+        String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "tweety@pie");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressLocalpartIsFalse() {
+        boolean isTestPassed = false;
+        String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "tweety@pie");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressLocalpartMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressLocalpartContainsFalse()
-    {
+    public void testIfAddressLocalpartContainsFalse() {
         boolean isTestPassed = false;
         String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressDomainIsFalse()
-    {
+    public void testIfAddressDomainIsFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :is \"From\" \"domain\" {throwTestException;}";
 
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressDomainMatchesFalse()
-    {
+    public void testIfAddressDomainMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
-    }    
-    
+    }
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressDomainContainsFalse()
-    {
+    public void testIfAddressDomainContainsFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "tweety@pie");            
+            mail.getMessage().addHeader("From", "tweety@pie");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'address'
      */
-    public void testIfAddressAllIsMultiFalse1()
-    {
+    public void testIfAddressAllIsMultiFalse1() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
-        try
-        {
+        try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "bugs@bunny");            
-            mail.getMessage().addHeader("To", "bugs@bunny");             
+            mail.getMessage().addHeader("From", "bugs@bunny");
+            mail.getMessage().addHeader("To", "bugs@bunny");
             JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
-        }
-        assertTrue(isTestPassed);
-    } 
-    
-    /**
-     * Test for Test 'address'
-     */
-    public void testIfAddressAllIsMultiFalse2()
-    {
-        boolean isTestPassed = false;
-        String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
-        try
-        {
-            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("From", "bugs@bunny");            
-            mail.getMessage().addHeader("To", "bugs@bunny");             
-            JUnitUtils.interpret(mail, script);
-            isTestPassed = true;            
-        }
-        catch (MessagingException e)
-        {
-        }        
-        catch (ThrowTestException.TestException e)
-        {
-        }        
-        catch (ParseException e)
-        {
-        }
-        catch (SieveException e)
-        {
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
-    
-            }
+
+    /**
+     * Test for Test 'address'
+     */
+    public void testIfAddressAllIsMultiFalse2() {
+        boolean isTestPassed = false;
+        String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("From", "bugs@bunny");
+            mail.getMessage().addHeader("To", "bugs@bunny");
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
+
+}

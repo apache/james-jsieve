@@ -25,16 +25,15 @@ import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
 
 public class AddressParseTest extends TestCase {
-    
-    private static final String MULTIPLE_ADDRESS_VALUES = 
-        "coyote@desert.example.org, bugs@example.org,  elmer@hunters.example.org";
-    
-    private static final String SOLO_ADDRESS_VALUES = 
-        "coyote@desert.example.org";    
-    
+
+    private static final String MULTIPLE_ADDRESS_VALUES = "coyote@desert.example.org, bugs@example.org,  elmer@hunters.example.org";
+
+    private static final String SOLO_ADDRESS_VALUES = "coyote@desert.example.org";
+
     SieveMailAdapter mail;
+
     OpenedAddress address;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         mail = (SieveMailAdapter) JUnitUtils.createMail();
@@ -43,17 +42,25 @@ public class AddressParseTest extends TestCase {
 
     public void testSingleAddress() throws Exception {
         mail.getMessage().addHeader("From", SOLO_ADDRESS_VALUES);
-        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "coyote@desert.example.org"));
-        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is", "from","elmer@hunters.example.org"));
-        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "bugs@example.org"));
-        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "roadrunner@example.org"));
+        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "coyote@desert.example.org"));
+        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "elmer@hunters.example.org"));
+        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "bugs@example.org"));
+        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "roadrunner@example.org"));
     }
 
     public void testMultipleAddresses() throws Exception {
         mail.getMessage().addHeader("From", MULTIPLE_ADDRESS_VALUES);
-        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "coyote@desert.example.org"));
-        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is", "from","elmer@hunters.example.org"));
-        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "bugs@example.org"));
-        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is", "from", "roadrunner@example.org"));
+        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "coyote@desert.example.org"));
+        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "elmer@hunters.example.org"));
+        assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "bugs@example.org"));
+        assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
+                "from", "roadrunner@example.org"));
     }
 }

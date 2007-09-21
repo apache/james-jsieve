@@ -21,3 +21,16 @@ Steps:
 
 That's it.  Please contact general@james.apache.org if you have any
 problems.
+
+
+##############################################################################
+# SET UP JSIEVE INSIDE ECLIPSE
+##############################################################################
+
+You can use maven facility to setup an eclipse project:
+mvn -Plocal generate-sources eclipse:eclipse
+
+But there is a bug in the generator, so you will have to open the project
+"Java Build Path" => "Sources" and remove the 2 folders inside jjtree. Apply
+the change and then "Add folders" and select "target/generated-sources/jjtree"
+and "target/generated-sources/jjtree2" folders.

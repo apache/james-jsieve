@@ -20,7 +20,7 @@
 options {
   MULTI=true;
   VISITOR=true;
-  VISITOR_EXCEPTION="org.apache.jsieve.SieveException";
+  VISITOR_EXCEPTION="org.apache.jsieve.exception.SieveException";
   NODE_PACKAGE="org.apache.jsieve.parser.generated";
   NODE_DEFAULT_VOID=false;
   STATIC = false;

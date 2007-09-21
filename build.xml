@@ -1,8 +1,4 @@
 <?xml version="1.0"?>
-  <!DOCTYPE project [
-    <!ENTITY check-targets SYSTEM "file:./check-targets.xml">
-  ]>
-
 <!-- 
 ==========================================================================
 
@@ -36,7 +32,6 @@
     -->
     <property file=".ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-    <property file="check-targets.properties"/>
     <property file="include.properties"/>
     <property file="default.properties"/>
 
@@ -66,9 +61,6 @@
     ===================================================================
     -->
 
-    &check-targets;
-    <target name="check-dependencies" depends="javamail-check,activation-check"/>
-
     <!--
     ===================================================================
                                   Main target
@@ -82,7 +74,7 @@
     all targets
     ===================================================================
     -->
-    <target name="prepare-common" depends="check-dependencies">
+    <target name="prepare-common">
 
       <echo message="Preparing code"/>
 
@@ -382,6 +374,7 @@
       <copy todir="${dist.dir}/lib" file="${commons-logging.jar}"/>
       <copy todir="${dist.dir}/lib" file="${jakarta-oro.jar}"/>
       <copy todir="${dist.dir}/lib" file="${log4j.jar}"/>
+      <copy todir="${dist.dir}/lib" file="${junit.jar}"/>
 
       <!--Copies the configuration files -->
       <mkdir dir="${dist.dir}/conf"/>

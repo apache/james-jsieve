@@ -336,8 +336,8 @@
       </jar>
 
       <!-- Make jSieve jUnit jar-->
-      <echo message="Making jSieve jUnit Jar (${name}-jUnit-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-jUnit-${version}.jar" basedir="${build.classes}">
+      <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
+      <jar jarfile="${build.lib}/${name}-junit-${version}.jar" basedir="${build.classes}">
             <include name="org/apache/jsieve/junit/**"/>
             <manifest>
               <attribute name="Created-By" value='${creator}'/> 

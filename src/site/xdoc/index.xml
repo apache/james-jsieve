@@ -25,7 +25,7 @@ welcomed on the <a href='mail-lists.html'>mailing lists</a>.
 Sieve is an extensible mail filtering language. It's limited expressiveness (no loops
 or variables, no tests with side effects) allows user created scripts to be run 
 safely on email servers. Sieve is targeted at the final delivery phase 
-(where an incoming email is transfered to a user's mailbox).
+(where an incoming email is transferred to a user's mailbox).
 </p>
 <p>
 Sieve scripts are composed of commands. Control commands manage the execution of the script.
@@ -203,9 +203,9 @@ helpful for bug reports to be accompanied by an illustrative jUnit test case.
 <section name='Frequently Asked Question'>
     <section name='Why Do Tests Using Non-ASCII Characters Fail?'>
         <p>
-SIEVE specifies that <a href='http://ietf.org/rfc/rfc2278.txt'>UTF-8</a> encoding is used for scripts.
-This format is an international standard and has wide support but not
-all platforms use this encoding by default. 
+<code>SIEVE</code> specifies that <a href='http://ietf.org/rfc/rfc2278.txt'>UTF-8</a> 
+encoding is used for scripts. This format is an international standard and has wide 
+support but not all platforms use this encoding by default. 
         </p>
         <p>
 By default, JSieve expects that scripts are encoding using <code>UTF-8</code>.

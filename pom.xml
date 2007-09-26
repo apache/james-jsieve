@@ -39,7 +39,7 @@
   <parent>
     <groupId>org.apache.james</groupId>
     <artifactId>james-project</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
   </parent>
   <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
@@ -84,11 +84,11 @@
               -DartifactId=james-parent 
               -Dversion=1.1
            mvn -fignorepom.xml install:install-file 
-              -Dfile=stage\org.apache.james\poms\james-project-1.1.pom 
+              -Dfile=stage\org.apache.james\poms\james-project-1.2.pom 
               -Dpackaging=pom 
               -DgroupId=org.apache.james 
               -DartifactId=james-project 
-              -Dversion=1.1
+              -Dversion=1.2
        -->
       <url>file://${basedir}/stage</url>
       <layout>legacy</layout>

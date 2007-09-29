@@ -117,6 +117,10 @@
     Or zen for the more spiritual amongst you.
     -->
     <target name="preprocess" depends="prepare-common">
+        <available property='present.javacc' file='${javacc.jar}'/>
+        <fail unless='present.javacc'>JavaCC 4.0 is required to build JSieve. 
+Please download from https://javacc.dev.java.net/ and edit include.properties. 
+        </fail>
         <!--
         Generate JavaCC source inserting parse tree building actions 
         and the Java source for the parse classes.

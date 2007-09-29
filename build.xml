@@ -139,18 +139,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
                  <pathelement location="${javacc.jar}"/>
                  <pathelement path="${java.class.path}" />
              </classpath>
-        </java>   
-
-       <!--
-       Make the generated parse classes an extension of the relevant base node to add the 
-       augumented behaviors Sieve nodes expect.
-       -->
-        <!-- NO MORE NEEDED WITH JAVACC 4.0 
-        <replace file="${build.src}/org/apache/jsieve/parser/generated/SimpleNode.java">
-            <replacetoken>public class SimpleNode</replacetoken>
-            <replacevalue>public class SimpleNode extends org.apache.jsieve.parser.SieveNode</replacevalue>
-        </replace>
-        -->
+        </java>
 
         <!-- Generate Java source from the JavaCC source -->
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">

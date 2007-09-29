@@ -489,6 +489,7 @@
         <mkdir dir="${dist.base}"/>
         <delete dir="${build.dir}"/>
         <delete dir="${www.dir}"/>
+        <delete dir='target'/>
     </target>
 
     <!--

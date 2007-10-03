@@ -330,8 +330,10 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-junit-${version}.jar" basedir="${build.classes}">
+      <jar jarfile="${build.lib}/${name}-unit-tests-${version}.jar" 
+           basedir="${build.classes}">
             <include name="org/apache/jsieve/junit/**"/>
+            <include name="META-INF/**"/>  
             <manifest>
               <attribute name="Created-By" value='${creator}'/> 
               <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>

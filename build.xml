@@ -188,8 +188,8 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
           <include name="**/*.properties"/>
         </fileset>
       </copy>   
-      <copy todir="${build.classes}/META-INF" file='LICENSE.txt'/>
-      <copy todir="${build.classes}/META-INF" file='NOTICE.txt'/>   
+      <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
+      <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
     </target>
 
     <!--

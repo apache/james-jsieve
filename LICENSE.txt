@@ -181,10 +181,12 @@
    THIS PRODUCT ALSO INCLUDES THIRD PARTY SOFTWARE REDISTRIBUTED UNDER THE
    FOLLOWING LICENSES:
    
-   
-   JavaBeans Activation Framework, CDDL License
+   JavaBeans Activation Framework, CDDL License (activation-1.1.jar)
      http://glassfish.dev.java.net/public/CDDLv1.0.html
      
-   JavaMail, CDDL License
+   JavaMail, CDDL License (mail-1.4.jar)
      http://glassfish.dev.java.net/public/CDDLv1.0.html
+     
+   JUnit, Common Public License Version 1.0  (junit-3.8.1.jar)
+     http://junit.org
    

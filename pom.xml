@@ -29,7 +29,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
-  <artifactId>jsieve</artifactId>
+  <artifactId>apache-jsieve</artifactId>
   <name>Apache JAMES jSieve</name>
   <version>0.2-SNAPSHOT</version>
   <packaging>jar</packaging>

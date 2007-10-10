@@ -69,6 +69,17 @@ JAMES project.
       http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN
     </url>
   </scm>
+  
+  <repositories>
+  	<!-- enable central that is otherwise disabled by the parent pom. -->
+  	<repository>
+  		<id>central</id>
+  		<url>http://repo1.maven.org/maven2</url>
+  		<releases>
+  			<enabled>true</enabled>
+  		</releases>
+  	</repository>
+  </repositories>
 
   <dependencies verbose="true">
     <dependency>

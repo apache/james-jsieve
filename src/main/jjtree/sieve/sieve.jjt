@@ -120,7 +120,7 @@ TOKEN : /* LITERALS */
 // note that newlines and other characters are all allowed strings
   < QUOTED_STRING:
       "\""
-      (~["\""])*
+      (~["\""]|"\\\"")*
       "\""
   >
 |

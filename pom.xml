@@ -18,13 +18,11 @@
   under the License.    
 -->
 <!--
- | DISCLAIMER DISCLAIMER DISCLAIMER DISCLAIMER DISCLAIMER 
+ | NOTE: 
  | 
- | This file is only intended to be used to build the jsieve
- | website. It must not be used to build packages for jsieve
- | library.
- | 
- | DISCLAIMER DISCLAIMER DISCLAIMER DISCLAIMER DISCLAIMER 
+ | This file is only intended to be used to build the JSieve
+ | website. Ant is the canonical build mechanism. The meta-data
+ | contained is accurate.
  -->
 <project>
   <modelVersion>4.0.0</modelVersion>

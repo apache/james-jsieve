@@ -42,8 +42,6 @@
     -->
 
     <path id="project.class.path">
-        <pathelement location="${javax-mail.jar}"/>
-        <pathelement location="${javax-activation.jar}"/>
         <pathelement location="${commons-digester.jar}"/>
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${commons-beanutils.jar}"/>
@@ -359,8 +357,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
       </copy>
 
       <!--Copies the required support jars -->
-      <copy todir="${dist.dir}/lib" file="${javax-mail.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${javax-activation.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-digester.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-collections.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-beanutils.jar}"/>

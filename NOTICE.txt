@@ -8,14 +8,5 @@
    This product includes software developed at
    The Apache Software Foundation (http://www.apache.org/).
 
-   This product also includes software developed by :
-     - Sun Microsystems (http://java.sun.com/)
-
-   This product also includes Apache Phoenix application container that
-   includes the following software:
-     - the W3C consortium (http://www.w3c.org/),
-     - the SAX project (http://www.saxproject.org/)
-     - Sun Microsystems (http://java.sun.com/)
-     
    Please read the LICENSE.txt and README.txt files in the root directory of 
    this distribution.

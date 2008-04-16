@@ -106,11 +106,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * framework method is invoked to update the state.
      * </p>
      * 
-     * <p>
-     * Also,
+     * <p>Also,</p>
      * 
-     * @see org.apache.jsieve.Executable#execute()
-     *      </p>
+     * @see org.apache.jsieve.Executable#execute(MailAdapter)
      */
     public Object execute(MailAdapter mail, Arguments arguments, Block block,
             SieveContext context) throws SieveException {

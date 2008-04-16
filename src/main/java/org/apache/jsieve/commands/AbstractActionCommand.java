@@ -42,11 +42,8 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * Action Command has been processed and to cancel implicit keep.
      * </p>
      * 
-     * <p>
-     * Also,
-     * 
+     * <p>And also</p>
      * @see org.apache.jsieve.commands.AbstractCommand#updateState()
-     *      </p>
      */
     protected void updateState() {
         super.updateState();
@@ -60,10 +57,8 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * Action Command is legal at this time.
      * </p>
      * 
-     * <p>
-     * Also,
-     * 
-     * @see org.apache.jsieve.commands.AbstractCommand#validateState()
+     * <p>Also,</p>
+     * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
     protected void validateState(SieveContext context) throws CommandException {
         if (CommandStateManager.getInstance().isRejected())

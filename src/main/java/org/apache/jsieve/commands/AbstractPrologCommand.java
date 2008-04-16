@@ -46,10 +46,9 @@ public abstract class AbstractPrologCommand extends AbstractCommand {
      * </p>
      * 
      * <p>
-     * Also,
+     * Also,</p>
      * 
-     * @see org.apache.jsieve.commands.AbstractCommand#validateState()
-     *      </p>
+     * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
     protected void validateState(SieveContext context) throws CommandException {
         super.validateState(context);

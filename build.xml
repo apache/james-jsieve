@@ -25,7 +25,7 @@
 ==============================================================================
 -->
 
-<project default="main" basedir=".">
+<project name='Apache JAMES JSieve' default="main" basedir=".">
     <!--
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
@@ -495,7 +495,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         <echo message=" available targets are:"/>
         <echo message=""/>
         <echo message="   dist-lite --> generates unpacked distribution (default)"/>
-        <echo message="   test      --> tests the jarred classes"/>
+        <echo message="   dist-lite-test --> tests the jarred classes"/>
         <echo message="   website   --> makes all the docs and javadocs"/>
         <echo message="   compile   --> compiles the source code"/>
         <echo message="   dist      --> generates all the jSieve distributions, packed"/>

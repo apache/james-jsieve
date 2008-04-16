@@ -83,64 +83,38 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' with a single test that is present
      */
-    public void testSingleTestSatisfied() {
-        boolean isTestPassed = false;
+    public void testSingleTestSatisfied() throws Exception {
         String script = "require \"true\";";
-
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        assertTrue(isTestPassed);
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
     /**
      * Test for Command 'require' with multiple commands that are present
      */
-    public void testMultipleCommandSatisfied() {
-        boolean isTestPassed = false;
+    public void testMultipleCommandSatisfied()  throws Exception {
         String script = "require [\"if\", \"elsif\", \"else\"];";
-
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        assertTrue(isTestPassed);
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
     /**
      * Test for Command 'require' with multiple tests that are present
      */
-    public void testMultipleTestSatisfied() {
-        boolean isTestPassed = false;
+    public void testMultipleTestSatisfied() throws Exception {
         String script = "require [\"true\", \"false\", \"not\"];";
-
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        assertTrue(isTestPassed);
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
     /**
      * Test for Command 'require' with a single command that is absent
      */
-    public void testSingleCommandUnsatisfied() {
+    public void testSingleCommandUnsatisfied() throws Exception {
         boolean isTestPassed = false;
         String script = "require \"absent\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (FeatureException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
-        } catch (SieveException e) {
+            isTestPassed = true;
         }
         assertTrue(isTestPassed);
     }
@@ -148,16 +122,14 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' with a single test that is absent
      */
-    public void testSingleTestUnsatisfied() {
+    public void testSingleTestUnsatisfied() throws Exception {
         boolean isTestPassed = false;
         String script = "require \"absent\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (FeatureException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
-        } catch (SieveException e) {
+            isTestPassed = true;
         }
         assertTrue(isTestPassed);
     }
@@ -165,7 +137,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' for missing argument
      */
-    public void testMissingArgument() {
+    public void testMissingArgument() throws Exception {
         boolean isTestPassed = false;
         String script = "require;";
 
@@ -173,16 +145,14 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
+        } 
         assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'require' for extra argument
      */
-    public void testExtraArgument() {
+    public void testExtraArgument() throws Exception {
         boolean isTestPassed = false;
         String script = "require \"if\" 1;";
 
@@ -190,8 +160,6 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
@@ -199,7 +167,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' rejecting Blocks
      */
-    public void testRejectBlock() {
+    public void testRejectBlock()  throws Exception {
         boolean isTestPassed = false;
         String script = "require \"if\" {stop;}";
 
@@ -207,25 +175,21 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
+        } 
         assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'require' after a Command
      */
-    public void testInterveningCommand() {
+    public void testInterveningCommand() throws Exception {
         boolean isTestPassed = false;
         String script = "fileinto \"someplace\"; require \"fileinto\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (CommandException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
-        } catch (SieveException e) {
+            isTestPassed = true;
         }
         assertTrue(isTestPassed);
     }
@@ -233,7 +197,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' rejecting invalid arguments
      */
-    public void testRejectInvalidArgument() {
+    public void testRejectInvalidArgument() throws Exception {
         boolean isTestPassed = false;
         String script = "require 1 ;";
 
@@ -241,8 +205,6 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
         }
         assertTrue(isTestPassed);
     }
@@ -251,16 +213,14 @@ public class RequireTest extends TestCase {
      * Test for Command 'require' with a multiple commands of which one is
      * absent
      */
-    public void testMultipleCommandsUnsatisfied() {
+    public void testMultipleCommandsUnsatisfied()  throws Exception {
         boolean isTestPassed = false;
         String script = "require [\"if\", \"elsif\", \"absent\"];";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (FeatureException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
-        } catch (SieveException e) {
+            isTestPassed = true;
         }
         assertTrue(isTestPassed);
     }
@@ -268,17 +228,15 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' with a multiple tests of which one is absent
      */
-    public void testMultipleTestsUnsatisfied() {
+    public void testMultipleTestsUnsatisfied()  throws Exception {
         boolean isTestPassed = false;
         String script = "require [\"true\", \"false\", \"absent\"];";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (FeatureException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
+            isTestPassed = true;
+        } 
         assertTrue(isTestPassed);
     }
 

@@ -30,6 +30,7 @@ import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.parser.generated.SieveParser;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
+import org.apache.jsieve.parser.generated.SimpleNode;
 
 /**
  * <p>
@@ -83,7 +84,10 @@ public class SieveFactory {
      */
     public Node parse(InputStream inputStream) throws ParseException {
         try {
-            return new SieveParser(inputStream, "UTF-8").start();
+            final SimpleNode node = new SieveParser(inputStream, "UTF-8").start();
+            SieveValidationVisitor visitor = new SieveValidationVisitor();
+            node.jjtAccept(visitor, null);
+            return node;
         } catch (ParseException ex) {
             Log log = Logger.getLog();
             if (log.isErrorEnabled())
@@ -91,6 +95,13 @@ public class SieveFactory {
             if (log.isDebugEnabled())
                 log.debug("Parse failed.", ex);
             throw ex;
+        } catch (SieveException ex) {
+            Log log = Logger.getLog();
+            if (log.isErrorEnabled())
+                log.error("Parse failed. Reason: " + ex.getMessage());
+            if (log.isDebugEnabled())
+                log.debug("Parse failed.", ex);
+            throw new ParseException(ex);
         }
     }
 

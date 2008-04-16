@@ -21,8 +21,10 @@ package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
 
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.*;
+import org.apache.jsieve.tests.ExecutableTest;
 
 /**
  * <p>
@@ -32,12 +34,17 @@ import org.apache.jsieve.mail.*;
  * <code>test = identifier arguments</code>
  */
 public class Test implements Executable {
+    
+    public static ExecutableTest lookup(final String name) throws LookupException {
+        return TestManager.getInstance().newInstance(name);
+    }
+    
     private SieveContext context;
 
-    // The name of this Test
+    /** The name of this Test */
     private String fieldName;
 
-    // The arguments for this Test
+    /** The arguments for this Test */
     private Arguments fieldArguments;
 
     /**
@@ -48,8 +55,10 @@ public class Test implements Executable {
         if (log.isDebugEnabled()) {
             log.debug(toString());
         }
-        return new Boolean(TestManager.getInstance().newInstance(getName())
-                .execute(mail, getArguments(), context));
+        final String name = getName();
+        final ExecutableTest test = lookup(name);
+        final boolean result = test.execute(mail, getArguments(), context);
+        return new Boolean(result);
     }
 
     /**

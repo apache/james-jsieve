@@ -20,6 +20,7 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -31,30 +32,24 @@ import org.apache.jsieve.mail.MailAdapter;
  * <code>command = identifier arguments ( ";" / block )</code>
  */
 public class Command implements Executable {
-    /**
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
-     */
-    public Object execute(MailAdapter mail) throws SieveException {
-        Log log = Logger.getLog();
-        if (log.isDebugEnabled()) {
-            log.debug(toString());
-            coordinate.debugDiagnostics(log);
-        }
-        // commands are executed after the parsing phase
-        // recursively from the top level block
-        // so need to use the coordinate recorded from the parse
-        context.setCoordinate(coordinate);
-        return CommandManager.getInstance().newInstance(getName()).execute(
-                mail, getArguments(), getBlock(), context);
-    }
 
-    // The name of this Command
+    /**
+     * Looks up an executable command with the given name.
+     * @param name not null
+     * @return <code>ExecutableCommand</code>, not null
+     * @throws LookupException if the command is not available
+     */
+    public static ExecutableCommand lookup(final String name) throws LookupException {
+        return CommandManager.getInstance().newInstance(name);
+    }
+    
+    /** The name of this Command */
     private String fieldName;
 
-    // The Arguments for this Command
+    /** The Arguments for this Command */
     private Arguments fieldArguments;
 
-    // The Block for this Command
+    /** The Block for this Command */
     private Block fieldBlock;
 
     private SieveContext context;
@@ -158,5 +153,28 @@ public class Command implements Executable {
     protected void setBlock(Block block) {
         fieldBlock = block;
     }
+    
+    /**
+     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     */
+    public Object execute(MailAdapter mail) throws SieveException {
+        Log log = Logger.getLog();
+        if (log.isDebugEnabled()) {
+            log.debug(toString());
+            coordinate.debugDiagnostics(log);
+        }
+        // commands are executed after the parsing phase
+        // recursively from the top level block
+        // so need to use the coordinate recorded from the parse
+        context.setCoordinate(coordinate);
+        final ExecutableCommand executable = getExecutable();
+        final Object result = executable.execute(
+                        mail, getArguments(), getBlock(), context);
+        return result;
+    }
 
+    private ExecutableCommand getExecutable() throws LookupException {
+        final String name = getName();
+        return lookup(name);
+    }
 }

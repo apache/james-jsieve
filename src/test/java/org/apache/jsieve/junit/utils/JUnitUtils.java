@@ -50,6 +50,20 @@ public class JUnitUtils
             mail,
             new ByteArrayInputStream(script.getBytes()));
     }
+        
+    /**
+     * Method interpret parses a script and evaluates it against a MailAdapter.
+     * @param mail
+     * @param script
+     * @throws SieveException
+     * @throws ParseException
+     */
+    static public void parse(String script)
+        throws SieveException, ParseException
+    {
+        SieveFactory.getInstance().parse(
+            new ByteArrayInputStream(script.getBytes()));
+    }
     
 
     /**

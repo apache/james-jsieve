@@ -22,11 +22,7 @@ package org.apache.jsieve.tests.optional;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.jsieve.comparators.ComparatorUtils;
-import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
@@ -69,27 +65,17 @@ public class Envelope extends AbstractCompatatorTest {
     protected boolean match(String addressPart, String comparator,
             String matchType, String headerValue, String key)
             throws SieveException {
-        // Attempt to create a new InternetAddress object from the headerValue
-        // If this fails, the header either is not intended to contain a valid
-        // Internet Address or is corrupt. Either way, its an Exception!
-        String address = null;
-        try {
-            // address is a simple address; user@domain or user
-            address = new InternetAddress(headerValue).getAddress();
-        } catch (AddressException e) {
-            throw new InternetAddressException(e.getMessage());
-        }
 
         // Extract the part of the address we are matching on
         String matchAddress = null;
         if (addressPart.equals(":all"))
-            matchAddress = address;
+            matchAddress = headerValue;
         else {
             int localStart = 0;
             int localEnd = 0;
             int domainStart = 0;
-            int domainEnd = address.length();
-            int splitIndex = address.indexOf('@');
+            int domainEnd = headerValue.length();
+            int splitIndex = headerValue.indexOf('@');
             // If there is no domain part (-1), treat it as an empty String
             if (splitIndex == -1) {
                 localEnd = domainEnd;
@@ -98,8 +84,8 @@ public class Envelope extends AbstractCompatatorTest {
                 localEnd = splitIndex;
                 domainStart = splitIndex + 1;
             }
-            matchAddress = (addressPart.equals(LOCALPART_TAG) ? address
-                    .substring(localStart, localEnd) : address.substring(
+            matchAddress = (addressPart.equals(LOCALPART_TAG) ? headerValue
+                    .substring(localStart, localEnd) : headerValue.substring(
                     domainStart, domainEnd));
         }
 

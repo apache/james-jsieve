@@ -101,7 +101,7 @@ public class SieveFactory {
                 log.error("Parse failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
                 log.debug("Parse failed.", ex);
-            throw new ParseException(ex);
+            throw new ParseException(ex.getMessage());
         }
     }
 

@@ -161,7 +161,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
                                   compile
     ===================================================================
     -->
-    <target name="compile" depends="compile-main"/>
+    <target name="compile" depends="compile-main, compile-tests"/>
     
     <target name="compile-main" depends="prepare">
       <echo message="Compiling jSieve Java sources"/>
@@ -177,6 +177,29 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>
+        <include name="org/apache/jsieve/**"/>
+      </javac>
+      <copy todir="${build.classes}">
+        <fileset dir="${java.dir}">
+          <include name="**/*.properties"/>
+        </fileset>
+      </copy>   
+      <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
+      <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
+    </target>
+	
+    <target name="compile-tests" depends="prepare, compile-main">
+      <echo message="Compiling jSieve test sources"/>
+      <mkdir dir="${build.classes}"/>
+      <javac 
+            destdir="${build.classes}" 
+            debug="${debug}" 
+            optimize="${optimize}" 
+            deprecation="${deprecation}"
+            source="${jdk.source}"
+            target="${jdk.target}" 
+            >
+        <classpath refid="project.class.path"/>
         <src path="${test.dir}"/>
         <include name="org/apache/jsieve/**"/>
       </javac>

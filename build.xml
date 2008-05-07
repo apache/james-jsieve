@@ -52,6 +52,16 @@
         <pathelement path="${java.class.path}" />
         <pathelement path="${build.classes}" />
     </path>
+ 
+    <path id="mail.class.path">
+        <pathelement location='${mail.jar}'/>
+        <pathelement location='${activation.jar}'/>   
+    </path>  
+    
+    <path id="project.test.class.path">
+        <path refid="project.class.path"/>
+        <path refid="mail.class.path"/>  
+    </path>   
 
     <!--
     ===================================================================
@@ -102,7 +112,22 @@
                                   Prepare target
     ===================================================================
     -->
-    <target name="prepare" depends="prepare-common, preprocess"/>
+    <target name="prepare" depends="prepare-common, preprocess">
+        <available 
+            classname="javax.mail.Message" 
+            property="is.available.javamail" 
+            classpathref="project.test.class.path"/> 
+        <available 
+            classname="javax.activation.MimeType" 
+            property="is.available.activation" 
+            classpathref="project.test.class.path"/> 
+        <condition property="is.available.libs.test">
+            <and>
+                <isset property='is.available.javamail'/>   
+                <isset property='is.available.activation'/>   
+            </and>   
+        </condition>   
+    </target>   
 
     <!--
     ===================================================================
@@ -187,8 +212,11 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
       <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
       <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
     </target>
-	
-    <target name="compile-tests" depends="prepare, compile-main">
+    
+    <target 
+        name="compile-tests" 
+        depends="prepare, compile-main">
+      <fail unless="is.available.libs.test">JavaMail is required for testing</fail>   
       <echo message="Compiling jSieve test sources"/>
       <mkdir dir="${build.classes}"/>
       <javac 
@@ -199,7 +227,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             source="${jdk.source}"
             target="${jdk.target}" 
             >
-        <classpath refid="project.class.path"/>
+        <classpath refid="project.test.class.path"/>
         <src path="${test.dir}"/>
         <include name="org/apache/jsieve/**"/>
       </javac>
@@ -413,6 +441,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
                 <pathelement location="${dist.dir}/conf/"/>
                 <pathelement path="${java.class.path}"/>
                 <pathelement location="${junit.jar}"/>
+                <path refid='mail.class.path'/>   
             </classpath>
             <formatter type="plain"/>
             <batchtest fork="yes" todir="${dist.dir}/reports">

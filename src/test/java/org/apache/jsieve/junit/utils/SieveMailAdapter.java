@@ -31,6 +31,7 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import javax.mail.Header;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -43,6 +44,7 @@ import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
+import org.apache.jsieve.parser.generated.ParseException;
 
 /**
  * <p>Class SieveMailAdapter implements a mock MailAdapter for testing purposes.</p>
@@ -281,9 +283,41 @@ public class SieveMailAdapter implements MailAdapter
     }
 
     public Address[] parseAddresses(final String headerName) throws SieveMailException {
-         return SieveAddressBuilder.parseAddresses(headerName, getMessage());
+         return parseAddresses(headerName, getMessage());
     }
 
+    /**
+     * Parses the value from the given message into addresses.
+     * 
+     * @param headerName
+     *                header name, to be matched case insensitively
+     * @param message
+     *                <code>Message</code>, not null
+     * @return <code>Address</code> array, not null possibly empty
+     * @throws SieveMailException
+     */
+    public Address[] parseAddresses(final String headerName,
+            final Message message) throws SieveMailException {
+        try {
+           final SieveAddressBuilder builder = new SieveAddressBuilder();
+
+            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
+                final Header header = (Header) en.nextElement();
+                final String name = header.getName();
+                if (name.trim().equalsIgnoreCase(headerName)) {
+                    builder.addAddresses(header.getValue());
+                }
+            }
+
+            final Address[] results = builder.getAddresses();
+            return results;
+
+        } catch (MessagingException ex) {
+           throw new SieveMailException(ex);
+        } catch (org.apache.jsieve.parser.generated.address.ParseException ex) {
+            throw new SieveMailException(ex);
+        }
+    }
 
 
 }

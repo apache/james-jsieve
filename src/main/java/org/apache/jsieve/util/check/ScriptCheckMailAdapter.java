@@ -32,6 +32,7 @@ import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
+import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -279,7 +280,40 @@ public class ScriptCheckMailAdapter implements MailAdapter {
 
     public Address[] parseAddresses(String headerName)
             throws SieveMailException {
-        return SieveAddressBuilder.parseAddresses(headerName, mail);
+        return parseAddresses(headerName, mail);
+    }
+
+    /**
+     * Parses the value from the given message into addresses.
+     * 
+     * @param headerName
+     *                header name, to be matched case insensitively
+     * @param message
+     *                <code>Message</code>, not null
+     * @return <code>Address</code> array, not null possibly empty
+     * @throws SieveMailException
+     */
+    public Address[] parseAddresses(final String headerName,
+            final Message message) throws SieveMailException {
+        try {
+           final SieveAddressBuilder builder = new SieveAddressBuilder();
+
+            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
+                final Header header = (Header) en.nextElement();
+                final String name = header.getName();
+                if (name.trim().equalsIgnoreCase(headerName)) {
+                    builder.addAddresses(header.getValue());
+                }
+            }
+
+            final Address[] results = builder.getAddresses();
+            return results;
+
+        } catch (MessagingException ex) {
+           throw new SieveMailException(ex);
+        } catch (ParseException ex) {
+            throw new SieveMailException(ex);
+        }
     }
 
 }

@@ -26,10 +26,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.mail.MailAdapter.Address;
@@ -49,39 +45,6 @@ import org.apache.jsieve.parser.generated.address.Token;
  * for internal and demonstration purposes. It is not actively maintained.
  */
 public class SieveAddressBuilder {
-
-    /**
-     * Parses the value from the given message into addresses.
-     * 
-     * @param headerName
-     *                header name, to be matched case insensitively
-     * @param message
-     *                <code>Message</code>, not null
-     * @return <code>Address</code> array, not null possibly empty
-     * @throws SieveMailException
-     */
-    public static Address[] parseAddresses(final String headerName,
-            final Message message) throws SieveMailException {
-        try {
-            final SieveAddressBuilder builder = new SieveAddressBuilder();
-
-            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
-                final Header header = (Header) en.nextElement();
-                final String name = header.getName();
-                if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(header.getValue());
-                }
-            }
-
-            final Address[] results = builder.getAddresses();
-            return results;
-
-        } catch (MessagingException ex) {
-            throw new SieveMailException(ex);
-        } catch (ParseException ex) {
-            throw new SieveMailException(ex);
-        }
-    }
 
     private static final Address[] EMPTY_ADDRESSES = {};
 

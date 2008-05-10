@@ -145,24 +145,6 @@ public class ComparatorManager {
     }
 
     /**
-     * Method isSupported answers a boolean indicating if a Comparator name is
-     * configured.
-     * 
-     * @param name -
-     *                The Comparator name
-     * @return boolean - True if the Comparator name is configured.
-     */
-    public boolean isSupported(String name) {
-        boolean isSupported = true;
-        try {
-            lookup(name);
-        } catch (LookupException e) {
-            isSupported = false;
-        }
-        return isSupported;
-    }
-
-    /**
      * <p>
      * Method getClassName answers the name of the class to which a Comparator
      * name is mapped.

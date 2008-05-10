@@ -35,9 +35,9 @@ public class TestManager {
     static private TestManager fieldInstance;
 
     /**
-     * Constructor for TestManager.
+     * TestManager is instanciated with getInstance
      */
-    public TestManager() {
+    private TestManager() {
         super();
     }
 
@@ -142,24 +142,6 @@ public class TestManager {
         } catch (IllegalAccessException e) {
             throw new LookupException(e.getMessage());
         }
-    }
-
-    /**
-     * Method isSupported answers a boolean indicating if a Test name is
-     * configured.
-     * 
-     * @param name -
-     *                The Test name
-     * @return boolean - True if the Test name is configured.
-     */
-    public boolean isSupported(String name) {
-        boolean isSupported = true;
-        try {
-            lookup(name);
-        } catch (LookupException e) {
-            isSupported = false;
-        }
-        return isSupported;
     }
 
     /**

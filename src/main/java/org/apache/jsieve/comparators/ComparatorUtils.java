@@ -19,30 +19,18 @@
 
 package org.apache.jsieve.comparators;
 
-import org.apache.oro.text.GlobCompiler;
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.PatternMatcher;
-import org.apache.oro.text.regex.Perl5Matcher;
-
 import org.apache.jsieve.*;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
 
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 /**
  * Class ComparatorUtils implements utility methods used by Comparators.
  */
 public class ComparatorUtils implements MatchTypeTags {
-    /**
-     * One per thread GlobCompiler.
-     */
-    static private ThreadLocal fieldGlobCompiler;
-
-    /**
-     * One per thread Perl5Matcher.
-     */
-    static private ThreadLocal fieldPerl5Matcher;
 
     /**
      * Constructor for ComparatorUtils.
@@ -88,17 +76,15 @@ public class ComparatorUtils implements MatchTypeTags {
      */
     static public boolean matches(String string, String glob)
             throws SievePatternException {
-        // This requires optimization
-        // 1) DONE - Keep one compiler and one matcher in thread variables
-        // 2) Is there a way to re-use the compiled pattern?
-        Pattern pattern = null;
+        // TODO Is there a way to re-use the compiled pattern?
         try {
-            pattern = getGlobCompiler().compile(glob);
-        } catch (MalformedPatternException e) {
+            String regex = sieveToJavaRegex(glob);
+            System.err.println(regex);
+            return Pattern.compile(regex, Pattern.CASE_INSENSITIVE).matcher(
+                    string).matches();
+        } catch (PatternSyntaxException e) {
             throw new SievePatternException(e.getMessage());
         }
-        PatternMatcher matcher = getPerl5Matcher();
-        return matcher.matches(string, pattern);
     }
 
     /**
@@ -132,123 +118,52 @@ public class ComparatorUtils implements MatchTypeTags {
     }
 
     /**
-     * <p>
-     * Returns the globCompiler, intialises if required.
-     * </p>
-     * 
-     * <p>
-     * Note that this must be synchronized to prevent another thread detecting
-     * the null state while this thread is initialising.
-     * </p>
-     * 
-     * @return GlobCompiler
+     * Returns true if the char is a special char for regex
      */
-    static synchronized protected GlobCompiler getGlobCompiler() {
-        GlobCompiler globCompiler = null;
-        if (null == (globCompiler = getGlobCompilerBasic())) {
-            updateGlobCompiler();
-            return getGlobCompiler();
+    private static boolean isRegexSpecialChar(char ch) {
+        return (ch == '*' || ch == '?' || ch == '+' || ch == '[' || ch == ']'
+                || ch == '(' || ch == ')' || ch == '|' || ch == '^'
+                || ch == '$' || ch == '.' || ch == '{' || ch == '}' || ch == '\\');
+    }
+
+    /**
+     * Returns true if the char is a special char for sieve matching
+     */
+    private static boolean isSieveMatcherSpecialChar(char ch) {
+        return (ch == '*' || ch == '?' || ch == '\\');
+    }
+
+    /**
+     * Converts a Sieve pattern in a java regex pattern
+     */
+    public static String sieveToJavaRegex(String pattern) {
+        int ch;
+        StringBuffer buffer = new StringBuffer(2 * pattern.length());
+        for (ch = 0; ch < pattern.length(); ch++) {
+            switch (pattern.charAt(ch)) {
+            case '*':
+                buffer.append(".*");
+                break;
+            case '?':
+                buffer.append('.');
+                break;
+            case '\\':
+                buffer.append('\\');
+                if (ch == pattern.length() - 1)
+                    buffer.append('\\');
+                else if (isSieveMatcherSpecialChar(pattern.charAt(ch + 1)))
+                    buffer.append(pattern.charAt(++ch));
+                else
+                    buffer.append('\\');
+                break;
+            default:
+                if (isRegexSpecialChar(pattern.charAt(ch)))
+                    buffer.append('\\');
+                buffer.append(pattern.charAt(ch));
+                break;
+            }
         }
-        return globCompiler;
-    }
-
-    /**
-     * Returns the globCompiler.
-     * 
-     * @return GlobCompiler
-     */
-    private static GlobCompiler getGlobCompilerBasic() {
-        if (null == fieldGlobCompiler)
-            return null;
-        return (GlobCompiler) fieldGlobCompiler.get();
-    }
-
-    /**
-     * Updates the current GlobCompiler.
-     */
-    static protected void updateGlobCompiler() {
-        setGlobCompiler(computeGlobCompiler());
-    }
-
-    /**
-     * Answers a new GlobCompiler.
-     * 
-     * @return GlobCompiler
-     */
-    static protected GlobCompiler computeGlobCompiler() {
-        return new GlobCompiler();
-    }
-
-    /**
-     * <p>
-     * Returns the perl5Matcher, intialises if required.
-     * </p>
-     * 
-     * <p>
-     * Note that this must be synchronized to prevent another thread detecting
-     * the null state while this thread is initialising.
-     * </p>
-     * 
-     * @return Perl5Matcher
-     */
-    static synchronized protected Perl5Matcher getPerl5Matcher() {
-        Perl5Matcher perl5Matcher = null;
-        if (null == (perl5Matcher = getPerl5MatcherBasic())) {
-            updatePerl5Matcher();
-            return getPerl5Matcher();
-        }
-        return perl5Matcher;
-    }
-
-    /**
-     * Returns the perl5Matcher.
-     * 
-     * @return Perl5Matcher
-     */
-    private static Perl5Matcher getPerl5MatcherBasic() {
-        if (null == fieldPerl5Matcher)
-            return null;
-        return (Perl5Matcher) fieldPerl5Matcher.get();
-    }
-
-    /**
-     * Updates the current Perl5Matcher.
-     */
-    static protected void updatePerl5Matcher() {
-        setPerl5Matcher(computePerl5Matcher());
-    }
-
-    /**
-     * Sets the globCompiler.
-     * 
-     * @param globCompiler
-     *                The globCompiler to set
-     */
-    protected static void setGlobCompiler(GlobCompiler globCompiler) {
-        if (null == fieldGlobCompiler)
-            fieldGlobCompiler = new ThreadLocal();
-        fieldGlobCompiler.set(globCompiler);
-    }
-
-    /**
-     * Sets the perl5Matcher.
-     * 
-     * @param perl5Matcher
-     *                The perl5Matcher to set
-     */
-    protected static void setPerl5Matcher(Perl5Matcher perl5Matcher) {
-        if (null == fieldPerl5Matcher)
-            fieldPerl5Matcher = new ThreadLocal();
-        fieldPerl5Matcher.set(perl5Matcher);
-    }
-
-    /**
-     * Answers a new perl5Matcher.
-     * 
-     * @return Perl5Matcher
-     */
-    static protected Perl5Matcher computePerl5Matcher() {
-        return new Perl5Matcher();
+        return buffer.toString();
     }
 
     /**

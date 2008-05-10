@@ -20,25 +20,6 @@
   -->
   <supplement>
     <project>
-      <groupId>oro</groupId>
-      <artifactId>oro</artifactId>
-      <name>Apache Jakarta ORO</name>
-      <url>http://jakarta.apache.org/oro/index.html</url>
-      <organization>
-        <name>The Apache Software Foundation</name>
-        <url>http://www.apache.org/</url>
-      </organization>
-      <licenses>
-        <license>
-          <name>Apache License, Version 2.0</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-          <distribution>repo</distribution>
-        </license>
-      </licenses>
-    </project>
-  </supplement>
-  <supplement>
-    <project>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <name>Apache Commons Beanutils</name>

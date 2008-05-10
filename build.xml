@@ -273,68 +273,13 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
 
     <!--
     ===================================================================
-                                  build xdocs
-    ===================================================================
-    -->
-    <target name="xdocs" depends="prepare">
-      <xslt style="${docs.src}/stylesheets/site.xsl"
-                basedir="${docs.src}/"
-                destdir="${build.docs}/" 
-                includes="**/*.xml" >
-      </xslt>
-      <copy todir="${build.docs}" filtering="no">
-        <fileset dir="${docs.src}">
-          <include name="**/*.css"/>
-        </fileset>
-      </copy>
-      <copy todir="${build.docs}/images" filtering="no">
-        <fileset dir="${docs.src}/images">
-          <include name="**/*.gif"/>
-          <include name="**/*.jpeg"/>
-          <include name="**/*.jpg"/>
-          <include name="**/*.png"/>
-        </fileset>
-      </copy>
-      <mkdir dir="${dist.dir}/docs"/>
-      <copy todir="${dist.dir}/docs" filtering="no">
-        <fileset dir="${build.docs}"/>
-      </copy>
-    </target>
-
-    <!--
-    ===================================================================
-                                build   website 
-    ===================================================================
-    -->
-    <target name="website" depends="xdocs,javadocs">
-
-      <echo message="preparing website in ${www.dir}"/>
-      <delete quiet="true">
-        <fileset dir="${www.dir}">
-          <exclude name="CVS/**"/>
-          <exclude name="rfclist/**"/>
-          <exclude name="javadocs/**"/>
-        </fileset>
-      </delete>
-      <mkdir dir="${www.dir}"/>
-      <copy todir="${www.dir}" filtering="no">
-        <fileset dir="${build.docs}"/>
-      </copy>
-      <copy todir="${www.dir}" filtering="no">
-        <fileset dir="${build.dir}">
-          <include name="javadocs/**"/>
-        </fileset>
-      </copy>
-      <fixcrlf srcdir="${www.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
-      <fixcrlf srcdir="${www.dir}" includes="**/*.css" eol="lf" tab="remove" tablength="4" />
-    </target>
-
-    <!--
-    ===================================================================
                 Build everything
     ===================================================================
     -->
-    <target name="everything" depends="clean,website,dist-bin,dist-src"/>
+    <target name="everything">
+        <antcall target='clean'/>
+        <antcall target='dist'/>
+    </target>   
 
     <!--
     ===================================================================
@@ -459,7 +404,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
     ===================================================================
     -->
 
-    <target name="dist-bin" depends="dist-lite,xdocs,javadocs">
+    <target name="dist-bin" depends="dist-lite,javadocs">
       <echo message ="Building binary distribution"/>
       <property name="dist.binary.dir" value="${dist.dir}/downloads/bin"/>
       <mkdir dir="${dist.binary.dir}"/>
@@ -486,7 +431,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
                                   source distributions
     ===================================================================
     -->
-    <target name="dist-src" depends="dist-lite,xdocs,javadocs">
+    <target name="dist-src" depends="dist-lite,javadocs">
         <echo message ="Building source distributions"/>
 
         <property name="dist.source.dir" value="${dist.dir}/downloads/src"/>

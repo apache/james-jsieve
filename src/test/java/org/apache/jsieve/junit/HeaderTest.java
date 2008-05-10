@@ -330,5 +330,27 @@ public class HeaderTest extends TestCase {
         }
         assertTrue(isTestPassed);
     }
+    
+    /**
+     * Test for square brackets in matching headers
+     * When the "[" is in the first char of the pattern it does not matches.
+     * 
+     * @see http://issues.apache.org/jira/browse/JSIEVE-19
+     */
+    public void testSquareBracketsInMatch() {
+        boolean isTestPassed = false;
+        String script = "if header :matches \"X-Caffeine\" \"[test]*\" {throwTestException;}";
+        try {
+            SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+            mail.getMessage().addHeader("X-Caffeine", "[test] my subject");
+            JUnitUtils.interpret(mail, script);
+        } catch (MessagingException e) {
+        } catch (ThrowTestException.TestException e) {
+            isTestPassed = true;
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
 
 }

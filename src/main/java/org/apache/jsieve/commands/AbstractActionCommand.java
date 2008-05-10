@@ -19,9 +19,14 @@
 
 package org.apache.jsieve.commands;
 
+import org.apache.jsieve.Arguments;
 import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.exception.CommandException;
+import org.apache.jsieve.exception.SieveException;
+
+import java.util.List;
 
 /**
  * Abstract class AbstractActionCommand defines the common state validation and
@@ -64,6 +69,26 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
         if (CommandStateManager.getInstance().isRejected())
             throw context.getCoordinate().commandException(
                     "Cannot perform Actions on a rejected message.");
+    }
+
+    /**
+     * This is an utility method for subclasses
+     * 
+     * @see org.apache.jsieve.commands.Redirect
+     * @see org.apache.jsieve.commands.optional.FileInto
+     * @see org.apache.jsieve.commands.optional.Reject
+     */
+    protected void validateSingleStringArguments(Arguments arguments, SieveContext context) throws SieveException {
+        List args = arguments.getArgumentList();
+        if (args.size() != 1)
+            throw context.getCoordinate().syntaxException("Exactly 1 argument permitted. Found " + args.size());
+
+        Object argument = args.get(0); 
+        if (!(argument instanceof StringListArgument))
+            throw context.getCoordinate().syntaxException("Expecting a string-list");
+
+        if (1 != ((StringListArgument) argument).getList().size())
+            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
     }
 
 }

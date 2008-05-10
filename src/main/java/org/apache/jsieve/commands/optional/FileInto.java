@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.commands.optional;
 
-import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.jsieve.Arguments;
@@ -87,19 +86,7 @@ public class FileInto extends AbstractActionCommand {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        List args = arguments.getArgumentList();
-        if (args.size() != 1)
-            throw context.getCoordinate().syntaxException(
-                    "Exactly 1 argument permitted. Found " + args.size());
-
-        Object argument = args.get(0);
-        if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException(
-                    "Expecting a string-list");
-
-        if (1 != ((StringListArgument) argument).getList().size())
-            throw context.getCoordinate().syntaxException(
-                    "Expecting exactly one argument");
+        validateSingleStringArguments(arguments, context);
     }
 
 }

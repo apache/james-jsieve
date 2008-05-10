@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one   
+  or more contributor license agreements.  See the NOTICE file 
+  distributed with this work for additional information        
+  regarding copyright ownership.  The ASF licenses this file   
+  to you under the Apache License, Version 2.0 (the            
+  "License"); you may not use this file except in compliance   
+  with the License.  You may obtain a copy of the License at   
+                                                               
+    http://www.apache.org/licenses/LICENSE-2.0                 
+                                                               
+  Unless required by applicable law or agreed to in writing,   
+  software distributed under the License is distributed on an  
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       
+  KIND, either express or implied.  See the License for the    
+  specific language governing permissions and limitations      
+  under the License.  
+-->
+<document>
+
+ <properties>
+  <title>Overview</title>
+  <author email="jsieve-dev@jakarta.apache.org">jSieve Project</author>
+ </properties>
+
+<body>
+<section name='jSieve Features'>
+<subsection name='Sieve Features Supported By jSieve'>
+<p>
+jSieve is limited only by the platform on which it runs.
+</p>
+<table>
+<tr><th>Limits</th><th/></tr>
+<tr><td>Maximum Number Of Actions</td><td>No intrinsic limit</td></tr>
+<tr><td>Maximum Number Of Nested Blocks</td><td>No intrinsic limit</td></tr>
+<tr><td>Maximum Number Of Nested Test Lists</td><td>No intrinsic limit</td></tr>
+</table>
+<p>
+jSieve supports the standard control commands specified in RFC 3028.
+</p>
+<table>
+<tr>
+<th>Control Command</th><th>Specification</th><th>Supported</th>
+</tr>
+<tr>
+<td>If</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+<td>Require</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+<tr>
+<td>Stop</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+</table>
+<p>
+jSieve supports all action commands (both required and optional) 
+specified in RFC 3028. 
+</p><p>
+<strong>Note</strong> that jSieve uses a pluggable 
+<code>MailAdapter</code> as an interface to the mail server.
+Not all implementations may fully support all actions.
+</p>  
+<table>
+<tr>
+<th>Action Command</th><th>Specification</th><th>Supported</th>
+</tr><tr>
+<td>reject</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>fileinto</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>redirect</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr>
+</table>
+<p>
+jSieve supports all tests commands specified in RFC 3028.
+</p>
+<table>
+<tr>
+<th>Test Command</th><th>Specification</th><th>Supported</th>
+</tr><tr>
+<td>address</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>allof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>anyof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>envelope</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+</tr><tr>
+<td>exists</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>false</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>header</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>not</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+<td>body</td><td><a href='http://tools.ietf.org/html/draft-ietf-sieve-body-00'>SIEVE body extension</a></td><td>partial</td>
+</tr>
+</table>
+</subsection>
+<subsection name='jSieve Extension Commands'>
+<p>
+jSieve allows extension commands to be developed
+and plugged in at run time.
+The following extension commands ship with jSieve:
+</p>
+<table>
+<tr><th>Name</th><th>Function</th></tr>
+<tr><td>Log</td><td>Logs messages</td></tr>
+</table>
+</subsection>
+</section>
+</body>
+</document>

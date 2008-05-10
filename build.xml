@@ -46,7 +46,6 @@
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${commons-beanutils.jar}"/>
         <pathelement location="${commons-logging.jar}"/>
-        <pathelement location="${jakarta-oro.jar}"/>
         <pathelement location="${log4j.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement path="${java.class.path}" />
@@ -357,7 +356,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
       <copy todir="${dist.dir}/lib" file="${commons-collections.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-beanutils.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-logging.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${jakarta-oro.jar}"/>
       <copy todir="${dist.dir}/lib" file="${log4j.jar}"/>
       <copy todir="${dist.dir}/lib" file="${junit.jar}"/>
 

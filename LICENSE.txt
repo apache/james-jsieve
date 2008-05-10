@@ -404,8 +404,6 @@
 	   The Apache Software License, Version 1.1 (commons-logging-1.0.3.jar)
 	Apache Commons Collections, 
 	   The Apache Software License, Version 1.1 (commons-collections-2.1.jar)
-    Apache ORO,
-       The Apache Software License, Version 1.1 (oro-2.0.8.jar)
 	  
 		 The Apache Software License, Version 1.1
 		

@@ -218,9 +218,9 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         depends="prepare, compile-main">
       <fail unless="is.available.libs.test">JavaMail is required for testing</fail>   
       <echo message="Compiling jSieve test sources"/>
-      <mkdir dir="${build.classes}"/>
+      <mkdir dir="${build.classes.test}"/>
       <javac 
-            destdir="${build.classes}" 
+            destdir="${build.classes.test}" 
             debug="${debug}" 
             optimize="${optimize}" 
             deprecation="${deprecation}"
@@ -323,8 +323,8 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
       <jar jarfile="${build.lib}/${name}-unit-tests-${version}.jar" 
-           basedir="${build.classes}">
-            <include name="org/apache/jsieve/junit/**"/>
+           basedir="${build.classes.test}">
+            <include name="org/apache/jsieve/**"/>
             <include name="META-INF/**"/>  
             <manifest>
               <attribute name="Created-By" value='${creator}'/> 

@@ -24,10 +24,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.mail.MailAdapter.Address;
 import org.apache.jsieve.parser.generated.address.ASTaddr_spec;
 import org.apache.jsieve.parser.generated.address.ASTaddress_list;

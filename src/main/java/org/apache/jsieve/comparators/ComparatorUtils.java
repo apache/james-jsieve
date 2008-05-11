@@ -79,7 +79,6 @@ public class ComparatorUtils implements MatchTypeTags {
         // TODO Is there a way to re-use the compiled pattern?
         try {
             String regex = sieveToJavaRegex(glob);
-            System.err.println(regex);
             return Pattern.compile(regex, Pattern.CASE_INSENSITIVE).matcher(
                     string).matches();
         } catch (PatternSyntaxException e) {

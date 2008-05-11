@@ -339,7 +339,7 @@ public class HeaderTest extends TestCase {
      */
     public void testSquareBracketsInMatch() {
         boolean isTestPassed = false;
-        String script = "if header :matches \"X-Caffeine\" \"[test]*\" {throwTestException;}";
+        String script = "if header :matches \"X-Caffeine\" \"[test*\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine", "[test] my subject");

@@ -19,13 +19,15 @@
 
 package org.apache.jsieve;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.digester.Digester;
 import org.apache.commons.logging.Log;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * <p>
@@ -34,20 +36,25 @@ import org.xml.sax.SAXException;
  * </p>
  * 
  * <p>
- * The Sieve configuration file is named <code>sieveConfig.xml</code>. It is
+ * The Sieve configuration is read from 3 properties file. They are
  * located by searching the classpath of the current ClassLoader.
+ * org/apache/jsieve/commandsmap.properties
+ * org/apache/jsieve/testsmap.properties
+ * org/apache/jsieve/comparatorsmap.properties
  * </p>
  */
 public class ConfigurationManager {
+    
+    private static final String COMMANDSMAP_PROPERTIES = "org/apache/jsieve/commandsmap.properties";
+
+    private static final String TESTSMAP_PROPERTIES = "org/apache/jsieve/testsmap.properties";
+
+    private static final String COMPARATORSMAP_PROPERTIES = "org/apache/jsieve/comparatorsmap.properties";
+
     /**
      * The sole instance of the receiver.
      */
     static private ConfigurationManager fieldInstance;
-
-    /**
-     * The Digester used to process the Sieve configuration XML.
-     */
-    private Digester fieldDigester;
 
     /**
      * A Map of the Command names and their associated class names.
@@ -138,15 +145,6 @@ public class ConfigurationManager {
     }
 
     /**
-     * Method getConfigName answers the name of the Sieve configuration file.
-     * 
-     * @return String
-     */
-    static protected String getConfigName() {
-        return "sieveConfig.xml";
-    }
-
-    /**
      * <p>
      * Method getConfigStream answers an InputStream over the Sieve
      * configuration file. It is located by searching the classpath of the
@@ -161,9 +159,8 @@ public class ConfigurationManager {
      * @return InputStream
      * @throws IOException
      */
-    static protected InputStream getConfigStream() throws IOException {
+    static protected InputStream getConfigStream(String configName) throws IOException {
         InputStream stream = null;
-        final String configName = getConfigName();
         // Context classloader is usually right in a JEE evironment
         final ClassLoader contextClassLoader = Thread.currentThread()
                 .getContextClassLoader();
@@ -190,12 +187,10 @@ public class ConfigurationManager {
      * @return Map
      */
     public synchronized Map getCommandMap() {
-        Map commandMap = null;
-        if (null == (commandMap = getCommandMapBasic())) {
-            updateCommandMap();
-            return getCommandMap();
+        if (null == fieldCommandMap) {
+            fieldCommandMap = new HashMap();
         }
-        return commandMap;
+        return Collections.synchronizedMap(fieldCommandMap);
     }
 
     /**
@@ -205,12 +200,10 @@ public class ConfigurationManager {
      * @return Map
      */
     public synchronized Map getTestMap() {
-        Map testMap = null;
-        if (null == (testMap = getTestMapBasic())) {
-            updateTestMap();
-            return getTestMap();
+        if (null == fieldTestMap) {
+            fieldTestMap = new HashMap();
         }
-        return testMap;
+        return Collections.synchronizedMap(fieldTestMap);
     }
 
     /**
@@ -220,171 +213,10 @@ public class ConfigurationManager {
      * @return Map
      */
     public synchronized Map getComparatorMap() {
-        Map comparatorMap = null;
-        if (null == (comparatorMap = getComparatorMapBasic())) {
-            updateComparatorMap();
-            return getComparatorMap();
+        if (null == fieldComparatorMap) {
+            fieldComparatorMap = new HashMap();
         }
-        return comparatorMap;
-    }
-
-    /**
-     * Method getCommandMapBasic answers a Map of Command names and their
-     * associated class names.
-     * 
-     * @return Map
-     */
-    private Map getCommandMapBasic() {
-        return fieldCommandMap;
-    }
-
-    /**
-     * Method getTestMapBasic answers a Map of Test names and their associated
-     * class names.
-     * 
-     * @return Map
-     */
-    private Map getTestMapBasic() {
-        return fieldTestMap;
-    }
-
-    /**
-     * Method getComparatorMapBasic answers a Map of Comparator names and their
-     * a ssociated class names.
-     * 
-     * @return Map
-     */
-    private Map getComparatorMapBasic() {
-        return fieldComparatorMap;
-    }
-
-    /**
-     * Method computeCommandMap answers a new CommandMap.
-     * 
-     * @return Map
-     */
-    protected Map computeCommandMap() {
-        return new HashMap();
-    }
-
-    /**
-     * Method computeTestMap answers a new TestMap.
-     * 
-     * @return Map
-     */
-    protected Map computeTestMap() {
-        return new HashMap();
-    }
-
-    /**
-     * Method computeComparatorMap answers a new ComparatorMap.
-     * 
-     * @return Map
-     */
-    protected Map computeComparatorMap() {
-        return new HashMap();
-    }
-
-    /**
-     * Method putCommandMapEntry adds an association between a Command name and
-     * an implementation class to the Command Map.
-     * 
-     * @param name
-     * @param className
-     */
-    public void putCommandMapEntry(String name, String className) {
-        getCommandMap().put(name, className);
-    }
-
-    /**
-     * Method putTestMapEntry adds an association between a Test name and an
-     * implementation class to the Test Map.
-     * 
-     * @param name
-     * @param className
-     */
-    public void putTestMapEntry(String name, String className) {
-        getTestMap().put(name, className);
-    }
-
-    /**
-     * Method putComparatorMapEntry adds an association between a Comparator
-     * name and an implementation class to the Comparator Map.
-     * 
-     * @param name
-     * @param className
-     */
-    public void putComparatorMapEntry(String name, String className) {
-        getComparatorMap().put(name, className);
-    }
-
-    /**
-     * Returns the digester, lazily initialised if required.
-     * 
-     * @return Digester
-     */
-    protected synchronized Digester getDigester() {
-        Digester digester = null;
-        if (null == (digester = getDigesterBasic())) {
-            updateDigester();
-            return getDigester();
-        }
-        return digester;
-    }
-
-    /**
-     * Returns the digester.
-     * 
-     * @return Digester
-     */
-    private Digester getDigesterBasic() {
-        return fieldDigester;
-    }
-
-    /**
-     * Method computeDigester answers a new digester intialised with the rules
-     * to parse the Sieve configuration file.
-     * 
-     * @return Digester
-     */
-    protected Digester computeDigester() {
-        Digester digester = new Digester();
-        digester.push(this);
-        digester.setValidating(false);
-        // CommandMap rules
-        digester.addCallMethod("sieve/commandMap/entry", "putCommandMapEntry",
-                2, new Class[] { String.class, String.class });
-        digester.addCallParam("sieve/commandMap/entry/name", 0);
-        digester.addCallParam("sieve/commandMap/entry/class", 1);
-        // TestMap rules
-        digester.addCallMethod("sieve/testMap/entry", "putTestMapEntry", 2,
-                new Class[] { String.class, String.class });
-        digester.addCallParam("sieve/testMap/entry/name", 0);
-        digester.addCallParam("sieve/testMap/entry/class", 1);
-        // ComparatorMap rules
-        digester.addCallMethod("sieve/comparatorMap/entry",
-                "putComparatorMapEntry", 2, new Class[] { String.class,
-                        String.class });
-        digester.addCallParam("sieve/comparatorMap/entry/name", 0);
-        digester.addCallParam("sieve/comparatorMap/entry/class", 1);
-        return digester;
-    }
-
-    /**
-     * Sets the digester.
-     * 
-     * @param digester
-     *                The digester to set
-     */
-    protected void setDigester(Digester digester) {
-        fieldDigester = digester;
-    }
-
-    /**
-     * Updates the digester.
-     */
-    protected void updateDigester() {
-        setDigester(computeDigester());
+        return Collections.synchronizedMap(fieldComparatorMap);
     }
 
     /**
@@ -395,8 +227,21 @@ public class ConfigurationManager {
      * @throws SAXException
      * @throws IOException
      */
-    protected Object parse() throws SAXException, IOException {
-        return getDigester().parse(getConfigStream());
+    protected void parse() throws SAXException, IOException {
+        InputStream is;
+        Properties p;
+        is = getConfigStream(COMMANDSMAP_PROPERTIES);
+        p = new Properties();
+        p.load(is);
+        setCommandMap(p);
+        is = getConfigStream(TESTSMAP_PROPERTIES);
+        p = new Properties();
+        p.load(is);
+        setTestMap(p);
+        is = getConfigStream(COMPARATORSMAP_PROPERTIES);
+        p = new Properties();
+        p.load(is);
+        setComparatorMap(p);
     }
 
     /**
@@ -405,7 +250,7 @@ public class ConfigurationManager {
      * @param commandMap
      *                The commandMap to set
      */
-    protected void setCommandMap(Map commandMap) {
+    protected synchronized void setCommandMap(Map commandMap) {
         fieldCommandMap = commandMap;
     }
 
@@ -415,7 +260,7 @@ public class ConfigurationManager {
      * @param testMap
      *                The testMap to set
      */
-    protected void setTestMap(Map testMap) {
+    protected synchronized void setTestMap(Map testMap) {
         fieldTestMap = testMap;
     }
 
@@ -425,28 +270,8 @@ public class ConfigurationManager {
      * @param comparatorMap
      *                The comparatorMap to set
      */
-    protected void setComparatorMap(Map comparatorMap) {
+    protected synchronized void setComparatorMap(Map comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
 
-    /**
-     * Updates the commandMap.
-     */
-    protected void updateCommandMap() {
-        setCommandMap(computeCommandMap());
-    }
-
-    /**
-     * Updates the testMap.
-     */
-    protected void updateTestMap() {
-        setTestMap(computeTestMap());
-    }
-
-    /**
-     * Updates the comparatorMap.
-     */
-    protected void updateComparatorMap() {
-        setComparatorMap(computeComparatorMap());
-    }
 }

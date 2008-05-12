@@ -79,7 +79,8 @@ Custom commands need to be registered with
 <a href='xref/org/apache/jsieve/ConfigurationManager.html'>
 <code>ConfigurationManager</code></a> before they can be used. This
 may be done programmatically but the recommended method is by altering
-the <code>sieveConfig.xml</code> configuration file. 
+the <code>org/apache/jsieve/commandsmap.properties</code>, <code>org/apache/jsieve/testsmap.properties</code>
+and <code>org/apache/jsieve/comparatorsmap.properties</code> resource files. 
 </p>
 </subsection>
 <subsection name='Building jSieve'>

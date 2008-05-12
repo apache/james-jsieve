@@ -18,25 +18,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-  <supplement>
-    <project>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-      <name>Apache Commons Beanutils</name>
-      <url>http://commons.apache.org/beanutils/</url>
-      <organization>
-        <name>The Apache Software Foundation</name>
-        <url>http://www.apache.org/</url>
-      </organization>
-      <licenses>
-        <license>
-          <name>Apache License, Version 2.0</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-          <distribution>repo</distribution>
-        </license>
-      </licenses>
-    </project>
-  </supplement>
   <!-- Also added manually in pom.xml appeneded text because test
        dependencies are not automatically included by the NOTICE 
        generator -->

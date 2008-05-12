@@ -42,9 +42,6 @@
     -->
 
     <path id="project.class.path">
-        <pathelement location="${commons-digester.jar}"/>
-        <pathelement location="${commons-collections.jar}"/>
-        <pathelement location="${commons-beanutils.jar}"/>
         <pathelement location="${commons-logging.jar}"/>
         <pathelement location="${log4j.jar}"/>
         <pathelement location="${junit.jar}"/>
@@ -98,7 +95,8 @@
       <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${xdocs.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
-      <fixcrlf srcdir="${conf.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${conf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${testconf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="." includes="build.sh" eol="lf"/>
       <fixcrlf srcdir="." includes="build.bat" eol="crlf"/>
       <fixcrlf srcdir="." includes="build.xml" eol="lf"/>
@@ -204,7 +202,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         <include name="org/apache/jsieve/**"/>
       </javac>
       <copy todir="${build.classes}">
-        <fileset dir="${java.dir}">
+        <fileset dir="${conf.dir}">
           <include name="**/*.properties"/>
         </fileset>
       </copy>   
@@ -352,17 +350,13 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
       </copy>
 
       <!--Copies the required support jars -->
-      <copy todir="${dist.dir}/lib" file="${commons-digester.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${commons-collections.jar}"/>
-      <copy todir="${dist.dir}/lib" file="${commons-beanutils.jar}"/>
       <copy todir="${dist.dir}/lib" file="${commons-logging.jar}"/>
       <copy todir="${dist.dir}/lib" file="${log4j.jar}"/>
       <copy todir="${dist.dir}/lib" file="${junit.jar}"/>
 
       <!--Copies the configuration files -->
       <mkdir dir="${dist.dir}/conf"/>
-      <copy todir="${dist.dir}/conf" file="${conf.dir}/log4j.properties"/>
-      <copy todir="${dist.dir}/conf" file="${conf.dir}/sieveConfig.xml"/>
+      <copy todir="${dist.dir}/conf" file="${testconf.dir}/log4j.properties"/>
     </target>
 
     <!--

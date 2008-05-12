@@ -94,7 +94,6 @@
       <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-      <fixcrlf srcdir="${xdocs.dir}" includes="**/*.xml" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${conf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="${testconf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
       <fixcrlf srcdir="." includes="build.sh" eol="lf"/>
@@ -432,8 +431,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             <fileset dir=".">
                 <include name="src/**"/>
                 <include name="lib/**"/>
-                <include name="www/**"/>
-                <include name="tools/**"/>
                 <include name="*.xml"/>
                 <include name="*.properties"/>
                 <include name="*.txt"/>
@@ -444,8 +441,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             <tarfileset dir="." username="${name}" group="${name}">
                 <include name="src/**"/>
                 <include name="lib/**"/>
-                <include name="www/**"/>
-                <include name="tools/**"/>
                 <include name="*.xml"/>
                 <include name="*.properties"/>
                 <include name="*.txt"/>
@@ -466,7 +461,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         <delete dir="${dist.base}"/>
         <mkdir dir="${dist.base}"/>
         <delete dir="${build.dir}"/>
-        <delete dir="${www.dir}"/>
         <delete dir='target'/>
     </target>
 
@@ -485,11 +479,9 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
         <echo message=""/>
         <echo message="   dist-lite --> generates unpacked distribution (default)"/>
         <echo message="   dist-lite-test --> tests the jarred classes"/>
-        <echo message="   website   --> makes all the docs and javadocs"/>
         <echo message="   compile   --> compiles the source code"/>
         <echo message="   dist      --> generates all the jSieve distributions, packed"/>
         <echo message="   clean     --> cleans up the directory"/>
-        <echo message="   xdocs     --> creates the documentation for jSieve"/>
         <echo message="   javadocs  --> creates the Javadoc"/>
         <echo message=""/>
         <echo message=" See the comments inside the build.xml file for more details."/>

@@ -272,7 +272,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
                 Build everything
     ===================================================================
     -->
-    <target name="everything">
+    <target name="all">
         <antcall target='clean'/>
         <antcall target='dist'/>
     </target>   
@@ -315,6 +315,14 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
           </manifest> 
       </jar>
+     
+       <taskdef 
+            resource="aQute/bnd/ant/taskdef.properties" 
+            classpath="stage/aQute/jars/bnd-0.0.249.jar"/> 
+           <bndwrap 
+              jars='${build.lib}/${name}-${version}.jar'
+              output='${build.lib}/${name}-${version}.jar'
+              definitions="manve-bundle.bnd"/>    
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>

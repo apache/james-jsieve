@@ -223,7 +223,6 @@ public class ConfigurationManager {
      * Method parse uses the Digester to parse the XML statements in the Sieve
      * configuration file into Java objects.
      * 
-     * @return Object
      * @throws SAXException
      * @throws IOException
      */

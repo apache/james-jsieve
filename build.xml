@@ -301,7 +301,6 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             basedir="${build.classes}">
           <include name="org/apache/jsieve/**"/>
           <include name="META-INF/**"/> 
-          <exclude name="**/junit/*/**"/>
           <manifest> 
             <attribute name="Extension-Name" value='${extension.name}'/>
             <attribute name="Specification-Title" value='${title.spec}'/>
@@ -389,9 +388,8 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
             </classpath>
             <formatter type="plain"/>
             <batchtest fork="yes" todir="${dist.dir}/reports">
-                <fileset dir="${build.classes}">
-                    <include name="**/junit/*Test*.class"/>
-                    <exclude name="**/junit/AllTests.class"/>
+                <fileset dir="${build.classes.test}">
+                    <include name="**/*Test.class"/>
                 </fileset>
             </batchtest>
         </junit>

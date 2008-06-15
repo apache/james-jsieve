@@ -315,13 +315,13 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
           </manifest> 
       </jar>
      
-       <taskdef 
+      <taskdef 
             resource="aQute/bnd/ant/taskdef.properties" 
             classpath="${bnd.jar.relative}"/> 
-           <bndwrap 
-              jars='${build.lib}/${name}-${version}.jar'
-              output='${build.lib}/${name}-${version}.jar'
-              definitions="manve-bundle.bnd"/>    
+      <bndwrap 
+            jars='${build.lib}/${name}-${version}.jar'
+            output='${build.lib}/${name}-${version}.jar'
+            definitions="."/>
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>

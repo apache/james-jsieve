@@ -317,7 +317,7 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
      
        <taskdef 
             resource="aQute/bnd/ant/taskdef.properties" 
-            classpath="stage/aQute/jars/bnd-0.0.249.jar"/> 
+            classpath="${bnd.jar.relative}"/> 
            <bndwrap 
               jars='${build.lib}/${name}-${version}.jar'
               output='${build.lib}/${name}-${version}.jar'

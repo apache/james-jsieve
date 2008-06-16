@@ -18,7 +18,7 @@ Javadocs and look at the source code.
   org.apache.jsieve.commands.extensions.Log.
 - The jUnit tests in org.apache.jsieve.junit illustrate many aspects
   of the implementation.
-- To build jSieve, run build.sh or build.bat as appropriate for your environment.   
+- To build jSieve, read BUILDING.txt
 
 Comments, Questions and Issues
 ------------------------------
@@ -27,7 +27,7 @@ jSieve is a sub-project of Apache James. Please direct your comments and questio
 the relevant James list.
 
 To report issues, such as bugs, go to 
-http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10412.
+http://issues.apache.org/jira/browse/JSIEVE
 As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
 helpful for bug reports to be accompanied by an illustrative jUnit test case.
 
@@ -36,4 +36,4 @@ Licensing and legal issues
 --------------------------
 
 For legal and licensing issues, please look in the legal section of
-the documentation or read the LICENSE.txt and NOTICE.txt files.  
+the documentation or read the LICENSE and NOTICE files.

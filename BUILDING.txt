@@ -1,5 +1,17 @@
 #############################################################################
-# BUILDING JSIEVE
+# BUILDING JSIEVE WITH MAVEN
+#############################################################################
+
+1) Install maven 2.0.9
+
+2) Add maven to your path and make sure you also have a JAVA_HOME environment
+   variable to point a java 1.4+ virtual machine.
+
+3) Run "mvn package"
+
+
+#############################################################################
+# BUILDING JSIEVE WITH ANT
 #############################################################################
 
 The source trunk for JSIEVE no longer includes Ant, so in order to
@@ -12,6 +24,9 @@ license there is (at this time) no official open sourced release. So
 to build JSIEVE download the JavaCC 4.0 release from 
 https://javacc.dev.java.net/. Extract the javacc.jar and copy into the
 root of the JSIEVE directory. Rename this to javacc-4.0.jar.
+
+You also have to download activation-1.1.1.jar and mail-1.4.1.jar files to 
+the root folder in order to build/run unit tests.
 
 Steps:
 
@@ -29,15 +44,11 @@ Steps:
 That's it.  Please contact general@james.apache.org if you have any
 problems.
 
-
 ##############################################################################
 # SET UP JSIEVE INSIDE ECLIPSE
 ##############################################################################
 
 You can use maven facility to setup an eclipse project:
-mvn -Plocal generate-sources eclipse:eclipse
+mvn eclipse:eclipse
 
-But there is a bug in the generator, so you will have to open the project
-"Java Build Path" => "Sources" and remove the 2 folders inside jjtree. Apply
-the change and then "Add folders" and select "target/generated-sources/jjtree"
-and "target/generated-sources/jjtree2" folders.
+You can also use q4e plugin from eclipse.

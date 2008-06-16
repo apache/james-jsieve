@@ -1,30 +1,31 @@
-<?xml version="1.0" encoding="ISO-8859-15"?>
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.    
--->
-<!--
- | NOTE: 
- | 
- | This file is only intended to be used to build the JSieve
- | website. Ant is the canonical build mechanism. The meta-data
- | contained is accurate.
- -->
-<project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+  
+      http://www.apache.org/licenses/LICENSE-2.0
+  
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.    
+  -->
+  <parent>
+    <artifactId>james-project</artifactId>
+    <groupId>org.apache.james</groupId>
+    <version>1.2</version>
+    <!-- Either this really points to the james-project/pom.xml or you
+         will have to tune the local repository, later, in this file -->
+    <relativePath>../james-project/project/pom.xml</relativePath>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>apache-jsieve</artifactId>
@@ -36,11 +37,6 @@ Apache jSieve is a server side mail filtering system
 implementing RFC3028. Apache jSieve is developed by the 
 JAMES project.
   </description>
-  <parent>
-    <groupId>org.apache.james</groupId>
-    <artifactId>james-project</artifactId>
-    <version>1.2</version>
-  </parent>
   <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
 
@@ -64,7 +60,7 @@ JAMES project.
       scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk
     </developerConnection>
     <url>
-      http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN
+      http://svn.apache.org/viewvc/james/jsieve/trunk/
     </url>
   </scm>
   
@@ -125,61 +121,25 @@ JAMES project.
     
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
         <configuration>
-          <optimize>true</optimize>
           <source>1.4</source>
           <target>1.4</target>
+          <encoding>iso8859-1</encoding>
         </configuration>
-      </plugin>
+      </plugin>      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.4.1</version>
         <executions>
           <execution>
             <id>generate-jjtree</id>
             <phase>generate-sources</phase>
-            <configuration>
-              <sourceDirectory>${basedir}/src/main/jjtree/sieve</sourceDirectory>
-              <nodePackage>org.apache.jsieve.parser.generated</nodePackage>
-              <outputDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated</outputDirectory>
-            </configuration>
             <goals>
-              <goal>jjtree</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-jjtree-address</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <sourceDirectory>${basedir}/src/main/jjtree/address</sourceDirectory>
-              <nodePackage>org.apache.jsieve.parser.generated.address</nodePackage>
-              <outputDirectory>${project.build.directory}/generated-sources/jjtree2/org/apache/jsieve/parser/generated/address</outputDirectory>
-            </configuration>
-            <goals>
-              <goal>jjtree</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-javacc-address</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/jjtree2/org/apache/jsieve/parser/generated/address</sourceDirectory>
-              <packageName>org.apache.jsieve.parser.generated.address</packageName>
-            </configuration>
-            <goals>
-              <goal>javacc</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-javacc</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/jjtree/org/apache/jsieve/parser/generated</sourceDirectory>
-              <packageName>org.apache.jsieve.parser.generated</packageName>
-            </configuration>
-            <goals>
-              <goal>javacc</goal>
+              <goal>jjtree-javacc</goal>
             </goals>
           </execution>
         </executions>
@@ -187,14 +147,15 @@ JAMES project.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
           <archive>
           <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
             <manifestEntries>
-              <Specification-Title>Apache JSieve</Specification-Title>
+              <Specification-Title>Apache jSieve</Specification-Title>
               <Specification-Version>${pom.version}</Specification-Version>
               <Specification-Vendor>The Apache Software Foundation</Specification-Vendor>
-              <Implementation-Title>Apache JSieve</Implementation-Title>
+              <Implementation-Title>Apache jSieve</Implementation-Title>
               <Implementation-Version>${pom.version}</Implementation-Version>
               <Implementation-Vendor>The Apache Software Foundation</Implementation-Vendor>
               <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
@@ -205,12 +166,19 @@ JAMES project.
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-2</version>
         <configuration>
-          <descriptorRefs>
-            <descriptorRef>bin</descriptorRef>
-            <descriptorRef>src</descriptorRef>
-          </descriptorRefs>
+          <descriptorSourceDirectory>${basedir}/src/assemble/</descriptorSourceDirectory>
         </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -228,7 +196,7 @@ JAMES project.
       <!-- Add NOTICE and LICENSE to generated JAR -->
       <plugin>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.0-alpha-5</version>
+        <version>1.0</version>
         <executions>
           <execution>
             <goals>
@@ -273,6 +241,32 @@ This file is automatically generated by dependencies declared in pom.xml
       		</instructions>
       	</configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>create-javadocs</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+              <goal>javadoc</goal> <!-- goals == mojos -->
+              <goal>jar</goal> <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -280,16 +274,24 @@ This file is automatically generated by dependencies declared in pom.xml
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.3</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin> 
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jxr-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <targetjdk>1.4</targetjdk>
           <rulesets>
@@ -304,27 +306,40 @@ This file is automatically generated by dependencies declared in pom.xml
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-6</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>rat-maven-plugin</artifactId>
+        <version>1.0-alpha-3</version>
         <configuration>
           <excludes>
             <exclude>NOTICE.base</exclude>
             <exclude>LICENSE.apache</exclude>
+            <exclude>release.properties</exclude>
           </excludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.4</version>
       </plugin>
     </plugins>
   </reporting>
   
   <mailingLists>
     <mailingList>
-	    <name>Apache James User</name>
-	    <subscribe>server-user-subscribe@james.apache.org</subscribe>
-	    <unsubscribe>server-user-unsubscribe@james.apache.org</unsubscribe>
-	    <post>server-user@james.apache.org</post>
-	    <archive>http://mail-archives.apache.org/mod_mbox/james-server-user/</archive>
+      <name>Apache James User</name>
+      <subscribe>server-user-subscribe@james.apache.org</subscribe>
+      <unsubscribe>server-user-unsubscribe@james.apache.org</unsubscribe>
+      <post>server-user@james.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/james-server-user/</archive>
     </mailingList>
     <mailingList>
       <name>Apache James Developer</name>

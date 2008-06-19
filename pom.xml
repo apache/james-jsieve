@@ -222,7 +222,7 @@ JAMES project.
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.apache:apache-jar-resource-bundle:1.2</resourceBundle>
+                <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
               </resourceBundles>
               <properties>
 	              <!--  <preProjectText>PRE PROCESS TEXT</preProjectText>  -->

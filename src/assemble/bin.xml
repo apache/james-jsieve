@@ -31,8 +31,7 @@
       <directory>target/maven-shared-archive-resources/META-INF/</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>NOTICE</include>
-        <include>LICENSE</include>
+        <include>*</include>
       </includes>
     </fileSet>
     <fileSet>

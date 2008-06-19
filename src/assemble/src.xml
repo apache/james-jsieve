@@ -35,6 +35,7 @@
         <exclude>.*</exclude>
         <exclude>.*/**</exclude>
         <exclude>**.bak</exclude>
+        <exclude>*.jar</exclude>
         <exclude>NOTICE.base</exclude>
         <exclude>LICENSE.apache</exclude>
       </excludes>

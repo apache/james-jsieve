@@ -397,6 +397,7 @@
 		any resulting litigation.
 		 
 		 
+    Bnd, Bundle Tool http://www.aqute.biz/Code/Bnd, The Apache License, Version 2.0
 	ALL OTHERS JARS, BY APACHE SOFTWARE FOUNDATION
 	ALL OF THESE ARE LICENSED UNDER The Apache License, Version 2.0 EXCEPT:
 	

@@ -35,20 +35,10 @@
         <exclude>.*</exclude>
         <exclude>.*/**</exclude>
         <exclude>**.bak</exclude>
-        <exclude>NOTICE.txt</exclude>
         <exclude>NOTICE.base</exclude>
-        <exclude>LICENSE.txt</exclude>
         <exclude>LICENSE.apache</exclude>
       </excludes>
       <useDefaultExcludes>true</useDefaultExcludes>
-    </fileSet>
-    <fileSet>
-      <directory>target/maven-shared-archive-resources/META-INF/</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>NOTICE</include>
-        <include>LICENSE</include>
-      </includes>
     </fileSet>
   </fileSets>
 </assembly>

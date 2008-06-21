@@ -49,6 +49,7 @@
   <dependencySets>
     <dependencySet>
       <outputDirectory>/lib/</outputDirectory>
+      <useProjectArtifact>false</useProjectArtifact>
       <!-- <outputFileNameMapping></outputFileNameMapping> -->
       <scope>runtime</scope>
     </dependencySet>

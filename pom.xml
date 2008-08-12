@@ -30,7 +30,7 @@
   <groupId>org.apache.james</groupId>
   <artifactId>apache-jsieve</artifactId>
   <name>Apache JAMES jSieve</name>
-  <version>0.2RC1</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
 Apache jSieve is a server side mail filtering system 
@@ -53,9 +53,9 @@ JAMES project.
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.2RC1</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.2RC1</developerConnection>
-    <url>http://svn.apache.org/viewvc/james/jsieve/tags/apache-jsieve-0.2RC1</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/james/jsieve/trunk/</url>
   </scm>
   
   <repositories>

@@ -273,6 +273,41 @@ JAMES project.
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-doap-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>site</id>
+            <phase>site</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+         <doapOptions>
+           <programmingLanguage>java</programmingLanguage>
+           <category>mail</category>
+           <download-page>http://james.apache.org/download.cgi</download-page>
+         </doapOptions>
+
+         <asfExtOptions>
+           <included>true</included>
+           <pmc>http://james.apache.org</pmc>
+           <name>Apache JAMES</name>
+           <standards>
+            <standard>
+              <id>RFC3028</id>
+              <title>Sieve: A Mail Filtering Language</title>
+              <body>IEFT</body>
+              <url>http://www.ietf.org/rfc/rfc3028.txt</url>
+            </standard>
+           </standards>
+         </asfExtOptions>
+
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 

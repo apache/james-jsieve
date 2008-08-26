@@ -54,8 +54,10 @@ Action commands are mail operations to be performed.
 </section>
 <section name="News">
 <subsection name="2008">
-  <h4>Jun/2008 - jSieve-0.2 released</h4>
-  <p>The Apache JAMES team is happy to announce the availability of Apache jSieve v0.2: this is the first public release.</p>
+  <h4>Aug/2008 - jSieve-0.2 released</h4>
+  <p>The Apache JAMES team is happy to announce the availability of 
+  <a href='http://james.apache.org/download.cgi#jsieve'>Apache jSieve 0.2</a>. 
+  This first public release is a major milestone for JSieve.</p>
 </subsection>
 </section>
 </body>

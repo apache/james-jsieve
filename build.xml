@@ -136,10 +136,6 @@
     Or zen for the more spiritual amongst you.
     -->
     <target name="preprocess" depends="prepare-common">
-        <available property='present.javacc' file='${javacc.jar}'/>
-        <fail unless='present.javacc'>JavaCC 4.0 is required to build JSieve. 
-Please download from https://javacc.dev.java.net/ and edit include.properties. 
-        </fail>
         <!--
         Generate JavaCC source inserting parse tree building actions 
         and the Java source for the parse classes.
@@ -162,14 +158,14 @@ Please download from https://javacc.dev.java.net/ and edit include.properties.
 
         <!-- Generate Java source from the JavaCC source -->
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated ${build.src}/sieve.jj"/>
+            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated ${build.src}/org/apache/jsieve/parser/generated/sieve.jj"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />
             </classpath>
        </java>
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated/address ${build.src}/AddressListParser.jj"/>
+            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated/address ${build.src}/org/apache/jsieve/parser/generated/address/AddressListParser.jj"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />

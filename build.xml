@@ -158,14 +158,14 @@
 
         <!-- Generate Java source from the JavaCC source -->
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated ${build.src}/org/apache/jsieve/parser/generated/sieve.jj"/>
+            <arg line="${build.src}/org/apache/jsieve/parser/generated/sieve.jj"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />
             </classpath>
        </java>
         <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="-output_directory=${build.src}/org/apache/jsieve/parser/generated/address ${build.src}/org/apache/jsieve/parser/generated/address/AddressListParser.jj"/>
+            <arg line="${build.src}/org/apache/jsieve/parser/generated/address/AddressListParser.jj"/>
             <classpath>
                 <pathelement location="${javacc.jar}"/>
                 <pathelement path="${java.class.path}" />

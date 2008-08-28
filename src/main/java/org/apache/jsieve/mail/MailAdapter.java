@@ -134,7 +134,10 @@ public interface MailAdapter {
 
     /**
      * Method getContent returns object containing the message content.
-     * 
+     * TODO: This is poorly defined.
+     * TODO: This is used to search a mail body and needs to return a string.
+     * TODO: But creating a string is not efficient.
+     * TODO: It would be better to allow the adapter to search.
      * @return Object
      * @throws SieveMailException
      */

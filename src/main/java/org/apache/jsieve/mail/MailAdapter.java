@@ -39,6 +39,36 @@ import org.apache.jsieve.exception.SieveException;
  * minimum level of functionality to provide support for Command and Test
  * extensions that exploit the capabilities of a particular application.
  * </p>
+ * 
+ * <h4>Implementing parseAddresses</h4>
+ * <p>
+ * <a href='http://james.apache.org/mime4j'>Apache Mime4J</a> is a parser
+ * for <abbr title='Multipurpose Internet Mail Extensions'>
+ * <a href='http://www.faqs.org/rfcs/rfc2045.html'>MIME</a></abbr>. 
+ * It can easily be used to parse an address string into addresses. 
+ * For example:
+ * </p>
+ * <code><pre>
+ *     import org.apache.james.mime4j.field.address.AddressList;
+ *     import org.apache.james.mime4j.field.address.Mailbox;
+ *     import org.apache.james.mime4j.field.address.MailboxList;
+ *     import org.apache.james.mime4j.field.address.parser.ParseException;
+ *     ...
+ *     public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException {
+ *         try {
+ *             final MailboxList list = AddressList.parse(arg).flatten();
+ *             final int size = list.size();
+ *             final Address[] results = new Address[size];
+ *             for (int i=0;i&lt;size;i++) {
+ *                 final Mailbox mailbox = list.get(i);
+ *                 results[i] = new AddressImpl(mailbox.getLocalPart(), mailbox.getDomain());
+ *             }
+ *             return null;
+ *         } catch (ParseException e) {
+ *             throw new InternetAddressException(e);
+ *         }
+ *     }
+ * </pre></code>
  */
 public interface MailAdapter {
     /**

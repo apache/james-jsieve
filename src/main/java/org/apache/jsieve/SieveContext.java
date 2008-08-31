@@ -39,4 +39,7 @@ public abstract class SieveContext {
      *                <code>ScriptCoordinate</code>, not null
      */
     public abstract void setCoordinate(ScriptCoordinate coordinate);
+    
+    //TODO: simplify interface
+    public abstract CommandStateManager getCommandStateManager();
 }

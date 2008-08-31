@@ -57,8 +57,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * Framework method updateState is invoked after a Sieve Command has
      * executed to update the Sieve state. Subclass methods are expected to
      * override or extend this method to update state as appropriate.
+     * @param context TODO
      */
-    protected void updateState() {
+    protected void updateState(SieveContext context) {
     }
 
     /**
@@ -116,7 +117,7 @@ public abstract class AbstractCommand implements ExecutableCommand {
         validateArguments(arguments, context);
         validateBlock(block, context);
         Object result = executeBasic(mail, arguments, block, context);
-        updateState();
+        updateState(context);
         return result;
     }
 

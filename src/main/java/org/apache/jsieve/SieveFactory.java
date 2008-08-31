@@ -127,7 +127,8 @@ public class SieveFactory {
      */
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
-        SieveParserVisitor visitor = new SieveParserVisitorImpl();
+        SieveContext context = new BaseSieveContext();
+        SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         reset();
         try {
             try {
@@ -148,7 +149,7 @@ public class SieveFactory {
             // If after evaluating all of the nodes or stopping, implicitKeep is
             // still
             // in effect, add a Keep to the list of Actions.
-            if (CommandStateManager.getInstance().isImplicitKeep())
+            if (context.getCommandStateManager().isImplicitKeep())
                 mail.addAction(new ActionKeep());
 
             // Execute the List of Actions
@@ -170,7 +171,6 @@ public class SieveFactory {
 
     private void reset() {
         ConditionManager.resetInstance();
-        CommandStateManager.resetInstance();
     }
 
     /**

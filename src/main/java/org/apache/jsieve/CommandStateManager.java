@@ -46,14 +46,9 @@ public class CommandStateManager {
     private boolean fieldHasActions = false;
 
     /**
-     * The instance of the reciever for the current thread
-     */
-    static private final ThreadLocal fieldInstance = new ThreadLocal();
-
-    /**
      * Constructor for CommandStateManager.
      */
-    private CommandStateManager() {
+    public CommandStateManager() {
         super();
         initialize();
     }
@@ -66,70 +61,6 @@ public class CommandStateManager {
         setRejected(false);
         setHasActions(false);
         setImplicitKeep(true);
-    }
-
-    /**
-     * Answers a new instance of the receiver.
-     * 
-     * @return ConditionManager
-     */
-    static protected CommandStateManager computeInstance() {
-        return new CommandStateManager();
-    }
-
-    /**
-     * <p>
-     * Returns an instance of the receiver for the current thread, lazily
-     * intialised if required.
-     * </p>
-     * 
-     * <p>
-     * Note that this must be synchronized to prevent another thread detecting
-     * the null state while this thread is initialising.
-     * </p>
-     * 
-     * @return ConditionManager
-     */
-    static synchronized public CommandStateManager getInstance() {
-        CommandStateManager instance = null;
-        if (null == (instance = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return instance;
-    }
-
-    /**
-     * Returns the current CommandStateManager for the current thread.
-     * 
-     * @return CommandStateManager
-     */
-    static private CommandStateManager getInstanceBasic() {
-        return (CommandStateManager) fieldInstance.get();
-    }
-
-    /**
-     * Sets the CommandStateManager for the current thread.
-     * 
-     * @param conditionManager
-     *                The CommandStateManager to set
-     */
-    static protected void setInstance(CommandStateManager conditionManager) {
-        fieldInstance.set(conditionManager);
-    }
-
-    /**
-     * resets the current CommandStateManager.
-     */
-    static public void resetInstance() {
-        setInstance(null);
-    }
-
-    /**
-     * Updates the current CommandStateManager.
-     */
-    static protected void updateInstance() {
-        setInstance(computeInstance());
     }
 
     /**

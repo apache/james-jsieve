@@ -52,13 +52,14 @@ import org.apache.jsieve.parser.generated.*;
  * </p>
  */
 public class SieveParserVisitorImpl implements SieveParserVisitor {
-    private BaseSieveContext context = new BaseSieveContext();
+    private final SieveContext context;
 
     /**
      * Constructor for NodeVisitor.
      */
-    public SieveParserVisitorImpl() {
+    public SieveParserVisitorImpl(final SieveContext context) {
         super();
+        this.context = context;
     }
 
     /**

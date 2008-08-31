@@ -19,14 +19,13 @@
 
 package org.apache.jsieve.commands;
 
+import java.util.List;
+
 import org.apache.jsieve.Arguments;
-import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
-
-import java.util.List;
 
 /**
  * Abstract class AbstractActionCommand defines the common state validation and
@@ -48,12 +47,12 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * </p>
      * 
      * <p>And also</p>
-     * @see org.apache.jsieve.commands.AbstractCommand#updateState()
+     * @see org.apache.jsieve.commands.AbstractCommand#updateState(SieveContext)
      */
-    protected void updateState() {
-        super.updateState();
-        CommandStateManager.getInstance().setHasActions(true);
-        CommandStateManager.getInstance().setImplicitKeep(false);
+    protected void updateState(SieveContext context) {
+        super.updateState(context);
+        context.getCommandStateManager().setHasActions(true);
+        context.getCommandStateManager().setImplicitKeep(false);
     }
 
     /**
@@ -66,7 +65,7 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
     protected void validateState(SieveContext context) throws CommandException {
-        if (CommandStateManager.getInstance().isRejected())
+        if (context.getCommandStateManager().isRejected())
             throw context.getCoordinate().commandException(
                     "Cannot perform Actions on a rejected message.");
     }

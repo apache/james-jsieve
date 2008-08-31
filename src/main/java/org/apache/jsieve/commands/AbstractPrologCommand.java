@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.commands;
 
-import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.CommandException;
 
@@ -53,7 +52,7 @@ public abstract class AbstractPrologCommand extends AbstractCommand {
     protected void validateState(SieveContext context) throws CommandException {
         super.validateState(context);
 
-        if (!(CommandStateManager.getInstance().isInProlog()))
+        if (!(context.getCommandStateManager().isInProlog()))
             throw context.getCoordinate().commandException(
                     "Invalid state for a prolog command.");
     }

@@ -19,7 +19,7 @@
 
 package org.apache.jsieve.commands;
 
-import org.apache.jsieve.CommandStateManager;
+import org.apache.jsieve.SieveContext;
 
 /**
  * Abstract class AbstractBodyCommand defines the common state update behavior
@@ -44,10 +44,10 @@ public abstract class AbstractBodyCommand extends AbstractCommand {
      * <p>
      * Also,
      * 
-     * @see org.apache.jsieve.commands.AbstractCommand#updateState()
+     * @see org.apache.jsieve.commands.AbstractCommand#updateState(SieveContext)
      */
-    protected void updateState() {
-        CommandStateManager.getInstance().setInProlog(false);
+    protected void updateState(final SieveContext context) {
+        context.getCommandStateManager().setInProlog(false);
     }
 
 }

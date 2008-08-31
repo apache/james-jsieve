@@ -49,29 +49,4 @@ public class ConcurrencyTest extends TestCase {
         assertFalse(otherThread.one.equals(otherThread.two));
         assertEquals(instance, ConditionManager.getInstance());
     }
-    
-    public void testCommandStateManagerReset() throws Exception {
-        CommandStateManager instance = CommandStateManager.getInstance();
-        assertNotNull(instance);
-        
-        class ConcurrentThread extends Thread {
-            CommandStateManager one = null;
-            CommandStateManager two = null;
-            public void run() {
-                one = CommandStateManager.getInstance();
-                CommandStateManager.resetInstance();
-                two = CommandStateManager.getInstance();
-            }
-        }
-        
-        ConcurrentThread otherThread = new ConcurrentThread();
-        otherThread.start();
-        otherThread.join();
-
-        assertNotNull(otherThread.one);
-        assertNotNull(otherThread.two);
-        assertFalse(otherThread.one.equals(otherThread.two));
-        
-        assertEquals(instance, CommandStateManager.getInstance());
-    }
 }

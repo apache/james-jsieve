@@ -21,7 +21,6 @@ package org.apache.jsieve.commands.optional;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.commands.AbstractActionCommand;
@@ -75,10 +74,10 @@ public class Reject extends AbstractActionCommand {
     /**
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
-    protected void validateState(SieveContext context) throws CommandException {
+    protected void validateState(final SieveContext context) throws CommandException {
         super.validateState(context);
 
-        if (CommandStateManager.getInstance().isHasActions())
+        if (context.getCommandStateManager().isHasActions())
             throw context
                     .getCoordinate()
                     .commandException(
@@ -86,11 +85,11 @@ public class Reject extends AbstractActionCommand {
     }
 
     /**
-     * @see org.apache.jsieve.commands.AbstractCommand#updateState()
+     * @see org.apache.jsieve.commands.AbstractCommand#updateState(SieveContext)
      */
-    protected void updateState() {
-        super.updateState();
-        CommandStateManager.getInstance().setRejected(true);
+    protected void updateState(SieveContext context) {
+        super.updateState(context);
+        context.getCommandStateManager().setRejected(true);
     }
 
     /**

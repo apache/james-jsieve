@@ -26,7 +26,13 @@ package org.apache.jsieve;
 public class BaseSieveContext extends SieveContext {
 
     private ScriptCoordinate coordinate;
+    private final CommandStateManager commandStateManager;
 
+    public BaseSieveContext() 
+    {
+        this.commandStateManager = new CommandStateManager();
+    }
+    
     /**
      * Gets the script position of the current operation.
      * 
@@ -44,6 +50,11 @@ public class BaseSieveContext extends SieveContext {
      */
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;
+    }
+    
+    public CommandStateManager getCommandStateManager()
+    {
+        return commandStateManager;
     }
 
 }

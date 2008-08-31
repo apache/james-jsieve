@@ -52,8 +52,6 @@ public class Command implements Executable {
     /** The Block for this Command */
     private Block fieldBlock;
 
-    private SieveContext context;
-
     /**
      * Script coordinate for this command. Commands are executed after the
      * document has been parse. So this must be recorded on construction and
@@ -76,10 +74,9 @@ public class Command implements Executable {
      * @param block
      */
     public Command(String name, Arguments arguments, Block block,
-            SieveContext context) {
+            ScriptCoordinate coordinate) {
         this();
-        this.context = context;
-        this.coordinate = context.getCoordinate();
+        this.coordinate = coordinate;
         setName(name);
         setArguments(arguments);
         setBlock(block);

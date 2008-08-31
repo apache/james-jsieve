@@ -168,7 +168,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         }
 
         context.setCoordinate(node.getCoordinate());
-        Command command = new Command(node.getName(), arguments, block, context);
+        final ScriptCoordinate coordinate = context.getCoordinate();
+        Command command = new Command(node.getName(), arguments, block, coordinate);
         ((List) data).add(command);
         return data;
     }

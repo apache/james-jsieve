@@ -153,7 +153,7 @@ public class Command implements Executable {
         // recursively from the top level block
         // so need to use the coordinate recorded from the parse
         context.setCoordinate(coordinate);
-        final ExecutableCommand executable = context.getExecutable(getName());
+        final ExecutableCommand executable = context.getExecutableManager(getName());
         final Object result = executable.execute(
                         mail, getArguments(), getBlock(), context);
         return result;

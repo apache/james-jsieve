@@ -45,13 +45,15 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 public class SieveValidationVisitor implements SieveParserVisitor {
 
     private final CommandManager commandManager;
+    private final TestManager testManager;
     
     private boolean requireAllowed = true;
     private boolean isInRequire = false;
     
-    protected SieveValidationVisitor(final CommandManager commandManager) {
+    protected SieveValidationVisitor(final CommandManager commandManager, final TestManager testManager) {
         super();
         this.commandManager = commandManager;
+        this.testManager = testManager;
     }
 
     public Object visit(SimpleNode node, Object data) throws SieveException {
@@ -119,7 +121,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                     commandManager.newInstance(name);
                 } catch (LookupException e) {
                     //TODO: catching is inefficient, should just check
-                    TestManager.getInstance().newInstance(name);
+                    testManager.newInstance(name);
                 }
             }
         }

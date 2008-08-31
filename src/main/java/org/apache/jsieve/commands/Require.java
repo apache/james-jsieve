@@ -26,7 +26,6 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.FeatureException;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
@@ -88,7 +87,7 @@ public class Require extends AbstractPrologCommand {
 
         // Validate as a Test
         try {
-            validateTest(name);
+            validateTest(name, context);
         } catch (LookupException e) {
             throw new FeatureException("Feature \"" + name
                     + "\" is not supported.");
@@ -102,17 +101,18 @@ public class Require extends AbstractPrologCommand {
      * @throws LookupException
      */
     protected void validateCommand(String name, SieveContext context) throws LookupException {
-        context.getExecutable(name);
+        context.getExecutableManager(name);
     }
 
     /**
      * Method validateTest.
      * 
      * @param name
+     * @param context TODO
      * @throws LookupException
      */
-    protected void validateTest(String name) throws LookupException {
-        TestManager.getInstance().lookup(name);
+    protected void validateTest(String name, SieveContext context) throws LookupException {
+        context.getExecutableTest(name);
     }
 
     /**

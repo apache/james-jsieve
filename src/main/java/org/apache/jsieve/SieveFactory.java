@@ -86,7 +86,8 @@ public class SieveFactory {
         try {
             final SimpleNode node = new SieveParser(inputStream, "UTF-8").start();
             final CommandManager commandManager = CommandManager.getInstance();
-            SieveValidationVisitor visitor = new SieveValidationVisitor(commandManager);
+            final TestManager testManager = TestManager.getInstance();
+            SieveValidationVisitor visitor = new SieveValidationVisitor(commandManager, testManager);
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
@@ -130,7 +131,8 @@ public class SieveFactory {
             throws SieveException {
         final CommandManager commandManager = CommandManager.getInstance();
         final ComparatorManager comparatorManager = ComparatorManager.getInstance();
-        SieveContext context = new BaseSieveContext(commandManager, comparatorManager);
+        final TestManager testManager = TestManager.getInstance();
+        SieveContext context = new BaseSieveContext(commandManager, comparatorManager, testManager);
         SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {
             // Evaluate the Nodes

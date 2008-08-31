@@ -21,6 +21,7 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
+import org.apache.jsieve.tests.ExecutableTest;
 
 /**
  * Bean based implementation of context.
@@ -34,11 +35,14 @@ public class BaseSieveContext extends SieveContext {
     private final CommandStateManager commandStateManager;
     private final CommandManager commandManager;
     private final ComparatorManager comparatorManager;
+    private final TestManager testManager;
     
-    public BaseSieveContext(final CommandManager commandManager, final ComparatorManager comparatorManager) 
+    public BaseSieveContext(final CommandManager commandManager, final ComparatorManager comparatorManager,
+            final TestManager testManager) 
     {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
+        this.testManager = testManager;
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
     }
@@ -75,11 +79,15 @@ public class BaseSieveContext extends SieveContext {
         this.conditionManager = conditionManager;
     }
 
-    public ExecutableCommand getExecutable(String name) throws LookupException {
+    public ExecutableCommand getExecutableManager(String name) throws LookupException {
         return commandManager.newInstance(name);
     }
 
     public Comparator getComparator(String name) throws LookupException {
         return comparatorManager.newInstance(name);
+    }
+
+    public ExecutableTest getExecutableTest(String name) throws LookupException {
+        return testManager.newInstance(name);
     }
 }

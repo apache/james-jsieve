@@ -21,6 +21,7 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
+import org.apache.jsieve.tests.ExecutableTest;
 
 /**
  * Context for sieve operations.
@@ -51,7 +52,9 @@ public abstract class SieveContext {
     //TODO: simplify interface
     public abstract void setConditionManager(final ConditionManager manager);
     //TODO: consider whether API can be consolidated
-    public abstract ExecutableCommand getExecutable(String name) throws LookupException;
+    public abstract ExecutableCommand getExecutableManager(String name) throws LookupException;
     //TODO: consider whether API can be consolidated
     public abstract Comparator getComparator(String name) throws LookupException;
+    //TODO: consider whether API can be consolidated
+    public abstract ExecutableTest getExecutableTest(String name) throws LookupException;
 }

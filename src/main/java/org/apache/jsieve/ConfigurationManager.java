@@ -276,5 +276,9 @@ public class ConfigurationManager {
     protected synchronized void setComparatorMap(Map comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
+    
+    public ComparatorManager getComparatorManager() {
+        return new ComparatorManager(fieldComparatorMap);
+    }
 
 }

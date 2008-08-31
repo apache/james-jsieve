@@ -29,73 +29,15 @@ import org.apache.jsieve.exception.LookupException;
  * configured Comparator implementation classes.
  */
 public class ComparatorManager {
-    /**
-     * The sole instance of the receiver.
-     */
-    static private ComparatorManager fieldInstance;
+    
+    private final Map comparators;
 
     /**
      * Constructor for ComparatorManager.
      */
-    private ComparatorManager() {
+    public ComparatorManager(final Map comparators) {
         super();
-    }
-
-    /**
-     * Returns the sole instance of the receiver, lazily initialised if
-     * required.
-     * 
-     * @return ComparatorManager
-     */
-    public static synchronized ComparatorManager getInstance() {
-        ComparatorManager current = null;
-        if (null == (current = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return current;
-    }
-
-    /**
-     * Returns the sole instance of the receiver.
-     * 
-     * @return ComparatorManager
-     */
-    private static ComparatorManager getInstanceBasic() {
-        return fieldInstance;
-    }
-
-    /**
-     * Computes a new instance of the receiver.
-     * 
-     * @return ComparatorManager
-     */
-    protected static ComparatorManager computeInstance() {
-        return new ComparatorManager();
-    }
-
-    /**
-     * Sets the sole instance.
-     * 
-     * @param instance
-     *                The current instance to set
-     */
-    protected static void setInstance(ComparatorManager instance) {
-        fieldInstance = instance;
-    }
-
-    /**
-     * Resets the sole instance.
-     */
-    public static void resetInstance() {
-        setInstance(null);
-    }
-
-    /**
-     * Updates the sole instance.
-     */
-    protected static void updateInstance() {
-        setInstance(computeInstance());
+        this.comparators = comparators;
     }
 
     /**
@@ -178,7 +120,7 @@ public class ComparatorManager {
      * @throws SieveConfigurationException
      */
     protected Map getClassNameMap() throws SieveConfigurationException {
-        return ConfigurationManager.getInstance().getComparatorMap();
+        return comparators;
     }
 
 }

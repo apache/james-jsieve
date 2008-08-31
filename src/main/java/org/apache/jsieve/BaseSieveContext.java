@@ -19,6 +19,7 @@
 
 package org.apache.jsieve;
 
+import org.apache.commons.logging.Log;
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
@@ -36,15 +37,17 @@ public class BaseSieveContext extends SieveContext {
     private final CommandManager commandManager;
     private final ComparatorManager comparatorManager;
     private final TestManager testManager;
+    private final Log log;
     
     public BaseSieveContext(final CommandManager commandManager, final ComparatorManager comparatorManager,
-            final TestManager testManager) 
+            final TestManager testManager, final Log log) 
     {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
+        this.log = log;
     }
     
     /**
@@ -64,6 +67,9 @@ public class BaseSieveContext extends SieveContext {
      */
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;
+        if (coordinate != null) {
+            coordinate.setLog(getLog());
+        }
     }
     
     public CommandStateManager getCommandStateManager()
@@ -89,5 +95,9 @@ public class BaseSieveContext extends SieveContext {
 
     public ExecutableTest getExecutableTest(String name) throws LookupException {
         return testManager.newInstance(name);
+    }
+
+    public Log getLog() {
+        return log;
     }
 }

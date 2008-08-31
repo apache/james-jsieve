@@ -144,7 +144,7 @@ public class Command implements Executable {
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
     public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
-        Log log = Logger.getLog();
+        Log log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
             coordinate.debugDiagnostics(log);

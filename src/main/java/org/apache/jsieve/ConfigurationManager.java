@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -71,6 +72,10 @@ public class ConfigurationManager {
      */
     private Map fieldComparatorMap;
 
+    //TODO: Temporary fix to allow Logger to be deleted
+    //TODO: inject
+    public static final Log log = LogFactory.getLog(ConditionManager.class);
+    
     /**
      * Constructor for ConfigurationManager.
      * 
@@ -78,7 +83,6 @@ public class ConfigurationManager {
      */
     private ConfigurationManager() throws SieveConfigurationException {
         super();
-        Log log = Logger.getLog();
         try {
             parse();
         } catch (SAXException e) {

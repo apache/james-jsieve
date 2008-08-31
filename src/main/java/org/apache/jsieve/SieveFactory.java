@@ -91,14 +91,14 @@ public class SieveFactory {
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
-            Log log = Logger.getLog();
+            Log log = ConfigurationManager.log;
             if (log.isErrorEnabled())
                 log.error("Parse failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
                 log.debug("Parse failed.", ex);
             throw ex;
         } catch (SieveException ex) {
-            Log log = Logger.getLog();
+            Log log = ConfigurationManager.log;
             if (log.isErrorEnabled())
                 log.error("Parse failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
@@ -132,7 +132,8 @@ public class SieveFactory {
         final CommandManager commandManager = CommandManager.getInstance();
         final ComparatorManager comparatorManager = ComparatorManager.getInstance();
         final TestManager testManager = TestManager.getInstance();
-        SieveContext context = new BaseSieveContext(commandManager, comparatorManager, testManager);
+        final Log log = ConfigurationManager.log;
+        SieveContext context = new BaseSieveContext(commandManager, comparatorManager, testManager, log);
         SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {
             // Evaluate the Nodes
@@ -141,7 +142,6 @@ public class SieveFactory {
         } catch (StopException ex) {
             // Stop is OK
         } catch (SieveException ex) {
-            Log log = Logger.getLog();
             if (log.isErrorEnabled())
                 log.error("Evaluation failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
@@ -159,7 +159,6 @@ public class SieveFactory {
         try {
             mail.executeActions();
         } catch (SieveException ex) {
-            Log log = Logger.getLog();
             if (log.isErrorEnabled())
                 log.error("Evaluation failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())

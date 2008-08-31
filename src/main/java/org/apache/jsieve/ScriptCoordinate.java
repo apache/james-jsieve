@@ -37,6 +37,8 @@ public final class ScriptCoordinate {
     private final int endLineNumber;
 
     private final int endColumnNumber;
+    
+    private Log log;
 
     public ScriptCoordinate(final int startLineNumber,
             final int startColumnNumber, final int endLineNumber,
@@ -46,6 +48,15 @@ public final class ScriptCoordinate {
         this.startColumnNumber = startColumnNumber;
         this.endLineNumber = endLineNumber;
         this.endColumnNumber = endColumnNumber;
+    }
+
+    
+    public Log getLog() {
+        return log;
+    }
+
+    public void setLog(Log logger) {
+        this.log = logger;
     }
 
     /**
@@ -95,11 +106,12 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public SyntaxException syntaxException(CharSequence message) {
-        final Log logger = Logger.getLog();
-        if (logger.isWarnEnabled()) {
-            logger.warn(message);
+        if (log != null) {
+            if (log.isWarnEnabled()) {
+                log.warn(message);
+            }
+            logDiagnosticsInfo(log);
         }
-        logDiagnosticsInfo(logger);
         final String fullMessage = addStartLineAndColumn(message);
         final SyntaxException result = new SyntaxException(fullMessage);
         return result;
@@ -116,11 +128,12 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public CommandException commandException(CharSequence message) {
-        final Log logger = Logger.getLog();
-        if (logger.isWarnEnabled()) {
-            logger.warn(message);
+        if (log != null) {
+            if (log.isWarnEnabled()) {
+                log.warn(message);
+            }
+            logDiagnosticsInfo(log);
         }
-        logDiagnosticsInfo(logger);
         final String fullMessage = addStartLineAndColumn(message);
         final CommandException result = new CommandException(fullMessage);
         return result;

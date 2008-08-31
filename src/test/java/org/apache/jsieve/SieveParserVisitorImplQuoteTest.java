@@ -24,6 +24,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.parser.generated.ASTstring;
 
 public class SieveParserVisitorImplQuoteTest extends TestCase {
@@ -35,7 +36,7 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         visitor = new SieveParserVisitorImpl(new BaseSieveContext(CommandManager.getInstance(), ComparatorManager.getInstance(),
-                TestManager.getInstance()));
+                TestManager.getInstance(), LogFactory.getLog(SieveParserVisitorImplQuoteTest.class)));
         data = new ArrayList();
         node = new ASTstring(100);
     }

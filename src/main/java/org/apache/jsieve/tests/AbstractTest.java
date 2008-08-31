@@ -21,7 +21,6 @@ package org.apache.jsieve.tests;
 
 import org.apache.commons.logging.Log;
 import org.apache.jsieve.Arguments;
-import org.apache.jsieve.Logger;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
@@ -95,7 +94,7 @@ public abstract class AbstractTest implements ExecutableTest {
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
         if (!arguments.getArgumentList().isEmpty()) {
-            final Log logger = Logger.getLog();
+            final Log logger = context.getLog();
             if (logger.isWarnEnabled()) {
                 logger.warn("Unexpected arguments for " + getClass().getName());
             }

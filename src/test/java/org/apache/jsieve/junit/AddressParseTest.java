@@ -21,6 +21,7 @@ package org.apache.jsieve.junit;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.BaseSieveContext;
 import org.apache.jsieve.CommandManager;
 import org.apache.jsieve.ComparatorManager;
@@ -41,7 +42,8 @@ public class AddressParseTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        context = new BaseSieveContext(CommandManager.getInstance(), ComparatorManager.getInstance(), TestManager.getInstance());
+        context = new BaseSieveContext(CommandManager.getInstance(), ComparatorManager.getInstance(), TestManager.getInstance(),
+                LogFactory.getLog(AddressParseTest.class));
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }

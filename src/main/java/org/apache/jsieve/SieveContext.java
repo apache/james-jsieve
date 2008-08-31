@@ -19,6 +19,7 @@
 
 package org.apache.jsieve;
 
+import org.apache.commons.logging.Log;
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
@@ -57,4 +58,6 @@ public abstract class SieveContext {
     public abstract Comparator getComparator(String name) throws LookupException;
     //TODO: consider whether API can be consolidated
     public abstract ExecutableTest getExecutableTest(String name) throws LookupException;
+    
+    public abstract Log getLog();
 }

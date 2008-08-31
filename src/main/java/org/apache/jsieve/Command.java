@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -154,14 +153,9 @@ public class Command implements Executable {
         // recursively from the top level block
         // so need to use the coordinate recorded from the parse
         context.setCoordinate(coordinate);
-        final ExecutableCommand executable = getExecutable();
+        final ExecutableCommand executable = context.getExecutable(getName());
         final Object result = executable.execute(
                         mail, getArguments(), getBlock(), context);
         return result;
-    }
-
-    private ExecutableCommand getExecutable() throws LookupException {
-        final String name = getName();
-        return CommandManager.getInstance().newInstance(name);
     }
 }

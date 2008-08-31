@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.LookupException;
+
 /**
  * Bean based implementation of context.
  * 
@@ -29,11 +31,13 @@ public class BaseSieveContext extends SieveContext {
     private ConditionManager conditionManager;
     
     private final CommandStateManager commandStateManager;
-
-    public BaseSieveContext() 
+    private final CommandManager commandManager;
+    
+    public BaseSieveContext(final CommandManager commandManager) 
     {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
+        this.commandManager = commandManager;
     }
     
     /**
@@ -68,4 +72,7 @@ public class BaseSieveContext extends SieveContext {
         this.conditionManager = conditionManager;
     }
 
+    public ExecutableCommand getExecutable(String name) throws LookupException {
+        return commandManager.newInstance(name);
+    }
 }

@@ -43,9 +43,16 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  * tree has already been constructed.
  */
 public class SieveValidationVisitor implements SieveParserVisitor {
+
+    private final CommandManager commandManager;
     
     private boolean requireAllowed = true;
     private boolean isInRequire = false;
+    
+    protected SieveValidationVisitor(final CommandManager commandManager) {
+        super();
+        this.commandManager = commandManager;
+    }
 
     public Object visit(SimpleNode node, Object data) throws SieveException {
         return visitNode(node, data);
@@ -67,7 +74,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
 
     public Object visit(ASTcommand node, Object data) throws SieveException {
         final String name = node.getName();
-        CommandManager.getInstance().newInstance(name);
+        commandManager.newInstance(name);
         if ("require".equalsIgnoreCase(name)) {
             if (requireAllowed) {
                 isInRequire = true;
@@ -109,7 +116,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                 final String quotedName = (String) value;
                 final String name = quotedName.substring(1, quotedName.length()-1);
                 try {
-                    CommandManager.getInstance().newInstance(name);
+                    commandManager.newInstance(name);
                 } catch (LookupException e) {
                     //TODO: catching is inefficient, should just check
                     Test.lookup(name);

@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.CommandManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TestManager;
@@ -63,7 +62,7 @@ public class Require extends AbstractPrologCommand {
                 .getArgumentList().get(0)).getList().iterator();
 
         while (stringsIter.hasNext()) {
-            validateFeature((String) stringsIter.next(), mail);
+            validateFeature((String) stringsIter.next(), mail, context);
         }
         return null;
     }
@@ -74,13 +73,14 @@ public class Require extends AbstractPrologCommand {
      * 
      * @param name
      * @param mail
+     * @param context TODO
      * @throws FeatureException
      */
-    protected void validateFeature(String name, MailAdapter mail)
+    protected void validateFeature(String name, MailAdapter mail, SieveContext context)
             throws FeatureException {
         // Validate as a Command
         try {
-            validateCommand(name);
+            validateCommand(name, context);
             return;
         } catch (LookupException e) {
             // Not a command
@@ -101,8 +101,8 @@ public class Require extends AbstractPrologCommand {
      * @param name
      * @throws LookupException
      */
-    protected void validateCommand(String name) throws LookupException {
-        CommandManager.getInstance().lookup(name);
+    protected void validateCommand(String name, SieveContext context) throws LookupException {
+        context.getExecutable(name);
     }
 
     /**

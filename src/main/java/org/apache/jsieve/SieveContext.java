@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.LookupException;
+
 /**
  * Context for sieve operations.
  * 
@@ -47,4 +49,6 @@ public abstract class SieveContext {
     public abstract ConditionManager getConditionManager();
     //TODO: simplify interface
     public abstract void setConditionManager(final ConditionManager manager);
+    //TODO: consider whether API can be consolidated
+    public abstract ExecutableCommand getExecutable(String name) throws LookupException;
 }

@@ -21,7 +21,6 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.ConditionManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.TestList;
 import org.apache.jsieve.exception.SieveException;
@@ -53,23 +52,23 @@ public class If extends AbstractConditionalCommand {
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
         // Check Syntax
-        if (!ConditionManager.getInstance().isIfAllowed())
+        if (!context.getConditionManager().isIfAllowed())
             throw context.getCoordinate().commandException(
                     "Unexpected Command: \"if\".");
 
         // Check Runnable
-        if (!ConditionManager.getInstance().isIfRunnable())
+        if (!context.getConditionManager().isIfRunnable())
             return Boolean.FALSE;
 
         // Run the tests
-        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail);
+        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail, context);
 
         // If the tests answered TRUE, execute the Block
         if (isTestPassed.booleanValue())
-            execute(mail, block);
+            execute(mail, block, context);
 
         // Update the ConditionManager
-        ConditionManager.getInstance().setIfTestResult(
+        context.getConditionManager().setIfTestResult(
                 isTestPassed.booleanValue());
 
         // Return the result

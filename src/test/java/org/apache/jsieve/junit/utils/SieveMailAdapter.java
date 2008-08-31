@@ -21,7 +21,6 @@
 package org.apache.jsieve.junit.utils;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -36,7 +35,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
-
 import org.apache.jsieve.Logger;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;

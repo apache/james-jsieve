@@ -42,4 +42,9 @@ public abstract class SieveContext {
     
     //TODO: simplify interface
     public abstract CommandStateManager getCommandStateManager();
+    
+    //TODO: simplify interface
+    public abstract ConditionManager getConditionManager();
+    //TODO: simplify interface
+    public abstract void setConditionManager(final ConditionManager manager);
 }

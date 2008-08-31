@@ -21,9 +21,9 @@ package org.apache.jsieve.util.check;
 
 import java.util.List;
 
-import org.apache.jsieve.javaxmail.MockMimeMessage;
-
 import junit.framework.TestCase;
+
+import org.apache.jsieve.javaxmail.MockMimeMessage;
 
 public class ScriptCheckMailAdapterHeadersTest extends TestCase {
     private static final String BCC = "Bcc";

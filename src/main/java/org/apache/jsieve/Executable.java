@@ -20,12 +20,12 @@
 package org.apache.jsieve;
 
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.mail.*;
+import org.apache.jsieve.mail.MailAdapter;
 
 /**
  * Interface for an Executable operation.
  */
 public interface Executable {
-    public Object execute(MailAdapter mail) throws SieveException;
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException;
 
 }

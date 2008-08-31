@@ -26,11 +26,14 @@ package org.apache.jsieve;
 public class BaseSieveContext extends SieveContext {
 
     private ScriptCoordinate coordinate;
+    private ConditionManager conditionManager;
+    
     private final CommandStateManager commandStateManager;
 
     public BaseSieveContext() 
     {
         this.commandStateManager = new CommandStateManager();
+        this.conditionManager = new ConditionManager();
     }
     
     /**
@@ -55,6 +58,14 @@ public class BaseSieveContext extends SieveContext {
     public CommandStateManager getCommandStateManager()
     {
         return commandStateManager;
+    }
+
+    public ConditionManager getConditionManager() {
+        return conditionManager;
+    }
+
+    public void setConditionManager(ConditionManager conditionManager) {
+        this.conditionManager = conditionManager;
     }
 
 }

@@ -18,10 +18,10 @@
  ****************************************************************/
 package org.apache.jsieve.parser.address;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.mail.MailAdapter.Address;
 import org.apache.jsieve.parser.generated.address.ParseException;
-
-import junit.framework.TestCase;
 
 public class SieveAddressBuilderTest extends TestCase {
 

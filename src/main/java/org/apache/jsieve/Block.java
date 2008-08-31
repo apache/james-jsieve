@@ -73,10 +73,10 @@ public class Block implements Executable {
     }
 
     /**
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail) throws SieveException {
-        return getChildren().execute(mail);
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+        return getChildren().execute(mail, context);
     }
 
     public String toString() {

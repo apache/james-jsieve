@@ -19,19 +19,18 @@
 
 package org.apache.jsieve.tests.optional;
 
-import java.lang.String;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.Arguments;
-import org.apache.jsieve.TagArgument;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.tests.AbstractTest;
+import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
+import org.apache.jsieve.tests.AbstractTest;
 
 /**
  * This implements a single subset of the 'body' Sieve test as define here:

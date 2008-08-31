@@ -24,8 +24,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.mail.*;
-import org.apache.jsieve.parser.generated.*;
+import org.apache.jsieve.mail.MailAdapter;
+import org.apache.jsieve.parser.generated.ASTargument;
+import org.apache.jsieve.parser.generated.ASTarguments;
+import org.apache.jsieve.parser.generated.ASTblock;
+import org.apache.jsieve.parser.generated.ASTcommand;
+import org.apache.jsieve.parser.generated.ASTcommands;
+import org.apache.jsieve.parser.generated.ASTstart;
+import org.apache.jsieve.parser.generated.ASTstring;
+import org.apache.jsieve.parser.generated.ASTstring_list;
+import org.apache.jsieve.parser.generated.ASTtest;
+import org.apache.jsieve.parser.generated.ASTtest_list;
+import org.apache.jsieve.parser.generated.SieveParserVisitor;
+import org.apache.jsieve.parser.generated.SimpleNode;
 
 /**
  * <p>
@@ -193,7 +204,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         Block block = new Block(commands);
         context.setCoordinate(node.getCoordinate());
         // Answer the result of executing the Block
-        return block.execute((MailAdapter) data);
+        return block.execute((MailAdapter) data, context);
     }
 
     /**

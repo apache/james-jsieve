@@ -45,22 +45,23 @@ public abstract class AbstractConditionalCommand extends AbstractControlCommand 
      * 
      * @param mail
      * @param block
+     * @param context TODO
      * @return Object
      * @throws SieveException
      */
-    protected Object execute(MailAdapter mail, Block block)
+    protected Object execute(MailAdapter mail, Block block, SieveContext context)
             throws SieveException {
         // Switch to a new ConditionManager
-        ConditionManager oldManager = ConditionManager.getInstance();
-        ConditionManager.resetInstance();
+        ConditionManager oldManager = context.getConditionManager();
+        context.setConditionManager(new ConditionManager());
 
         try {
             // Execute the Block
-            Object result = block.execute(mail);
+            Object result = block.execute(mail, context);
             return result;
         } finally {
             // Always restore the old ConditionManager
-            ConditionManager.setInstance(oldManager);
+            context.setConditionManager(oldManager);
         }
     }
 

@@ -19,15 +19,15 @@
 
 package org.apache.jsieve.junit;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.CommandManager;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
-import org.apache.jsieve.junit.utils.*;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
-
-import junit.framework.TestCase;
 
 /**
  * Class FalseTest

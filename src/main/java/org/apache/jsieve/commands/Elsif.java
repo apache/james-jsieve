@@ -21,7 +21,6 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.ConditionManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.TestList;
 import org.apache.jsieve.exception.SieveException;
@@ -54,23 +53,23 @@ public class Elsif extends AbstractConditionalCommand {
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
         // Check Syntax
-        if (!ConditionManager.getInstance().isElsifAllowed())
+        if (!context.getConditionManager().isElsifAllowed())
             throw context.getCoordinate().commandException(
                     "Unexpected Command: \"elsif\".");
 
         // Check Runnable
-        if (!ConditionManager.getInstance().isElsifRunnable())
+        if (!context.getConditionManager().isElsifRunnable())
             return Boolean.FALSE;
 
         // Run the tests
-        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail);
+        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail, context);
 
         // If the tests answered TRUE, execute the Block
         if (isTestPassed.booleanValue())
-            execute(mail, block);
+            execute(mail, block, context);
 
         // Update the ConditionManager
-        ConditionManager.getInstance().setElsifTestResult(
+        context.getConditionManager().setElsifTestResult(
                 isTestPassed.booleanValue());
 
         // Return the result

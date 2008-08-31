@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.mail.*;
+import org.apache.jsieve.mail.MailAdapter;
 
 /**
  * <p>
@@ -76,12 +76,12 @@ public class Commands implements Executable {
     }
 
     /**
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
         Iterator commandsIter = getChildren().iterator();
         while (commandsIter.hasNext())
-            ((Executable) commandsIter.next()).execute(mail);
+            ((Executable) commandsIter.next()).execute(mail, context);
         return null;
     }
 

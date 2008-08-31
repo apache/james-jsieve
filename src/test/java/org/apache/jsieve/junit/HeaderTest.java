@@ -20,13 +20,15 @@
 package org.apache.jsieve.junit;
 
 import javax.mail.MessagingException;
+
 import junit.framework.TestCase;
 
 import org.apache.jsieve.CommandManager;
 import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
-import org.apache.jsieve.junit.utils.*;
+import org.apache.jsieve.junit.utils.JUnitUtils;
+import org.apache.jsieve.junit.utils.SieveMailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**

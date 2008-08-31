@@ -48,7 +48,7 @@ public class AllOf extends AbstractTest {
         boolean result = true;
         Iterator testsIter = arguments.getTestList().getTests().iterator();
         while (result && testsIter.hasNext()) {
-            result = ((Boolean) ((Test) testsIter.next()).execute(mail))
+            result = ((Boolean) ((Test) testsIter.next()).execute(mail, context))
                     .booleanValue();
         }
         return result;

@@ -19,15 +19,15 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.xml.sax.SAXException;
 
 /**
  * <p>

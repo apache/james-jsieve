@@ -19,13 +19,13 @@
 
 package org.apache.jsieve.comparators;
 
-import org.apache.jsieve.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import org.apache.jsieve.ComparatorManager;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
-
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * Class ComparatorUtils implements utility methods used by Comparators.

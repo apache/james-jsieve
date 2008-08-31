@@ -19,18 +19,35 @@
 
 package org.apache.jsieve.javaxmail;
 
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.InternetHeaders;
-import javax.mail.internet.InternetAddress;
-import javax.mail.*;
-import javax.mail.search.SearchTerm;
-import javax.activation.DataHandler;
-import java.util.*;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.activation.DataHandler;
+import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Header;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.InternetHeaders;
+import javax.mail.internet.MimeMessage;
+import javax.mail.search.SearchTerm;
 
 /**
  * Forked from JAMES server.

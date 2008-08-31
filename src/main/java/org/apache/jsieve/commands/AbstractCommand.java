@@ -109,7 +109,7 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * 
      * <p>Also,</p>
      * 
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
     public Object execute(MailAdapter mail, Arguments arguments, Block block,
             SieveContext context) throws SieveException {

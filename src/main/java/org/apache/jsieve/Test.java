@@ -20,10 +20,9 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.mail.*;
+import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
@@ -48,9 +47,9 @@ public class Test implements Executable {
     private Arguments fieldArguments;
 
     /**
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
         Log log = Logger.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());

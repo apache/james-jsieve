@@ -22,9 +22,9 @@ package org.apache.jsieve;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.jsieve.parser.generated.ASTstring;
-
 import junit.framework.TestCase;
+
+import org.apache.jsieve.parser.generated.ASTstring;
 
 public class SieveParserVisitorImplQuoteTest extends TestCase {
 

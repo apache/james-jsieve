@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.mail.*;
+import org.apache.jsieve.mail.MailAdapter;
 
 /**
  * <p>
@@ -71,14 +71,14 @@ public class TestList implements Executable {
     }
 
     /**
-     * @see org.apache.jsieve.Executable#execute(MailAdapter)
+     * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
         boolean result = true;
 
         Iterator testsIter = getTests().iterator();
         while (result && testsIter.hasNext()) {
-            result = ((Boolean) ((Test) testsIter.next()).execute(mail))
+            result = ((Boolean) ((Test) testsIter.next()).execute(mail, context))
                     .booleanValue();
         }
         return new Boolean(result);

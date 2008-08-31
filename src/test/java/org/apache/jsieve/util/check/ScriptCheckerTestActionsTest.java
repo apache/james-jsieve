@@ -21,13 +21,13 @@ package org.apache.jsieve.util.check;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.mail.ActionReject;
-
-import junit.framework.TestCase;
 
 public class ScriptCheckerTestActionsTest extends TestCase {
 

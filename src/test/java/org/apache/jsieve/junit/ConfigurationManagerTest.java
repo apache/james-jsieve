@@ -23,10 +23,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveConfigurationException;
-
-import junit.framework.TestCase;
 
 /**
  * Class ConfigurationManagerTest

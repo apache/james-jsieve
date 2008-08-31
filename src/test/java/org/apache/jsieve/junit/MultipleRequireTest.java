@@ -19,10 +19,10 @@
 
 package org.apache.jsieve.junit;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.mail.MailAdapter;
-
-import junit.framework.TestCase;
 
 public class MultipleRequireTest extends TestCase {
 

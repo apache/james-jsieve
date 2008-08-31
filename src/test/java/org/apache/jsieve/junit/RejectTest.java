@@ -26,7 +26,7 @@ import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
-import org.apache.jsieve.junit.utils.*;
+import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;

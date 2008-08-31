@@ -19,10 +19,10 @@
 
 package org.apache.jsieve.junit.comparator;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SievePatternException;
-
-import junit.framework.TestCase;
 
 public class ComparatorUtilsTest extends TestCase {
 

@@ -24,10 +24,6 @@ package org.apache.jsieve;
  * Sieve evaluation.
  */
 public class ConditionManager {
-    /**
-     * The Condition Manager instance for the current thread
-     */
-    static private final ThreadLocal fieldInstance = new ThreadLocal();
 
     /**
      * Is an Else Condition allowed
@@ -42,7 +38,7 @@ public class ConditionManager {
     /**
      * Constructor for ConditionManager.
      */
-    private ConditionManager() {
+    public ConditionManager() {
         super();
         initialize();
     }
@@ -146,69 +142,6 @@ public class ConditionManager {
      */
     public boolean isElseRunnable() {
         return !isTestResult();
-    }
-
-    /**
-     * Answers a new instance of the manager.
-     * 
-     * @return ConditionManager
-     */
-    static protected ConditionManager computeInstance() {
-        return new ConditionManager();
-    }
-
-    /**
-     * <p>
-     * Returns the conditionManager, lazily intialised if required.
-     * </p>
-     * 
-     * <p>
-     * Note that this must be synchronized to prevent another thread detecting
-     * the null state while this thread is initialising.
-     * </p>
-     * 
-     * @return ConditionManager
-     */
-    static synchronized public ConditionManager getInstance() {
-        ConditionManager instance = null;
-        if (null == (instance = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return instance;
-    }
-
-    /**
-     * Returns the current conditionManager.
-     * 
-     * @return ConditionManager
-     */
-    static private ConditionManager getInstanceBasic() {
-        return (ConditionManager) fieldInstance.get();
-    }
-
-    /**
-     * Sets the current conditionManager.
-     * 
-     * @param conditionManager
-     *                The conditionManager to set
-     */
-    public static void setInstance(ConditionManager conditionManager) {
-        fieldInstance.set(conditionManager);
-    }
-
-    /**
-     * resets the current conditionManager.
-     */
-    static public void resetInstance() {
-        setInstance(null);
-    }
-
-    /**
-     * Updates the current conditionManager.
-     */
-    static protected void updateInstance() {
-        setInstance(computeInstance());
     }
 
     /**

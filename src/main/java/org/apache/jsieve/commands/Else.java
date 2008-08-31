@@ -21,7 +21,6 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.ConditionManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -52,20 +51,20 @@ public class Else extends AbstractConditionalCommand {
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
         // Check Syntax
-        if (!ConditionManager.getInstance().isElseAllowed())
+        if (!context.getConditionManager().isElseAllowed())
             throw context.getCoordinate().commandException(
                     "Unexpected Command: \"else\".");
 
         // Check Runnable
-        if (!ConditionManager.getInstance().isElseRunnable())
+        if (!context.getConditionManager().isElseRunnable())
             return Boolean.FALSE;
 
         // Execute the Block
-        execute(mail, block);
+        execute(mail, block, context);
 
         // Update the ConditionManager
         // 'Else' is always true
-        ConditionManager.getInstance().setElseTestResult(true);
+        context.getConditionManager().setElseTestResult(true);
 
         // Return the result
         return Boolean.TRUE;

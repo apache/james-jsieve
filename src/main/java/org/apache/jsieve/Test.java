@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.tests.ExecutableTest;
@@ -33,8 +32,7 @@ import org.apache.jsieve.tests.ExecutableTest;
  * <code>test = identifier arguments</code>
  */
 public class Test implements Executable {
-    
-    private SieveContext context;
+
 
     /** The name of this Test */
     private String fieldName;
@@ -69,9 +67,8 @@ public class Test implements Executable {
      * @param name
      * @param arguments
      */
-    public Test(String name, Arguments arguments, SieveContext context) {
+    public Test(String name, Arguments arguments) {
         this();
-        this.context = context;
         setName(name);
         setArguments(arguments);
     }

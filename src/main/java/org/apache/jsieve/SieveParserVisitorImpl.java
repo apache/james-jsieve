@@ -267,7 +267,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         }
 
         context.setCoordinate(node.getCoordinate());
-        Test test = new Test(node.getName(), arguments, context);
+        Test test = new Test(node.getName(), arguments);
         ((List) data).add(test);
         return data;
     }

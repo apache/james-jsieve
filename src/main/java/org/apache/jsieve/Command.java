@@ -32,16 +32,6 @@ import org.apache.jsieve.mail.MailAdapter;
  * <code>command = identifier arguments ( ";" / block )</code>
  */
 public class Command implements Executable {
-
-    /**
-     * Looks up an executable command with the given name.
-     * @param name not null
-     * @return <code>ExecutableCommand</code>, not null
-     * @throws LookupException if the command is not available
-     */
-    public static ExecutableCommand lookup(final String name) throws LookupException {
-        return CommandManager.getInstance().newInstance(name);
-    }
     
     /** The name of this Command */
     private String fieldName;
@@ -172,6 +162,6 @@ public class Command implements Executable {
 
     private ExecutableCommand getExecutable() throws LookupException {
         final String name = getName();
-        return lookup(name);
+        return CommandManager.getInstance().newInstance(name);
     }
 }

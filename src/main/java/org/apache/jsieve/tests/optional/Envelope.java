@@ -22,6 +22,7 @@ package org.apache.jsieve.tests.optional;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -59,11 +60,12 @@ public class Envelope extends AbstractCompatatorTest {
      * @param matchType
      * @param headerValue
      * @param key
+     * @param context TODO
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(String addressPart, String comparator,
-            String matchType, String headerValue, String key)
+            String matchType, String headerValue, String key, SieveContext context)
             throws SieveException {
 
         // Extract the part of the address we are matching on
@@ -99,18 +101,18 @@ public class Envelope extends AbstractCompatatorTest {
 
         // Match using the specified comparator
         return ComparatorUtils.match(comparator, matchType, matchAddress,
-                matchKey);
+                matchKey, context);
     }
 
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key)
+            String comparator, String matchType, String headerName, String key, SieveContext context)
             throws SieveException {
         Iterator headerValuesIter = getMatchingValues(mail, headerName)
                 .iterator();
         boolean isMatched = false;
         while (!isMatched && headerValuesIter.hasNext()) {
             isMatched = match(addressPart, comparator, matchType,
-                    ((String) headerValuesIter.next()), key);
+                    ((String) headerValuesIter.next()), key, context);
         }
         return isMatched;
     }

@@ -34,7 +34,7 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        visitor = new SieveParserVisitorImpl(new BaseSieveContext(CommandManager.getInstance()));
+        visitor = new SieveParserVisitorImpl(new BaseSieveContext(CommandManager.getInstance(), ComparatorManager.getInstance()));
         data = new ArrayList();
         node = new ASTstring(100);
     }

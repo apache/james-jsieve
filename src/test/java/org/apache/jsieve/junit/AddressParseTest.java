@@ -21,6 +21,9 @@ package org.apache.jsieve.junit;
 
 import junit.framework.TestCase;
 
+import org.apache.jsieve.BaseSieveContext;
+import org.apache.jsieve.CommandManager;
+import org.apache.jsieve.ComparatorManager;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
 
@@ -30,12 +33,14 @@ public class AddressParseTest extends TestCase {
 
     private static final String SOLO_ADDRESS_VALUES = "coyote@desert.example.org";
 
+    BaseSieveContext context;
     SieveMailAdapter mail;
 
     OpenedAddress address;
 
     protected void setUp() throws Exception {
         super.setUp();
+        context = new BaseSieveContext(CommandManager.getInstance(), ComparatorManager.getInstance());
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }
@@ -43,24 +48,24 @@ public class AddressParseTest extends TestCase {
     public void testSingleAddress() throws Exception {
         mail.getMessage().addHeader("From", SOLO_ADDRESS_VALUES);
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "coyote@desert.example.org"));
+                "from", "coyote@desert.example.org", context));
         assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "elmer@hunters.example.org"));
+                "from", "elmer@hunters.example.org", context));
         assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "bugs@example.org"));
+                "from", "bugs@example.org", context));
         assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "roadrunner@example.org"));
+                "from", "roadrunner@example.org", context));
     }
 
     public void testMultipleAddresses() throws Exception {
         mail.getMessage().addHeader("From", MULTIPLE_ADDRESS_VALUES);
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "coyote@desert.example.org"));
+                "from", "coyote@desert.example.org", context));
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "elmer@hunters.example.org"));
+                "from", "elmer@hunters.example.org", context));
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "bugs@example.org"));
+                "from", "bugs@example.org", context));
         assertFalse(address.match(mail, ":all", "i;ascii-casemap", ":is",
-                "from", "roadrunner@example.org"));
+                "from", "roadrunner@example.org", context));
     }
 }

@@ -129,7 +129,8 @@ public class SieveFactory {
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
         final CommandManager commandManager = CommandManager.getInstance();
-        SieveContext context = new BaseSieveContext(commandManager);
+        final ComparatorManager comparatorManager = ComparatorManager.getInstance();
+        SieveContext context = new BaseSieveContext(commandManager, comparatorManager);
         SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {
             // Evaluate the Nodes

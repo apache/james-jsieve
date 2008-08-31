@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.tests;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
@@ -38,7 +39,7 @@ public class Address extends AbstractCompatatorTest {
     }
 
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key)
+            String comparator, String matchType, String headerName, String key, SieveContext context)
             throws SieveException {
         final MailAdapter.Address[] addresses = getMatchingValues(mail,
                 headerName);
@@ -47,7 +48,7 @@ public class Address extends AbstractCompatatorTest {
         boolean isMatched = false;
         while (!isMatched && i < length) {
             isMatched = match(addressPart, comparator, matchType,
-                    addresses[i++], key);
+                    addresses[i++], key, context);
         }
         return isMatched;
     }
@@ -59,7 +60,7 @@ public class Address extends AbstractCompatatorTest {
     }
 
     protected boolean match(String addressPart, String comparator,
-            String matchType, MailAdapter.Address address, String key)
+            String matchType, MailAdapter.Address address, String key, SieveContext context)
             throws SieveException {
         final String localPart = address.getLocalPart();
         final String domain = address.getDomain();
@@ -83,6 +84,6 @@ public class Address extends AbstractCompatatorTest {
 
         // Match using the specified comparator
         return ComparatorUtils.match(comparator, matchType, matchAddress,
-                matchKey);
+                matchKey, context);
     }
 }

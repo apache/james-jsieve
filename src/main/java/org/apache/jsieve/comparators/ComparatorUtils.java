@@ -22,7 +22,7 @@ package org.apache.jsieve.comparators;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.jsieve.ComparatorManager;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
@@ -47,19 +47,20 @@ public class ComparatorUtils implements MatchTypeTags {
      * 
      * @param comparatorName
      * @param matchType
-     * @param matchArgument
      * @param matchTarget
+     * @param matchArgument
+     * @param context TODO
      * @return boolean
      */
     public static boolean match(String comparatorName, String matchType,
-            String matchTarget, String matchArgument) throws SieveException {
+            String matchTarget, String matchArgument, SieveContext context) throws SieveException {
         boolean isMatched = false;
         if (matchType.equals(IS_TAG))
-            isMatched = is(comparatorName, matchTarget, matchArgument);
+            isMatched = is(comparatorName, matchTarget, matchArgument, context);
         else if (matchType.equals(CONTAINS_TAG))
-            isMatched = contains(comparatorName, matchTarget, matchArgument);
+            isMatched = contains(comparatorName, matchTarget, matchArgument, context);
         else if (matchType.equals(MATCHES_TAG))
-            isMatched = matches(comparatorName, matchTarget, matchArgument);
+            isMatched = matches(comparatorName, matchTarget, matchArgument, context);
         return isMatched;
     }
 
@@ -172,11 +173,12 @@ public class ComparatorUtils implements MatchTypeTags {
      * @param comparatorName
      * @param container
      * @param contents
+     * @param context TODO
      * @return boolean
      */
     public static boolean contains(String comparatorName, String container,
-            String contents) throws LookupException {
-        Contains comparatorObj = ComparatorManager.getInstance().newInstance(
+            String contents, SieveContext context) throws LookupException {
+        Contains comparatorObj =  context.getComparator(
                 comparatorName);
         return comparatorObj.contains(container, contents);
     }
@@ -188,11 +190,12 @@ public class ComparatorUtils implements MatchTypeTags {
      * @param comparatorName
      * @param string1
      * @param string2
+     * @param context TODO
      * @return boolean
      */
     public static boolean is(String comparatorName, String string1,
-            String string2) throws LookupException {
-        Equals comparatorObj = ComparatorManager.getInstance().newInstance(
+            String string2, SieveContext context) throws LookupException {
+        Equals comparatorObj = context.getComparator(
                 comparatorName);
         return comparatorObj.equals(string1, string2);
     }
@@ -205,12 +208,12 @@ public class ComparatorUtils implements MatchTypeTags {
      * @param comparatorName
      * @param string
      * @param glob
+     * @param context TODO
      * @return boolean
      */
     public static boolean matches(String comparatorName, String string,
-            String glob) throws SieveException {
-        Matches comparatorObj = ComparatorManager.getInstance().newInstance(
-                comparatorName);
+            String glob, SieveContext context) throws SieveException {
+        Matches comparatorObj = context.getComparator(comparatorName);
         return comparatorObj.matches(string, glob);
     }
 

@@ -137,7 +137,7 @@ public class Header extends AbstractTest implements ComparatorTags,
 
         return match(mail, (comparator == null ? ASCII_CASEMAP_COMPARATOR
                 : comparator), (matchType == null ? IS_TAG : matchType),
-                headerNames, keys);
+                headerNames, keys, context);
     }
 
     /**
@@ -148,18 +148,19 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerNames
      * @param keys
+     * @param context TODO
      * @return boolean
      * @throws SieveException
      */
     protected boolean match(MailAdapter mail, String comparator,
-            String matchType, List headerNames, List keys)
+            String matchType, List headerNames, List keys, SieveContext context)
             throws SieveException {
         // Iterate over the header names looking for a match
         boolean isMatched = false;
         Iterator headerNamesIter = headerNames.iterator();
         while (!isMatched && headerNamesIter.hasNext()) {
             isMatched = match(comparator, matchType, mail
-                    .getMatchingHeader((String) headerNamesIter.next()), keys);
+                    .getMatchingHeader((String) headerNamesIter.next()), keys, context);
         }
         return isMatched;
     }
@@ -171,11 +172,12 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValues
      * @param keys
+     * @param context TODO
      * @return boolean
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            List headerValues, List keys) throws SieveException {
+            List headerValues, List keys, SieveContext context) throws SieveException {
         // Special case for empty values
         // If the matchType is :contains
         // add the headerValue of a null string
@@ -194,7 +196,7 @@ public class Header extends AbstractTest implements ComparatorTags,
         Iterator headerValuesIter = headerValues.iterator();
         while (!isMatched && headerValuesIter.hasNext()) {
             isMatched = match(comparator, matchType, (String) headerValuesIter
-                    .next(), keys);
+                    .next(), keys, context);
         }
         return isMatched;
     }
@@ -206,17 +208,18 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValue
      * @param keys
+     * @param context TODO
      * @return boolean
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            String headerValue, List keys) throws SieveException {
+            String headerValue, List keys, SieveContext context) throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
         Iterator keysIter = keys.iterator();
         while (!isMatched && keysIter.hasNext()) {
             isMatched = ComparatorUtils.match(comparator, matchType,
-                    headerValue, (String) keysIter.next());
+                    headerValue, (String) keysIter.next(), context);
         }
         return isMatched;
     }

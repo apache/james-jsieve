@@ -34,10 +34,6 @@ import org.apache.jsieve.tests.ExecutableTest;
  */
 public class Test implements Executable {
     
-    public static ExecutableTest lookup(final String name) throws LookupException {
-        return TestManager.getInstance().newInstance(name);
-    }
-    
     private SieveContext context;
 
     /** The name of this Test */
@@ -55,7 +51,7 @@ public class Test implements Executable {
             log.debug(toString());
         }
         final String name = getName();
-        final ExecutableTest test = lookup(name);
+        final ExecutableTest test = TestManager.getInstance().newInstance(name);
         final boolean result = test.execute(mail, getArguments(), context);
         return new Boolean(result);
     }

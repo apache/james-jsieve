@@ -119,7 +119,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                     commandManager.newInstance(name);
                 } catch (LookupException e) {
                     //TODO: catching is inefficient, should just check
-                    Test.lookup(name);
+                    TestManager.getInstance().newInstance(name);
                 }
             }
         }

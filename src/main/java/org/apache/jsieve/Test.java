@@ -49,7 +49,7 @@ public class Test implements Executable {
             log.debug(toString());
         }
         final String name = getName();
-        final ExecutableTest test = context.getExecutableTest(name);
+        final ExecutableTest test = context.getTest(name);
         final boolean result = test.execute(mail, getArguments(), context);
         return new Boolean(result);
     }

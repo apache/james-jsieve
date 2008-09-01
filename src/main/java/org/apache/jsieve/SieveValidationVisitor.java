@@ -76,7 +76,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
 
     public Object visit(ASTcommand node, Object data) throws SieveException {
         final String name = node.getName();
-        commandManager.newInstance(name);
+        commandManager.getCommand(name);
         if ("require".equalsIgnoreCase(name)) {
             if (requireAllowed) {
                 isInRequire = true;
@@ -118,10 +118,10 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                 final String quotedName = (String) value;
                 final String name = quotedName.substring(1, quotedName.length()-1);
                 try {
-                    commandManager.newInstance(name);
+                    commandManager.getCommand(name);
                 } catch (LookupException e) {
                     //TODO: catching is inefficient, should just check
-                    testManager.newInstance(name);
+                    testManager.getTest(name);
                 }
             }
         }

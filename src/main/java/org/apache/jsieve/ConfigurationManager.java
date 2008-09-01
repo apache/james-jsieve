@@ -278,14 +278,14 @@ public class ConfigurationManager {
     }
     
     public ComparatorManager getComparatorManager() {
-        return new ComparatorManager(fieldComparatorMap);
+        return new ComparatorManagerImpl(fieldComparatorMap);
     }
 
     public CommandManager getCommandManager() {
-        return new CommandManager(fieldCommandMap);
+        return new CommandManagerImpl(fieldCommandMap);
     }
     
     public TestManager getTestManager() {
-        return new TestManager(fieldTestMap);
+        return new TestManagerImpl(fieldTestMap);
     }
 }

@@ -19,49 +19,12 @@
 
 package org.apache.jsieve;
 
-import java.util.Map;
-
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Singleton class <code>CommandManager</code> maps Command names to
- * configured Command implementation classes.
+ * Maps Command names to configured Command implementation classes.
  */
-public class CommandManager {
-
-    private final Map commandMap;
-    
-    /**
-     * Constructor for CommandManager.
-     */
-    public CommandManager(final Map commandMap) {
-        super();
-        this.commandMap = commandMap;
-    }
-
-    /**
-     * <p>
-     * Method lookup answers the class to which a Command name is mapped.
-     * </p>
-     * 
-     * @param name -
-     *                The name of the Command
-     * @return Class - The class of the Command
-     * @throws LookupException
-     */
-    public Class lookup(String name) throws LookupException {
-        Class cmdClass = null;
-        try {
-            cmdClass = getClass().getClassLoader()
-                    .loadClass(getClassName(name));
-        } catch (ClassNotFoundException e) {
-            throw new LookupException("Command named '" + name + "' not found.");
-        }
-        if (!ExecutableCommand.class.isAssignableFrom(cmdClass))
-            throw new LookupException("Class " + cmdClass.getName()
-                    + " must implement " + ExecutableCommand.class.getName());
-        return cmdClass;
-    }
+public interface CommandManager {
 
     /**
      * <p>
@@ -74,15 +37,7 @@ public class CommandManager {
      * @return Class - The class of the Command
      * @throws LookupException
      */
-    public ExecutableCommand newInstance(String name) throws LookupException {
-        try {
-            return (ExecutableCommand) lookup(name).newInstance();
-        } catch (InstantiationException e) {
-            throw new LookupException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new LookupException(e.getMessage());
-        }
-    }
+    public ExecutableCommand getCommand(String name) throws LookupException;
 
     /**
      * Method isSupported answers a boolean indicating if a Command name is
@@ -92,50 +47,5 @@ public class CommandManager {
      *                The Command name
      * @return boolean - True if the Command name is configured.
      */
-    public boolean isSupported(String name) {
-        boolean isSupported = false;
-        try {
-            lookup(name);
-            isSupported = true;
-        } catch (LookupException e) {
-        }
-        return isSupported;
-    }
-
-    /**
-     * <p>
-     * Method getClassName answers the name of the class to which a Command name
-     * is mapped.
-     * </p>
-     * 
-     * @param name -
-     *                The name of the Command
-     * @return String - The name of the class
-     * @throws LookupException
-     */
-    protected String getClassName(String name) throws LookupException {
-        String className;
-        try {
-            className = (String) getClassNameMap().get(name.toLowerCase());
-        } catch (SieveConfigurationException e) {
-            throw new LookupException(
-                    "Lookup failed due to a Configuration Exception: "
-                            + e.getMessage());
-        }
-        if (null == className)
-            throw new LookupException("Command named '" + name
-                    + "' not mapped.");
-        return className;
-    }
-
-    /**
-     * Method getClassNameMap answers a Map of Command names and their class
-     * names.
-     * 
-     * @return Map
-     * @throws SieveConfigurationException
-     */
-    protected Map getClassNameMap() throws SieveConfigurationException {
-        return commandMap;
-    }
+    public boolean isCommandSupported(String name);
 }

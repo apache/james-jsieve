@@ -85,16 +85,16 @@ public class BaseSieveContext extends SieveContext {
         this.conditionManager = conditionManager;
     }
 
-    public ExecutableCommand getExecutableManager(String name) throws LookupException {
-        return commandManager.newInstance(name);
+    public ExecutableCommand getCommand(String name) throws LookupException {
+        return commandManager.getCommand(name);
     }
 
     public Comparator getComparator(String name) throws LookupException {
-        return comparatorManager.newInstance(name);
+        return comparatorManager.getComparator(name);
     }
 
-    public ExecutableTest getExecutableTest(String name) throws LookupException {
-        return testManager.newInstance(name);
+    public ExecutableTest getTest(String name) throws LookupException {
+        return testManager.getTest(name);
     }
 
     public Log getLog() {

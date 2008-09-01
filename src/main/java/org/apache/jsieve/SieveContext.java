@@ -53,11 +53,11 @@ public abstract class SieveContext {
     //TODO: simplify interface
     public abstract void setConditionManager(final ConditionManager manager);
     //TODO: consider whether API can be consolidated
-    public abstract ExecutableCommand getExecutableManager(String name) throws LookupException;
+    public abstract ExecutableCommand getCommand(String name) throws LookupException;
     //TODO: consider whether API can be consolidated
     public abstract Comparator getComparator(String name) throws LookupException;
     //TODO: consider whether API can be consolidated
-    public abstract ExecutableTest getExecutableTest(String name) throws LookupException;
+    public abstract ExecutableTest getTest(String name) throws LookupException;
     
     public abstract Log getLog();
 }

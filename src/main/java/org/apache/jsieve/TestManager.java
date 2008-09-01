@@ -19,51 +19,14 @@
 
 package org.apache.jsieve;
 
-import java.util.Map;
-
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Singleton class <code>TestManager</code> maps Test names to configured Test
+ * Maps Test names to configured Test
  * implementation classes.
  */
-public class TestManager {
-
-    private final Map classNameMap;
-    
-    /**
-     * TestManager is instanciated with getInstance
-     */
-    public TestManager(final Map classNameMap) {
-        super();
-        this.classNameMap = classNameMap;
-    }
-
-    /**
-     * <p>
-     * Method lookup answers the class to which a Test name is mapped.
-     * </p>
-     * 
-     * @param name -
-     *                The name of the Test
-     * @return Class - The class of the Test
-     * @throws LookupException
-     */
-    public Class lookup(String name) throws LookupException {
-        Class testClass = null;
-
-        try {
-            testClass = getClass().getClassLoader().loadClass(
-                    getClassName(name));
-        } catch (ClassNotFoundException e) {
-            throw new LookupException("Test named '" + name + "' not found.");
-        }
-        if (!ExecutableTest.class.isAssignableFrom(testClass))
-            throw new LookupException("Class " + testClass.getName()
-                    + " must implement " + ExecutableTest.class.getName());
-        return testClass;
-    }
+public interface TestManager {
 
     /**
      * <p>
@@ -76,49 +39,5 @@ public class TestManager {
      * @return Class - The class of the Test
      * @throws LookupException
      */
-    public ExecutableTest newInstance(String name) throws LookupException {
-        try {
-            return (ExecutableTest) lookup(name).newInstance();
-        } catch (InstantiationException e) {
-            throw new LookupException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new LookupException(e.getMessage());
-        }
-    }
-
-    /**
-     * <p>
-     * Method getClassName answers the name of the class to which a Test name is
-     * mapped.
-     * </p>
-     * 
-     * @param name -
-     *                The name of the Test
-     * @return String - The name of the class
-     * @throws LookupException
-     */
-    protected String getClassName(String name) throws LookupException {
-        String className;
-        try {
-            className = (String) getClassNameMap().get(name.toLowerCase());
-        } catch (SieveConfigurationException e) {
-            throw new LookupException(
-                    "Lookup failed due to a Configuration Exception: "
-                            + e.getMessage());
-        }
-        if (null == className)
-            throw new LookupException("Test named '" + name + "' not mapped.");
-        return className;
-    }
-
-    /**
-     * Method getClassNameMap answers a Map of Test names and their class names.
-     * 
-     * @return Map
-     * @throws SieveConfigurationException
-     */
-    protected Map getClassNameMap() throws SieveConfigurationException {
-        return classNameMap;
-    }
-
+    public ExecutableTest getTest(String name) throws LookupException;
 }

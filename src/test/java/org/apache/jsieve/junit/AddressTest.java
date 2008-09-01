@@ -23,8 +23,6 @@ import javax.mail.MessagingException;
 
 import junit.framework.TestCase;
 
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
@@ -43,10 +41,6 @@ public class AddressTest extends TestCase {
      */
     public AddressTest(String arg0) {
         super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(AddressTest.class);
     }
 
     /**

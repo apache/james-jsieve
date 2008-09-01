@@ -60,11 +60,6 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 public class SieveFactory {
 
     /**
-     * The sole instance of the receiver.
-     */
-    private static SieveFactory fieldInstance;
-
-    /**
      * Constructor for SieveFactory.
      */
     public SieveFactory() {
@@ -180,54 +175,4 @@ public class SieveFactory {
             throws ParseException, SieveException {
         evaluate(mail, parse(inputStream));
     }
-
-    /**
-     * Returns the instance of the receiver, lazily initialised if required.
-     * 
-     * @return SieveFactory
-     */
-    public static synchronized SieveFactory getInstance() {
-        SieveFactory instance = null;
-        if (null == (instance = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return instance;
-    }
-
-    /**
-     * Computes an instance of the receiver.
-     * 
-     * @return SieveFactory
-     */
-    public static SieveFactory computeInstance() {
-        return new SieveFactory();
-    }
-
-    /**
-     * Returns the instance of the receiver.
-     * 
-     * @return SieveFactory
-     */
-    private static SieveFactory getInstanceBasic() {
-        return fieldInstance;
-    }
-
-    /**
-     * Sets the instance of the receiver.
-     * 
-     * @param instance
-     *                The instance to set
-     */
-    protected static void setInstance(SieveFactory instance) {
-        fieldInstance = instance;
-    }
-
-    /**
-     * Updates the instance of the receiver.
-     */
-    protected static void updateInstance() {
-        setInstance(computeInstance());
-    }
-
 }

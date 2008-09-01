@@ -46,7 +46,7 @@ public class JUnitUtils
     static public void interpret(MailAdapter mail, String script)
         throws SieveException, ParseException
     {
-        SieveFactory.getInstance().interpret(
+        new SieveFactory().interpret(
             mail,
             new ByteArrayInputStream(script.getBytes()));
     }
@@ -61,7 +61,7 @@ public class JUnitUtils
     static public void parse(String script)
         throws SieveException, ParseException
     {
-        SieveFactory.getInstance().parse(
+        new SieveFactory().parse(
             new ByteArrayInputStream(script.getBytes()));
     }
     

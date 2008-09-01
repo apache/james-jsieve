@@ -281,4 +281,7 @@ public class ConfigurationManager {
         return new ComparatorManager(fieldComparatorMap);
     }
 
+    public CommandManager getCommandManager() {
+        return new CommandManager(fieldCommandMap);
+    }
 }

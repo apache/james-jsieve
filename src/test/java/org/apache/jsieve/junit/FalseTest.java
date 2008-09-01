@@ -52,7 +52,6 @@ public class FalseTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        CommandManager.resetInstance();
         TestManager.resetInstance();
     }
 

@@ -85,7 +85,7 @@ public class SieveFactory {
     public Node parse(InputStream inputStream) throws ParseException {
         try {
             final SimpleNode node = new SieveParser(inputStream, "UTF-8").start();
-            final CommandManager commandManager = CommandManager.getInstance();
+            final CommandManager commandManager = ConfigurationManager.getInstance().getCommandManager();
             final TestManager testManager = TestManager.getInstance();
             SieveValidationVisitor visitor = new SieveValidationVisitor(commandManager, testManager);
             node.jjtAccept(visitor, null);
@@ -129,7 +129,7 @@ public class SieveFactory {
      */
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
-        final CommandManager commandManager = CommandManager.getInstance();
+        final CommandManager commandManager = ConfigurationManager.getInstance().getCommandManager();
         final ComparatorManager comparatorManager = ConfigurationManager.getInstance().getComparatorManager();
         final TestManager testManager = TestManager.getInstance();
         final Log log = ConfigurationManager.log;

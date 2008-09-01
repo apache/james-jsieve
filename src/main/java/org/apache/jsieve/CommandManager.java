@@ -28,73 +28,15 @@ import org.apache.jsieve.exception.LookupException;
  * configured Command implementation classes.
  */
 public class CommandManager {
-    /**
-     * The sole instance of the receiver.
-     */
-    static private CommandManager fieldInstance;
 
+    private final Map commandMap;
+    
     /**
      * Constructor for CommandManager.
      */
-    private CommandManager() {
+    public CommandManager(final Map commandMap) {
         super();
-    }
-
-    /**
-     * Returns the sole instance of the receiver, lazily initialised if
-     * required.
-     * 
-     * @return CommandManager
-     */
-    public static synchronized CommandManager getInstance() {
-        CommandManager instance = null;
-        if (null == (instance = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return instance;
-    }
-
-    /**
-     * Returns the sole instance of the receiver.
-     * 
-     * @return CommandManager
-     */
-    private static CommandManager getInstanceBasic() {
-        return fieldInstance;
-    }
-
-    /**
-     * Computes a new instance of the receiver.
-     * 
-     * @return CommandManager
-     */
-    protected static CommandManager computeInstance() {
-        return new CommandManager();
-    }
-
-    /**
-     * Sets the sole instance of the receiver.
-     * 
-     * @param instance
-     *                The current instance to set
-     */
-    protected static void setInstance(CommandManager instance) {
-        fieldInstance = instance;
-    }
-
-    /**
-     * Resets the sole instance.
-     */
-    public static void resetInstance() {
-        setInstance(null);
-    }
-
-    /**
-     * Updates the sole instance.
-     */
-    protected static void updateInstance() {
-        setInstance(computeInstance());
+        this.commandMap = commandMap;
     }
 
     /**
@@ -194,7 +136,6 @@ public class CommandManager {
      * @throws SieveConfigurationException
      */
     protected Map getClassNameMap() throws SieveConfigurationException {
-        return ConfigurationManager.getInstance().getCommandMap();
+        return commandMap;
     }
-
 }

@@ -52,7 +52,6 @@ public class DiscardTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        CommandManager.resetInstance();
         TestManager.resetInstance();
     }
 

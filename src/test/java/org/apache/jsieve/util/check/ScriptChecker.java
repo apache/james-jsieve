@@ -86,9 +86,7 @@ public class ScriptChecker {
         adapter.setMail(mimeMessage);
         Results results;
         try {
-            ConfigurationManager configuration = new ConfigurationManager();
-            new SieveFactory(configuration.getCommandManager(), configuration.getComparatorManager(),
-                    configuration.getTestManager(), configuration.getLog()).interpret(adapter, script);
+            new ConfigurationManager().build().interpret(adapter, script);
             final List executedActions = adapter.getExecutedActions();
             results = new Results(executedActions);
         } catch (ParseException e) {

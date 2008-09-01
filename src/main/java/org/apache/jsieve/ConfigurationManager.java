@@ -233,4 +233,8 @@ public class ConfigurationManager {
     public Log getLog() {
         return log;
     }
+    
+    public SieveFactory build() {
+        return new SieveFactory(getCommandManager(), getComparatorManager(), getTestManager(), getLog());
+    }
 }

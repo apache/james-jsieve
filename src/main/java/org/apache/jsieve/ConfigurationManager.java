@@ -284,4 +284,8 @@ public class ConfigurationManager {
     public CommandManager getCommandManager() {
         return new CommandManager(fieldCommandMap);
     }
+    
+    public TestManager getTestManager() {
+        return new TestManager(fieldTestMap);
+    }
 }

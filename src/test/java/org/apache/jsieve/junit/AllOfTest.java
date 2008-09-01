@@ -52,7 +52,6 @@ public class AllOfTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        TestManager.resetInstance();
     }
 
     /**

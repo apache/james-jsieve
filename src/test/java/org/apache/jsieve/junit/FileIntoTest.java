@@ -53,7 +53,6 @@ public class FileIntoTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        TestManager.resetInstance();
     }
 
     /**

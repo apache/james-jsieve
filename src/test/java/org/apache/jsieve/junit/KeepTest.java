@@ -53,7 +53,6 @@ public class KeepTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        TestManager.resetInstance();
     }
 
     /**

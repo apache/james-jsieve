@@ -55,7 +55,6 @@ public class SizeTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        TestManager.resetInstance();
     }
 
     /**

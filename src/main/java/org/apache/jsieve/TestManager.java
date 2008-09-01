@@ -29,73 +29,15 @@ import org.apache.jsieve.tests.ExecutableTest;
  * implementation classes.
  */
 public class TestManager {
-    /**
-     * The sole instance of the receiver.
-     */
-    static private TestManager fieldInstance;
 
+    private final Map classNameMap;
+    
     /**
      * TestManager is instanciated with getInstance
      */
-    private TestManager() {
+    public TestManager(final Map classNameMap) {
         super();
-    }
-
-    /**
-     * Returns the sole instance of the reciever, lazily initialised if
-     * required.
-     * 
-     * @return CommandManager
-     */
-    public static TestManager getInstance() {
-        TestManager current = null;
-        if (null == (current = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return current;
-    }
-
-    /**
-     * Returns the sole instance of the reciever.
-     * 
-     * @return CommandManager
-     */
-    private static TestManager getInstanceBasic() {
-        return fieldInstance;
-    }
-
-    /**
-     * Computes a new instance of the receiver.
-     * 
-     * @return CommandManager
-     */
-    protected static TestManager computeInstance() {
-        return new TestManager();
-    }
-
-    /**
-     * Sets the sole instance of the reciever.
-     * 
-     * @param instance
-     *                The instance to set
-     */
-    protected static void setInstance(TestManager instance) {
-        fieldInstance = instance;
-    }
-
-    /**
-     * Resets the sole instance of the reciever.
-     */
-    public static void resetInstance() {
-        setInstance(null);
-    }
-
-    /**
-     * Updates the sole instance of the reciever.
-     */
-    protected static void updateInstance() {
-        setInstance(computeInstance());
+        this.classNameMap = classNameMap;
     }
 
     /**
@@ -176,7 +118,7 @@ public class TestManager {
      * @throws SieveConfigurationException
      */
     protected Map getClassNameMap() throws SieveConfigurationException {
-        return ConfigurationManager.getInstance().getTestMap();
+        return classNameMap;
     }
 
 }

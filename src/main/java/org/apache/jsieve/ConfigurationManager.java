@@ -53,11 +53,6 @@ public class ConfigurationManager {
     private static final String COMPARATORSMAP_PROPERTIES = "org/apache/jsieve/comparatorsmap.properties";
 
     /**
-     * The sole instance of the receiver.
-     */
-    static private ConfigurationManager fieldInstance;
-
-    /**
      * A Map of the Command names and their associated class names.
      */
     private Map fieldCommandMap;
@@ -72,16 +67,14 @@ public class ConfigurationManager {
      */
     private Map fieldComparatorMap;
 
-    //TODO: Temporary fix to allow Logger to be deleted
-    //TODO: inject
-    public static final Log log = LogFactory.getLog(ConditionManager.class);
+    private static final Log log = LogFactory.getLog("org.apache.jsieve");
     
     /**
      * Constructor for ConfigurationManager.
      * 
      * @throws SieveConfigurationException
      */
-    private ConfigurationManager() throws SieveConfigurationException {
+    public ConfigurationManager() throws SieveConfigurationException {
         super();
         try {
             parse();
@@ -95,59 +88,7 @@ public class ConfigurationManager {
             throw new SieveConfigurationException(e);
         }
     }
-
-    /**
-     * Returns the sole instance of the receiver, lazily initialised if
-     * required.
-     * 
-     * @return ConfigurationManager
-     */
-    static public synchronized ConfigurationManager getInstance()
-            throws SieveConfigurationException {
-        ConfigurationManager instance = null;
-        if (null == (instance = getInstanceBasic())) {
-            updateInstance();
-            return getInstance();
-        }
-        return instance;
-    }
-
-    /**
-     * Returns the sole instance of the receiver.
-     * 
-     * @return ConfigurationManager
-     */
-    static private ConfigurationManager getInstanceBasic() {
-        return fieldInstance;
-    }
-
-    /**
-     * Returns a new instance of the receiver.
-     * 
-     * @return ConfigurationManager
-     */
-    static protected ConfigurationManager computeInstance()
-            throws SieveConfigurationException {
-        return new ConfigurationManager();
-    }
-
-    /**
-     * Sets the instance.
-     * 
-     * @param instance
-     *                The instance to set
-     */
-    static protected void setInstance(ConfigurationManager instance) {
-        fieldInstance = instance;
-    }
-
-    /**
-     * Updates the instance.
-     */
-    static protected void updateInstance() throws SieveConfigurationException {
-        setInstance(computeInstance());
-    }
-
+    
     /**
      * <p>
      * Method getConfigStream answers an InputStream over the Sieve
@@ -163,7 +104,7 @@ public class ConfigurationManager {
      * @return InputStream
      * @throws IOException
      */
-    static protected InputStream getConfigStream(String configName) throws IOException {
+    private InputStream getConfigStream(String configName) throws IOException {
         InputStream stream = null;
         // Context classloader is usually right in a JEE evironment
         final ClassLoader contextClassLoader = Thread.currentThread()
@@ -190,7 +131,7 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public synchronized Map getCommandMap() {
+    public Map getCommandMap() {
         if (null == fieldCommandMap) {
             fieldCommandMap = new HashMap();
         }
@@ -203,7 +144,7 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public synchronized Map getTestMap() {
+    public Map getTestMap() {
         if (null == fieldTestMap) {
             fieldTestMap = new HashMap();
         }
@@ -216,7 +157,7 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public synchronized Map getComparatorMap() {
+    public Map getComparatorMap() {
         if (null == fieldComparatorMap) {
             fieldComparatorMap = new HashMap();
         }
@@ -230,7 +171,7 @@ public class ConfigurationManager {
      * @throws SAXException
      * @throws IOException
      */
-    protected void parse() throws SAXException, IOException {
+    private void parse() throws SAXException, IOException {
         InputStream is;
         Properties p;
         is = getConfigStream(COMMANDSMAP_PROPERTIES);
@@ -253,7 +194,7 @@ public class ConfigurationManager {
      * @param commandMap
      *                The commandMap to set
      */
-    protected synchronized void setCommandMap(Map commandMap) {
+    private void setCommandMap(Map commandMap) {
         fieldCommandMap = commandMap;
     }
 
@@ -263,7 +204,7 @@ public class ConfigurationManager {
      * @param testMap
      *                The testMap to set
      */
-    protected synchronized void setTestMap(Map testMap) {
+    private void setTestMap(Map testMap) {
         fieldTestMap = testMap;
     }
 
@@ -273,7 +214,7 @@ public class ConfigurationManager {
      * @param comparatorMap
      *                The comparatorMap to set
      */
-    protected synchronized void setComparatorMap(Map comparatorMap) {
+    private void setComparatorMap(Map comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
     
@@ -287,5 +228,9 @@ public class ConfigurationManager {
     
     public TestManager getTestManager() {
         return new TestManagerImpl(fieldTestMap);
+    }
+    
+    public Log getLog() {
+        return log;
     }
 }

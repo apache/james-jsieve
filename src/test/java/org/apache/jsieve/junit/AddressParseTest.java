@@ -40,8 +40,9 @@ public class AddressParseTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        context = new BaseSieveContext(ConfigurationManager.getInstance().getCommandManager(), ConfigurationManager.getInstance().getComparatorManager(), 
-                ConfigurationManager.getInstance().getTestManager(),
+        ConfigurationManager configurationManager = new ConfigurationManager();
+        context = new BaseSieveContext(configurationManager.getCommandManager(), configurationManager.getComparatorManager(), 
+                configurationManager.getTestManager(),
                 LogFactory.getLog(AddressParseTest.class));
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();

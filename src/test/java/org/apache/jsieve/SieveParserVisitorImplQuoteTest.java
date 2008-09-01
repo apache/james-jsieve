@@ -35,8 +35,9 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        visitor = new SieveParserVisitorImpl(new BaseSieveContext(ConfigurationManager.getInstance().getCommandManager(), ConfigurationManager.getInstance().getComparatorManager(),
-                ConfigurationManager.getInstance().getTestManager(), LogFactory.getLog(SieveParserVisitorImplQuoteTest.class)));
+        final ConfigurationManager configurationManager = new ConfigurationManager();
+        visitor = new SieveParserVisitorImpl(new BaseSieveContext(configurationManager.getCommandManager(), configurationManager.getComparatorManager(),
+                configurationManager.getTestManager(), LogFactory.getLog(SieveParserVisitorImplQuoteTest.class)));
         data = new ArrayList();
         node = new ASTstring(100);
     }

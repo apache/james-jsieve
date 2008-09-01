@@ -28,6 +28,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveFactory;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionFileInto;
@@ -85,7 +86,9 @@ public class ScriptChecker {
         adapter.setMail(mimeMessage);
         Results results;
         try {
-            new SieveFactory().interpret(adapter, script);
+            ConfigurationManager configuration = new ConfigurationManager();
+            new SieveFactory(configuration.getCommandManager(), configuration.getComparatorManager(),
+                    configuration.getTestManager(), configuration.getLog()).interpret(adapter, script);
             final List executedActions = adapter.getExecutedActions();
             results = new Results(executedActions);
         } catch (ParseException e) {

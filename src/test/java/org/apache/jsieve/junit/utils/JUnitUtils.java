@@ -26,6 +26,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveFactory;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -46,7 +47,9 @@ public class JUnitUtils
     static public void interpret(MailAdapter mail, String script)
         throws SieveException, ParseException
     {
-        new SieveFactory().interpret(
+        ConfigurationManager configuration = new ConfigurationManager();
+        new SieveFactory(configuration.getCommandManager(), configuration.getComparatorManager(),
+                configuration.getTestManager(), configuration.getLog()).interpret(
             mail,
             new ByteArrayInputStream(script.getBytes()));
     }
@@ -61,7 +64,9 @@ public class JUnitUtils
     static public void parse(String script)
         throws SieveException, ParseException
     {
-        new SieveFactory().parse(
+        ConfigurationManager configuration = new ConfigurationManager();
+        new SieveFactory(configuration.getCommandManager(), configuration.getComparatorManager(),
+                configuration.getTestManager(), configuration.getLog()).parse(
             new ByteArrayInputStream(script.getBytes()));
     }
     

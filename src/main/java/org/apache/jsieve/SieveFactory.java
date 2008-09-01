@@ -59,11 +59,21 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  */
 public class SieveFactory {
 
+    private final CommandManager commandManager;
+    private final ComparatorManager comparatorManager;
+    private final TestManager testManager;
+    private final Log log;
+    
     /**
      * Constructor for SieveFactory.
      */
-    public SieveFactory() {
+    public SieveFactory(final CommandManager commandManager, final ComparatorManager comparatorManager,
+            final TestManager testManager, final Log log) {
         super();
+        this.commandManager = commandManager;
+        this.comparatorManager = comparatorManager;
+        this.testManager = testManager;
+        this.log = log;
     }
 
     /**
@@ -80,20 +90,16 @@ public class SieveFactory {
     public Node parse(InputStream inputStream) throws ParseException {
         try {
             final SimpleNode node = new SieveParser(inputStream, "UTF-8").start();
-            final CommandManager commandManager = ConfigurationManager.getInstance().getCommandManager();
-            final TestManager testManager = ConfigurationManager.getInstance().getTestManager();
             SieveValidationVisitor visitor = new SieveValidationVisitor(commandManager, testManager);
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
-            Log log = ConfigurationManager.log;
             if (log.isErrorEnabled())
                 log.error("Parse failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
                 log.debug("Parse failed.", ex);
             throw ex;
         } catch (SieveException ex) {
-            Log log = ConfigurationManager.log;
             if (log.isErrorEnabled())
                 log.error("Parse failed. Reason: " + ex.getMessage());
             if (log.isDebugEnabled())
@@ -124,10 +130,6 @@ public class SieveFactory {
      */
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
-        final CommandManager commandManager = ConfigurationManager.getInstance().getCommandManager();
-        final ComparatorManager comparatorManager = ConfigurationManager.getInstance().getComparatorManager();
-        final TestManager testManager = ConfigurationManager.getInstance().getTestManager();
-        final Log log = ConfigurationManager.log;
         SieveContext context = new BaseSieveContext(commandManager, comparatorManager, testManager, log);
         SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {

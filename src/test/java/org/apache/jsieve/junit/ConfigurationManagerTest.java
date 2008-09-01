@@ -85,7 +85,7 @@ public class ConfigurationManagerTest extends TestCase {
 
         boolean isTestPassed = false;
         try {
-            Map commandMap = ConfigurationManager.getInstance().getCommandMap();
+            Map commandMap = new ConfigurationManager().getCommandMap();
 
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {
@@ -124,7 +124,7 @@ public class ConfigurationManagerTest extends TestCase {
 
         boolean isTestPassed = false;
         try {
-            Map testMap = ConfigurationManager.getInstance().getTestMap();
+            Map testMap = new ConfigurationManager().getTestMap();
 
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {
@@ -155,8 +155,7 @@ public class ConfigurationManagerTest extends TestCase {
 
         boolean isTestPassed = false;
         try {
-            Map comparatorMap = ConfigurationManager.getInstance()
-                    .getComparatorMap();
+            Map comparatorMap = new ConfigurationManager().getComparatorMap();
 
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {

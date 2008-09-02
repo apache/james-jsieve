@@ -19,10 +19,6 @@
 
 package org.apache.jsieve.junit;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
@@ -31,37 +27,12 @@ import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 
+import junit.framework.TestCase;
+
 /**
  * Class RejectTest
  */
 public class RejectTest extends TestCase {
-
-    /**
-     * Constructor for RejectTest.
-     * 
-     * @param arg0
-     */
-    public RejectTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(RejectTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * Test for Command 'reject' with invalid arguments

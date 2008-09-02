@@ -32,10 +32,6 @@ public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
         adapter = new ScriptCheckMailAdapter();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testGetHeader() throws Exception {
         List headers = adapter.getHeader("From");
         assertNotNull(headers);

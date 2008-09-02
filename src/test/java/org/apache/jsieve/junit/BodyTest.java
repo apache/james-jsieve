@@ -24,8 +24,6 @@ import javax.mail.internet.MimeMultipart;
 
 import junit.framework.TestCase;
 
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
@@ -36,33 +34,6 @@ import org.apache.jsieve.parser.generated.ParseException;
  * Class BodyTest
  */
 public class BodyTest extends TestCase {
-
-    /**
-     * Constructor for BodyTest.
-     * 
-     * @param arg0
-     */
-    public BodyTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(BodyTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     protected SieveMailAdapter textMail() throws MessagingException {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();

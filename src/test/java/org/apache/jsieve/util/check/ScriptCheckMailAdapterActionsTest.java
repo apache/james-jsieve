@@ -40,10 +40,6 @@ public class ScriptCheckMailAdapterActionsTest extends TestCase {
         anotherAction = new MockAction();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testAddAction() {
         adapter.addAction(action);
         assertEquals("Running total updated", 1, adapter.getActions().size());

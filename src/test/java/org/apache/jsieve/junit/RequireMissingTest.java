@@ -19,32 +19,15 @@
 
 package org.apache.jsieve.junit;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
+
+import junit.framework.TestCase;
 
 /**
  * Class AddressTest
  */
 public class RequireMissingTest extends TestCase {
-
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
     
     /**
      * Tests that unsupported requires are caught before script execution. 

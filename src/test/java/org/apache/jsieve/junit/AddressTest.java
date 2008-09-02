@@ -35,29 +35,6 @@ import org.apache.jsieve.parser.generated.ParseException;
 public class AddressTest extends TestCase {
 
     /**
-     * Constructor for AddressTest.
-     * 
-     * @param arg0
-     */
-    public AddressTest(String arg0) {
-        super(arg0);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    /**
      * Test for Test 'address'
      */
     public void testIfAddressAllIsTrue() {

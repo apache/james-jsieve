@@ -19,46 +19,17 @@
 
 package org.apache.jsieve.junit;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
 
+import junit.framework.TestCase;
+
 /**
  * Class RequireTest
  */
 public class RequireTest extends TestCase {
-
-    /**
-     * Constructor for RequireTest.
-     * 
-     * @param arg0
-     */
-    public RequireTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(RequireTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * Test for Command 'require' with a single command that is present

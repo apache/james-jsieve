@@ -34,33 +34,6 @@ import org.apache.jsieve.SieveConfigurationException;
 public class ConfigurationManagerTest extends TestCase {
 
     /**
-     * Constructor for ConfigurationManagerTest.
-     * 
-     * @param arg0
-     */
-    public ConfigurationManagerTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(ConfigurationManagerTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    /**
      * Test the CommandMap maps 'MUST' and 'SHOULD' be supported commands to the
      * correct classes.
      */

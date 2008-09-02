@@ -49,10 +49,6 @@ public class SieveAddressBuilderTest extends TestCase {
         builder = new SieveAddressBuilder();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testNotAddress() throws Exception {
         try {
             builder

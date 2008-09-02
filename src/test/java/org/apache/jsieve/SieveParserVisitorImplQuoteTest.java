@@ -42,10 +42,6 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
         node = new ASTstring(100);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testVisitASTstringObjectQuoted() {
 
         node.setValue("\"value\"");

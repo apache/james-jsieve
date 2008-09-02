@@ -19,49 +19,20 @@
 
 package org.apache.jsieve.junit;
 
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
-
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 
+import javax.mail.MessagingException;
+
+import junit.framework.TestCase;
+
 /**
  * Class HeaderTest
  */
 public class HeaderTest extends TestCase {
-
-    /**
-     * Constructor for HeaderTest.
-     * 
-     * @param arg0
-     */
-    public HeaderTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(HeaderTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * Test for Test 'header'

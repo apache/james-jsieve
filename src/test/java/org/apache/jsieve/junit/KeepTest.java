@@ -19,10 +19,6 @@
 
 package org.apache.jsieve.junit;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.CommandManager;
-import org.apache.jsieve.TestManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
@@ -30,37 +26,12 @@ import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 
+import junit.framework.TestCase;
+
 /**
  * Class KeepTest
  */
 public class KeepTest extends TestCase {
-
-    /**
-     * Constructor for KeepTest.
-     * 
-     * @param arg0
-     */
-    public KeepTest(String arg0) {
-        super(arg0);
-    }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(KeepTest.class);
-    }
-
-    /**
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * Test for Command 'keep' with invalid arguments

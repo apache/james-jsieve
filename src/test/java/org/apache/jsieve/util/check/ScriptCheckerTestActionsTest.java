@@ -57,10 +57,6 @@ public class ScriptCheckerTestActionsTest extends TestCase {
         result = new ScriptChecker.Results(Arrays.asList(ACTIONS));
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testFileInto() throws Exception {
         assertTrue("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 0));

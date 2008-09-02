@@ -38,10 +38,6 @@ public class ScriptCheckMailAdapterMailTest extends TestCase {
         anotherAction = new MockAction();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testSetMail() throws Exception {
         adapter.addAction(action);
         adapter.addAction(anotherAction);

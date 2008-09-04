@@ -54,8 +54,8 @@ public class Not extends AbstractTest {
         Iterator testsIter = tests.iterator();
         while (testsIter.hasNext()) {
             result = result
-                    && ((Boolean) ((Test) testsIter.next()).execute(mail, context))
-                            .booleanValue();
+                    && ((Boolean) ((Test) testsIter.next()).execute(mail,
+                            context)).booleanValue();
         }
         return !result;
     }

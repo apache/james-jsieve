@@ -39,8 +39,8 @@ public class Address extends AbstractCompatatorTest {
     }
 
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key, SieveContext context)
-            throws SieveException {
+            String comparator, String matchType, String headerName, String key,
+            SieveContext context) throws SieveException {
         final MailAdapter.Address[] addresses = getMatchingValues(mail,
                 headerName);
         final int length = addresses.length;
@@ -60,8 +60,8 @@ public class Address extends AbstractCompatatorTest {
     }
 
     protected boolean match(String addressPart, String comparator,
-            String matchType, MailAdapter.Address address, String key, SieveContext context)
-            throws SieveException {
+            String matchType, MailAdapter.Address address, String key,
+            SieveContext context) throws SieveException {
         final String localPart = address.getLocalPart();
         final String domain = address.getDomain();
 

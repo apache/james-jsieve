@@ -41,23 +41,29 @@ public abstract class SieveContext {
      * Sets the script position of the current operation.
      * 
      * @param coordinate
-     *                <code>ScriptCoordinate</code>, not null
+     *            <code>ScriptCoordinate</code>, not null
      */
     public abstract void setCoordinate(ScriptCoordinate coordinate);
-    
-    //TODO: simplify interface
+
+    // TODO: simplify interface
     public abstract CommandStateManager getCommandStateManager();
-    
-    //TODO: simplify interface
+
+    // TODO: simplify interface
     public abstract ConditionManager getConditionManager();
-    //TODO: simplify interface
+
+    // TODO: simplify interface
     public abstract void setConditionManager(final ConditionManager manager);
-    //TODO: consider whether API can be consolidated
-    public abstract ExecutableCommand getCommand(String name) throws LookupException;
-    //TODO: consider whether API can be consolidated
-    public abstract Comparator getComparator(String name) throws LookupException;
-    //TODO: consider whether API can be consolidated
+
+    // TODO: consider whether API can be consolidated
+    public abstract ExecutableCommand getCommand(String name)
+            throws LookupException;
+
+    // TODO: consider whether API can be consolidated
+    public abstract Comparator getComparator(String name)
+            throws LookupException;
+
+    // TODO: consider whether API can be consolidated
     public abstract ExecutableTest getTest(String name) throws LookupException;
-    
+
     public abstract Log getLog();
 }

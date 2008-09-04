@@ -61,7 +61,7 @@ public class ActionRedirect implements Action {
      * Sets the address.
      * 
      * @param address
-     *                The address to set
+     *            The address to set
      */
     protected void setAddress(String address) {
         fieldAddress = address;

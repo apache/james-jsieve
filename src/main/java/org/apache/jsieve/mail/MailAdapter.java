@@ -42,32 +42,31 @@ import org.apache.jsieve.exception.SieveException;
  * 
  * <h4>Implementing parseAddresses</h4>
  * <p>
- * <a href='http://james.apache.org/mime4j'>Apache Mime4J</a> is a parser
- * for <abbr title='Multipurpose Internet Mail Extensions'>
- * <a href='http://www.faqs.org/rfcs/rfc2045.html'>MIME</a></abbr>. 
- * It can easily be used to parse an address string into addresses. 
- * For example:
+ * <a href='http://james.apache.org/mime4j'>Apache Mime4J</a> is a parser for
+ * <abbr title='Multipurpose Internet Mail Extensions'> <a
+ * href='http://www.faqs.org/rfcs/rfc2045.html'>MIME</a></abbr>. It can easily
+ * be used to parse an address string into addresses. For example:
  * </p>
  * <code><pre>
- *     import org.apache.james.mime4j.field.address.AddressList;
- *     import org.apache.james.mime4j.field.address.Mailbox;
- *     import org.apache.james.mime4j.field.address.MailboxList;
- *     import org.apache.james.mime4j.field.address.parser.ParseException;
- *     ...
- *     public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException {
- *         try {
- *             final MailboxList list = AddressList.parse(arg).flatten();
- *             final int size = list.size();
- *             final Address[] results = new Address[size];
- *             for (int i=0;i&lt;size;i++) {
- *                 final Mailbox mailbox = list.get(i);
- *                 results[i] = new AddressImpl(mailbox.getLocalPart(), mailbox.getDomain());
- *             }
- *             return null;
- *         } catch (ParseException e) {
- *             throw new InternetAddressException(e);
- *         }
- *     }
+ *       import org.apache.james.mime4j.field.address.AddressList;
+ *       import org.apache.james.mime4j.field.address.Mailbox;
+ *       import org.apache.james.mime4j.field.address.MailboxList;
+ *       import org.apache.james.mime4j.field.address.parser.ParseException;
+ *       ...
+ *       public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException {
+ *           try {
+ *               final MailboxList list = AddressList.parse(arg).flatten();
+ *               final int size = list.size();
+ *               final Address[] results = new Address[size];
+ *               for (int i=0;i&lt;size;i++) {
+ *                   final Mailbox mailbox = list.get(i);
+ *                   results[i] = new AddressImpl(mailbox.getLocalPart(), mailbox.getDomain());
+ *               }
+ *               return null;
+ *           } catch (ParseException e) {
+ *               throw new InternetAddressException(e);
+ *           }
+ *       }
  * </pre></code>
  */
 public interface MailAdapter {
@@ -163,11 +162,11 @@ public interface MailAdapter {
     public String getContentType() throws SieveMailException;
 
     /**
-     * Method getContent returns object containing the message content.
-     * TODO: This is poorly defined.
-     * TODO: This is used to search a mail body and needs to return a string.
-     * TODO: But creating a string is not efficient.
+     * Method getContent returns object containing the message content. TODO:
+     * This is poorly defined. TODO: This is used to search a mail body and
+     * needs to return a string. TODO: But creating a string is not efficient.
      * TODO: It would be better to allow the adapter to search.
+     * 
      * @return Object
      * @throws SieveMailException
      */
@@ -186,15 +185,15 @@ public interface MailAdapter {
      * </p>
      * 
      * @param headerName
-     *                name of the header whose value is to be split
+     *            name of the header whose value is to be split
      * @return addresses listed in the given header not null, possibly empty
      * @throws InternetAddressException
-     *                 when the header value is not an address or list of
-     *                 addresses. Implemetations may elect to support only
-     *                 standard headers known to containing one or more
-     *                 addresses rather than parsing the value content
+     *             when the header value is not an address or list of addresses.
+     *             Implemetations may elect to support only standard headers
+     *             known to containing one or more addresses rather than parsing
+     *             the value content
      * @throws SieveMailException
-     *                 when the header value cannot be read
+     *             when the header value cannot be read
      */
     public Address[] parseAddresses(String headerName)
             throws SieveMailException, InternetAddressException;

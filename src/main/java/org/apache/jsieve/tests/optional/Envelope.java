@@ -60,13 +60,14 @@ public class Envelope extends AbstractCompatatorTest {
      * @param matchType
      * @param headerValue
      * @param key
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(String addressPart, String comparator,
-            String matchType, String headerValue, String key, SieveContext context)
-            throws SieveException {
+            String matchType, String headerValue, String key,
+            SieveContext context) throws SieveException {
 
         // Extract the part of the address we are matching on
         String matchAddress = null;
@@ -105,8 +106,8 @@ public class Envelope extends AbstractCompatatorTest {
     }
 
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key, SieveContext context)
-            throws SieveException {
+            String comparator, String matchType, String headerName, String key,
+            SieveContext context) throws SieveException {
         Iterator headerValuesIter = getMatchingValues(mail, headerName)
                 .iterator();
         boolean isMatched = false;

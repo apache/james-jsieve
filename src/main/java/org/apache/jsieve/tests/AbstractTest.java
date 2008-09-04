@@ -57,7 +57,8 @@ public abstract class AbstractTest implements ExecutableTest {
      * <p>
      * Also,
      * 
-     * @see org.apache.jsieve.tests.ExecutableTest#execute(MailAdapter, Arguments, SieveContext)
+     * @see org.apache.jsieve.tests.ExecutableTest#execute(MailAdapter,
+     *      Arguments, SieveContext)
      */
     public boolean execute(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException {
@@ -71,8 +72,8 @@ public abstract class AbstractTest implements ExecutableTest {
      * @param mail
      * @param arguments
      * @param context
-     *                <code>SieveContext</code> giving contextual information,
-     *                not null
+     *            <code>SieveContext</code> giving contextual information, not
+     *            null
      * @return boolean
      * @throws SieveException
      */
@@ -87,8 +88,8 @@ public abstract class AbstractTest implements ExecutableTest {
      * 
      * @param arguments
      * @param context
-     *                <code>SieveContext</code> giving comntextual
-     *                information, not null
+     *            <code>SieveContext</code> giving comntextual information,
+     *            not null
      * @throws SieveException
      */
     protected void validateArguments(Arguments arguments, SieveContext context)

@@ -37,15 +37,15 @@ import org.xml.sax.SAXException;
  * </p>
  * 
  * <p>
- * The Sieve configuration is read from 3 properties file. They are
- * located by searching the classpath of the current ClassLoader.
+ * The Sieve configuration is read from 3 properties file. They are located by
+ * searching the classpath of the current ClassLoader.
  * org/apache/jsieve/commandsmap.properties
  * org/apache/jsieve/testsmap.properties
  * org/apache/jsieve/comparatorsmap.properties
  * </p>
  */
 public class ConfigurationManager {
-    
+
     private static final String COMMANDSMAP_PROPERTIES = "org/apache/jsieve/commandsmap.properties";
 
     private static final String TESTSMAP_PROPERTIES = "org/apache/jsieve/testsmap.properties";
@@ -68,7 +68,7 @@ public class ConfigurationManager {
     private Map fieldComparatorMap;
 
     private static final Log log = LogFactory.getLog("org.apache.jsieve");
-    
+
     /**
      * Constructor for ConfigurationManager.
      * 
@@ -88,7 +88,7 @@ public class ConfigurationManager {
             throw new SieveConfigurationException(e);
         }
     }
-    
+
     /**
      * <p>
      * Method getConfigStream answers an InputStream over the Sieve
@@ -192,7 +192,7 @@ public class ConfigurationManager {
      * Sets the commandMap.
      * 
      * @param commandMap
-     *                The commandMap to set
+     *            The commandMap to set
      */
     private void setCommandMap(Map commandMap) {
         fieldCommandMap = commandMap;
@@ -202,7 +202,7 @@ public class ConfigurationManager {
      * Sets the testMap.
      * 
      * @param testMap
-     *                The testMap to set
+     *            The testMap to set
      */
     private void setTestMap(Map testMap) {
         fieldTestMap = testMap;
@@ -212,12 +212,12 @@ public class ConfigurationManager {
      * Sets the comparatorMap.
      * 
      * @param comparatorMap
-     *                The comparatorMap to set
+     *            The comparatorMap to set
      */
     private void setComparatorMap(Map comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
-    
+
     public ComparatorManager getComparatorManager() {
         return new ComparatorManagerImpl(fieldComparatorMap);
     }
@@ -225,16 +225,17 @@ public class ConfigurationManager {
     public CommandManager getCommandManager() {
         return new CommandManagerImpl(fieldCommandMap);
     }
-    
+
     public TestManager getTestManager() {
         return new TestManagerImpl(fieldTestMap);
     }
-    
+
     public Log getLog() {
         return log;
     }
-    
+
     public SieveFactory build() {
-        return new SieveFactory(getCommandManager(), getComparatorManager(), getTestManager(), getLog());
+        return new SieveFactory(getCommandManager(), getComparatorManager(),
+                getTestManager(), getLog());
     }
 }

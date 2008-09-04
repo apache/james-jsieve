@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit.utils;
 
 import java.io.ByteArrayInputStream;
@@ -34,55 +33,52 @@ import org.apache.jsieve.parser.generated.ParseException;
 /**
  * Class JUnitUtils implements utility methods used during unit testing.
  */
-public class JUnitUtils
-{
+public class JUnitUtils {
     /**
      * Method interpret parses a script and evaluates it against a MailAdapter.
+     * 
      * @param mail
      * @param script
      * @throws SieveException
      * @throws ParseException
      */
     static public void interpret(MailAdapter mail, String script)
-        throws SieveException, ParseException
-    {
-        new ConfigurationManager().build().interpret(
-            mail,
-            new ByteArrayInputStream(script.getBytes()));
+            throws SieveException, ParseException {
+        new ConfigurationManager().build().interpret(mail,
+                new ByteArrayInputStream(script.getBytes()));
     }
-        
+
     /**
      * Method interpret parses a script and evaluates it against a MailAdapter.
+     * 
      * @param mail
      * @param script
      * @throws SieveException
      * @throws ParseException
      */
-    static public void parse(String script)
-        throws SieveException, ParseException
-    {
+    static public void parse(String script) throws SieveException,
+            ParseException {
         new ConfigurationManager().build().parse(
-            new ByteArrayInputStream(script.getBytes()));
+                new ByteArrayInputStream(script.getBytes()));
     }
-    
 
     /**
      * Method createMimeMessage answers an empty MimeMessage.
+     * 
      * @return MimeMessage
      */
-    static public MimeMessage createMimeMessage()
-    {
-        return new MimeMessage(
-            Session.getDefaultInstance(System.getProperties()));
+    static public MimeMessage createMimeMessage() {
+        return new MimeMessage(Session.getDefaultInstance(System
+                .getProperties()));
     }
 
     /**
-     * Method createMail answers a SieveMailAdapter wrapping an empty MimeMessage.
+     * Method createMail answers a SieveMailAdapter wrapping an empty
+     * MimeMessage.
      * 
      * @return SieveEnvelopeMailAdapter
      */
-    static public MailAdapter createMail()
-    {
+    static public MailAdapter createMail() {
         return new SieveMailAdapter(createMimeMessage());
     }
 
@@ -92,31 +88,27 @@ public class JUnitUtils
      * 
      * @return SieveEnvelopeMailAdapter
      */
-    static public SieveEnvelopeMailAdapter createEnvelopeMail()
-    {
+    static public SieveEnvelopeMailAdapter createEnvelopeMail() {
         return new SieveEnvelopeMailAdapter(createMimeMessage());
     }
-    
+
     /**
      * Method copyMail answers a copy of our mock MailAdapter.
+     * 
      * @param mail
      * @return MailAdapter
      * @throws MessagingException
      */
     static public MailAdapter copyMail(SieveMailAdapter mail)
-        throws MessagingException
-    {
+            throws MessagingException {
         MimeMessage message = new MimeMessage(mail.getMessage());
         return new SieveMailAdapter(message);
-    }        
-
-
+    }
 
     /**
      * Constructor for JUnitUtils.
      */
-    private JUnitUtils()
-    {
+    private JUnitUtils() {
         super();
     }
 

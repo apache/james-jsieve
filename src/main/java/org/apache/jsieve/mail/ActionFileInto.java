@@ -66,7 +66,7 @@ public class ActionFileInto implements Action {
      * Sets the destination.
      * 
      * @param destination
-     *                The destination to set
+     *            The destination to set
      */
     protected void setDestination(String destination) {
         fieldDestination = destination;

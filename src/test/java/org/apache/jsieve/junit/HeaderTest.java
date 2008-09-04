@@ -19,15 +19,15 @@
 
 package org.apache.jsieve.junit;
 
+import javax.mail.MessagingException;
+
+import junit.framework.TestCase;
+
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.junit.commands.ThrowTestException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.junit.utils.SieveMailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
-
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
 
 /**
  * Class HeaderTest
@@ -301,10 +301,10 @@ public class HeaderTest extends TestCase {
         }
         assertTrue(isTestPassed);
     }
-    
+
     /**
-     * Test for square brackets in matching headers
-     * When the "[" is in the first char of the pattern it does not matches.
+     * Test for square brackets in matching headers When the "[" is in the first
+     * char of the pattern it does not matches.
      * 
      * @see http://issues.apache.org/jira/browse/JSIEVE-19
      */
@@ -332,7 +332,8 @@ public class HeaderTest extends TestCase {
         String script = "if header :matches \"X-Caffeine\" \"my,\\\\,?,\\?,\\\\?,*,\\*,\\\\*,pattern\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("X-Caffeine", "my,\\,x,x,?,foo,bar,*,pattern");
+            mail.getMessage().addHeader("X-Caffeine",
+                    "my,\\,x,x,?,foo,bar,*,pattern");
             JUnitUtils.interpret(mail, script);
         } catch (MessagingException e) {
         } catch (ThrowTestException.TestException e) {
@@ -351,7 +352,8 @@ public class HeaderTest extends TestCase {
         String script = "if header :matches \"X-Caffeine\" \"my,?,\\?,\\\\?,*,\\*,\\\\*,pattern\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("X-Caffeine", "my,x,x,q,foo,bar,*,pattern");
+            mail.getMessage().addHeader("X-Caffeine",
+                    "my,x,x,q,foo,bar,*,pattern");
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
         } catch (MessagingException e) {

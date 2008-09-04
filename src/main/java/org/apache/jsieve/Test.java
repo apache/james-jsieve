@@ -33,7 +33,6 @@ import org.apache.jsieve.tests.ExecutableTest;
  */
 public class Test implements Executable {
 
-
     /** The name of this Test */
     private String fieldName;
 
@@ -43,7 +42,8 @@ public class Test implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException {
         Log log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
@@ -95,7 +95,7 @@ public class Test implements Executable {
      * Sets the arguments.
      * 
      * @param arguments
-     *                The arguments to set
+     *            The arguments to set
      */
     protected void setArguments(Arguments arguments) {
         fieldArguments = arguments;
@@ -105,7 +105,7 @@ public class Test implements Executable {
      * Sets the name.
      * 
      * @param name
-     *                The name to set
+     *            The name to set
      */
     protected void setName(String name) {
         fieldName = name;

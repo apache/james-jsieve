@@ -30,7 +30,7 @@ import org.apache.jsieve.exception.LookupException;
 public class CommandManagerImpl implements CommandManager {
 
     private final Map classNameMap;
-    
+
     /**
      * Constructor for CommandManager.
      */
@@ -45,7 +45,7 @@ public class CommandManagerImpl implements CommandManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Command
+     *            The name of the Command
      * @return Class - The class of the Command
      * @throws LookupException
      */
@@ -70,7 +70,7 @@ public class CommandManagerImpl implements CommandManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Command
+     *            The name of the Command
      * @return Class - The class of the Command
      * @throws LookupException
      */
@@ -89,7 +89,7 @@ public class CommandManagerImpl implements CommandManager {
      * configured.
      * 
      * @param name -
-     *                The Command name
+     *            The Command name
      * @return boolean - True if the Command name is configured.
      */
     public boolean isCommandSupported(String name) {
@@ -109,7 +109,7 @@ public class CommandManagerImpl implements CommandManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Command
+     *            The name of the Command
      * @return String - The name of the class
      * @throws LookupException
      */

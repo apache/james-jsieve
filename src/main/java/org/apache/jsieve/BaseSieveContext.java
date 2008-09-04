@@ -31,17 +31,22 @@ import org.apache.jsieve.tests.ExecutableTest;
 public class BaseSieveContext extends SieveContext {
 
     private ScriptCoordinate coordinate;
+
     private ConditionManager conditionManager;
-    
+
     private final CommandStateManager commandStateManager;
+
     private final CommandManager commandManager;
+
     private final ComparatorManager comparatorManager;
+
     private final TestManager testManager;
+
     private final Log log;
-    
-    public BaseSieveContext(final CommandManager commandManager, final ComparatorManager comparatorManager,
-            final TestManager testManager, final Log log) 
-    {
+
+    public BaseSieveContext(final CommandManager commandManager,
+            final ComparatorManager comparatorManager,
+            final TestManager testManager, final Log log) {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
@@ -49,7 +54,7 @@ public class BaseSieveContext extends SieveContext {
         this.comparatorManager = comparatorManager;
         this.log = log;
     }
-    
+
     /**
      * Gets the script position of the current operation.
      * 
@@ -63,7 +68,7 @@ public class BaseSieveContext extends SieveContext {
      * Sets the script position of the current operation.
      * 
      * @param coordinate
-     *                <code>ScriptCoordinate</code>, not null
+     *            <code>ScriptCoordinate</code>, not null
      */
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;
@@ -71,9 +76,8 @@ public class BaseSieveContext extends SieveContext {
             coordinate.setLog(getLog());
         }
     }
-    
-    public CommandStateManager getCommandStateManager()
-    {
+
+    public CommandStateManager getCommandStateManager() {
         return commandStateManager;
     }
 

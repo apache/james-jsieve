@@ -25,12 +25,16 @@ package org.apache.jsieve.mail;
 public final class AddressImpl implements MailAdapter.Address {
 
     private final String localPart;
+
     private final String domain;
-    
+
     /**
      * Constructs an address.
-     * @param localPart the local part of the address
-     * @param domain the domain part of the address
+     * 
+     * @param localPart
+     *            the local part of the address
+     * @param domain
+     *            the domain part of the address
      */
     public AddressImpl(final String localPart, final String domain) {
         super();
@@ -40,6 +44,7 @@ public final class AddressImpl implements MailAdapter.Address {
 
     /**
      * Gets the domain of the address.
+     * 
      * @return domain
      */
     public String getDomain() {

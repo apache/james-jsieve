@@ -78,7 +78,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
      * 
      * @param node
      * @param data -
-     *                Assumes a List
+     *            Assumes a List
      * @return Object - A List
      * @throws SieveException
      */
@@ -169,7 +169,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
 
         context.setCoordinate(node.getCoordinate());
         final ScriptCoordinate coordinate = context.getCoordinate();
-        Command command = new Command(node.getName(), arguments, block, coordinate);
+        Command command = new Command(node.getName(), arguments, block,
+                coordinate);
         ((List) data).add(command);
         return data;
     }
@@ -225,13 +226,13 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         buffer.deleteCharAt(value.length() - 1);
         buffer.deleteCharAt(0);
         int i = 0;
-        while (i<buffer.length()) {
+        while (i < buffer.length()) {
             if ('\\' == buffer.charAt(i)) {
                 buffer.deleteCharAt(i);
             }
             i++;
         }
-        
+
         final String result = buffer.toString();
         // A String is terminal, add it
         ((List) data).add(result);

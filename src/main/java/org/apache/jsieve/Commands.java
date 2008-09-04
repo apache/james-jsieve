@@ -69,7 +69,7 @@ public class Commands implements Executable {
      * Sets the commands.
      * 
      * @param commands
-     *                The commands to set
+     *            The commands to set
      */
     protected void setChildren(List commands) {
         fieldChildren = commands;
@@ -78,7 +78,8 @@ public class Commands implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException {
         Iterator commandsIter = getChildren().iterator();
         while (commandsIter.hasNext())
             ((Executable) commandsIter.next()).execute(mail, context);

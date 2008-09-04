@@ -157,7 +157,7 @@ public class ConditionManager {
      * Sets the elseAllowed.
      * 
      * @param elseAllowed
-     *                The elseAllowed to set
+     *            The elseAllowed to set
      */
     protected void setElseAllowed(boolean elseAllowed) {
         fieldElseAllowed = elseAllowed;
@@ -167,7 +167,7 @@ public class ConditionManager {
      * Sets the testResult.
      * 
      * @param testResult
-     *                The testResult to set
+     *            The testResult to set
      */
     protected void setTestResult(boolean testResult) {
         fieldTestResult = testResult;

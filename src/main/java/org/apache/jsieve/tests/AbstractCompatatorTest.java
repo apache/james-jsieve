@@ -136,7 +136,8 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
 
         return match(mail, (addressPart == null ? ALL_TAG : addressPart),
                 (comparator == null ? ASCII_CASEMAP_COMPARATOR : comparator),
-                (matchType == null ? IS_TAG : matchType), headerNames, keys, context);
+                (matchType == null ? IS_TAG : matchType), headerNames, keys,
+                context);
     }
 
     /**
@@ -148,13 +149,14 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerNames
      * @param keys
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, List headerNames, List keys, SieveContext context)
-            throws SieveException {
+            String comparator, String matchType, List headerNames, List keys,
+            SieveContext context) throws SieveException {
         // Iterate over the header names looking for a match
         boolean isMatched = false;
         Iterator headerNamesIter = headerNames.iterator();
@@ -174,13 +176,14 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerName
      * @param keys
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, List keys, SieveContext context)
-            throws SieveException {
+            String comparator, String matchType, String headerName, List keys,
+            SieveContext context) throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
         Iterator keysIter = keys.iterator();
@@ -200,13 +203,14 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerName
      * @param key
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveMailException
      */
     protected abstract boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key, SieveContext context)
-            throws SieveException;
+            String comparator, String matchType, String headerName, String key,
+            SieveContext context) throws SieveException;
 
     /**
      * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,

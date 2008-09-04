@@ -66,7 +66,7 @@ public class Block implements Executable {
      * Sets the commands.
      * 
      * @param commands
-     *                The commands to set
+     *            The commands to set
      */
     protected void setChildren(Commands commands) {
         fieldChildren = commands;
@@ -75,7 +75,8 @@ public class Block implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException {
         return getChildren().execute(mail, context);
     }
 

@@ -37,7 +37,7 @@ public final class ScriptCoordinate {
     private final int endLineNumber;
 
     private final int endColumnNumber;
-    
+
     private Log log;
 
     public ScriptCoordinate(final int startLineNumber,
@@ -50,7 +50,6 @@ public final class ScriptCoordinate {
         this.endColumnNumber = endColumnNumber;
     }
 
-    
     public Log getLog() {
         return log;
     }
@@ -100,8 +99,8 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *                <code>CharSequence</code> containing the base message,
-     *                not null
+     *            <code>CharSequence</code> containing the base message, not
+     *            null
      * @return <code>SyntaxException</code> with details of the script
      *         position appended to the message, not null
      */
@@ -122,8 +121,8 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *                <code>CharSequence</code> containing the base message,
-     *                not null
+     *            <code>CharSequence</code> containing the base message, not
+     *            null
      * @return <code>CommandException</code> with details of the script
      *         position appended to the message, not null
      */
@@ -144,7 +143,7 @@ public final class ScriptCoordinate {
      * should end with a full stop.
      * 
      * @param message
-     *                <code>CharSequence</code> message, not null
+     *            <code>CharSequence</code> message, not null
      * @return <code>String</code> containing the original message with
      *         positional phrase appended, not null
      */
@@ -167,7 +166,7 @@ public final class ScriptCoordinate {
      * Logs diagnotic information about the script coordinate.
      * 
      * @param logger
-     *                <code>Log</code>, not null
+     *            <code>Log</code>, not null
      */
     public void logDiagnosticsInfo(Log logger) {
         if (logger.isInfoEnabled()) {
@@ -182,7 +181,7 @@ public final class ScriptCoordinate {
      * Logs diagnotic information about the script coordinate.
      * 
      * @param logger
-     *                <code>Log</code>, not null
+     *            <code>Log</code>, not null
      */
     public void debugDiagnostics(Log logger) {
         if (logger.isDebugEnabled()) {

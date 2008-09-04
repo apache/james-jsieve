@@ -63,7 +63,7 @@ public class ActionReject implements Action {
      * Sets the message explaining the reason for rejection.
      * 
      * @param message
-     *                The message to set
+     *            The message to set
      */
     protected void setMessage(String message) {
         fieldMessage = message;

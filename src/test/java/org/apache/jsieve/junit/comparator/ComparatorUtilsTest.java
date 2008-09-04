@@ -42,18 +42,17 @@ public class ComparatorUtilsTest extends TestCase {
                 sievematch));
         assertFalse(ComparatorUtils.matches("[test] a\\xafoo\\bar*\\",
                 sievematch));
-        assertTrue(ComparatorUtils.matches("[test] a\\x?\\bar*\\", 
-                sievematch));
+        assertTrue(ComparatorUtils.matches("[test] a\\x?\\bar*\\", sievematch));
         assertTrue(ComparatorUtils.matches("[test] a\\x?foo\\\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\x?foobar*\\", 
-                sievematch));
+        assertFalse(ComparatorUtils
+                .matches("[test] a\\x?foobar*\\", sievematch));
         assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar.\\",
                 sievematch));
         assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar*\\\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar*", 
-                sievematch));
+        assertFalse(ComparatorUtils
+                .matches("[test] a\\x?foo\\bar*", sievematch));
     }
 
     /**

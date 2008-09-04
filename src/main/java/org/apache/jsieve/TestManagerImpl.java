@@ -31,7 +31,7 @@ import org.apache.jsieve.tests.ExecutableTest;
 public class TestManagerImpl implements TestManager {
 
     private final Map classNameMap;
-    
+
     /**
      * TestManager is instanciated with getInstance
      */
@@ -46,7 +46,7 @@ public class TestManagerImpl implements TestManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Test
+     *            The name of the Test
      * @return Class - The class of the Test
      * @throws LookupException
      */
@@ -72,7 +72,7 @@ public class TestManagerImpl implements TestManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Test
+     *            The name of the Test
      * @return Class - The class of the Test
      * @throws LookupException
      */
@@ -93,7 +93,7 @@ public class TestManagerImpl implements TestManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Test
+     *            The name of the Test
      * @return String - The name of the class
      * @throws LookupException
      */

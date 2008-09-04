@@ -66,7 +66,7 @@ public class SieveAddressBuilder {
      * Adds addresses in the given list.
      * 
      * @param addressList
-     *                RFC822 address list
+     *            RFC822 address list
      * @throws ParseException
      */
     public void addAddresses(String addressList) throws ParseException {

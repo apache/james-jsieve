@@ -72,7 +72,7 @@ public class SieveNode {
      * Sets the name.
      * 
      * @param name
-     *                The name to set
+     *            The name to set
      */
     public void setName(String name) {
         fieldName = name;
@@ -82,7 +82,7 @@ public class SieveNode {
      * Sets the value.
      * 
      * @param value
-     *                The value to set
+     *            The value to set
      */
     public void setValue(Object value) {
         fieldValue = value;
@@ -101,7 +101,7 @@ public class SieveNode {
      * Sets the first token comprising this node.
      * 
      * @param firstToken
-     *                <code>Token</code>, not null
+     *            <code>Token</code>, not null
      */
     public void setFirstToken(Token firstToken) {
         this.firstToken = firstToken;
@@ -120,7 +120,7 @@ public class SieveNode {
      * Sets the last token comprising this node.
      * 
      * @param lastToken
-     *                <code>Token</code>, not null
+     *            <code>Token</code>, not null
      */
     public void setLastToken(Token lastToken) {
         this.lastToken = lastToken;

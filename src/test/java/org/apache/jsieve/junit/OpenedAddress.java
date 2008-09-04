@@ -27,8 +27,8 @@ import org.apache.jsieve.tests.Address;
 final class OpenedAddress extends Address {
 
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, String key, SieveContext context)
-            throws SieveException {
+            String comparator, String matchType, String headerName, String key,
+            SieveContext context) throws SieveException {
         return super.match(mail, addressPart, comparator, matchType,
                 headerName, key, context);
     }

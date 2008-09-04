@@ -120,7 +120,7 @@ public class Arguments {
      * Sets the arguments.
      * 
      * @param arguments
-     *                The arguments to set
+     *            The arguments to set
      */
     protected void setArgumentList(List arguments) {
         fieldArgumentList = arguments;
@@ -130,7 +130,7 @@ public class Arguments {
      * Sets the testList.
      * 
      * @param testList
-     *                The testList to set
+     *            The testList to set
      */
     protected void setTestList(TestList testList) {
         fieldTestList = testList;

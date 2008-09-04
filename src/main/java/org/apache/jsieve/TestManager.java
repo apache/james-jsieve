@@ -23,8 +23,7 @@ import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Maps Test names to configured Test
- * implementation classes.
+ * Maps Test names to configured Test implementation classes.
  */
 public interface TestManager {
 
@@ -35,7 +34,7 @@ public interface TestManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Test
+     *            The name of the Test
      * @return Class - The class of the Test
      * @throws LookupException
      */

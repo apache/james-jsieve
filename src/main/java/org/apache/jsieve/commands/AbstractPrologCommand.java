@@ -45,7 +45,8 @@ public abstract class AbstractPrologCommand extends AbstractCommand {
      * </p>
      * 
      * <p>
-     * Also,</p>
+     * Also,
+     * </p>
      * 
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */

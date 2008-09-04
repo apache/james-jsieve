@@ -23,11 +23,10 @@ import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Maps Comparator names to
- * configured Comparator implementation classes.
+ * Maps Comparator names to configured Comparator implementation classes.
  */
 public interface ComparatorManager {
-   
+
     /**
      * <p>
      * Method newInstance answers an instance of the class to which a Comparator
@@ -35,7 +34,7 @@ public interface ComparatorManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Comparator
+     *            The name of the Comparator
      * @return Class - The class of the Comparator
      * @throws LookupException
      */

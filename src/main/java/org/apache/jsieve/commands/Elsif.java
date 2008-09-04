@@ -62,7 +62,8 @@ public class Elsif extends AbstractConditionalCommand {
             return Boolean.FALSE;
 
         // Run the tests
-        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail, context);
+        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail,
+                context);
 
         // If the tests answered TRUE, execute the Block
         if (isTestPassed.booleanValue())

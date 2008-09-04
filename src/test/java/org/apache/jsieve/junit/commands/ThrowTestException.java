@@ -17,7 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 
-
 package org.apache.jsieve.junit.commands;
 
 import org.apache.jsieve.Arguments;
@@ -30,67 +29,64 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class ThrowTestException implements a Sieve Command to throw a TestException.
  */
-public class ThrowTestException implements ExecutableCommand
-{
+public class ThrowTestException implements ExecutableCommand {
 
     /**
      * Class TestException
      */
-    public class TestException extends SieveException
-    {
+    public class TestException extends SieveException {
 
         /**
          * Constructor for TestException.
          */
-        public TestException()
-        {
+        public TestException() {
             super();
         }
 
         /**
          * Constructor for TestException.
+         * 
          * @param message
          */
-        public TestException(String message)
-        {
+        public TestException(String message) {
             super(message);
         }
 
         /**
          * Constructor for TestException.
+         * 
          * @param message
          * @param cause
          */
-        public TestException(String message, Throwable cause)
-        {
+        public TestException(String message, Throwable cause) {
             super(message, cause);
         }
 
         /**
          * Constructor for TestException.
+         * 
          * @param cause
          */
-        public TestException(Throwable cause)
-        {
+        public TestException(Throwable cause) {
             super(cause);
         }
 
     }
+
     /**
      * Constructor for ThrowTestException.
      */
-    public ThrowTestException()
-    {
+    public ThrowTestException() {
         super();
     }
 
     /**
-     * @see org.apache.jsieve.ExecutableCommand#execute(MailAdapter, Arguments, Block, SieveContext)
+     * @see org.apache.jsieve.ExecutableCommand#execute(MailAdapter, Arguments,
+     *      Block, SieveContext)
      */
-    public Object execute(MailAdapter mail, Arguments arguments, Block block, SieveContext context)
-        throws SieveException
-    {
+    public Object execute(MailAdapter mail, Arguments arguments, Block block,
+            SieveContext context) throws SieveException {
         throw new TestException();
     }
-    
+
 }

@@ -19,12 +19,12 @@
 
 package org.apache.jsieve.junit;
 
+import junit.framework.TestCase;
+
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.junit.utils.JUnitUtils;
 import org.apache.jsieve.parser.generated.ParseException;
-
-import junit.framework.TestCase;
 
 /**
  * Class RequireTest
@@ -58,7 +58,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' with multiple commands that are present
      */
-    public void testMultipleCommandSatisfied()  throws Exception {
+    public void testMultipleCommandSatisfied() throws Exception {
         String script = "require [\"if\", \"elsif\", \"else\"];";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
@@ -112,7 +112,7 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } 
+        }
         assertTrue(isTestPassed);
     }
 
@@ -134,7 +134,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' rejecting Blocks
      */
-    public void testRejectBlock()  throws Exception {
+    public void testRejectBlock() throws Exception {
         boolean isTestPassed = false;
         String script = "require \"if\" {stop;}";
 
@@ -142,7 +142,7 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (SyntaxException e) {
             isTestPassed = true;
-        } 
+        }
         assertTrue(isTestPassed);
     }
 
@@ -180,7 +180,7 @@ public class RequireTest extends TestCase {
      * Test for Command 'require' with a multiple commands of which one is
      * absent
      */
-    public void testMultipleCommandsUnsatisfied()  throws Exception {
+    public void testMultipleCommandsUnsatisfied() throws Exception {
         boolean isTestPassed = false;
         String script = "require [\"if\", \"elsif\", \"absent\"];";
 
@@ -195,7 +195,7 @@ public class RequireTest extends TestCase {
     /**
      * Test for Command 'require' with a multiple tests of which one is absent
      */
-    public void testMultipleTestsUnsatisfied()  throws Exception {
+    public void testMultipleTestsUnsatisfied() throws Exception {
         boolean isTestPassed = false;
         String script = "require [\"true\", \"false\", \"absent\"];";
 
@@ -203,7 +203,7 @@ public class RequireTest extends TestCase {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
         } catch (ParseException e) {
             isTestPassed = true;
-        } 
+        }
         assertTrue(isTestPassed);
     }
 

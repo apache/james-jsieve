@@ -70,7 +70,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * execution.
      * 
      * @param mail
-     *                <code>Message</code>, possibly null
+     *            <code>Message</code>, possibly null
      */
     public void setMail(Message mail) {
         this.mail = mail;
@@ -285,16 +285,16 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * Parses the value from the given message into addresses.
      * 
      * @param headerName
-     *                header name, to be matched case insensitively
+     *            header name, to be matched case insensitively
      * @param message
-     *                <code>Message</code>, not null
+     *            <code>Message</code>, not null
      * @return <code>Address</code> array, not null possibly empty
      * @throws SieveMailException
      */
     public Address[] parseAddresses(final String headerName,
             final Message message) throws SieveMailException {
         try {
-           final SieveAddressBuilder builder = new SieveAddressBuilder();
+            final SieveAddressBuilder builder = new SieveAddressBuilder();
 
             for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
                 final Header header = (Header) en.nextElement();
@@ -308,7 +308,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             return results;
 
         } catch (MessagingException ex) {
-           throw new SieveMailException(ex);
+            throw new SieveMailException(ex);
         } catch (org.apache.jsieve.parser.generated.address.ParseException ex) {
             throw new SieveMailException(ex);
         }

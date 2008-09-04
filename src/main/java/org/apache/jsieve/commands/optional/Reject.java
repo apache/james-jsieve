@@ -74,7 +74,8 @@ public class Reject extends AbstractActionCommand {
     /**
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
-    protected void validateState(final SieveContext context) throws CommandException {
+    protected void validateState(final SieveContext context)
+            throws CommandException {
         super.validateState(context);
 
         if (context.getCommandStateManager().isHasActions())

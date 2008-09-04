@@ -34,6 +34,7 @@ public class AddressParseTest extends TestCase {
     private static final String SOLO_ADDRESS_VALUES = "coyote@desert.example.org";
 
     BaseSieveContext context;
+
     SieveMailAdapter mail;
 
     OpenedAddress address;
@@ -41,9 +42,11 @@ public class AddressParseTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         ConfigurationManager configurationManager = new ConfigurationManager();
-        context = new BaseSieveContext(configurationManager.getCommandManager(), configurationManager.getComparatorManager(), 
-                configurationManager.getTestManager(),
-                LogFactory.getLog(AddressParseTest.class));
+        context = new BaseSieveContext(
+                configurationManager.getCommandManager(), configurationManager
+                        .getComparatorManager(), configurationManager
+                        .getTestManager(), LogFactory
+                        .getLog(AddressParseTest.class));
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }

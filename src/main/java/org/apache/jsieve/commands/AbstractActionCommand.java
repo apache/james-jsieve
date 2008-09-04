@@ -46,7 +46,10 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * Action Command has been processed and to cancel implicit keep.
      * </p>
      * 
-     * <p>And also</p>
+     * <p>
+     * And also
+     * </p>
+     * 
      * @see org.apache.jsieve.commands.AbstractCommand#updateState(SieveContext)
      */
     protected void updateState(SieveContext context) {
@@ -61,7 +64,10 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * Action Command is legal at this time.
      * </p>
      * 
-     * <p>Also,</p>
+     * <p>
+     * Also,
+     * </p>
+     * 
      * @see org.apache.jsieve.commands.AbstractCommand#validateState(SieveContext)
      */
     protected void validateState(SieveContext context) throws CommandException {
@@ -77,17 +83,21 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      * @see org.apache.jsieve.commands.optional.FileInto
      * @see org.apache.jsieve.commands.optional.Reject
      */
-    protected void validateSingleStringArguments(Arguments arguments, SieveContext context) throws SieveException {
+    protected void validateSingleStringArguments(Arguments arguments,
+            SieveContext context) throws SieveException {
         List args = arguments.getArgumentList();
         if (args.size() != 1)
-            throw context.getCoordinate().syntaxException("Exactly 1 argument permitted. Found " + args.size());
+            throw context.getCoordinate().syntaxException(
+                    "Exactly 1 argument permitted. Found " + args.size());
 
-        Object argument = args.get(0); 
+        Object argument = args.get(0);
         if (!(argument instanceof StringListArgument))
-            throw context.getCoordinate().syntaxException("Expecting a string-list");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a string-list");
 
         if (1 != ((StringListArgument) argument).getList().size())
-            throw context.getCoordinate().syntaxException("Expecting exactly one argument");
+            throw context.getCoordinate().syntaxException(
+                    "Expecting exactly one argument");
     }
 
 }

@@ -72,11 +72,12 @@ public class Require extends AbstractPrologCommand {
      * 
      * @param name
      * @param mail
-     * @param context TODO
+     * @param context
+     *            TODO
      * @throws FeatureException
      */
-    protected void validateFeature(String name, MailAdapter mail, SieveContext context)
-            throws FeatureException {
+    protected void validateFeature(String name, MailAdapter mail,
+            SieveContext context) throws FeatureException {
         // Validate as a Command
         try {
             validateCommand(name, context);
@@ -100,7 +101,8 @@ public class Require extends AbstractPrologCommand {
      * @param name
      * @throws LookupException
      */
-    protected void validateCommand(String name, SieveContext context) throws LookupException {
+    protected void validateCommand(String name, SieveContext context)
+            throws LookupException {
         context.getCommand(name);
     }
 
@@ -108,10 +110,12 @@ public class Require extends AbstractPrologCommand {
      * Method validateTest.
      * 
      * @param name
-     * @param context TODO
+     * @param context
+     *            TODO
      * @throws LookupException
      */
-    protected void validateTest(String name, SieveContext context) throws LookupException {
+    protected void validateTest(String name, SieveContext context)
+            throws LookupException {
         context.getTest(name);
     }
 

@@ -30,14 +30,14 @@ public interface ExecutableCommand {
      * Method execute executes a Sieve Command.
      * 
      * @param mail -
-     *                The mail against which the Command is executed.
+     *            The mail against which the Command is executed.
      * @param arguments -
-     *                The Command arguments
+     *            The Command arguments
      * @param block -
-     *                An optional Block to be evaluated
+     *            An optional Block to be evaluated
      * @param context
-     *                <code>SieveContext</code> containing contextual
-     *                information, not null
+     *            <code>SieveContext</code> containing contextual information,
+     *            not null
      * @return Object - The result of evaluating the Command
      * @throws SieveException
      */

@@ -35,8 +35,8 @@ public interface ExecutableTest {
      * @param mail
      * @param arguments
      * @param context
-     *                <code>SieveContext</code> giving contextual information,
-     *                not null
+     *            <code>SieveContext</code> giving contextual information, not
+     *            null
      * @return boolean
      * @throws SieveException
      */

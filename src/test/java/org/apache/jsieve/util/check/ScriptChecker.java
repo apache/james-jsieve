@@ -29,7 +29,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.jsieve.ConfigurationManager;
-import org.apache.jsieve.SieveFactory;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
@@ -54,10 +53,10 @@ public class ScriptChecker {
      * executing it against the given message.
      * 
      * @param message
-     *                <code>File</code> containing the mail message to be fed
-     *                to the script, not null
+     *            <code>File</code> containing the mail message to be fed to
+     *            the script, not null
      * @param script
-     *                <code>File</code> containing the script to be checked
+     *            <code>File</code> containing the script to be checked
      * @return <code>Results</code> of that execution
      * @throws IOException
      * @throws MessageException
@@ -75,7 +74,7 @@ public class ScriptChecker {
      * executing it against the given message.
      * 
      * @param script
-     *                <code>InputStream</code>, not null
+     *            <code>InputStream</code>, not null
      * @return <code>Results</code> of the check, not null
      * @throws IOException
      * @throws MessagingException

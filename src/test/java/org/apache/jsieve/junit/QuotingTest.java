@@ -29,8 +29,9 @@ public class QuotingTest extends TestCase {
 
     public void testQuoteInQuotedString() throws Exception {
         String script = "if header :is \"X-Test\" \"Before\\\"After\" {throwTestException;}";
-        
-        final SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+
+        final SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils
+                .createMail();
         mail.getMessage().addHeader("X-Test", "Before\"After");
         try {
             JUnitUtils.interpret(mail, script);

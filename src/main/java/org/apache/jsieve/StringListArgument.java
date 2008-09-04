@@ -82,7 +82,7 @@ public class StringListArgument implements Argument {
      * Sets the list.
      * 
      * @param list
-     *                The list to set
+     *            The list to set
      */
     protected void setList(List list) {
         fieldList = list;

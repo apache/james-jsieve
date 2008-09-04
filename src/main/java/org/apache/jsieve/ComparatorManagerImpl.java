@@ -29,7 +29,7 @@ import org.apache.jsieve.exception.LookupException;
  * configured Comparator implementation classes.
  */
 public class ComparatorManagerImpl implements ComparatorManager {
-    
+
     private final Map classNameMap;
 
     /**
@@ -46,7 +46,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Comparator
+     *            The name of the Comparator
      * @return Class - The class of the Comparator
      * @throws LookupException
      */
@@ -72,7 +72,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Comparator
+     *            The name of the Comparator
      * @return Class - The class of the Comparator
      * @throws LookupException
      */
@@ -93,7 +93,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Comparator
+     *            The name of the Comparator
      * @return String - The name of the class
      * @throws LookupException
      */

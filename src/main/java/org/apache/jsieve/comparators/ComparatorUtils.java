@@ -49,18 +49,22 @@ public class ComparatorUtils implements MatchTypeTags {
      * @param matchType
      * @param matchTarget
      * @param matchArgument
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      */
     public static boolean match(String comparatorName, String matchType,
-            String matchTarget, String matchArgument, SieveContext context) throws SieveException {
+            String matchTarget, String matchArgument, SieveContext context)
+            throws SieveException {
         boolean isMatched = false;
         if (matchType.equals(IS_TAG))
             isMatched = is(comparatorName, matchTarget, matchArgument, context);
         else if (matchType.equals(CONTAINS_TAG))
-            isMatched = contains(comparatorName, matchTarget, matchArgument, context);
+            isMatched = contains(comparatorName, matchTarget, matchArgument,
+                    context);
         else if (matchType.equals(MATCHES_TAG))
-            isMatched = matches(comparatorName, matchTarget, matchArgument, context);
+            isMatched = matches(comparatorName, matchTarget, matchArgument,
+                    context);
         return isMatched;
     }
 
@@ -80,8 +84,7 @@ public class ComparatorUtils implements MatchTypeTags {
         // TODO Is there a way to re-use the compiled pattern?
         try {
             String regex = sieveToJavaRegex(glob);
-            return Pattern.compile(regex).matcher(
-                    string).matches();
+            return Pattern.compile(regex).matcher(string).matches();
         } catch (PatternSyntaxException e) {
             throw new SievePatternException(e.getMessage());
         }
@@ -178,8 +181,7 @@ public class ComparatorUtils implements MatchTypeTags {
      */
     public static boolean contains(String comparatorName, String container,
             String contents, SieveContext context) throws LookupException {
-        Contains comparatorObj =  context.getComparator(
-                comparatorName);
+        Contains comparatorObj = context.getComparator(comparatorName);
         return comparatorObj.contains(container, contents);
     }
 
@@ -195,8 +197,7 @@ public class ComparatorUtils implements MatchTypeTags {
      */
     public static boolean is(String comparatorName, String string1,
             String string2, SieveContext context) throws LookupException {
-        Equals comparatorObj = context.getComparator(
-                comparatorName);
+        Equals comparatorObj = context.getComparator(comparatorName);
         return comparatorObj.equals(string1, string2);
     }
 

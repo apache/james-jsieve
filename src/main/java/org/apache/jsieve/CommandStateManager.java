@@ -94,7 +94,7 @@ public class CommandStateManager {
      * Sets the hasActions.
      * 
      * @param hasActions
-     *                The hasActions to set
+     *            The hasActions to set
      */
     public void setHasActions(boolean hasActions) {
         fieldHasActions = hasActions;
@@ -104,7 +104,7 @@ public class CommandStateManager {
      * Sets the inProlog.
      * 
      * @param inProlog
-     *                The inProlog to set
+     *            The inProlog to set
      */
     public void setInProlog(boolean inProlog) {
         fieldInProlog = inProlog;
@@ -114,7 +114,7 @@ public class CommandStateManager {
      * Sets the isRejected.
      * 
      * @param isRejected
-     *                The isRejected to set
+     *            The isRejected to set
      */
     public void setRejected(boolean isRejected) {
         fieldRejected = isRejected;
@@ -133,7 +133,7 @@ public class CommandStateManager {
      * Sets the implicitKeep.
      * 
      * @param implicitKeep
-     *                The implicitKeep to set
+     *            The implicitKeep to set
      */
     public void setImplicitKeep(boolean implicitKeep) {
         fieldImplicitKeep = implicitKeep;

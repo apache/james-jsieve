@@ -46,8 +46,8 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * or extend this method to perform their own validation as appropriate.
      * 
      * @param context
-     *                <code>SieveContext</code> giving contextual information,
-     *                not null
+     *            <code>SieveContext</code> giving contextual information, not
+     *            null
      * @throws CommandException
      */
     protected void validateState(SieveContext context) throws CommandException {
@@ -57,7 +57,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * Framework method updateState is invoked after a Sieve Command has
      * executed to update the Sieve state. Subclass methods are expected to
      * override or extend this method to update state as appropriate.
-     * @param context TODO
+     * 
+     * @param context
+     *            TODO
      */
     protected void updateState(SieveContext context) {
     }
@@ -70,8 +72,8 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * 
      * @param arguments
      * @param context
-     *                <code>SieveContext</code> giving contextual information,
-     *                not null
+     *            <code>SieveContext</code> giving contextual information, not
+     *            null
      * @throws SieveException
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
@@ -88,8 +90,8 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * 
      * @param block
      * @param context
-     *                <code>ScriptCoordinate</code> giving positional
-     *                information, not null
+     *            <code>ScriptCoordinate</code> giving positional information,
+     *            not null
      * @throws SieveException
      */
     protected void validateBlock(Block block, SieveContext context)
@@ -107,7 +109,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * framework method is invoked to update the state.
      * </p>
      * 
-     * <p>Also,</p>
+     * <p>
+     * Also,
+     * </p>
      * 
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
@@ -128,8 +132,8 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * @param arguments
      * @param block
      * @param context
-     *                <code>SieveContext</code> giving contextual information,
-     *                not null
+     *            <code>SieveContext</code> giving contextual information, not
+     *            null
      * @return Object
      * @throws SieveException
      */

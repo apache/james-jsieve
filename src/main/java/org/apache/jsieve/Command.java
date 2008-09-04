@@ -31,7 +31,7 @@ import org.apache.jsieve.mail.MailAdapter;
  * <code>command = identifier arguments ( ";" / block )</code>
  */
 public class Command implements Executable {
-    
+
     /** The name of this Command */
     private String fieldName;
 
@@ -84,7 +84,7 @@ public class Command implements Executable {
      * Sets the name.
      * 
      * @param name
-     *                The name to set
+     *            The name to set
      */
     protected void setName(String name) {
         fieldName = name;
@@ -124,7 +124,7 @@ public class Command implements Executable {
      * Sets the arguments.
      * 
      * @param arguments
-     *                The arguments to set
+     *            The arguments to set
      */
     protected void setArguments(Arguments arguments) {
         fieldArguments = arguments;
@@ -134,16 +134,17 @@ public class Command implements Executable {
      * Sets the block.
      * 
      * @param block
-     *                The block to set
+     *            The block to set
      */
     protected void setBlock(Block block) {
         fieldBlock = block;
     }
-    
+
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException {
         Log log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
@@ -154,8 +155,8 @@ public class Command implements Executable {
         // so need to use the coordinate recorded from the parse
         context.setCoordinate(coordinate);
         final ExecutableCommand executable = context.getCommand(getName());
-        final Object result = executable.execute(
-                        mail, getArguments(), getBlock(), context);
+        final Object result = executable.execute(mail, getArguments(),
+                getBlock(), context);
         return result;
     }
 }

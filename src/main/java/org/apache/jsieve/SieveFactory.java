@@ -60,14 +60,18 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 public class SieveFactory {
 
     private final CommandManager commandManager;
+
     private final ComparatorManager comparatorManager;
+
     private final TestManager testManager;
+
     private final Log log;
-    
+
     /**
      * Constructor for SieveFactory.
      */
-    public SieveFactory(final CommandManager commandManager, final ComparatorManager comparatorManager,
+    public SieveFactory(final CommandManager commandManager,
+            final ComparatorManager comparatorManager,
             final TestManager testManager, final Log log) {
         super();
         this.commandManager = commandManager;
@@ -89,8 +93,10 @@ public class SieveFactory {
      */
     public Node parse(InputStream inputStream) throws ParseException {
         try {
-            final SimpleNode node = new SieveParser(inputStream, "UTF-8").start();
-            SieveValidationVisitor visitor = new SieveValidationVisitor(commandManager, testManager);
+            final SimpleNode node = new SieveParser(inputStream, "UTF-8")
+                    .start();
+            SieveValidationVisitor visitor = new SieveValidationVisitor(
+                    commandManager, testManager);
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
@@ -130,7 +136,8 @@ public class SieveFactory {
      */
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
-        SieveContext context = new BaseSieveContext(commandManager, comparatorManager, testManager, log);
+        SieveContext context = new BaseSieveContext(commandManager,
+                comparatorManager, testManager, log);
         SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {
             // Evaluate the Nodes

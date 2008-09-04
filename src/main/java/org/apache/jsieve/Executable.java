@@ -26,6 +26,7 @@ import org.apache.jsieve.mail.MailAdapter;
  * Interface for an Executable operation.
  */
 public interface Executable {
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException;
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException;
 
 }

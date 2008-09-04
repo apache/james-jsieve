@@ -38,19 +38,21 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  ****************************************************************/
 
 /**
- * Validates nodes visited.
- * Some checks are more conveniently carried out what then 
- * tree has already been constructed.
+ * Validates nodes visited. Some checks are more conveniently carried out what
+ * then tree has already been constructed.
  */
 public class SieveValidationVisitor implements SieveParserVisitor {
 
     private final CommandManager commandManager;
+
     private final TestManager testManager;
-    
+
     private boolean requireAllowed = true;
+
     private boolean isInRequire = false;
-    
-    protected SieveValidationVisitor(final CommandManager commandManager, final TestManager testManager) {
+
+    protected SieveValidationVisitor(final CommandManager commandManager,
+            final TestManager testManager) {
         super();
         this.commandManager = commandManager;
         this.testManager = testManager;
@@ -60,7 +62,8 @@ public class SieveValidationVisitor implements SieveParserVisitor {
         return visitNode(node, data);
     }
 
-    private Object visitNode(SimpleNode node, Object data) throws SieveException {
+    private Object visitNode(SimpleNode node, Object data)
+            throws SieveException {
         List children = new ArrayList(node.jjtGetNumChildren());
         node.childrenAccept(this, children);
         return data;
@@ -81,7 +84,8 @@ public class SieveValidationVisitor implements SieveParserVisitor {
             if (requireAllowed) {
                 isInRequire = true;
             } else {
-                throw new SieveException("'require' is only allowed before other commands");
+                throw new SieveException(
+                        "'require' is only allowed before other commands");
             }
         } else {
             requireAllowed = false;
@@ -116,11 +120,12 @@ public class SieveValidationVisitor implements SieveParserVisitor {
             final Object value = node.getValue();
             if (value != null && value instanceof String) {
                 final String quotedName = (String) value;
-                final String name = quotedName.substring(1, quotedName.length()-1);
+                final String name = quotedName.substring(1,
+                        quotedName.length() - 1);
                 try {
                     commandManager.getCommand(name);
                 } catch (LookupException e) {
-                    //TODO: catching is inefficient, should just check
+                    // TODO: catching is inefficient, should just check
                     testManager.getTest(name);
                 }
             }

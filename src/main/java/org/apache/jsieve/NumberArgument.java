@@ -62,7 +62,7 @@ public class NumberArgument implements Argument {
      * Sets the value of the reciver to an Integer.
      * 
      * @param number
-     *                The value to set
+     *            The value to set
      */
     protected void setValue(Integer number) {
         fieldValue = number;
@@ -88,7 +88,7 @@ public class NumberArgument implements Argument {
      * Sets the value of the receiver from a Token.
      * 
      * @param aToken
-     *                The Token from which to extract the value to set
+     *            The Token from which to extract the value to set
      */
     protected void setValue(Token aToken) {
         int endIndex = aToken.image.length();

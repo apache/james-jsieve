@@ -28,18 +28,11 @@ public class MultipleRequireTest extends TestCase {
 
     private static final String MINIMAL_SIEVE = "require [\"fileinto\", \"reject\"];\n";
 
-    private static final String MULTIPLE_REQUIRED_SIEVE = "# \n" +
-            "# Start with some comments\n" +
-            "# Whatever\n" +
-            "#\n" +
-            "\n" +
-            MINIMAL_SIEVE +
-            "\n" +
-            "#\n" +
-            "# Lets have some more comments\n" +
-            "#\n" +
-            "\n";
-    
+    private static final String MULTIPLE_REQUIRED_SIEVE = "# \n"
+            + "# Start with some comments\n" + "# Whatever\n" + "#\n" + "\n"
+            + MINIMAL_SIEVE + "\n" + "#\n" + "# Lets have some more comments\n"
+            + "#\n" + "\n";
+
     MailAdapter mail;
 
     protected void setUp() throws Exception {

@@ -74,7 +74,7 @@ public class TagArgument implements Argument {
      * Sets the tag.
      * 
      * @param tag
-     *                The tag to set
+     *            The tag to set
      */
     protected void setTag(String tag) {
         fieldTag = tag;

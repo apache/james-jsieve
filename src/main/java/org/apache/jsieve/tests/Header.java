@@ -148,7 +148,8 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerNames
      * @param keys
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveException
      */
@@ -160,7 +161,8 @@ public class Header extends AbstractTest implements ComparatorTags,
         Iterator headerNamesIter = headerNames.iterator();
         while (!isMatched && headerNamesIter.hasNext()) {
             isMatched = match(comparator, matchType, mail
-                    .getMatchingHeader((String) headerNamesIter.next()), keys, context);
+                    .getMatchingHeader((String) headerNamesIter.next()), keys,
+                    context);
         }
         return isMatched;
     }
@@ -172,12 +174,14 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValues
      * @param keys
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            List headerValues, List keys, SieveContext context) throws SieveException {
+            List headerValues, List keys, SieveContext context)
+            throws SieveException {
         // Special case for empty values
         // If the matchType is :contains
         // add the headerValue of a null string
@@ -208,12 +212,14 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValue
      * @param keys
-     * @param context TODO
+     * @param context
+     *            TODO
      * @return boolean
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            String headerValue, List keys, SieveContext context) throws SieveException {
+            String headerValue, List keys, SieveContext context)
+            throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
         Iterator keysIter = keys.iterator();

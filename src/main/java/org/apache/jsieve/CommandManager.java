@@ -33,7 +33,7 @@ public interface CommandManager {
      * </p>
      * 
      * @param name -
-     *                The name of the Command
+     *            The name of the Command
      * @return Class - The class of the Command
      * @throws LookupException
      */
@@ -44,7 +44,7 @@ public interface CommandManager {
      * configured.
      * 
      * @param name -
-     *                The Command name
+     *            The Command name
      * @return boolean - True if the Command name is configured.
      */
     public boolean isCommandSupported(String name);

@@ -50,7 +50,7 @@ public class TestList implements Executable {
      * Constructor for TestList.
      * 
      * @param children -
-     *                A List of Tests
+     *            A List of Tests
      */
     public TestList(List children) {
         this();
@@ -61,7 +61,7 @@ public class TestList implements Executable {
      * Constructor for TestList.
      * 
      * @param child -
-     *                A Test
+     *            A Test
      */
     public TestList(Test child) {
         this();
@@ -73,13 +73,14 @@ public class TestList implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+    public Object execute(MailAdapter mail, SieveContext context)
+            throws SieveException {
         boolean result = true;
 
         Iterator testsIter = getTests().iterator();
         while (result && testsIter.hasNext()) {
-            result = ((Boolean) ((Test) testsIter.next()).execute(mail, context))
-                    .booleanValue();
+            result = ((Boolean) ((Test) testsIter.next())
+                    .execute(mail, context)).booleanValue();
         }
         return new Boolean(result);
     }
@@ -97,7 +98,7 @@ public class TestList implements Executable {
      * Sets the children.
      * 
      * @param children
-     *                The children to set
+     *            The children to set
      */
     protected void setTests(List children) {
         fieldTests = children;

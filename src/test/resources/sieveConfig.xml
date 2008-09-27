@@ -70,7 +70,7 @@
         <!-- JUnit Commands for Testing -->       
         <entry>
             <name>throwtestexception</name>
-            <class>org.apache.jsieve.junit.commands.ThrowTestException</class>
+            <class>org.apache.jsieve.commands.ThrowTestException</class>
         </entry>
         
         <!-- Extension Commands -->       

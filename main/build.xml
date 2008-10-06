@@ -32,8 +32,8 @@
     -->
     <property file=".ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-    <property file="include.properties"/>
-    <property file="default.properties"/>
+    <property file="../include.properties"/>
+    <property file="../default.properties"/>
 
     <!--
     ===================================================================
@@ -227,7 +227,12 @@
         <fileset dir="${java.dir}">
           <include name="**/*.properties"/>
         </fileset>
-      </copy>   
+      </copy>  
+        <copy todir="${build.classes.test}">
+          <fileset dir="${testconf.dir}">
+            <include name="**/*.properties"/>
+          </fileset>
+        </copy>   
       <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
       <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
     </target>
@@ -374,6 +379,7 @@
             <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/>
             -->
             <classpath id="junit.class.path">
+            	<pathelement location="${testconf.dir}"/>
                 <fileset dir="${dist.dir}/lib">
                     <include name="**/*.jar"/>
                 </fileset>

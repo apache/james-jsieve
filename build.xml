@@ -34,7 +34,8 @@
         <attribute name='dir' default='.'/>   
         <sequential>
             <subant target='@{do}'>
-                <fileset dir='@{dir}' includes='main/build.xml'/>   
+                <fileset dir='@{dir}' includes='main/build.xml'/>
+                <fileset dir='@{dir}' includes='samples/build.xml'/>   
             </subant>   
         </sequential>   
     </macrodef>

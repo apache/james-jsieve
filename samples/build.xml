@@ -175,7 +175,8 @@
             >
         <classpath refid="project.test.class.path"/>
         <src path="${test.dir}"/>
-        <include name="org/apache/jsieve/**"/>
+        <!--<include name="org/apache/jsieve/**"/>-->
+      	<exclude name="**"/>
       </javac>
       <copy todir="${build.classes}">
         <fileset dir="${java.dir}">

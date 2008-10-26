@@ -40,23 +40,25 @@
     Set the classpath
     ===================================================================
     -->
-
+	 
+	<path id="mail.class.path">
+	    <pathelement location='${mail.jar}'/>
+	    <pathelement location='${activation.jar}'/>   
+	</path>  
+	
     <path id="project.class.path">
         <pathelement location="${commons-logging.jar}"/>
         <pathelement location="${log4j.jar}"/>
         <pathelement location="${junit.jar}"/>
+    	<pathelement location='${lib.jsieve.dir}/${name}-${version}.jar'/>
+    	<pathelement location="${mailet.jar}"/>
+    	<path refid="mail.class.path"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${build.classes}" />
     </path>
- 
-    <path id="mail.class.path">
-        <pathelement location='${mail.jar}'/>
-        <pathelement location='${activation.jar}'/>   
-    </path>  
     
     <path id="project.test.class.path">
-        <path refid="project.class.path"/>
-        <path refid="mail.class.path"/>  
+        <path refid="project.class.path"/>  
     </path>   
 
     <!--
@@ -145,7 +147,8 @@
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>
-        <include name="org/apache/jsieve/**"/>
+        <!--<include name="org/apache/jsieve/**"/>-->
+      	<exclude name="**"/>
       </javac>
       <copy todir="${build.classes}">
         <fileset dir="${conf.dir}">

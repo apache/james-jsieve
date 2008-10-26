@@ -99,7 +99,6 @@
       <fixcrlf srcdir="." includes="build.sh" eol="lf"/>
       <fixcrlf srcdir="." includes="build.bat" eol="crlf"/>
       <fixcrlf srcdir="." includes="build.xml" eol="lf"/>
-      <fixcrlf srcdir="${javacc.dir}" includes="**/*.jj*" eol="lf" tab="remove" tablength="4" />
       <mkdir dir="${build.src}"/>
     </target>
 
@@ -108,7 +107,7 @@
                                   Prepare target
     ===================================================================
     -->
-    <target name="prepare" depends="prepare-common, preprocess">
+    <target name="prepare" depends="prepare-common">
         <available 
             classname="javax.mail.Message" 
             property="is.available.javamail" 
@@ -124,54 +123,6 @@
             </and>   
         </condition>   
     </target>   
-
-    <!--
-    ===================================================================
-                                  pre-process
-    ===================================================================
-    -->
-    <!--
-    Unless you want to alter the Sieve grammar, expressed by the seive.jjt 
-    file, is built, consider the following processing a black box.
-    Or zen for the more spiritual amongst you.
-    -->
-    <target name="preprocess" depends="prepare-common">
-        <!--
-        Generate JavaCC source inserting parse tree building actions 
-        and the Java source for the parse classes.
-        -->
-        <mkdir dir="${build.src}/org/apache/jsieve/parser/generated/address"/>
-        <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="${javacc.dir}/sieve/sieve.jjt"/>
-            <classpath>
-                <pathelement location="${javacc.jar}"/>
-                <pathelement path="${java.class.path}" />
-            </classpath>
-        </java>
-        <java classname="jjtree" fork="yes" failonerror="true" dir="${build.src}">
-             <arg line="${javacc.dir}/address/AddressListParser.jjt"/>
-             <classpath>
-                 <pathelement location="${javacc.jar}"/>
-                 <pathelement path="${java.class.path}" />
-             </classpath>
-        </java>
-
-        <!-- Generate Java source from the JavaCC source -->
-        <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="${build.src}/org/apache/jsieve/parser/generated/sieve.jj"/>
-            <classpath>
-                <pathelement location="${javacc.jar}"/>
-                <pathelement path="${java.class.path}" />
-            </classpath>
-       </java>
-        <java classname="javacc" fork="yes" failonerror="true" dir="${build.src}">
-            <arg line="${build.src}/org/apache/jsieve/parser/generated/address/AddressListParser.jj"/>
-            <classpath>
-                <pathelement location="${javacc.jar}"/>
-                <pathelement path="${java.class.path}" />
-            </classpath>
-       </java>   
-    </target>
 
     <!--
     ===================================================================
@@ -243,7 +194,7 @@
     ===================================================================
     -->
     <target name="javadocs" depends="compile">
-
+<!--
       <echo message="Making jSieve Javadocs"/>
 
       <delete dir="${build.javadocs}"/>
@@ -266,6 +217,7 @@
           <param name="-bottom" value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
         </doclet>
       </javadoc>
+      -->
     </target>
 
     <!--

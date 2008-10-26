@@ -35,6 +35,7 @@
         <sequential>
             <subant target='@{do}'>
                 <fileset dir='@{dir}' includes='main/build.xml'/>
+                <fileset dir='@{dir}' includes='util/build.xml'/>
                 <fileset dir='@{dir}' includes='samples/build.xml'/>   
             </subant>   
         </sequential>   

@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<!-- 
+==========================================================================
+
+ jSieve build file 
+
+
+  Licensed to the Apache Software Foundation (ASF) under one   
+  or more contributor license agreements.  See the NOTICE file 
+  distributed with this work for additional information        
+  regarding copyright ownership.  The ASF licenses this file   
+  to you under the Apache License, Version 2.0 (the            
+  "License"); you may not use this file except in compliance   
+  with the License.  You may obtain a copy of the License at   
+                                                               
+    http://www.apache.org/licenses/LICENSE-2.0                 
+                                                               
+  Unless required by applicable law or agreed to in writing,   
+  software distributed under the License is distributed on an  
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       
+  KIND, either express or implied.  See the License for the    
+  specific language governing permissions and limitations      
+  under the License.                                           
+ 
+==============================================================================
+-->
+
+<project name='Apache JAMES JSieve' default="main" basedir=".">
+    <!--
+    Give user a chance to override without editing this file
+    (and without typing -D each time he compiles it)
+    -->
+    <property file=".ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="../include.properties"/>
+    <property file="../default.properties"/>
+
+    <!--
+    ===================================================================
+    Set the classpath
+    ===================================================================
+    -->
+	 
+	<path id="mail.class.path">
+	    <pathelement location='${mail.jar}'/>
+	    <pathelement location='${activation.jar}'/>   
+	</path>  
+	
+    <path id="project.class.path">
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${log4j.jar}"/>
+        <pathelement location="${junit.jar}"/>
+    	<pathelement location='${lib.jsieve.dir}/${name}-${version}.jar'/>
+    	<pathelement location="${mailet.jar}"/>
+    	<path refid="mail.class.path"/>
+        <pathelement path="${java.class.path}" />
+        <pathelement path="${build.classes}" />
+    </path>
+    
+    <path id="project.test.class.path">
+        <path refid="project.class.path"/>  
+    </path>   
+
+    <!--
+    ===================================================================
+                                Dependency Check
+    ===================================================================
+    -->
+
+    <!--
+    ===================================================================
+                                  Main target
+    ===================================================================
+    -->
+    <target name="main" depends="dist-lite"/>
+
+    <!--
+    ===================================================================
+    Prepare-common target - common tasks executed in preparation for
+    all targets
+    ===================================================================
+    -->
+    <target name="prepare-common">
+
+      <echo message="Preparing code"/>
+
+      <tstamp/>
+      <mkdir dir="${dist.dir}"/>
+      <copy todir="${dist.dir}">
+        <fileset dir=".">
+          <include name="LICENSE.txt"/>
+          <include name="README.txt"/>
+          <include name="NOTICE.txt"/>
+        </fileset>
+      </copy>
+      <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${conf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="${testconf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
+      <fixcrlf srcdir="." includes="build.sh" eol="lf"/>
+      <fixcrlf srcdir="." includes="build.bat" eol="crlf"/>
+      <fixcrlf srcdir="." includes="build.xml" eol="lf"/>
+      <mkdir dir="${build.src}"/>
+    </target>
+
+    <!--
+    ===================================================================
+                                  Prepare target
+    ===================================================================
+    -->
+    <target name="prepare" depends="prepare-common">
+        <available 
+            classname="javax.mail.Message" 
+            property="is.available.javamail" 
+            classpathref="project.test.class.path"/> 
+        <available 
+            classname="javax.activation.MimeType" 
+            property="is.available.activation" 
+            classpathref="project.test.class.path"/> 
+        <condition property="is.available.libs.test">
+            <and>
+                <isset property='is.available.javamail'/>   
+                <isset property='is.available.activation'/>   
+            </and>   
+        </condition>   
+    </target>   
+
+    <!--
+    ===================================================================
+                                  compile
+    ===================================================================
+    -->
+    <target name="compile" depends="compile-main, compile-tests"/>
+    
+    <target name="compile-main" depends="prepare">
+      <echo message="Compiling jSieve Java sources"/>
+      <mkdir dir="${build.classes}"/>
+      <javac 
+            destdir="${build.classes}" 
+            debug="${debug}" 
+            optimize="${optimize}" 
+            deprecation="${deprecation}"
+            source="${jdk.source}"
+            target="${jdk.target}" 
+            >
+        <classpath refid="project.class.path"/>
+        <src path="${build.src}"/>
+        <src path="${java.dir}"/>
+        <!--<include name="org/apache/jsieve/**"/>-->
+      	<exclude name="**"/>
+      </javac>
+      <copy todir="${build.classes}">
+        <fileset dir="${conf.dir}">
+          <include name="**/*.properties"/>
+        </fileset>
+      </copy>   
+      <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
+      <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
+    </target>
+    
+    <target 
+        name="compile-tests" 
+        depends="prepare, compile-main">
+      <fail unless="is.available.libs.test">JavaMail is required for testing</fail>   
+      <echo message="Compiling jSieve test sources"/>
+      <mkdir dir="${build.classes.test}"/>
+      <javac 
+            destdir="${build.classes.test}" 
+            debug="${debug}" 
+            optimize="${optimize}" 
+            deprecation="${deprecation}"
+            source="${jdk.source}"
+            target="${jdk.target}" 
+            >
+        <classpath refid="project.test.class.path"/>
+        <src path="${test.dir}"/>
+        <!--<include name="org/apache/jsieve/**"/>-->
+      	<exclude name="**"/>
+      </javac>
+      <copy todir="${build.classes}">
+        <fileset dir="${java.dir}">
+          <include name="**/*.properties"/>
+        </fileset>
+      </copy>  
+        <copy todir="${build.classes.test}">
+          <fileset dir="${testconf.dir}">
+            <include name="**/*.properties"/>
+          </fileset>
+        </copy>   
+      <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt"/>
+      <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base'/>   
+    </target>
+
+    <!--
+    ===================================================================
+                                  Javadocs
+    ===================================================================
+    -->
+    <target name="javadocs" depends="compile">
+<!--
+      <echo message="Making jSieve Javadocs"/>
+
+      <delete dir="${build.javadocs}"/>
+      <mkdir dir="${build.javadocs}"/>
+      <javadoc failonerror="yes" packagenames="org.apache.jsieve.*" destdir="${build.javadocs}">
+        <sourcepath>
+            <pathelement path="${java.dir}"/>
+            <pathelement path="${build.src}"/>            
+        </sourcepath> 
+        <classpath refid="project.class.path"/>
+        <doclet name="com.sun.tools.doclets.standard.Standard">
+          <param name="-author"/>
+          <param name="-version"/>
+          <param name="-use"/>
+          <param name="-breakiterator"/>
+          <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api"/>
+          <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api"/>
+          <param name="-doctitle" value="${Name} ${version}"/>
+          <param name="-windowtitle" value="${Name} API"/>
+          <param name="-bottom" value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        </doclet>
+      </javadoc>
+      -->
+    </target>
+
+    <!--
+    ===================================================================
+                Build everything
+    ===================================================================
+    -->
+    <target name="all">
+        <antcall target='clean'/>
+        <antcall target='dist'/>
+    </target>   
+
+    <!--
+    ===================================================================
+                                  Build all distributions
+    ===================================================================
+    -->
+    <target name="dist" depends="dist-bin,dist-src"/>
+
+    <!--
+    ===================================================================
+                                  Make jSieve jars
+    ===================================================================
+    -->
+
+    <target name="jar" depends="compile">
+
+      <mkdir dir="${build.lib}"/>
+
+      <!-- Make jSieve jar-->
+      <echo message="Making jSieve Jar (${name}-${version}.jar)"/>
+      <jar 
+            jarfile="${build.lib}/${name}-${version}.jar" 
+            basedir="${build.classes}">
+          <include name="org/apache/jsieve/**"/>
+          <include name="META-INF/**"/> 
+          <manifest> 
+            <attribute name="Extension-Name" value='${extension.name}'/>
+            <attribute name="Specification-Title" value='${title.spec}'/>
+            <attribute name="Specification-Vendor" value='${vendor}'/>
+            <attribute name="Specification-Version" value='${version}'/>
+            <attribute name="Implementation-Vendor-Id" value='${vendor.id}'/>
+            <attribute name="Implementation-Title" value='${title.impl}'/>
+            <attribute name="Implementation-Vendor" value='${vendor}'/>
+            <attribute name="Implementation-Version" value='${version}'/>
+            <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>
+            <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
+          </manifest> 
+      </jar>
+     
+      <taskdef 
+            resource="aQute/bnd/ant/taskdef.properties" 
+            classpath="${bnd.jar.relative}"/> 
+      <bndwrap 
+            jars='${build.lib}/${name}-${version}.jar'
+            output='${build.lib}/${name}-${version}.jar'
+            definitions="."/>
+
+      <!-- Make jSieve jUnit jar-->
+      <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
+      <jar jarfile="${build.lib}/${name}-unit-tests-${version}.jar" 
+           basedir="${build.classes.test}">
+            <include name="org/apache/jsieve/**"/>
+            <include name="META-INF/**"/>  
+            <manifest>
+              <attribute name="Created-By" value='${creator}'/> 
+              <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>
+              <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
+            </manifest>  
+      </jar>
+    </target>
+
+    <!--
+    ===================================================================
+            Make dist directory with unpacked dist ready to run
+    ===================================================================
+    -->
+    <target name="dist-lite" depends="dist-lite-test"/>
+
+    <target name="dist-lite-build" depends="jar">
+
+      <echo message="Installing jSieve to ${dist.dir}"/>
+
+      <!--Copies the jSieve jars into ./dist/lib -->
+      <copy todir="${dist.dir}/lib">
+        <fileset dir="${build.lib}">
+          <include name="*.jar"/>
+        </fileset>
+      </copy>
+
+      <!--Copies the required support jars -->
+      <copy todir="${dist.dir}/lib" file="${commons-logging.jar}"/>
+      <copy todir="${dist.dir}/lib" file="${log4j.jar}"/>
+      <copy todir="${dist.dir}/lib" file="${junit.jar}"/>
+
+      <!--Copies the configuration files -->
+      <mkdir dir="${dist.dir}/conf"/>
+      <copy todir="${dist.dir}/conf" file="${testconf.dir}/log4j.properties"/>
+    </target>
+
+    <!--
+    ===================================================================
+                                  Test the dist-lite build
+    ===================================================================
+    -->    
+    <target name="dist-lite-test" depends="dist-lite-build">
+        <echo message="Testing dist-lite build"/>
+        <mkdir dir="${dist.dir}/reports"/>
+        <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
+            <!-- Uncomment this to remotely debug the tests
+            <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/>
+            -->
+            <classpath id="junit.class.path">
+            	<pathelement location="${testconf.dir}"/>
+                <fileset dir="${dist.dir}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${dist.dir}/conf/"/>
+                <pathelement path="${java.class.path}"/>
+                <pathelement location="${junit.jar}"/>
+                <path refid='mail.class.path'/>   
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="yes" todir="${dist.dir}/reports">
+                <fileset dir="${build.classes.test}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!--
+    ===================================================================
+                                  binary distribution
+    ===================================================================
+    -->
+
+    <target name="dist-bin" depends="dist-lite,javadocs">
+      <echo message ="Building binary distribution"/>
+      <property name="dist.binary.dir" value="${dist.dir}/downloads/bin"/>
+      <mkdir dir="${dist.binary.dir}"/>
+        <zip zipfile="${dist.binary.dir}/${dist.name}-bin.zip">
+            <fileset dir="${dist.dir}">
+                <include name="lib/**"/>
+                <include name="*.txt"/>
+                <include name="KEYS"/>
+            </fileset>
+        </zip>
+        <tar longfile="gnu" tarfile="${dist.binary.dir}/${dist.name}-bin.tar">
+            <tarfileset dir="${dist.dir}" username="${name}" group="${name}">
+                <include name="lib/**"/>
+                <include name="*.txt"/>
+                <include name="KEYS"/>
+            </tarfileset>
+        </tar>
+        <gzip zipfile="${dist.binary.dir}/${dist.name}-bin.tar.gz" src="${dist.binary.dir}/${dist.name}-bin.tar"/>
+        <delete file="${dist.binary.dir}/${dist.name}-bin.tar"/>
+    </target>
+
+    <!--
+    ===================================================================
+                                  source distributions
+    ===================================================================
+    -->
+    <target name="dist-src" depends="dist-lite,javadocs">
+        <echo message ="Building source distributions"/>
+
+        <property name="dist.source.dir" value="${dist.dir}/downloads/src"/>
+        <mkdir dir="${dist.source.dir}"/>
+        <zip zipfile="${dist.source.dir}/${dist.name}-src.zip">
+            <fileset dir=".">
+                <include name="src/**"/>
+                <include name="lib/**"/>
+                <include name="*.xml"/>
+                <include name="*.properties"/>
+                <include name="*.txt"/>
+                <include name="KEYS"/>
+            </fileset>
+        </zip>
+        <tar longfile="gnu" tarfile="${dist.source.dir}/${dist.name}-src.tar">
+            <tarfileset dir="." username="${name}" group="${name}">
+                <include name="src/**"/>
+                <include name="lib/**"/>
+                <include name="*.xml"/>
+                <include name="*.properties"/>
+                <include name="*.txt"/>
+                <include name="KEYS"/>
+            </tarfileset>
+        </tar>
+        <gzip zipfile="${dist.source.dir}/${dist.name}-src.tar.gz" src="${dist.source.dir}/${dist.name}-src.tar"/>
+        <delete file="${dist.source.dir}/${dist.name}-src.tar"/>
+    </target>
+    
+    <!--
+    ===================================================================
+                                  delete dist/, build/ and www/
+    ===================================================================
+    -->
+    <target name="clean">
+        <echo message ="deleting working directories ready for a clean build"/>
+        <delete dir="${dist.base}"/>
+        <mkdir dir="${dist.base}"/>
+        <delete dir="${build.dir}"/>
+        <delete dir='target'/>
+    </target>
+
+    <!--
+    ===================================================================
+                                   Help on usage                                                       
+    =================================================================== 
+    -->
+    <target name="usage">
+        <echo message=""/>
+        <echo message=""/>
+        <echo message="jSieve Build file"/>
+        <echo message="-------------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message=" available targets are:"/>
+        <echo message=""/>
+        <echo message="   dist-lite --> generates unpacked distribution (default)"/>
+        <echo message="   dist-lite-test --> tests the jarred classes"/>
+        <echo message="   compile   --> compiles the source code"/>
+        <echo message="   dist      --> generates all the jSieve distributions, packed"/>
+        <echo message="   clean     --> cleans up the directory"/>
+        <echo message="   javadocs  --> creates the Javadoc"/>
+        <echo message=""/>
+        <echo message=" See the comments inside the build.xml file for more details."/>
+        <echo message="-------------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message=""/>
+    </target>
+  
+</project>

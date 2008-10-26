@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one   
+  or more contributor license agreements.  See the NOTICE file 
+  distributed with this work for additional information        
+  regarding copyright ownership.  The ASF licenses this file   
+  to you under the Apache License, Version 2.0 (the            
+  "License"); you may not use this file except in compliance   
+  with the License.  You may obtain a copy of the License at   
+                                                               
+    http://www.apache.org/licenses/LICENSE-2.0                 
+                                                               
+  Unless required by applicable law or agreed to in writing,   
+  software distributed under the License is distributed on an  
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       
+  KIND, either express or implied.  See the License for the    
+  specific language governing permissions and limitations      
+  under the License.  
+-->
+<document>
+
+ <properties>
+  <title>Overview</title>
+  <author email="jsieve-dev@jakarta.apache.org">jSieve Project</author>
+ </properties>
+
+<body>
+<section name="Getting Started">
+<p>Until these pages are fleshed out, the best way to understand jSieve is read the 
+<a href='apidocs/index.html'>Javadocs</a> 
+and look at the <a href='xref/index.html'>source code</a>. 
+The jUnit tests illustrate many aspects
+of the implementation.
+</p>
+<subsection name='Using jSieve'>
+<subsection name='Standalone'>
+<p>
+<a href='xref/org/apache/jsieve/SieveFactory.html'>
+<code>org.apache.jsieve.SieveFactory</code></a> is the primary invocation
+point for all Sieve operations. The API is clean and simple.
+See the 
+<a href='apidocs/index.html'>javadocs</a> for more details.
+</p>
+</subsection>
+<subsection name='In JAMES'>
+<p>
+The <code>SieveToMultiMailbox</code> mailet is included in JAMES.
+It is integrated with the message delivery spool and provides per-user 
+Sieve scripting using jSieve. 
+</p>
+</subsection>
+</subsection>
+<subsection name='Implementing A Mail Adapter'>
+<p>
+<a href='xref/org/apache/jsieve/mail/MailAdapter.html'>
+<code>org.apache.jsieve.mail.MailAdapter</code></a> is the interface API used
+by jSieve to interact with a mail server. 
+</p><p>
+The mail adapter wraps an email
+and supplies information (required by the script) about the email. It is 
+responsible for accumulating <code>Action</code>s during the parsing of a
+script and for executing them once the parsing is complete.
+</p><p>
+See the 
+<a href='apidocs/index.html'>javadocs</a> for more details and this
+<a href='xref/org/apache/jsieve/samples/james/SieveMailAdapter.html'>sample</a>.
+</p>
+</subsection>
+<subsection name='Creating A Custom Extension Command'>
+<p>
+<a href='xref/org/apache/jsieve/commands/extensions/Log.html'>
+<code>org.apache.jsieve.commands.extensions.Log</code></a> is an example
+of a custom extension command. It is recommended that custom commands
+extend <a href='xref/org/apache/jsieve/commands/AbstractCommand.html'>
+<code>AbstractCommand</code></a>. See the 
+<a href='apidocs/index.html'>javadocs</a> for more details.
+</p><p>
+Custom commands need to be registered with 
+<a href='xref/org/apache/jsieve/ConfigurationManager.html'>
+<code>ConfigurationManager</code></a> before they can be used. This
+may be done programmatically but the recommended method is by altering
+the <code>org/apache/jsieve/commandsmap.properties</code>, <code>org/apache/jsieve/testsmap.properties</code>
+and <code>org/apache/jsieve/comparatorsmap.properties</code> resource files. 
+</p>
+</subsection>
+<subsection name='Building jSieve'>
+<p>
+jSieve uses <a href='http://ant.apache.org'>Ant</a>. <code>ant -projecthelp</code>
+describes appropriate targets. <code>ant</code> runs the default target.
+</p>
+</subsection>
+</section>
+
+<section name="Comments, Questions and Issues">
+<p>jSieve is a sub-project of Apache James. Please direct your comments and questions
+to the relevant James list.
+</p>
+<p>To report issues, such as bugs, go to the
+<a href="https://issues.apache.org/jira/browse/JSIEVE">jSieve Issue Tracker</a>.
+As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
+helpful for bug reports to be accompanied by an illustrative jUnit test case.
+</p>
+<section name='Frequently Asked Question'>
+    <section name='Why Do Tests Using Non-ASCII Characters Fail?'>
+        <p>
+<code>SIEVE</code> specifies that <a href='http://ietf.org/rfc/rfc2278.txt'>UTF-8</a> 
+encoding is used for scripts. This format is an international standard and has wide 
+support but not all platforms use this encoding by default. 
+        </p>
+        <p>
+By default, JSieve expects that scripts are encoding using <code>UTF-8</code>.
+Either set the encoding programmatically or ensure that the script is encoded using
+<code>UTF-8</code>.
+        </p>
+    </section>
+</section>
+</section>
+</body>
+</document>

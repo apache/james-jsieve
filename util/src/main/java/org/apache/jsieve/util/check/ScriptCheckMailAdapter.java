@@ -32,13 +32,13 @@ import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
-import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
+import org.apache.jsieve.parser.generated.address.ParseException;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called

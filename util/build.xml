@@ -25,7 +25,7 @@
 ==============================================================================
 -->
 
-<project name='Apache JAMES JSieve' default="main" basedir=".">
+<project name='Apache JAMES JSieve Utilities' default="main" basedir=".">
     <!--
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
@@ -147,8 +147,7 @@
         <classpath refid="project.class.path"/>
         <src path="${build.src}"/>
         <src path="${java.dir}"/>
-        <!--<include name="org/apache/jsieve/**"/>-->
-      	<exclude name="**"/>
+        <include name="org/apache/jsieve/**"/>
       </javac>
       <copy todir="${build.classes}">
         <fileset dir="${conf.dir}">
@@ -252,9 +251,9 @@
       <mkdir dir="${build.lib}"/>
 
       <!-- Make jSieve jar-->
-      <echo message="Making jSieve Jar (${name}-${version}.jar)"/>
+      <echo message="Making jSieve Jar (${name}-${version}-utils.jar)"/>
       <jar 
-            jarfile="${build.lib}/${name}-${version}.jar" 
+            jarfile="${build.lib}/${name}-${version}-utils.jar" 
             basedir="${build.classes}">
           <include name="org/apache/jsieve/**"/>
           <include name="META-INF/**"/> 
@@ -276,22 +275,9 @@
             resource="aQute/bnd/ant/taskdef.properties" 
             classpath="${bnd.jar.relative}"/> 
       <bndwrap 
-            jars='${build.lib}/${name}-${version}.jar'
-            output='${build.lib}/${name}-${version}.jar'
+            jars='${build.lib}/${name}-${version}-utils.jar'
+            output='${build.lib}/${name}-${version}-utils.jar'
             definitions="."/>
-
-      <!-- Make jSieve jUnit jar-->
-      <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-unit-tests-${version}.jar" 
-           basedir="${build.classes.test}">
-            <include name="org/apache/jsieve/**"/>
-            <include name="META-INF/**"/>  
-            <manifest>
-              <attribute name="Created-By" value='${creator}'/> 
-              <attribute name="X-Compile-Source-JDK" value='${jdk.source}'/>
-              <attribute name="X-Compile-Target-JDK" value='${jdk.target}'/> 
-            </manifest>  
-      </jar>
     </target>
 
     <!--

@@ -25,7 +25,7 @@
 ==============================================================================
 -->
 
-<project name='Apache JAMES JSieve' default="main" basedir=".">
+<project name='Apache JAMES JSieve Samples' default="main" basedir=".">
     <!--
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
@@ -198,7 +198,6 @@
     ===================================================================
     -->
     <target name="javadocs" depends="compile">
-<!--
       <echo message="Making jSieve Javadocs"/>
 
       <delete dir="${build.javadocs}"/>
@@ -221,7 +220,6 @@
           <param name="-bottom" value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
         </doclet>
       </javadoc>
-      -->
     </target>
 
     <!--

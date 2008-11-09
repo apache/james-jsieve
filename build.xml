@@ -36,9 +36,7 @@
             <subant target='@{do}'>
                 <fileset dir='@{dir}' includes='main/build.xml'/>
                 <fileset dir='@{dir}' includes='util/build.xml'/>
-                <fileset dir='@{dir}' includes='mailet/build.xml'/>
-<!-- TODO: Update samples and fix dependency problems 
-                <fileset dir='@{dir}' includes='samples/build.xml'/> -->  
+                <fileset dir='@{dir}' includes='mailet/build.xml'/>  
             </subant>   
         </sequential>   
     </macrodef>

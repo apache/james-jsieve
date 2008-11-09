@@ -1,122 +1,394 @@
-<?xml version="1.0" encoding="ISO-8859-15"?>
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.    
--->
-<project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+  
+      http://www.apache.org/licenses/LICENSE-2.0
+  
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.    
+  -->
   <parent>
-    <artifactId>james-server</artifactId>
+    <artifactId>james-project</artifactId>
     <groupId>org.apache.james</groupId>
-    <version>3.0-SNAPSHOT</version>
+    <version>1.2</version>
+    <!-- Either this really points to the james-project/pom.xml or you
+         will have to tune the local repository, later, in this file -->
+    <relativePath>../james-project/project/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
-  <artifactId>james-server-spoolmanager-function</artifactId>
-  <name>Apache JAMES Server SpoolManager function</name>
+  <artifactId>apache-jsieve-mailet</artifactId>
+  <name>Apache JAMES jSieve</name>
+  <version>0.3-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <description>
+Apache jSieve is a server side mail filtering system 
+implementing RFC3028. Apache jSieve is developed by the 
+JAMES project.
+  </description>
+  <url>http://james.apache.org/jsieve</url>
+  <inceptionYear>2004</inceptionYear>
+
+  <distributionManagement>
+    <site>
+      <id>jsieve-website</id>
+      <url>scp://people.apache.org/www/james.apache.org/jsieve/</url>
+    </site>
+  </distributionManagement>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://issues.apache.org/jira/browse/JSIEVE</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/james/jsieve/trunk/</url>
+  </scm>
+  
+  <repositories>
+  	<!-- enable central that is otherwise disabled by the parent pom. -->
+  	<repository>
+  		<id>central</id>
+  		<url>http://repo1.maven.org/maven2</url>
+  		<releases>
+  			<enabled>true</enabled>
+  		</releases>
+  	</repository>
+  </repositories>
+
   <dependencies>
     <dependency>
-      <groupId>${javax.mail.groupId}</groupId>
-      <artifactId>${javax.mail.artifactId}</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>apache-mailet</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-javamail-util</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-core-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-user-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-domain-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-user-library</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-core-library</artifactId>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+      <exclusions>
+          <exclusion>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>logkit</groupId>
+            <artifactId>logkit</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+          </exclusion>
+       </exclusions>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>apache-james-mailet-base</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.avalon.framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.avalon.framework</groupId>
-      <artifactId>avalon-framework-impl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.avalon.cornerstone.store</groupId>
-      <artifactId>cornerstone-store-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>apache-jsieve</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>apache-mime4j</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>standard-mailets</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-core-library</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>apache-james-mailet-base</artifactId>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.james</groupId>
-      <artifactId>james-server-user-library</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+          <encoding>iso8859-1</encoding>
+        </configuration>
+      </plugin>      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.4.1</version>
+        <executions>
+          <execution>
+            <id>generate-jjtree</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>jjtree-javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <archive>
+          <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+            <manifestEntries>
+              <Specification-Title>Apache jSieve</Specification-Title>
+              <Specification-Version>${pom.version}</Specification-Version>
+              <Specification-Vendor>The Apache Software Foundation</Specification-Vendor>
+              <Implementation-Title>Apache jSieve</Implementation-Title>
+              <Implementation-Version>${pom.version}</Implementation-Version>
+              <Implementation-Vendor>The Apache Software Foundation</Implementation-Vendor>
+              <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              <url>${pom.url}</url>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>create-javadocs</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+              <goal>javadoc</goal> <!-- goals == mojos -->
+              <goal>jar</goal> <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+        <version>1.0-alpha-3</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Add NOTICE and LICENSE to generated JAR -->
+      <plugin>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
+              </resourceBundles>
+              <properties>
+	              <addLicense>true</addLicense>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+      	<groupId>org.apache.felix</groupId>
+      	<artifactId>maven-bundle-plugin</artifactId>
+      	<version>1.4.3</version>
+      	<executions>
+      		<execution>
+      			<id>bundle-manifest</id>
+      			<phase>process-classes</phase>
+      			<goals>
+      				<goal>manifest</goal>
+      			</goals>
+      		</execution>
+      	</executions>
+      	<extensions>true</extensions>
+      	<configuration>
+      		<instructions>
+      			<Export-Package>org.apache.jsieve.*</Export-Package>
+      			<Embed-Dependency>*;scope=runtime</Embed-Dependency>
+      		</instructions>
+      	</configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.0.4</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-2</version>
+        <configuration>
+          <descriptorSourceDirectory>${basedir}/src/assemble/</descriptorSourceDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-doap-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>site</id>
+            <phase>site</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+         <doapOptions>
+           <programmingLanguage>java</programmingLanguage>
+           <category>mail</category>
+           <download-page>http://james.apache.org/download.cgi</download-page>
+         </doapOptions>
+
+         <asfExtOptions>
+           <included>true</included>
+           <pmc>http://james.apache.org</pmc>
+           <name>Apache JAMES</name>
+           <standards>
+            <standard>
+              <id>RFC3028</id>
+              <title>Sieve: A Mail Filtering Language</title>
+              <body>IEFT</body>
+              <url>http://www.ietf.org/rfc/rfc3028.txt</url>
+            </standard>
+           </standards>
+         </asfExtOptions>
+
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin> 
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <targetjdk>1.4</targetjdk>
+          <rulesets>
+            <ruleset>/rulesets/basic.xml</ruleset>
+            <ruleset>/rulesets/controversial.xml</ruleset>
+          </rulesets>
+          <format>xml</format>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-7</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+        <version>1.0-alpha-3</version>
+        <configuration>
+          <excludes>
+            <exclude>NOTICE.base</exclude>
+            <exclude>LICENSE.apache</exclude>
+            <exclude>release.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.4.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Apache James User</name>
+      <subscribe>server-user-subscribe@james.apache.org</subscribe>
+      <unsubscribe>server-user-unsubscribe@james.apache.org</unsubscribe>
+      <post>server-user@james.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/james-server-user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Apache James Developer</name>
+      <subscribe>server-dev-subscribe@james.apache.org</subscribe>
+      <unsubscribe>server-dev-unsubscribe@james.apache.org</unsubscribe>
+      <post>server-dev@james.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/james-server-dev/</archive>
+    </mailingList>
+  </mailingLists>
+
 </project>

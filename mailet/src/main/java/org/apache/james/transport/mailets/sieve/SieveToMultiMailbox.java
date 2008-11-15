@@ -31,13 +31,16 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.jsieve.ConfigurationManager;
+import org.apache.jsieve.SieveConfigurationException;
 import org.apache.jsieve.SieveFactory;
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.mailet.GenericMailet;
+import org.apache.mailet.base.GenericMailet;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
+import org.apache.mailet.MailetConfig;
 import org.apache.mailet.MailetException;
-import org.apache.mailet.RFC2822Headers;
+import org.apache.mailet.base.RFC2822Headers;
 
 /**
  * Receives a Mail from JamesSpoolManager and takes care of delivery of the
@@ -72,6 +75,8 @@ public class SieveToMultiMailbox extends GenericMailet {
     private boolean resetReturnPath;
     /** Experimental */
     private Poster poster;
+    
+    private SieveFactory factory;
 
     /**
      * For SDI
@@ -83,7 +88,7 @@ public class SieveToMultiMailbox extends GenericMailet {
      * @param poster not null
      */
     public SieveToMultiMailbox(Poster poster) {
-        super();
+        this();
         this.poster = poster;
     }
 
@@ -97,6 +102,18 @@ public class SieveToMultiMailbox extends GenericMailet {
      */
     public final void setPoster(Poster poster) {
         this.poster = poster;
+    }
+
+    
+    //@Override
+    public void init(MailetConfig config) throws MessagingException {
+        
+        super.init(config);
+        try {
+            factory = new ConfigurationManager().build();
+        } catch (SieveConfigurationException e) {
+            throw new MessagingException("Failed to load standard Sieve configuration.", e);
+        }
     }
 
     /**
@@ -236,8 +253,8 @@ public class SieveToMultiMailbox extends GenericMailet {
                     getMailetContext());
             log("Evaluating " + aMailAdapter.toString() + "against \""
                     + sieveFileName + "\"");
-            SieveFactory.getInstance().evaluate(aMailAdapter,
-                    SieveFactory.getInstance().parse(new FileInputStream(sieveFileName)));
+            factory.evaluate(aMailAdapter,
+                    factory.parse(new FileInputStream(sieveFileName)));
         }
         catch (Exception ex)
         {

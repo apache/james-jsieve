@@ -52,6 +52,8 @@
         <pathelement location="${junit.jar}"/>
     	<pathelement location='${lib.jsieve.dir}/${name}-${version}.jar'/>
     	<pathelement location="${mailet.jar}"/>
+    	<pathelement location="${mailet-base.jar}"/>
+    	<pathelement location="${mime4j.jar}"/>
     	<path refid="mail.class.path"/>
         <pathelement path="${java.class.path}" />
         <pathelement path="${build.classes}" />

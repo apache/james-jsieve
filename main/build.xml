@@ -263,7 +263,7 @@
           <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api"/>
           <param name="-doctitle" value="${Name} ${version}"/>
           <param name="-windowtitle" value="${Name} API"/>
-          <param name="-bottom" value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
+          <param name="-bottom" value="Copyright (c) ${year} &lt;a href='http://www.apache.org'&gt;Apache Software Foundation&lt;/a&gt; Apache 2.0 Licensed."/>
         </doclet>
       </javadoc>
     </target>

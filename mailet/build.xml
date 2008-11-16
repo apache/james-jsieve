@@ -253,9 +253,9 @@
       <mkdir dir="${build.lib}"/>
 
       <!-- Make jSieve jar-->
-      <echo message="Making jSieve Jar (${name}-${version}-mailet.jar)"/>
+      <echo message="Making jSieve Jar (${name}-mailet-${version}.jar)"/>
       <jar 
-            jarfile="${build.lib}/${name}-${version}-mailet.jar" 
+            jarfile="${build.lib}/${name}-mailet-${version}.jar" 
             basedir="${build.classes}">
           <include name="org/apache/jsieve/**"/>
           <include name="META-INF/**"/> 

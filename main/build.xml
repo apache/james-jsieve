@@ -327,7 +327,7 @@
 
       <!-- Make jSieve jUnit jar-->
       <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)"/>
-      <jar jarfile="${build.lib}/${name}-unit-tests-${version}.jar" 
+      <jar jarfile="${build.lib}/${name}-tests-${version}.jar" 
            basedir="${build.classes.test}">
             <include name="org/apache/jsieve/**"/>
             <include name="META-INF/**"/>  
@@ -338,7 +338,7 @@
             </manifest>  
       </jar>
     	
-      <copy todir='${lib.jsieve.dir}' file='${build.lib}/${name}-unit-tests-${version}.jar'/>
+      <copy todir='${lib.jsieve.dir}' file='${build.lib}/${name}-tests-${version}.jar'/>
     </target>
 
     <!--

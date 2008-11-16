@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.james.transport.mailets.sieve;
+package org.apache.jsieve.mailet;
 
 import java.io.File;
 import java.io.FileInputStream;

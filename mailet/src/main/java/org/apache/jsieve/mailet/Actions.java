@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.james.transport.mailets.sieve;
+package org.apache.jsieve.mailet;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

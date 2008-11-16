@@ -17,23 +17,42 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.james.transport.mailets.sieve;
+package org.apache.jsieve.mailet;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 /**
- * Experimental interface.
+ * Class <code>DestinationException</code> is thrown when a target
+ * destionaition is invalid.
  */
-public interface Poster {
-    
+public class DestinationException extends MessagingException
+{
+
     /**
-     * Experimental RESTful mail delivery. 
-     * POST verb indicate that mail should be attached to the collection
-     * indicated by the given URI.
-     * @param url indicates the destination to which the mail to added. ATM 
-     * the value should be mailbox://<user>@localhost/<mailbox-path>
-     * @param mail not null
+     * Constructor for DestinationException.
      */
-    public void post(String url, MimeMessage mail) throws MessagingException;
+    public DestinationException()
+    {
+        super();
+    }
+
+    /**
+     * Constructor for DestinationException.
+     * @param arg0
+     */
+    public DestinationException(String arg0)
+    {
+        super(arg0);
+    }
+
+    /**
+     * Constructor for DestinationException.
+     * @param arg0
+     * @param arg1
+     */
+    public DestinationException(String arg0, Exception arg1)
+    {
+        super(arg0, arg1);
+    }
+
 }

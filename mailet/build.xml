@@ -240,7 +240,7 @@
                                   Build all distributions
     ===================================================================
     -->
-    <target name="dist" depends="dist-bin,dist-src"/>
+    <target name="dist" depends="dist-bin"/>
 
     <!--
     ===================================================================
@@ -364,40 +364,6 @@
         </tar>
         <gzip zipfile="${dist.binary.dir}/${dist.name}-bin.tar.gz" src="${dist.binary.dir}/${dist.name}-bin.tar"/>
         <delete file="${dist.binary.dir}/${dist.name}-bin.tar"/>
-    </target>
-
-    <!--
-    ===================================================================
-                                  source distributions
-    ===================================================================
-    -->
-    <target name="dist-src" depends="dist-lite,javadocs">
-        <echo message ="Building source distributions"/>
-
-        <property name="dist.source.dir" value="${dist.dir}/downloads/src"/>
-        <mkdir dir="${dist.source.dir}"/>
-        <zip zipfile="${dist.source.dir}/${dist.name}-src.zip">
-            <fileset dir=".">
-                <include name="src/**"/>
-                <include name="lib/**"/>
-                <include name="*.xml"/>
-                <include name="*.properties"/>
-                <include name="*.txt"/>
-                <include name="KEYS"/>
-            </fileset>
-        </zip>
-        <tar longfile="gnu" tarfile="${dist.source.dir}/${dist.name}-src.tar">
-            <tarfileset dir="." username="${name}" group="${name}">
-                <include name="src/**"/>
-                <include name="lib/**"/>
-                <include name="*.xml"/>
-                <include name="*.properties"/>
-                <include name="*.txt"/>
-                <include name="KEYS"/>
-            </tarfileset>
-        </tar>
-        <gzip zipfile="${dist.source.dir}/${dist.name}-src.tar.gz" src="${dist.source.dir}/${dist.name}-src.tar"/>
-        <delete file="${dist.source.dir}/${dist.name}-src.tar"/>
     </target>
     
     <!--

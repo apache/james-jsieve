@@ -5,20 +5,7 @@ jSieve is a Java implementation of the Sieve mail filtering language defined by
 RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
 internet mail application to add Sieve support.
 
-Getting Started
----------------
-
-Until these pages are fleshed out, the best way to understand jSieve is read the 
-Javadocs and look at the source code. 
-
-- To understand how to invoke jSieve, see org.apache.jsieve.SieveFactory.
-- To understand how to implement a MailAdapter for jSieve, see
-  org.apache.jsieve.mail.MailAdapter.
-- To understand how to add a custom extension to jSieve, see
-  org.apache.jsieve.commands.extensions.Log.
-- The jUnit tests in org.apache.jsieve.junit illustrate many aspects
-  of the implementation.
-- To build jSieve, read BUILDING.txt
+This module contains utilities for Sieve.
 
 Comments, Questions and Issues
 ------------------------------

@@ -28,14 +28,14 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
-  <artifactId>apache-jsieve</artifactId>
+  <artifactId>apache-jsieve-util</artifactId>
   <name>Apache JAMES jSieve</name>
   <version>0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
 Apache jSieve is a server side mail filtering system 
 implementing RFC3028. Apache jSieve is developed by the 
-JAMES project.
+JAMES project. This module contains additional utilities.
   </description>
   <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
@@ -70,6 +70,12 @@ JAMES project.
   </repositories>
 
   <dependencies>
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-jsieve</artifactId>
+      <version>0.3-SNAPSHOT</version>
+    </dependency>
+    
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -112,14 +118,12 @@ JAMES project.
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4</version>
-      <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
       <version>1.1</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -142,20 +146,6 @@ JAMES project.
           <encoding>iso8859-1</encoding>
         </configuration>
       </plugin>      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javacc-maven-plugin</artifactId>
-        <version>2.4.1</version>
-        <executions>
-          <execution>
-            <id>generate-jjtree</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>jjtree-javacc</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>

@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>apache-jsieve-mailet</artifactId>
-  <name>Apache JAMES jSieve</name>
+  <name>Apache JAMES jSieve Mailet</name>
   <version>0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
@@ -70,6 +70,30 @@ JAMES project.
   </repositories>
 
   <dependencies>
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-jsieve</artifactId>
+      <version>0.3-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mailet</artifactId>
+      <version>2.4-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mailet-base</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mime4j</artifactId>
+      <version>0.5</version>
+    </dependency>
+    
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -112,14 +136,12 @@ JAMES project.
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4</version>
-      <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
       <version>1.1</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -143,20 +165,6 @@ JAMES project.
         </configuration>
       </plugin>      
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javacc-maven-plugin</artifactId>
-        <version>2.4.1</version>
-        <executions>
-          <execution>
-            <id>generate-jjtree</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>jjtree-javacc</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.2</version>
@@ -164,10 +172,10 @@ JAMES project.
           <archive>
           <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
             <manifestEntries>
-              <Specification-Title>Apache jSieve</Specification-Title>
+              <Specification-Title>Apache jSieve Mailet</Specification-Title>
               <Specification-Version>${pom.version}</Specification-Version>
               <Specification-Vendor>The Apache Software Foundation</Specification-Vendor>
-              <Implementation-Title>Apache jSieve</Implementation-Title>
+              <Implementation-Title>Apache jSieve Mailet</Implementation-Title>
               <Implementation-Version>${pom.version}</Implementation-Version>
               <Implementation-Vendor>The Apache Software Foundation</Implementation-Vendor>
               <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
@@ -296,14 +304,6 @@ JAMES project.
            <included>true</included>
            <pmc>http://james.apache.org</pmc>
            <name>Apache JAMES</name>
-           <standards>
-            <standard>
-              <id>RFC3028</id>
-              <title>Sieve: A Mail Filtering Language</title>
-              <body>IEFT</body>
-              <url>http://www.ietf.org/rfc/rfc3028.txt</url>
-            </standard>
-           </standards>
          </asfExtOptions>
 
         </configuration>

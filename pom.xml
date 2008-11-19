@@ -20,12 +20,12 @@
   -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
-  <artifactId>mailet-project</artifactId>
+  <artifactId>jsieve-project</artifactId>
   <name>Apache JAMES Mailet Project</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>
-    Apache JAMES Mailet Project
+    Apache JAMES JSieve Project
   </description>
   <parent>
     <groupId>org.apache.james</groupId>
@@ -37,34 +37,32 @@
   <inceptionYear>2008</inceptionYear>
   
   <modules>
-    <module>api</module>
-    <module>base</module>
-    <module>maven-mailetdocs-plugin</module>
-    <module>crypto</module>
-    <module>standard</module>
+    <module>main</module>
+    <module>mailet</module>
+    <module>util</module>
   </modules>
 
   <distributionManagement>
     <site>
-      <id>mailet-current-website</id>
-      <url>scp://people.apache.org/www/james.apache.org/mailet/current/</url>
+      <id>jsieve-current-website</id>
+      <url>scp://people.apache.org/www/james.apache.org/jsieve/current/</url>
     </site>
   </distributionManagement>
 
   <issueManagement>
     <system>JIRA</system>
-    <url>http://issues.apache.org/jira/browse/MAILET</url>
+    <url>https://issues.apache.org/jira/browse/JSIEVE</url>
   </issueManagement>
 
   <scm>
     <connection>
-      scm:svn:http://svn.apache.org/repos/asf/james/mailet/current
+      scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk
     </connection>
     <developerConnection>
-      scm:svn:https://svn.apache.org/repos/asf/james/mailet/current
+      scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk
     </developerConnection>
     <url>
-      http://svn.apache.org/viewcvs.cgi/james/mailet/current/?root=Apache-SVN
+      http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN
     </url>
   </scm>
 

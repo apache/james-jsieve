@@ -31,11 +31,9 @@ jSieve is a Java implementation of the Sieve mail filtering language defined by
 <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>. jSieve is implemented 
 as a language processor that can be plugged into any internet mail application to add 
 Sieve support.
-</p>
-<p>
-jSieve is a subproject of <a href='http://james.apache.org'>Apache JAMES</a>.
-All who are interested in developing jSieve and JAMES will be warmly
-welcomed on the <a href='mail-lists.html'>mailing lists</a>.
+</p><p>
+Sieve Utilities a collection of lightweight frameworks and utilities useful when
+working with <a href='../main/'>JSieve</a>.
 </p>
 <subsection name='What is Sieve?'>
 <p>
@@ -49,15 +47,6 @@ Sieve scripts are composed of commands. Control commands manage the execution of
 Test commands define side-effect free criteria. 
 Action commands are mail operations to be performed.
 </p>
-
-</subsection>
-</section>
-<section name="News">
-<subsection name="2008">
-  <h4>Aug/2008 - jSieve-0.2 released</h4>
-  <p>The Apache JAMES team is happy to announce the availability of 
-  <a href='http://james.apache.org/download.cgi#jsieve'>Apache jSieve 0.2</a>. 
-  This first public release is a major milestone for JSieve.</p>
 </subsection>
 </section>
 </body>

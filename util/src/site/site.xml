@@ -32,10 +32,8 @@
 
   <body>
 
-    <menu name="jSieve">
+    <menu name="Sieve Utilities">
       <item name="Overview" href="index.html"/>
-      <item name="Sieve Features" href="features.html"/>
-      <item name="Getting Started" href="start.html"/>
       <item name="RFC 2234 (ABNF)" href="http://www.ietf.org/rfc/rfc2234.txt"/>
       <item name="RFC 2244 (ACAP)" href="http://www.ietf.org/rfc/rfc2244.txt"/>
       <item name="RFC 2298 (MDN)" href="http://www.ietf.org/rfc/rfc2298.txt"/>

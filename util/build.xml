@@ -259,7 +259,7 @@
             <attribute name="Extension-Name" value='${extension.name}'/>
             <attribute name="Specification-Title" value='${title.spec}'/>
             <attribute name="Specification-Vendor" value='${vendor}'/>
-            <attribute name="Specification-Version" value='${version}'/>
+            <attribute name="Specification-Version" value='${version.spec}'/>
             <attribute name="Implementation-Vendor-Id" value='${vendor.id}'/>
             <attribute name="Implementation-Title" value='${title.impl}'/>
             <attribute name="Implementation-Vendor" value='${vendor}'/>

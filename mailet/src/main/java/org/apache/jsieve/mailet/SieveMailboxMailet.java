@@ -62,7 +62,7 @@ import org.apache.mailet.base.RFC2822Headers;
  * <addDeliveryHeader>Delivered-To</addDeliveryHeader>
  * 
  */
-public class SieveToMultiMailbox extends GenericMailet {
+public class SieveMailboxMailet extends GenericMailet {
 
     /**
      * The delivery header
@@ -81,13 +81,13 @@ public class SieveToMultiMailbox extends GenericMailet {
     /**
      * For SDI
      */
-    public SieveToMultiMailbox() {}
+    public SieveMailboxMailet() {}
     
     /**
      * CDI
      * @param poster not null
      */
-    public SieveToMultiMailbox(Poster poster) {
+    public SieveMailboxMailet(Poster poster) {
         this();
         this.poster = poster;
     }

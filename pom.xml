@@ -33,7 +33,7 @@
     <version>1.3</version>
     <relativePath>james-project/project/pom.xml</relativePath>
   </parent>
-  <url>http://james.apache.org/mailet/</url>
+  <url>http://james.apache.org/jsieve/</url>
   <inceptionYear>2008</inceptionYear>
   
   <modules>

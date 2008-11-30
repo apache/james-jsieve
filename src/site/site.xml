@@ -38,9 +38,9 @@
 
   <body>
     <menu name="jSieve">
-      <item name="Main" href="main/index.html" />
-      <item name="Mailet" href="mailet/index.html" />
-      <item name="Util" href="util/index.html" />
+      <item name="Main" href="http://james.apache.org/jsieve/main/index.html" />
+      <item name="Mailet" href="http://james.apache.org/jsieve/mailet/index.html" />
+      <item name="Util" href="http://james.apache.org/jsieve/util/index.html" />
       <item name="RFC 2234 (ABNF)"
         href="http://www.ietf.org/rfc/rfc2234.txt" />
       <item name="RFC 2244 (ACAP)"

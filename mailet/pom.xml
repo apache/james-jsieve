@@ -71,7 +71,7 @@ JAMES project.
     <dependency>
       <groupId>org.apache.james</groupId>
       <artifactId>apache-jsieve</artifactId>
-      <version>0.3-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>

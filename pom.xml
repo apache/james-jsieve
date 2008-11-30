@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>jsieve-project</artifactId>
-  <name>Apache JAMES Mailet Project</name>
+  <name>Apache JAMES JSieve Project</name>
   <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>

@@ -43,24 +43,8 @@ import org.apache.mailet.MailetException;
 import org.apache.mailet.base.RFC2822Headers;
 
 /**
- * Receives a Mail from JamesSpoolManager and takes care of delivery of the
- * message to local inboxes or a specific repository.
- * 
- * Differently from LocalDelivery this does not lookup the UserRepository This
- * simply store the message in a repository named like the local part of the
- * recipient address.
- * 
- * If no repository is specified then this fallback to MailServer.getUserInbox.
- * Otherwise you can add your own configuration for the repository
- * 
- * e.g: <repositoryUrl>file://var/spool/userspools/</repositoryUrl>
- * <repositoryType>SPOOL</repositoryType>
- * 
- * <repositoryUrl>file://var/mail/inboxes/</repositoryUrl> <repositoryType>MAIL</repositoryType>
- * 
- * Header "Delivered-To" can be added to every message adding the
- * <addDeliveryHeader>Delivered-To</addDeliveryHeader>
- * 
+ * Executes a <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>Sieve</a>
+ * script against incoming mail. The script applied is based on the recipient.
  */
 public class SieveMailboxMailet extends GenericMailet {
 
@@ -206,7 +190,7 @@ public class SieveMailboxMailet extends GenericMailet {
      * @return a string describing this mailet
      */
     public String getMailetInfo() {
-        return "ToMultiMailbox Mailet";
+        return "Sieve Mailbox Mailet";
     }
 
     /**

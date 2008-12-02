@@ -34,7 +34,7 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 
 /**
  * <p>
- * Singleton class SieveFactory is the primary invocation point for all Sieve
+ * SieveFactory is the primary invocation point for all Sieve
  * operations. Theses are...
  * <dl>
  * <dt>parse</dt>

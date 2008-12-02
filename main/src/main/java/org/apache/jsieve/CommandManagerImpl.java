@@ -24,8 +24,7 @@ import java.util.Map;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Singleton class <code>CommandManager</code> maps Command names to
- * configured Command implementation classes.
+ * Maps command names to comman implementations.
  */
 public class CommandManagerImpl implements CommandManager {
 

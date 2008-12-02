@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 
 /**
  * <p>
- * Singleton class <code>ConfigurationManager</code> parses the XML statements
+ * <code>ConfigurationManager</code> parses the XML statements
  * in the Sieve configuration file and translates them to Java objects.
  * </p>
  * 

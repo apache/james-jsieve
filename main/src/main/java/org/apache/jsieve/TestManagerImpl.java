@@ -25,7 +25,7 @@ import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Singleton class <code>TestManager</code> maps Test names to configured Test
+ * Maps Test names to configured Test
  * implementation classes.
  */
 public class TestManagerImpl implements TestManager {

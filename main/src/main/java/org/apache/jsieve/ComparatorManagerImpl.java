@@ -25,8 +25,7 @@ import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Singleton class <code>ComparatorManager</code> maps Comparator names to
- * configured Comparator implementation classes.
+ * Maps Comparator names to configured Comparator implementation classes.
  */
 public class ComparatorManagerImpl implements ComparatorManager {
 

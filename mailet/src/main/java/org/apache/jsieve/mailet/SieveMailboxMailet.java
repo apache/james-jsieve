@@ -46,6 +46,14 @@ import org.apache.mailet.base.RFC2822Headers;
 /**
  * <p>Executes a <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>Sieve</a>
  * script against incoming mail. The script applied is based on the recipient.</p>
+ * <h4>Init Parameters</h4>
+ * <table>
+ * <thead><tr><th>Name</th><th>Required</th><th>Values</th><th>Role</th></thead>
+ * <tr><td>verbose</td><td>No - defaults to false</td><td>true (ignoring case) to enable, otherwise disable</td>
+ * <td>
+ * Enables verbose logging.
+ * </td></tr>
+ * </table>
  */
 public class SieveMailboxMailet extends GenericMailet {
 
@@ -63,6 +71,9 @@ public class SieveMailboxMailet extends GenericMailet {
     /** Experimental */
     private ResourceLocator locator;
     
+    /** Indicates whether this mailet should log verbosely */
+    private boolean verbose = false;
+
     private SieveFactory factory;
 
     /**
@@ -105,6 +116,29 @@ public class SieveMailboxMailet extends GenericMailet {
         this.poster = poster;
     }
 
+
+    /**
+     * Is this mailet logging verbosely?
+     * This property is set by init parameters.
+     * @return true if logging should be verbose, false otherwise
+     */
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+
+    /**
+     * Sets whether logging should be verbose for this mailet.
+     * This property is set by init parameters.
+     * @param verbose true when logging should be verbose,
+     * false otherwise
+     */
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+
+    
     //@Override
     public void init(MailetConfig config) throws MessagingException {
         
@@ -243,8 +277,11 @@ public class SieveMailboxMailet extends GenericMailet {
             final InputStream ins = locator.get(relativeUri);
             MailAdapter aMailAdapter = new SieveMailAdapter(aMail,
                     getMailetContext());
-            log("Evaluating " + aMailAdapter.toString() + "against \""
+            // This logging operation is potentially costly
+            if (verbose) {
+                log("Evaluating " + aMailAdapter.toString() + "against \""
                     + relativeUri + "\"");
+            }
             factory.evaluate(aMailAdapter, factory.parse(ins));
         }
         catch (Exception ex)

@@ -21,6 +21,7 @@ package org.apache.jsieve.mailet;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -43,8 +44,8 @@ import org.apache.mailet.MailetException;
 import org.apache.mailet.base.RFC2822Headers;
 
 /**
- * Executes a <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>Sieve</a>
- * script against incoming mail. The script applied is based on the recipient.
+ * <p>Executes a <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>Sieve</a>
+ * script against incoming mail. The script applied is based on the recipient.</p>
  */
 public class SieveMailboxMailet extends GenericMailet {
 
@@ -59,6 +60,8 @@ public class SieveMailboxMailet extends GenericMailet {
     private boolean resetReturnPath;
     /** Experimental */
     private Poster poster;
+    /** Experimental */
+    private ResourceLocator locator;
     
     private SieveFactory factory;
 
@@ -71,9 +74,23 @@ public class SieveMailboxMailet extends GenericMailet {
      * CDI
      * @param poster not null
      */
-    public SieveMailboxMailet(Poster poster) {
+    public SieveMailboxMailet(Poster poster, ResourceLocator locator) {
         this();
         this.poster = poster;
+        this.locator = locator;
+    }
+
+    
+    public ResourceLocator getLocator() {
+        return locator;
+    }
+
+    /**
+     * For SDI
+     * @param locator not null
+     */
+    public void setLocator(ResourceLocator locator) {
+        this.locator = locator;
     }
 
     public final Poster getPoster() {
@@ -88,11 +105,11 @@ public class SieveMailboxMailet extends GenericMailet {
         this.poster = poster;
     }
 
-    
     //@Override
     public void init(MailetConfig config) throws MessagingException {
         
         super.init(config);
+
         try {
             factory = new ConfigurationManager().build();
         } catch (SieveConfigurationException e) {
@@ -214,31 +231,21 @@ public class SieveMailboxMailet extends GenericMailet {
         // recipient.toString was used here (JD)
         username = recipient.getUser();
         
-        storeMessage(username, mail);
+        sieveMessage(username, mail);
  
     }
     
-    void storeMessage(String username, Mail mail) throws MessagingException {
-        String sieveFileName="../apps/james/var/sieve/"+username+".sieve";
-        if (new File(sieveFileName).canRead()) {
-            getMailetContext().log("Passing over to sieve delivery for "+username);
-            storeMessageSieve(sieveFileName, username, mail);
-        } else {
-            getMailetContext().log(new File(sieveFileName).getAbsolutePath()+ " does not exists");
-            storeMessageInbox(username, mail);
-        }
-    }
-    
-    void storeMessageSieve(String sieveFileName, String username, Mail aMail) throws MessagingException {
+    void sieveMessage(String username, Mail aMail) throws MessagingException {
         // Evaluate the script against the mail
+        String relativeUri = "//" + username + "@" + "localhost/sieve"; 
         try
         {
+            final InputStream ins = locator.get(relativeUri);
             MailAdapter aMailAdapter = new SieveMailAdapter(aMail,
                     getMailetContext());
             log("Evaluating " + aMailAdapter.toString() + "against \""
-                    + sieveFileName + "\"");
-            factory.evaluate(aMailAdapter,
-                    factory.parse(new FileInputStream(sieveFileName)));
+                    + relativeUri + "\"");
+            factory.evaluate(aMailAdapter, factory.parse(ins));
         }
         catch (Exception ex)
         {

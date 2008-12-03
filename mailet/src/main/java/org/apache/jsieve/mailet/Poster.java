@@ -28,12 +28,13 @@ import javax.mail.internet.MimeMessage;
 public interface Poster {
     
     /**
-     * Experimental RESTful mail delivery. 
+     * Experimental mail delivery. 
      * POST verb indicate that mail should be attached to the collection
      * indicated by the given URI.
-     * @param url indicates the destination to which the mail to added. ATM 
+     * 
+     * @param uri indicates the destination to which the mail to added. ATM 
      * the value should be mailbox://<user>@localhost/<mailbox-path>
      * @param mail not null
      */
-    public void post(String url, MimeMessage mail) throws MessagingException;
+    public void post(String uri, MimeMessage mail) throws MessagingException;
 }

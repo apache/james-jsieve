@@ -104,7 +104,7 @@ public class SieveMailboxMailet extends GenericMailet {
         this.locator = locator;
     }
 
-    public final Poster getPoster() {
+    public Poster getPoster() {
         return poster;
     }
     
@@ -112,7 +112,7 @@ public class SieveMailboxMailet extends GenericMailet {
      * For SDI
      * @param poster not null
      */
-    public final void setPoster(Poster poster) {
+    public void setPoster(Poster poster) {
         this.poster = poster;
     }
 

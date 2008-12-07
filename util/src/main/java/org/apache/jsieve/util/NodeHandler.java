@@ -32,8 +32,12 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 
 /**
  * Presents a low level reporting view of a Sieve node tree.
+ * Familiarity with the 
+ * <a href='http://james.apache.org/jsieve/'>JSieve</a> implementation is assumed.
+ * Anyone requiring a high level view should see {@link SieveHandler}.
  * 
  * @see NodeTraverser
+ * @see SieveHandler
  */
 public interface NodeHandler {
     

@@ -28,6 +28,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
+import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.parser.generated.ParseException;
 
 /**
@@ -56,9 +57,9 @@ public class JUnitUtils {
      * @throws SieveException
      * @throws ParseException
      */
-    static public void parse(String script) throws SieveException,
+    static public Node parse(String script) throws SieveException,
             ParseException {
-        new ConfigurationManager().build().parse(
+        return new ConfigurationManager().build().parse(
                 new ByteArrayInputStream(script.getBytes()));
     }
 

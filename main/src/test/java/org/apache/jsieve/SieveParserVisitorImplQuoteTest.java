@@ -26,9 +26,12 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.parser.generated.ASTstring;
+import org.apache.jsieve.parser.generated.Node;
+import org.apache.jsieve.utils.JUnitUtils;
 
 public class SieveParserVisitorImplQuoteTest extends TestCase {
 
+    
     SieveParserVisitorImpl visitor;
 
     List data;
@@ -44,56 +47,60 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
                         .getTestManager(), LogFactory
                         .getLog(SieveParserVisitorImplQuoteTest.class)));
         data = new ArrayList();
-        node = new ASTstring(100);
+
     }
 
-    public void testVisitASTstringObjectQuoted() {
-
-        node.setValue("\"value\"");
+    private ASTstring stringNode(String value) throws Exception {
+        Node node = JUnitUtils.parse("fileinto " + value + ";");
+        return (ASTstring) node.jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
+    }
+    
+    public void testVisitASTstringObjectQuoted() throws Exception {
+        node = stringNode("\"value\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "value", data
                 .get(0));
     }
 
-    public void testVisitASTstringObjectQuoteInQuoted() {
-
-        node.setValue("\"val\\\"ue\"");
+    public void testVisitASTstringObjectQuoteInQuoted() throws Exception {
+        
+        node = stringNode("\"val\\\"ue\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "val\"ue", data
                 .get(0));
     }
 
-    public void testVisitASTstringObjectDoubleSlashQuoted() {
+    public void testVisitASTstringObjectDoubleSlashQuoted() throws Exception {
 
-        node.setValue("\"val\\\\ue\"");
+        node = stringNode("\"val\\\\ue\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "val\\ue", data
                 .get(0));
     }
 
-    public void testVisitASTstringObjectSlashQuoted() {
+    public void testVisitASTstringObjectSlashQuoted() throws Exception {
 
-        node.setValue("\"val\\ue\"");
+        node = stringNode("\"value\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "value", data
                 .get(0));
     }
 
-    public void testVisitASTstringEmptyQuoted() {
+    public void testVisitASTstringEmptyQuoted() throws Exception {
 
-        node.setValue("\"\"");
+        node = stringNode("\"\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "", data.get(0));
     }
 
-    public void testVisitASTstringObjectMultiSlashQuoted() {
+    public void testVisitASTstringObjectMultiSlashQuoted() throws Exception {
 
-        node.setValue("\"v\\\\al\\\\u\\e\\\\\"");
+        node = stringNode("\"v\\\\al\\\\u\\e\\\\\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "v\\al\\ue\\",

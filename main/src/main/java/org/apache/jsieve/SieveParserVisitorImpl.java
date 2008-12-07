@@ -222,20 +222,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     public Object visit(ASTstring node, Object data) {
         // Strings are always surround by double-quotes
         final String value = (String) node.getValue();
-        final StringBuffer buffer = new StringBuffer(value);
-        buffer.deleteCharAt(value.length() - 1);
-        buffer.deleteCharAt(0);
-        int i = 0;
-        while (i < buffer.length()) {
-            if ('\\' == buffer.charAt(i)) {
-                buffer.deleteCharAt(i);
-            }
-            i++;
-        }
-
-        final String result = buffer.toString();
         // A String is terminal, add it
-        ((List) data).add(result);
+        ((List) data).add(value);
         return data;
     }
 

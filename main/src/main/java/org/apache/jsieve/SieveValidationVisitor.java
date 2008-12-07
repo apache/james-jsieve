@@ -119,9 +119,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
         if (isInRequire) {
             final Object value = node.getValue();
             if (value != null && value instanceof String) {
-                final String quotedName = (String) value;
-                final String name = quotedName.substring(1,
-                        quotedName.length() - 1);
+                final String name = (String) value;
                 try {
                     commandManager.getCommand(name);
                 } catch (LookupException e) {

@@ -49,7 +49,6 @@
     <path id="project.class.path">
         <pathelement location="${commons-logging.jar}"/>
         <pathelement location="${log4j.jar}"/>
-        <pathelement location="${junit.jar}"/>
     	<pathelement location='${lib.jsieve.dir}/${name}-${version}.jar'/>
     	<pathelement location="${mailet.jar}"/>
     	<path refid="mail.class.path"/>
@@ -59,6 +58,8 @@
     
     <path id="project.test.class.path">
         <path refid="project.class.path"/>  
+    	<pathelement location="${junit.jar}"/>
+		<pathelement location="${jmock.jar}"/>
     </path>   
 
     <!--
@@ -320,13 +321,8 @@
             -->
             <classpath id="junit.class.path">
             	<pathelement location="${testconf.dir}"/>
-                <fileset dir="${dist.dir}/lib">
-                    <include name="**/*.jar"/>
-                </fileset>
-                <pathelement location="${dist.dir}/conf/"/>
-                <pathelement path="${java.class.path}"/>
-                <pathelement location="${junit.jar}"/>
-                <path refid='mail.class.path'/>   
+                <pathelement location='${build.classes.test}'/>
+                <path refid='project.test.class.path'/>   
             </classpath>
             <formatter type="plain"/>
             <batchtest fork="yes" todir="${dist.dir}/reports">

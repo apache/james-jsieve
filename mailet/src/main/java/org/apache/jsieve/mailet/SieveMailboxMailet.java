@@ -73,6 +73,8 @@ public class SieveMailboxMailet extends GenericMailet {
     
     /** Indicates whether this mailet should log verbosely */
     private boolean verbose = false;
+    
+    private boolean consume = true;
 
     private SieveFactory factory;
 
@@ -231,8 +233,10 @@ public class SieveMailboxMailet extends GenericMailet {
             getMailetContext().sendMail(mail.getSender(), errors,
                     mail.getMessage(), Mail.ERROR);
         }
-        // We always consume this message
-        mail.setState(Mail.GHOST);
+        if (consume) {
+            // Consume this message
+            mail.setState(Mail.GHOST);
+        }
     }
 
     /**
@@ -315,5 +319,7 @@ public class SieveMailboxMailet extends GenericMailet {
         deliveryHeader = getInitParameter("addDeliveryHeader");
         String resetReturnPathString = getInitParameter("resetReturnPath");
         resetReturnPath = "true".equalsIgnoreCase(resetReturnPathString);
+        String consume = getInitParameter("consume");
+        this.consume = !"false".equalsIgnoreCase(consume);
     }
 }

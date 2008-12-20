@@ -19,8 +19,6 @@
 
 package org.apache.jsieve.mailet;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -36,11 +34,11 @@ import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveConfigurationException;
 import org.apache.jsieve.SieveFactory;
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.mailet.base.GenericMailet;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetConfig;
 import org.apache.mailet.MailetException;
+import org.apache.mailet.base.GenericMailet;
 import org.apache.mailet.base.RFC2822Headers;
 
 /**
@@ -118,6 +116,22 @@ public class SieveMailboxMailet extends GenericMailet {
         this.poster = poster;
     }
 
+    /**
+     * Is this mailet GHOSTing all mail it processes?
+     * @return true when mailet consumes all mail, false otherwise
+     */
+    public boolean isConsume() {
+        return consume;
+    }
+
+    /**
+     * Sets whether this mailet should GHOST all mail.
+     * @param consume true when the mailet should consume all mail, 
+     * false otherwise
+     */
+    public void setConsume(boolean consume) {
+        this.consume = consume;
+    }
 
     /**
      * Is this mailet logging verbosely?
@@ -316,10 +330,9 @@ public class SieveMailboxMailet extends GenericMailet {
                     " setter or constructor injection");
         }
         
-        deliveryHeader = getInitParameter("addDeliveryHeader");
-        String resetReturnPathString = getInitParameter("resetReturnPath");
-        resetReturnPath = "true".equalsIgnoreCase(resetReturnPathString);
-        String consume = getInitParameter("consume");
-        this.consume = !"false".equalsIgnoreCase(consume);
+        this.deliveryHeader = getInitParameter("addDeliveryHeader");
+        this.resetReturnPath = getInitParameter("resetReturnPath", true);
+        this.consume = getInitParameter("consume", true);
+        this.verbose = getInitParameter("verbose", false);
     }
 }

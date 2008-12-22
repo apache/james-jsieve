@@ -325,7 +325,7 @@ public class SieveMailboxMailet extends GenericMailet {
      */
     public void init() throws MessagingException {
         super.init();
-        if (poster == null) {
+        if (poster == null || locator == null) {
             throw new MailetException("Not initialised. Please ensure that the mailet container supports either" +
                     " setter or constructor injection");
         }

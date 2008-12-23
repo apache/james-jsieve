@@ -157,19 +157,19 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
             }
             catch (NoSuchMethodException e)
             {
-                throw new SieveException(e.getMessage());
+                throw new SieveException(e);
             }
             catch (IllegalAccessException e)
             {
-                throw new SieveException(e.getMessage());
+                throw new SieveException(e);
             }
             catch (InvocationTargetException e)
             {
-                throw new SieveException(e.getMessage());
+                throw new SieveException(e);
             }
             catch (MessagingException e)
             {
-                throw new SieveException(e.getMessage());
+                throw new SieveException(e);
             }
         }
     }

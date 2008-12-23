@@ -68,22 +68,18 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
      * List of Actions to perform.
      */
     private List fieldActions;
-    /**
-     * Constructor for SieveMailAdapter.
-     */
-    private SieveMailAdapter()
-    {
-        super();
-    }
+    
+    private final ActionDispatcher dispatcher;
+    
     /**
      * Constructor for SieveMailAdapter.
      * 
      * @param aMail
      * @param aMailetContext
      */
-    public SieveMailAdapter(Mail aMail, MailetContext aMailetContext)
+    public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher)
     {
-        this();
+        this.dispatcher = dispatcher;
         setMail(aMail);
         setMailetContext(aMailetContext);
     }
@@ -143,8 +139,6 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
      */
     public void executeActions() throws SieveException
     {
-        //        Log log = Logger.getLog();
-        //        boolean isDebugEnabled = log.isDebugEnabled();
         ListIterator actionsIter = getActionsIterator();
         while (actionsIter.hasNext())
         {
@@ -152,8 +146,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
             getMailetContext().log("Executing action: " + action.toString());
             try
             {
-                ActionDispatcher.getInstance().execute(action, getMail(),
-                        getMailetContext());
+                dispatcher.execute(action, getMail(), getMailetContext());
             }
             catch (NoSuchMethodException e)
             {

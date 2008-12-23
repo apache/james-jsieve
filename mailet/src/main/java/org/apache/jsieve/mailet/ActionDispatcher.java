@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
@@ -39,12 +40,7 @@ import org.apache.mailet.MailetContext;
  * an Action depending on the type of Action received at runtime. 
  */
 public class ActionDispatcher
-{
-    /**
-     * The sole instance of the receiver. 
-     */
-    static private ActionDispatcher fieldInstance;
-    
+{   
     /**
      * A Map keyed by the type of Action. The values are the methods to invoke to 
      * handle the Action.
@@ -53,71 +49,14 @@ public class ActionDispatcher
 
     /**
      * Constructor for ActionDispatcher.
+     * @throws NoSuchMethodException 
      */
-    private ActionDispatcher()
+    public ActionDispatcher() throws SieveException
     {
         super();
+        setMethodMap(defaultMethodMap());
     }
-
-    /**
-     * Returns the sole instance of the receiver, lazily initialised.
-     * @return ActionDispatcher
-     */
-    public static synchronized ActionDispatcher getInstance()
-    {
-        ActionDispatcher instance = null;
-        if (null == (instance = getInstanceBasic()))
-        {
-            updateInstance();
-            return getInstance();
-        }    
-        return instance;
-    }
-    
-    /**
-     * Returns the sole instance of the receiver.
-     * @return ActionDispatcher
-     */
-    private static ActionDispatcher getInstanceBasic()
-    {
-        return fieldInstance;
-    }    
-    
-    /**
-     * Returns a new instance of the receiver.
-     * @return ActionDispatcher
-     */
-    protected static ActionDispatcher computeInstance()
-    {
-        return new ActionDispatcher();
-    }    
-
-    /**
-     * Sets the instance.
-     * @param instance The instance to set
-     */
-    protected static void setInstance(ActionDispatcher instance)
-    {
-        fieldInstance = instance;
-    }
-  
-    
-    /**
-     * Resets the instance.
-     */
-    public static void resetInstance()
-    {
-        setInstance(null);
-    }    
-    
-    /**
-     * Updates the instance.
-     */
-    protected static void updateInstance()
-    {
-        setInstance(computeInstance());
-    }
-    
+     
     /**
      * Method execute executes the passed Action by invoking the method mapped by the
      * receiver with a parameter of the EXACT type of Action.
@@ -155,26 +94,10 @@ public class ActionDispatcher
     }
     
     /**
-     * Returns the methodMap, lazily initialised.
-     * @return Map
-     * @throws NoSuchMethodException
-     */
-    protected synchronized Map getMethodMap() throws NoSuchMethodException
-    {
-        Map methodMap = null;
-        if (null == (methodMap = getMethodMapBasic()))
-        {
-            updateMethodMap();
-            return getMethodMap();
-        }    
-        return methodMap;
-    }
-    
-    /**
      * Returns the methodMap.
      * @return Map
      */
-    private Map getMethodMapBasic()
+    public Map getMethodMap()
     {
         return fieldMethodMap;
     }    
@@ -183,8 +106,9 @@ public class ActionDispatcher
      * Returns a new methodMap.
      * @return Map
      */
-    protected Map computeMethodMap() throws NoSuchMethodException
+    private Map defaultMethodMap() throws SieveException
     {
+        try {
         Map methodNameMap = new HashMap();
         methodNameMap.put(
             ActionFileInto.class,
@@ -219,6 +143,9 @@ public class ActionDispatcher
                     Mail.class,
                     MailetContext.class }));
         return methodNameMap;
+        } catch (NoSuchMethodException e) {
+            throw new SieveException(e);
+        }
     }    
 
     /**
@@ -229,14 +156,4 @@ public class ActionDispatcher
     {
         fieldMethodMap = methodMap;
     }
-    
-    /**
-     * Updates the methodMap.
-     * @throws NoSuchMethodException
-     */
-    protected void updateMethodMap() throws NoSuchMethodException
-    {
-        setMethodMap(computeMethodMap());
-    }
-
 }

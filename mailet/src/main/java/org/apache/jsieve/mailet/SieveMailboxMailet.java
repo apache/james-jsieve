@@ -73,6 +73,8 @@ public class SieveMailboxMailet extends GenericMailet {
     private boolean verbose = false;
     
     private boolean consume = true;
+    /** Indicates whether this mailet should log minimal information */
+    private boolean quiet = true;
 
     private SieveFactory factory;
 
@@ -146,6 +148,7 @@ public class SieveMailboxMailet extends GenericMailet {
     /**
      * Sets whether logging should be verbose for this mailet.
      * This property is set by init parameters.
+     * This setting overrides {@link #isQuiet()}.
      * @param verbose true when logging should be verbose,
      * false otherwise
      */
@@ -153,15 +156,49 @@ public class SieveMailboxMailet extends GenericMailet {
         this.verbose = verbose;
     }
 
+    /**
+     * Is the logging for this mailet set to minimal?
+     * @return true
+     */
+    public boolean isQuiet() {
+        return quiet;
+    }
 
+    /**
+     * Sets the logging for this mailet to minimal.
+     * This is overriden by {@link #setVerbose(boolean)}.
+     * @param quiet true for minimal logging, false otherwise
+     */
+    public void setQuiet(boolean quiet) {
+        this.quiet = quiet;
+    }
     
+    /**
+     * Is informational logging turned on? 
+     * @return true when minimal logging is off,
+     * false when logging is minimal
+     */
+    public boolean isInfoLoggingOn() {
+        return verbose || !quiet;
+    }
+
     //@Override
     public void init(MailetConfig config) throws MessagingException {
         
         super.init(config);
 
         try {
-            factory = new ConfigurationManager().build();
+            final ConfigurationManager configurationManager = new ConfigurationManager();
+            final int logLevel;
+            if (verbose) {
+                logLevel = CommonsLoggingAdapter.TRACE;
+            } else if (quiet) {
+                logLevel = CommonsLoggingAdapter.FATAL;
+            } else {
+                logLevel = CommonsLoggingAdapter.WARN;
+            }
+            configurationManager.setLog(new CommonsLoggingAdapter(this, logLevel));
+            factory = configurationManager.build();
         } catch (SieveConfigurationException e) {
             throw new MessagingException("Failed to load standard Sieve configuration.", e);
         }
@@ -231,7 +268,7 @@ public class SieveMailboxMailet extends GenericMailet {
                     }
                 }
             } catch (Exception ex) {
-                getMailetContext().log("Error while storing mail.", ex);
+                log("Error while storing mail.", ex);
                 errors.add(recipient);
             }
         }
@@ -310,7 +347,9 @@ public class SieveMailboxMailet extends GenericMailet {
             // seems very unfriendly.
             // So just log and store in INBOX.
             //
-            log("Cannot evaluate Sieve script. Storing mail in user INBOX.", ex);
+            if (isInfoLoggingOn()) {
+                log("Cannot evaluate Sieve script. Storing mail in user INBOX.", ex);
+            }
             storeMessageInbox(username, aMail);
         }
     }
@@ -334,5 +373,6 @@ public class SieveMailboxMailet extends GenericMailet {
         this.resetReturnPath = getInitParameter("resetReturnPath", true);
         this.consume = getInitParameter("consume", true);
         this.verbose = getInitParameter("verbose", false);
+        this.quiet = getInitParameter("quiet", false);
     }
 }

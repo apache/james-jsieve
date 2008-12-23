@@ -78,8 +78,14 @@ public class FileIntoAction implements MailAction {
                 destinationMailbox =  HIERARCHY_DELIMITER + destinationMailbox;
             }
             
-            final String url = "mailbox://" + recipient.getUser() + "@localhost/" + 
-                destinationMailbox.replace(HIERARCHY_DELIMITER, '/');
+            final String mailbox = destinationMailbox.replace(HIERARCHY_DELIMITER, '/');
+            final String host;
+            if (mailbox.charAt(0) == '/') {
+                host = "@localhost";
+            } else {
+                host = "@localhost/";
+            }
+            final String url = "mailbox://" + recipient.getUser() + host + mailbox;
             //TODO: copying this message so many times seems a waste
             context.post(url, localMessage);
             delivered = true;

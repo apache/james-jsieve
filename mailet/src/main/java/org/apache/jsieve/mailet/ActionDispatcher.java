@@ -26,7 +26,6 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 
-import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
@@ -51,7 +50,7 @@ public class ActionDispatcher
      * Constructor for ActionDispatcher.
      * @throws NoSuchMethodException 
      */
-    public ActionDispatcher() throws SieveException
+    public ActionDispatcher() throws MessagingException
     {
         super();
         setMethodMap(defaultMethodMap());
@@ -106,45 +105,45 @@ public class ActionDispatcher
      * Returns a new methodMap.
      * @return Map
      */
-    private Map defaultMethodMap() throws SieveException
+    private Map defaultMethodMap() throws MessagingException
     {
         try {
-        Map methodNameMap = new HashMap();
-        methodNameMap.put(
-            ActionFileInto.class,
-            Actions.class.getMethod(
-                "execute",
-                new Class[] {
-                    ActionFileInto.class,
-                    Mail.class,
-                    MailetContext.class }));
-        methodNameMap.put(
-            ActionKeep.class,
-            Actions.class.getMethod(
-                "execute",
-                new Class[] {
-                    ActionKeep.class,
-                    Mail.class,
-                    MailetContext.class }));
-        methodNameMap.put(
-            ActionRedirect.class,
-            Actions.class.getMethod(
-                "execute",
-                new Class[] {
-                    ActionRedirect.class,
-                    Mail.class,
-                    MailetContext.class }));
-        methodNameMap.put(
-            ActionReject.class,
-            Actions.class.getMethod(
-                "execute",
-                new Class[] {
-                    ActionReject.class,
-                    Mail.class,
-                    MailetContext.class }));
-        return methodNameMap;
+            Map methodNameMap = new HashMap();
+            methodNameMap.put(
+                ActionFileInto.class,
+                Actions.class.getMethod(
+                    "execute",
+                    new Class[] {
+                        ActionFileInto.class,
+                        Mail.class,
+                        MailetContext.class }));
+            methodNameMap.put(
+                ActionKeep.class,
+                Actions.class.getMethod(
+                    "execute",
+                    new Class[] {
+                        ActionKeep.class,
+                        Mail.class,
+                        MailetContext.class }));
+            methodNameMap.put(
+                ActionRedirect.class,
+                Actions.class.getMethod(
+                    "execute",
+                    new Class[] {
+                        ActionRedirect.class,
+                        Mail.class,
+                        MailetContext.class }));
+            methodNameMap.put(
+                ActionReject.class,
+                Actions.class.getMethod(
+                    "execute",
+                    new Class[] {
+                        ActionReject.class,
+                        Mail.class,
+                        MailetContext.class }));
+            return methodNameMap;
         } catch (NoSuchMethodException e) {
-            throw new SieveException(e);
+            throw new MessagingException("Require method missing from action.", e);
         }
     }    
 

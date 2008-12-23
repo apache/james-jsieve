@@ -78,6 +78,8 @@ public class SieveMailboxMailet extends GenericMailet {
 
     private SieveFactory factory;
 
+    private ActionDispatcher actionDispatcher;
+
     /**
      * For SDI
      */
@@ -330,8 +332,9 @@ public class SieveMailboxMailet extends GenericMailet {
         try
         {
             final InputStream ins = locator.get(relativeUri);
+            
             MailAdapter aMailAdapter = new SieveMailAdapter(aMail,
-                    getMailetContext());
+                    getMailetContext(), actionDispatcher);
             // This logging operation is potentially costly
             if (verbose) {
                 log("Evaluating " + aMailAdapter.toString() + "against \""
@@ -374,5 +377,7 @@ public class SieveMailboxMailet extends GenericMailet {
         this.consume = getInitParameter("consume", true);
         this.verbose = getInitParameter("verbose", false);
         this.quiet = getInitParameter("quiet", false);
+        
+        actionDispatcher = new ActionDispatcher();
     }
 }

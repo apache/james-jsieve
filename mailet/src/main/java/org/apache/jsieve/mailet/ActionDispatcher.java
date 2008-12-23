@@ -19,8 +19,6 @@
 
 package org.apache.jsieve.mailet;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,19 +30,18 @@ import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.mail.ActionReject;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailetContext;
 
 /**
- * Singleton Class <code>ActionDispatcher</code> dynamically dispatches 
- * an Action depending on the type of Action received at runtime. 
+ * Dynamically dispatches an Action depending on the type of Action received at runtime. 
  */
 public class ActionDispatcher
 {   
     /**
      * A Map keyed by the type of Action. The values are the methods to invoke to 
      * handle the Action.
+     * <Action, MailAction>
      */ 
-    private Map fieldMethodMap;
+    private Map/*<Action, MailAction>*/ fieldMailActionMap;
 
     /**
      * Constructor for ActionDispatcher.
@@ -55,104 +52,50 @@ public class ActionDispatcher
         super();
         setMethodMap(defaultMethodMap());
     }
-     
+
     /**
      * Method execute executes the passed Action by invoking the method mapped by the
      * receiver with a parameter of the EXACT type of Action.
-     * @param anAction
-     * @param aMail
-     * @param aMailetContext
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @param anAction not null
+     * @param aMail not null
+     * @param context not null
      * @throws MessagingException
      */
-    public void execute(
-        Action anAction,
-        Mail aMail,
-        MailetContext aMailetContext)
-        throws
-            NoSuchMethodException,
-            IllegalAccessException,
-            InvocationTargetException,
-            MessagingException
+    public void execute(final Action anAction, final Mail aMail, final ActionContext context) throws MessagingException
     {
-        Method actionMethod = (Method) getMethodMap().get(anAction.getClass());
-        if (null == actionMethod)
-            throw new NoSuchMethodException(
-                "Method accepting parameters ("
-                    + anAction.getClass().getName()
-                    + ", "
-                    + aMail.getClass().getName()
-                    + ", "
-                    + aMailetContext.getClass().getName()
-                    + ") not mapped.");
-        actionMethod.invoke(
-            null,
-            new Object[] { anAction, aMail, aMailetContext });
+        MailAction mailAction = (MailAction) getMethodMap().get(anAction.getClass());
+        mailAction.execute(anAction, aMail, context);
     }
-    
+
     /**
      * Returns the methodMap.
      * @return Map
      */
     public Map getMethodMap()
     {
-        return fieldMethodMap;
+        return fieldMailActionMap;
     }    
-    
+
     /**
      * Returns a new methodMap.
      * @return Map
      */
-    private Map defaultMethodMap() throws MessagingException
+    private Map defaultMethodMap()
     {
-        try {
-            Map methodNameMap = new HashMap();
-            methodNameMap.put(
-                ActionFileInto.class,
-                Actions.class.getMethod(
-                    "execute",
-                    new Class[] {
-                        ActionFileInto.class,
-                        Mail.class,
-                        MailetContext.class }));
-            methodNameMap.put(
-                ActionKeep.class,
-                Actions.class.getMethod(
-                    "execute",
-                    new Class[] {
-                        ActionKeep.class,
-                        Mail.class,
-                        MailetContext.class }));
-            methodNameMap.put(
-                ActionRedirect.class,
-                Actions.class.getMethod(
-                    "execute",
-                    new Class[] {
-                        ActionRedirect.class,
-                        Mail.class,
-                        MailetContext.class }));
-            methodNameMap.put(
-                ActionReject.class,
-                Actions.class.getMethod(
-                    "execute",
-                    new Class[] {
-                        ActionReject.class,
-                        Mail.class,
-                        MailetContext.class }));
-            return methodNameMap;
-        } catch (NoSuchMethodException e) {
-            throw new MessagingException("Require method missing from action.", e);
-        }
+        Map/*<Action, MailAction>*/ actionMap = new HashMap/*<Action, MailAction>*/(4);
+        actionMap.put(ActionFileInto.class, new FileIntoAction());
+        actionMap.put(ActionKeep.class, new KeepAction());
+        actionMap.put(ActionRedirect.class, new RedirectAction());
+        actionMap.put(ActionReject.class, new RejectAction());
+        return actionMap;
     }    
 
     /**
-     * Sets the methodMap.
-     * @param methodMap The methodMap to set
+     * Sets the mail action mail.
+     * @param mailActionMap <Action, MailAction> not null
      */
-    protected void setMethodMap(Map methodMap)
+    protected void setMethodMap(Map/*<Action, MailAction>*/  mailActionMap)
     {
-        fieldMethodMap = methodMap;
+        fieldMailActionMap = mailActionMap;
     }
 }

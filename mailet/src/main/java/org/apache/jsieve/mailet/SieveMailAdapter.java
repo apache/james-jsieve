@@ -19,9 +19,9 @@
 
 package org.apache.jsieve.mailet;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,10 +30,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+
 import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.james.mime4j.field.address.AddressList;
 import org.apache.james.mime4j.field.address.Mailbox;
 import org.apache.james.mime4j.field.address.MailboxList;
@@ -54,8 +57,12 @@ import org.apache.mailet.MailetContext;
  * for use in a Mailet environment.
  * </p>
  */
-public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
+public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionContext
 {
+    private static final Log LOG = LogFactory.getLog(SieveMailAdapter.class);
+    
+    private Log log = LOG;
+    
     /**
      * The Mail being adapted.
      */
@@ -71,18 +78,27 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
     
     private final ActionDispatcher dispatcher;
     
+    private final Poster poster;
+    
     /**
      * Constructor for SieveMailAdapter.
      * 
      * @param aMail
      * @param aMailetContext
      */
-    public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher)
+    public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher, final Poster poster)
     {
+        this.poster = poster;
         this.dispatcher = dispatcher;
         setMail(aMail);
         setMailetContext(aMailetContext);
     }
+    
+  
+    public void setLog(Log log) {
+        this.log = log;
+    }
+
     /**
      * Returns the message.
      * 
@@ -146,19 +162,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
             getMailetContext().log("Executing action: " + action.toString());
             try
             {
-                dispatcher.execute(action, getMail(), getMailetContext());
-            }
-            catch (NoSuchMethodException e)
-            {
-                throw new SieveException(e);
-            }
-            catch (IllegalAccessException e)
-            {
-                throw new SieveException(e);
-            }
-            catch (InvocationTargetException e)
-            {
-                throw new SieveException(e);
+                dispatcher.execute(action, getMail(), this);
             }
             catch (MessagingException e)
             {
@@ -438,5 +442,20 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors
         public String getLocalPart() {
             return localPart;
         }
+    }
+
+    public Log getLog() {
+        return log;
+    }
+    
+    public String getServerInfo() {
+        return getMailetContext().getServerInfo();
+    }
+    public void post(String uri, MimeMessage mail) throws MessagingException {
+        poster.post(uri, mail);
+    }
+    
+    public void post(MailAddress sender, Collection recipients, MimeMessage mail) throws MessagingException {
+        getMailetContext().sendMail(sender, recipients, mail);
     }
 }

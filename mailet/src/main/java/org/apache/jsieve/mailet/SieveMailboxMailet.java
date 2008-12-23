@@ -30,10 +30,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.logging.Log;
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveConfigurationException;
 import org.apache.jsieve.SieveFactory;
-import org.apache.jsieve.mail.MailAdapter;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetConfig;
@@ -79,6 +79,8 @@ public class SieveMailboxMailet extends GenericMailet {
     private SieveFactory factory;
 
     private ActionDispatcher actionDispatcher;
+
+    private Log log;
 
     /**
      * For SDI
@@ -199,7 +201,8 @@ public class SieveMailboxMailet extends GenericMailet {
             } else {
                 logLevel = CommonsLoggingAdapter.WARN;
             }
-            configurationManager.setLog(new CommonsLoggingAdapter(this, logLevel));
+            log = new CommonsLoggingAdapter(this, logLevel);
+            configurationManager.setLog(log);
             factory = configurationManager.build();
         } catch (SieveConfigurationException e) {
             throw new MessagingException("Failed to load standard Sieve configuration.", e);
@@ -333,8 +336,9 @@ public class SieveMailboxMailet extends GenericMailet {
         {
             final InputStream ins = locator.get(relativeUri);
             
-            MailAdapter aMailAdapter = new SieveMailAdapter(aMail,
-                    getMailetContext(), actionDispatcher);
+            SieveMailAdapter aMailAdapter = new SieveMailAdapter(aMail,
+                    getMailetContext(), actionDispatcher, poster);
+            aMailAdapter.setLog(log);
             // This logging operation is potentially costly
             if (verbose) {
                 log("Evaluating " + aMailAdapter.toString() + "against \""

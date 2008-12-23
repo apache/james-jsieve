@@ -67,8 +67,10 @@ public class ConfigurationManager {
      */
     private Map fieldComparatorMap;
 
-    private static final Log log = LogFactory.getLog("org.apache.jsieve");
+    private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
 
+    private Log log = LOG;
+    
     /**
      * Constructor for ConfigurationManager.
      * 
@@ -232,6 +234,10 @@ public class ConfigurationManager {
 
     public Log getLog() {
         return log;
+    }
+    
+    public void setLog(Log log) {
+        this.log = log;
     }
 
     public SieveFactory build() {

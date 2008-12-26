@@ -16,19 +16,14 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  */ 
-package org.apache.rat.report.xml.writer.impl.base;
+package org.apache.jsieve.util;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.collections.ArrayStack;
-
-import org.apache.rat.report.xml.writer.IXmlWriter;
-import org.apache.rat.report.xml.writer.InvalidXmlException;
-import org.apache.rat.report.xml.writer.OperationNotAllowedException;
+import java.util.Stack;
 
 /**
  * <p>Lightweight {@link IXmlWriter} implementation.</p>
@@ -38,7 +33,7 @@ import org.apache.rat.report.xml.writer.OperationNotAllowedException;
  * <p>
  * Not intended to be subclassed. Please copy and hack!</p>
  */
-public final class XmlWriter implements IXmlWriter {
+public final class XmlOut {
 
     private static final byte NAME_START_MASK = 1 << 1;
     private static final byte NAME_MASK = 1 << 2;
@@ -401,16 +396,16 @@ public final class XmlWriter implements IXmlWriter {
     }
     
     private final Writer writer;
-    private final ArrayStack elementNames;
+    private final Stack elementNames;
     private final Set currentAttributes = new HashSet();
     
     boolean elementsWritten = false;
     boolean inElement = false;
     boolean prologWritten = false;
     
-    public XmlWriter(final Writer writer) {
+    public XmlOut(final Writer writer) {
         this.writer = writer;
-        this.elementNames = new ArrayStack();
+        this.elementNames = new Stack();
     }
     
     /**
@@ -422,7 +417,7 @@ public final class XmlWriter implements IXmlWriter {
      * if called after the first element has been written
      * or once a prolog has already been written
      */
-    public IXmlWriter startDocument() throws IOException {
+    public void startDocument() throws IOException {
         if (elementsWritten) {
             throw new OperationNotAllowedException("Document already started");
         }
@@ -431,7 +426,6 @@ public final class XmlWriter implements IXmlWriter {
         }
         writer.write("<?xml version='1.0'?>");
         prologWritten = true;
-        return this;
     }
     
     /**
@@ -443,7 +437,7 @@ public final class XmlWriter implements IXmlWriter {
      * @throws OperationNotAllowedException 
      * if called after the first element has been closed
      */
-    public IXmlWriter openElement(final CharSequence elementName) throws IOException {
+    public void openElement(final CharSequence elementName) throws IOException {
         if (elementsWritten && elementNames.isEmpty()) {
             throw new OperationNotAllowedException("Root element already closed. Cannot open new element.");
         }
@@ -459,7 +453,6 @@ public final class XmlWriter implements IXmlWriter {
         inElement = true;
         elementNames.push(elementName);
         currentAttributes.clear();
-        return this;
     }
     
     /**
@@ -475,7 +468,7 @@ public final class XmlWriter implements IXmlWriter {
      * @throws OperationNotAllowedException if called after {@link #content} 
      * or {@link #closeElement() or before any call to {@link #openElement}
      */
-    public IXmlWriter attribute(CharSequence name, CharSequence value) throws IOException {
+    public void attribute(CharSequence name, CharSequence value) throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
@@ -499,7 +492,6 @@ public final class XmlWriter implements IXmlWriter {
         writeAttributeContent(value);
         writer.write('\'');
         currentAttributes.add(name);
-        return this;
     }
     
     private void writeAttributeContent(CharSequence content) throws IOException {
@@ -517,7 +509,7 @@ public final class XmlWriter implements IXmlWriter {
      * if called before any call to {@link #openElement} 
      * or after the first element has been closed
      */
-    public IXmlWriter content(CharSequence content) throws IOException {
+    public void content(CharSequence content) throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
@@ -530,7 +522,6 @@ public final class XmlWriter implements IXmlWriter {
         }
         writeBodyContent(content);
         inElement = false;
-        return this;
     }
     
     private void writeBodyContent(final CharSequence content) throws IOException {
@@ -572,7 +563,7 @@ public final class XmlWriter implements IXmlWriter {
      * if called before any call to {@link #openElement} 
      * or after the first element has been closed
      */
-    public IXmlWriter closeElement() throws IOException {
+    public void closeElement() throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
@@ -592,7 +583,6 @@ public final class XmlWriter implements IXmlWriter {
         }
         writer.flush();
         inElement = false;
-        return this;
     }
                                                          
     
@@ -605,7 +595,7 @@ public final class XmlWriter implements IXmlWriter {
      * @throws OperationNotAllowedException 
      * if called before any call to {@link #openElement} 
      */
-    public IXmlWriter closeDocument() throws IOException {
+    public void closeDocument() throws IOException {
         if (elementNames.isEmpty()) {
             if (!elementsWritten) {
                 throw new OperationNotAllowedException("Close called before an element has been opened.");            
@@ -615,7 +605,6 @@ public final class XmlWriter implements IXmlWriter {
             closeElement();
         }
         writer.flush();
-        return this;
     }
     
     private void rawWrite(final CharSequence sequence) throws IOException {

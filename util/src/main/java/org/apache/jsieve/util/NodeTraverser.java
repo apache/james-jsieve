@@ -53,6 +53,18 @@ public class NodeTraverser {
         root.jjtAccept(worker, null);
         handler.end();
     }
+    
+    /**
+     * Traverses the tree structure rooted at the given node.
+     * The nodes contained are reported to the handler.
+     * @param root not null
+     * @param handler not null
+     * @throws SieveException when traversal fails
+     * @throws HaltTraversalException when traversal is halted by handler
+     */
+    public void traverse(final SieveHandler handler, final Node root) throws SieveException {
+        traverse(new NodeToSieveAdapter(handler), root);
+    }
   
 
     /**

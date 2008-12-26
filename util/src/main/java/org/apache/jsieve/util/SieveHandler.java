@@ -172,5 +172,87 @@ public interface SieveHandler {
      * @return this
      */
     public SieveHandler endTest(String testName) throws HaltTraversalException;
-    
+
+    /**
+     * Convenience basic implementation.
+     * All methods do nothing.
+     */
+    public abstract static class Base implements SieveHandler {
+
+        public SieveHandler argument(int number) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler argument(String tag) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endArguments() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endBlock() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endCommand(String commandName) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endCommands() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endScript() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endStringListArgument() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endTest(String testName) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler endTestList() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler listMember(String string) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startArguments() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startBlock() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startCommand(String commandName) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startCommands() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startScript() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startStringListArgument() throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startTest(String testName) throws HaltTraversalException {
+            return this;
+        }
+
+        public SieveHandler startTestList() throws HaltTraversalException {
+            return this;
+        }
+    }
 }

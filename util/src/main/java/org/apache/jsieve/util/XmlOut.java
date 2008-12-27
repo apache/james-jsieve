@@ -26,14 +26,14 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
- * <p>Lightweight {@link IXmlWriter} implementation.</p>
+ * <p>Lightweight {@link SieveToXml#Out} implementation.</p>
  * <p>
  * Requires a wrapper to be used safely in a multithreaded
  * environment.</p>
  * <p>
  * Not intended to be subclassed. Please copy and hack!</p>
  */
-public final class XmlOut {
+public final class XmlOut implements SieveToXml.Out {
 
     private static final byte NAME_START_MASK = 1 << 1;
     private static final byte NAME_MASK = 1 << 2;
@@ -644,5 +644,25 @@ public final class XmlOut {
         final byte code = CHARACTER_CODES[character];
         final boolean result = (code & NAME_MASK) > 0;
         return result;
+    }
+
+    public void attribute(CharSequence localName, CharSequence uri, CharSequence prefix, CharSequence value) throws IOException {
+        final CharSequence name = toName(localName, uri, prefix);
+        attribute(name, value);
+    }
+    
+    private CharSequence toName(CharSequence localName, CharSequence uri, CharSequence prefix) {
+        final CharSequence name;
+        if (prefix == null || "".equals(prefix) || uri == null || "".equals(uri)) {
+            name = localName;
+        } else {
+            name = prefix + ":" + localName;
+        }
+        return name;
+    }
+
+    public void openElement(CharSequence localName, CharSequence uri, CharSequence prefix) throws IOException {
+        final CharSequence name = toName(localName, uri, prefix);
+        openElement(name);
     }
 }

@@ -77,7 +77,7 @@ JAMES project.
     <dependency>
       <groupId>org.apache.james</groupId>
       <artifactId>apache-mailet</artifactId>
-      <version>2.4-SNAPSHOT</version>
+      <version>2.4</version>
     </dependency>
     
     <dependency>

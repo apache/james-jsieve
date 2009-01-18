@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.parser;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.jsieve.ScriptCoordinate;
 import org.apache.jsieve.parser.generated.Token;
 
@@ -140,5 +143,63 @@ public class SieveNode {
         final ScriptCoordinate scriptCoordinate = new ScriptCoordinate(
                 firstLine, firstColumn, lastList, lastColumn);
         return scriptCoordinate;
+    }
+
+    /**
+     * Get any comments between this node and the previous one.
+     * Each comment is returned without whitespace trimming.
+     * Comments are returned in the order of occurance in the script.
+     * @return collection of strings, not null
+     */
+    public List getPrecedingComments() {
+        final LinkedList results = new LinkedList();
+        if (firstToken != null) {
+            Token special = firstToken.specialToken;
+            while (special != null) {
+                final String comment = parseComment(special);
+                results.addFirst(comment);
+                special = special.specialToken;
+            }
+        }
+        return results;
+    }
+
+    private String parseComment(Token special) {
+        final String image = special.image;
+        final String comment;
+        if ('#' == image.charAt(0)) {
+            final int leftHandCharactersToIgnore;
+            if ('\r' == image.charAt(image.length()-2)) {
+                leftHandCharactersToIgnore = 2;
+            } else {
+                leftHandCharactersToIgnore = 1;
+            }
+            comment = image.substring(1, image.length()-leftHandCharactersToIgnore);
+        } else {
+            comment = image.substring(2, image.length()-2);
+        }
+        return comment;
+    }
+    
+    /**
+     * Get the last comment before this node and after the last node.
+     * Each comment is returned without whitespace trimming.
+     * Comments are returned in the order of occurance in the script.
+     * @return the comment without whitespace trimming,
+     * or null if there is no comment between this and the last node
+     */
+    public String getLastComment() {
+        final String result;
+        if (firstToken == null) {
+            result = null;
+        } else {
+            Token special = firstToken.specialToken;
+            if (special == null) {
+                result = null;
+            } else {
+                result = parseComment(special);
+            } 
+        }
+        return result;
     }
 }

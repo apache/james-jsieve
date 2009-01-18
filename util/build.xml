@@ -237,7 +237,7 @@
                                   Build all distributions
     ===================================================================
     -->
-    <target name="dist" depends="dist-bin"/>
+    <target name="dist" depends="dist-lite,javadocs"/>
 
     <!--
     ===================================================================
@@ -332,35 +332,6 @@
             </batchtest>
         </junit>
     </target>
-
-    <!--
-    ===================================================================
-                                  binary distribution
-    ===================================================================
-    -->
-
-    <target name="dist-bin" depends="dist-lite,javadocs">
-      <echo message ="Building binary distribution"/>
-      <property name="dist.binary.dir" value="${dist.dir}/downloads/bin"/>
-      <mkdir dir="${dist.binary.dir}"/>
-        <zip zipfile="${dist.binary.dir}/${dist.name}-bin.zip">
-            <fileset dir="${dist.dir}">
-                <include name="lib/**"/>
-                <include name="*.txt"/>
-                <include name="KEYS"/>
-            </fileset>
-        </zip>
-        <tar longfile="gnu" tarfile="${dist.binary.dir}/${dist.name}-bin.tar">
-            <tarfileset dir="${dist.dir}" username="${name}" group="${name}">
-                <include name="lib/**"/>
-                <include name="*.txt"/>
-                <include name="KEYS"/>
-            </tarfileset>
-        </tar>
-        <gzip zipfile="${dist.binary.dir}/${dist.name}-bin.tar.gz" src="${dist.binary.dir}/${dist.name}-bin.tar"/>
-        <delete file="${dist.binary.dir}/${dist.name}-bin.tar"/>
-    </target>
-
     
     <!--
     ===================================================================

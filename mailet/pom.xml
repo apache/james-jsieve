@@ -142,6 +142,12 @@ JAMES project.
       <version>1.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>jmock</groupId>
+      <artifactId>jmock</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>

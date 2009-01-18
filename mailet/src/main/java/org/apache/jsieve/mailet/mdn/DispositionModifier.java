@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.mailet.base.mail.mdn;
+package org.apache.jsieve.mailet.mdn;
 
 /**
  * Interface <code>DispositionModifier</code> marks a type encapsulating

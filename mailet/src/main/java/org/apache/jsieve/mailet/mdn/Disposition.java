@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.mailet.base.mail.mdn;
+package org.apache.jsieve.mailet.mdn;
 
 /**
  * Class <code>Disposition</code> encapsulating

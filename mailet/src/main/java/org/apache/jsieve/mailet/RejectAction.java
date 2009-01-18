@@ -33,13 +33,13 @@ import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionReject;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
-import org.apache.mailet.base.mail.mdn.ActionModeAutomatic;
-import org.apache.mailet.base.mail.mdn.Disposition;
-import org.apache.mailet.base.mail.mdn.DispositionModifier;
-import org.apache.mailet.base.mail.mdn.MDNFactory;
-import org.apache.mailet.base.mail.mdn.ModifierError;
-import org.apache.mailet.base.mail.mdn.SendingModeAutomatic;
-import org.apache.mailet.base.mail.mdn.TypeDeleted;
+import org.apache.jsieve.mailet.mdn.ActionModeAutomatic;
+import org.apache.jsieve.mailet.mdn.Disposition;
+import org.apache.jsieve.mailet.mdn.DispositionModifier;
+import org.apache.jsieve.mailet.mdn.MDNFactory;
+import org.apache.jsieve.mailet.mdn.ModifierError;
+import org.apache.jsieve.mailet.mdn.SendingModeAutomatic;
+import org.apache.jsieve.mailet.mdn.TypeDeleted;
 
 public class RejectAction implements MailAction {
 

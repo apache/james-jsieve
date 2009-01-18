@@ -17,7 +17,7 @@
  * under the License.                                           *
  ****************************************************************/
 
-package org.apache.mailet.base.mail.mdn;
+package org.apache.jsieve.mailet.mdn;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;

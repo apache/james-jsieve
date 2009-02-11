@@ -73,40 +73,10 @@
 
     <!--
     ===================================================================
-    Prepare-common target - common tasks executed in preparation for
-    all targets
-    ===================================================================
-    -->
-    <target name="prepare-common">
-
-        <echo message="Preparing code" />
-
-        <tstamp />
-        <mkdir dir="${dist.dir}" />
-        <copy todir="${dist.dir}">
-            <fileset dir=".">
-                <include name="LICENSE.txt" />
-                <include name="README.txt" />
-                <include name="NOTICE.txt" />
-            </fileset>
-        </copy>
-        <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${conf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${testconf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="." includes="build.sh" eol="lf" />
-        <fixcrlf srcdir="." includes="build.bat" eol="crlf" />
-        <fixcrlf srcdir="." includes="build.xml" eol="lf" />
-        <mkdir dir="${build.src}" />
-    </target>
-
-    <!--
-    ===================================================================
                                   Prepare target
     ===================================================================
     -->
-    <target name="prepare" depends="prepare-common">
+    <target name="prepare">
         <available classname="javax.mail.Message" property="is.available.javamail" classpathref="project.test.class.path" />
         <available classname="javax.activation.MimeType" property="is.available.activation" classpathref="project.test.class.path" />
         <condition property="is.available.libs.test">
@@ -137,34 +107,13 @@
         <Jar name='util'/>    
     </target>
 
-    <target name="assemble" depends="jar">
-
-        <echo message="Installing jSieve to ${dist.dir}" />
-
-        <!--Copies the jSieve jars into ./dist/lib -->
-        <copy todir="${dist.dir}/lib">
-            <fileset dir="${build.lib}">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
-
-        <!--Copies the required support jars -->
-        <copy todir="${dist.dir}/lib" file="${commons-logging.jar}" />
-        <copy todir="${dist.dir}/lib" file="${log4j.jar}" />
-        <copy todir="${dist.dir}/lib" file="${junit.jar}" />
-
-        <!--Copies the configuration files -->
-        <mkdir dir="${dist.dir}/conf" />
-        <copy todir="${dist.dir}/conf" file="${testconf.dir}/log4j.properties" />
-    </target>
-
     <!--
     ===================================================================
                                   Test the dist-lite build
     ===================================================================
     -->
-    <target name="run-tests" depends="assemble">
-        <echo message="Testing dist-lite build" />
+    <target name="run-tests" depends="jar">
+        <echo message="Testing code" />
         <mkdir dir="${dist.dir}/reports" />
         <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
             <!-- Uncomment this to remotely debug the tests

@@ -47,8 +47,4 @@
     <target name='main' description='Builds each module'>
         <forall do='main' />
     </target>
-
-    <target name='dist' description='Creates distribution for each module'>
-        <forall do='dist' />
-    </target>
 </project>

@@ -61,16 +61,10 @@
 
     <!--
     ===================================================================
-                                Dependency Check
-    ===================================================================
-    -->
-
-    <!--
-    ===================================================================
                                   Main target
     ===================================================================
     -->
-    <target name="main" depends="dist-lite" />
+    <target name="main" depends="run-tests" />
 
     <!--
     ===================================================================
@@ -217,23 +211,6 @@
 
     <!--
     ===================================================================
-                Build everything
-    ===================================================================
-    -->
-    <target name="all">
-        <antcall target='clean' />
-        <antcall target='dist' />
-    </target>
-
-    <!--
-    ===================================================================
-                                  Build all distributions
-    ===================================================================
-    -->
-    <target name="dist" depends="dist-lite" />
-
-    <!--
-    ===================================================================
                                   Make jSieve jars
     ===================================================================
     -->
@@ -280,14 +257,7 @@
         <copy todir='${lib.jsieve.dir}' file='${build.lib}/${name}-tests-${version}.jar' />
     </target>
 
-    <!--
-    ===================================================================
-            Make dist directory with unpacked dist ready to run
-    ===================================================================
-    -->
-    <target name="dist-lite" depends="dist-lite-test" />
-
-    <target name="dist-lite-build" depends="jar">
+    <target name="assemble" depends="jar">
 
         <echo message="Installing jSieve to ${dist.dir}" />
 
@@ -313,7 +283,7 @@
                                   Test the dist-lite build
     ===================================================================
     -->
-    <target name="dist-lite-test" depends="dist-lite-build">
+    <target name="run-tests" depends="assemble">
         <echo message="Testing dist-lite build" />
         <mkdir dir="${dist.dir}/reports" />
         <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
@@ -366,7 +336,7 @@
         <echo message=" available targets are:" />
         <echo message="" />
         <echo message="   dist-lite --> generates unpacked distribution (default)" />
-        <echo message="   dist-lite-test --> tests the jarred classes" />
+        <echo message="   run-tests --> tests the jarred classes" />
         <echo message="   compile   --> compiles the source code" />
         <echo message="   dist      --> generates all the jSieve distributions, packed" />
         <echo message="   clean     --> cleans up the directory" />

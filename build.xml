@@ -27,30 +27,28 @@
 
 <project name='Apache JAMES JSieve' default="main" basedir=".">
 
-   <macrodef 
-            name='forall'
-            description='Executes a target for all modules'>
-        <attribute name='do'/>   
-        <attribute name='dir' default='.'/>   
+    <macrodef name='forall' description='Executes a target for all modules'>
+        <attribute name='do' />
+        <attribute name='dir' default='.' />
         <sequential>
             <subant target='@{do}'>
-                <fileset dir='@{dir}' includes='main/build.xml'/>
-                <fileset dir='@{dir}' includes='util/build.xml'/>
-                <fileset dir='@{dir}' includes='mailet/build.xml'/>  
-            </subant>   
-        </sequential>   
+                <fileset dir='@{dir}' includes='main/build.xml' />
+                <fileset dir='@{dir}' includes='util/build.xml' />
+                <fileset dir='@{dir}' includes='mailet/build.xml' />
+            </subant>
+        </sequential>
     </macrodef>
 
 
-  <target name='clean' description='Cleans each module'>
-    <forall do='clean'/>
-  </target>
+    <target name='clean' description='Cleans each module'>
+        <forall do='clean' />
+    </target>
 
-  <target name='main' description='Builds each module'>
-    <forall do='main'/>
-  </target>
+    <target name='main' description='Builds each module'>
+        <forall do='main' />
+    </target>
 
-  <target name='dist' description='Creates distribution for each module'>
-    <forall do='dist'/>
-  </target>
+    <target name='dist' description='Creates distribution for each module'>
+        <forall do='dist' />
+    </target>
 </project>

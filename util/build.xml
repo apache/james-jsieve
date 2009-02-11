@@ -139,11 +139,7 @@
     ===================================================================
     -->
     <target name="clean">
-        <echo message="deleting working directories ready for a clean build" />
-        <delete dir="${dist.base}" />
-        <mkdir dir="${dist.base}" />
-        <delete dir="${build.dir}" />
-        <delete dir='target' />
+        <Clean/>
     </target>
 
     <!--

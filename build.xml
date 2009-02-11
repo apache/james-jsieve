@@ -27,6 +27,14 @@
 
 <project name='jsieve-master' default="main" basedir=".">
     
+    <macrodef name='Clean'>
+        <sequential>
+            <echo message="deleting working directories ready for a clean build" />
+            <delete dir='${build.dir}' />
+            <mkdir dir='${build.dir}' />
+        </sequential>
+    </macrodef>
+    
     <macrodef name='Jar'>
         <attribute name='name'/>
         <attribute name='prefix' default='-'/>

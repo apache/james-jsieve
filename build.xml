@@ -25,7 +25,52 @@
 ==============================================================================
 -->
 
-<project name='Apache JAMES JSieve' default="main" basedir=".">
+<project name='jsieve-master' default="main" basedir=".">
+    
+    <macrodef name='CompileTests'>
+        <sequential>
+            <fail unless="is.available.libs.test">JavaMail is required for testing</fail>
+            <echo message="Compiling jSieve test sources" />
+            <mkdir dir="${build.classes.test}" />
+            <javac destdir="${build.classes.test}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" source="${jdk.source}" target="${jdk.target}">
+                <classpath refid="project.test.class.path" />
+                <src path="${test.dir}" />
+                <include name="org/apache/jsieve/**" />
+            </javac>
+            <copy todir="${build.classes}">
+                <fileset dir="${java.dir}">
+                    <include name="**/*.properties" />
+                </fileset>
+            </copy>
+            <copy todir="${build.classes.test}">
+                <fileset dir="${testconf.dir}">
+                    <include name="**/*.properties" />
+                </fileset>
+            </copy>
+            <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt" />
+            <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base' />
+        </sequential>
+    </macrodef>
+    
+    <macrodef name='CompileMain'>
+        <sequential>
+            <echo message="Compiling JSieve sources" />
+            <mkdir dir="${build.classes}" />
+            <javac destdir="${build.classes}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" source="${jdk.source}" target="${jdk.target}">
+                <classpath refid="project.class.path" />
+                <src path="${build.src}" />
+                <src path="${java.dir}" />
+                <include name="org/apache/jsieve/**" />
+            </javac>
+            <copy todir="${build.classes}">
+                <fileset dir="${conf.dir}">
+                    <include name="**/*.properties" />
+                </fileset>
+            </copy>
+            <copy file='LICENSE.apache' tofile="${build.classes}/META-INF/LICENSE.txt" />
+            <copy tofile="${build.classes}/META-INF/NOTICE.txt" file='NOTICE.base' />
+        </sequential>
+    </macrodef>
 
     <macrodef name='forall' description='Executes a target for all modules'>
         <attribute name='do' />

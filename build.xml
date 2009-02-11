@@ -27,6 +27,29 @@
 
 <project name='jsieve-master' default="main" basedir=".">
     
+    <macrodef name='RunTests'>
+        <sequential>
+            <echo message="Running tests" />
+            <mkdir dir="${build.dir}/reports" />
+            <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
+                <!-- Uncomment this to remotely debug the tests
+                <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/>
+                -->
+                <classpath id="junit.class.path">
+                    <pathelement path="${java.class.path}" />
+                    <pathelement path='${build.classes.test}'/>
+                    <path refid='project.test.class.path' />
+                </classpath>
+                <formatter type="plain" />
+                <batchtest fork="yes" todir="${build.dir}/reports">
+                    <fileset dir="${build.classes.test}">
+                        <include name="**/*Test.class" />
+                    </fileset>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+    
     <macrodef name='Clean'>
         <sequential>
             <echo message="deleting working directories ready for a clean build" />
@@ -89,13 +112,19 @@
     </macrodef>
     
     <macrodef name='CompileMain'>
+        <element name="src" implicit='true'/>
         <sequential>
             <echo message="Compiling JSieve sources" />
             <mkdir dir="${build.classes}" />
-            <javac destdir="${build.classes}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" source="${jdk.source}" target="${jdk.target}">
+            <javac 
+                destdir="${build.classes}" 
+                debug="${debug}" 
+                optimize="${optimize}" 
+                deprecation="${deprecation}" 
+                source="${jdk.source}" 
+                target="${jdk.target}">
                 <classpath refid="project.class.path" />
-                <src path="${build.src}" />
-                <src path="${java.dir}" />
+                <src/>
                 <include name="org/apache/jsieve/**" />
             </javac>
             <copy todir="${build.classes}">

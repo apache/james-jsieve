@@ -61,7 +61,7 @@
         <pathelement location="${junit.jar}" />
         <pathelement location="${jmock.jar}" />
     </path>
-
+    
     <import file='../build.xml'/>
     
     <!--
@@ -93,7 +93,9 @@
     ===================================================================
     -->
     <target name="compile" depends="prepare">
-        <CompileMain/>
+        <CompileMain>
+            <src path="${java.dir}" />
+        </CompileMain>
         <CompileTests/>
     </target>
     
@@ -113,24 +115,7 @@
     ===================================================================
     -->
     <target name="run-tests" depends="jar">
-        <echo message="Testing code" />
-        <mkdir dir="${dist.dir}/reports" />
-        <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
-            <!-- Uncomment this to remotely debug the tests
-            <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/>
-            -->
-            <classpath id="junit.class.path">
-                <pathelement location="${testconf.dir}" />
-                <pathelement location='${build.classes.test}' />
-                <path refid='project.test.class.path' />
-            </classpath>
-            <formatter type="plain" />
-            <batchtest fork="yes" todir="${dist.dir}/reports">
-                <fileset dir="${build.classes.test}">
-                    <include name="**/*Test.class" />
-                </fileset>
-            </batchtest>
-        </junit>
+        <RunTests/>
     </target>
 
     <!--

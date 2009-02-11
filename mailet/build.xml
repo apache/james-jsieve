@@ -94,7 +94,9 @@
     ===================================================================
     -->
     <target name="compile" depends="prepare">
-        <CompileMain/>
+        <CompileMain>
+            <src path="${java.dir}" />
+        </CompileMain>
         <CompileTests/>
     </target>
 
@@ -114,29 +116,7 @@
     ===================================================================
     -->
     <target name="run-tests" depends="jar">
-        <echo message="Running tests" />
-        <mkdir dir="${dist.dir}/reports" />
-        <junit printsummary="yes" haltonfailure="yes" filtertrace="on">
-            <!-- Uncomment this to remotely debug the tests
-            <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"/>
-            -->
-            <classpath id="junit.class.path">
-                <pathelement location="${testconf.dir}" />
-                <fileset dir="${dist.dir}/lib">
-                    <include name="**/*.jar" />
-                </fileset>
-                <pathelement location="${dist.dir}/conf/" />
-                <pathelement path="${java.class.path}" />
-                <pathelement location="${junit.jar}" />
-                <path refid='mail.class.path' />
-            </classpath>
-            <formatter type="plain" />
-            <batchtest fork="yes" todir="${dist.dir}/reports">
-                <fileset dir="${build.classes.test}">
-                    <include name="**/*Test.class" />
-                </fileset>
-            </batchtest>
-        </junit>
+        <RunTests/>
     </target>
 
     <!--

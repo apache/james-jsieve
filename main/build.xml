@@ -67,44 +67,12 @@
     ===================================================================
     -->
     <target name="main" depends="run-tests" />
-
-    <!--
-    ===================================================================
-    Prepare-common target - common tasks executed in preparation for
-    all targets
-    ===================================================================
-    -->
-    <target name="prepare-common">
-
-        <echo message="Preparing code" />
-
-        <tstamp />
-        <mkdir dir="${dist.dir}" />
-        <copy todir="${dist.dir}">
-            <fileset dir=".">
-                <include name="LICENSE.txt" />
-                <include name="README.txt" />
-                <include name="NOTICE.txt" />
-            </fileset>
-        </copy>
-        <fixcrlf srcdir="${java.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${java.dir}" includes="**/*.html" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${test.dir}" includes="**/*.java" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${conf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="${testconf.dir}" includes="**/*.properties" eol="lf" tab="remove" tablength="4" />
-        <fixcrlf srcdir="." includes="build.sh" eol="lf" />
-        <fixcrlf srcdir="." includes="build.bat" eol="crlf" />
-        <fixcrlf srcdir="." includes="build.xml" eol="lf" />
-        <fixcrlf srcdir="${javacc.dir}" includes="**/*.jj*" eol="lf" tab="remove" tablength="4" />
-        <mkdir dir="${build.src}" />
-    </target>
-
     <!--
     ===================================================================
                                   Prepare target
     ===================================================================
     -->
-    <target name="prepare" depends="prepare-common, preprocess">
+    <target name="prepare" depends="preprocess">
         <available classname="javax.mail.Message" property="is.available.javamail" classpathref="project.test.class.path" />
         <available classname="javax.activation.MimeType" property="is.available.activation" classpathref="project.test.class.path" />
         <condition property="is.available.libs.test">
@@ -125,7 +93,7 @@
     file, is built, consider the following processing a black box.
     Or zen for the more spiritual amongst you.
     -->
-    <target name="preprocess" depends="prepare-common">
+    <target name="preprocess">
         <!--
         Generate JavaCC source inserting parse tree building actions 
         and the Java source for the parse classes.

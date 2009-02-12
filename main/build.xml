@@ -26,6 +26,7 @@
 -->
 
 <project name='jsieve-main' default="main" basedir=".">
+    
     <!--
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
@@ -66,7 +67,7 @@
                                   Main target
     ===================================================================
     -->
-    <target name="main" depends="run-tests" />
+    <target name="main" depends="run-tests" description='foo'/>
     <!--
     ===================================================================
                                   Prepare target
@@ -185,24 +186,7 @@
     =================================================================== 
     -->
     <target name="usage">
-        <echo message="" />
-        <echo message="" />
-        <echo message="jSieve Build file" />
-        <echo message="-------------------------------------------------------------" />
-        <echo message="" />
-        <echo message=" available targets are:" />
-        <echo message="" />
-        <echo message="   dist-lite --> generates unpacked distribution (default)" />
-        <echo message="   run-tests --> tests the jarred classes" />
-        <echo message="   compile   --> compiles the source code" />
-        <echo message="   dist      --> generates all the jSieve distributions, packed" />
-        <echo message="   clean     --> cleans up the directory" />
-        <echo message="   javadocs  --> creates the Javadoc" />
-        <echo message="" />
-        <echo message=" See the comments inside the build.xml file for more details."/>
-        <echo message="-------------------------------------------------------------"/>
-        <echo message=""/>
-        <echo message=""/>
+        <Usage/>
     </target>
 
 </project>

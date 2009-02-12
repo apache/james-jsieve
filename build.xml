@@ -27,6 +27,17 @@
 
 <project name='jsieve-master' default="main" basedir=".">
     
+    <macrodef name='Usage'>
+        <sequential>
+            <echo message="" />
+            <echo message="" />
+            <echo message="Apache JSieve" />
+            <exec executable="ant" dir="${basedir}">
+                <arg value="-projecthelp"/>
+            </exec>
+        </sequential>
+    </macrodef>
+    
     <macrodef name='CheckMailConditions'>
         <sequential>
             <available classname="javax.mail.Message" property="is.available.javamail" classpathref="project.test.class.path" />

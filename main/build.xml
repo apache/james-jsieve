@@ -147,7 +147,7 @@
         <Jar name='' prefix=''/>     
     
         <!-- Make jSieve jUnit jar-->
-        <echo message="Making jSieve jUnit Jar (${name}-junit-${version}.jar)" />
+        <echo message="Making jSieve jUnit Jar (${name}-tests-${version}.jar)" />
         <jar jarfile="${build.lib}/${name}-tests-${version}.jar" basedir="${build.classes.test}">
             <include name="org/apache/jsieve/**" />
             <include name="META-INF/**" />

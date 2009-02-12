@@ -36,12 +36,6 @@
     <property file="../include.properties" />
     <property file="../default.properties" />
 
-    <!--
-    ===================================================================
-    Set the classpath
-    ===================================================================
-    -->
-
     <path id="mail.class.path">
         <pathelement location='${mail.jar}' />
         <pathelement location='${activation.jar}' />
@@ -66,69 +60,32 @@
 
      <import file='../build.xml'/>
     
-    <!--
-    ===================================================================
-                                  Main target
-    ===================================================================
-    -->
-    <target name="main" depends="run-tests" />
+    <target name="main" depends="run-tests" description=" - main target"/>
 
-    <!--
-    ===================================================================
-                                  Prepare target
-    ===================================================================
-    -->
-    <target name="prepare">
+    <target name="prepare" description=" - paparations                   [internal]">
         <CheckMailConditions/>
     </target>
 
-    <!--
-    ===================================================================
-                                  compile
-    ===================================================================
-    -->
-    <target name="compile" depends="prepare">
+    <target name="compile" depends="prepare" description=" - compiles test and main source">
         <CompileMain>
             <src path="${java.dir}" />
         </CompileMain>
         <CompileTests/>
     </target>
 
-    <!--
-    ===================================================================
-                                  Make jSieve jars
-    ===================================================================
-    -->
-
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile" description=" - jars classes">
         <Jar name='mailet'/> 
     </target>
 
-    <!--
-    ===================================================================
-                                  Test the dist-lite build
-    ===================================================================
-    -->
-    <target name="run-tests" depends="jar">
+    <target name="run-tests" depends="jar" description=" - runs all tests">
         <RunTests/>
     </target>
 
-    <!--
-    ===================================================================
-                                  delete dist/, build/ and www/
-    ===================================================================
-    -->
-    <target name="clean">
+    <target name="clean" description=" - cleans build files">
         <Clean/>
     </target>
 
-    <!--
-    ===================================================================
-                                   Help on usage                                                       
-    =================================================================== 
-    -->
-    <target name="usage">
+    <target name="usage" description=" - prints help">
         <Usage/>
     </target>
-
 </project>

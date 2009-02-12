@@ -174,11 +174,11 @@
     </macrodef>
 
 
-    <target name='clean' description='Cleans each module'>
+    <target name='clean' description=' - cleans modules                [multimodule]'>
         <forall do='clean' />
     </target>
 
-    <target name='main' description='Builds each module'>
+    <target name='main'  description=' - builds modules                [multimodule]'>
         <forall do='main' />
     </target>
 </project>

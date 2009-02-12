@@ -36,12 +36,6 @@
     <property file="../include.properties" />
     <property file="../default.properties" />
 
-    <!--
-    ===================================================================
-    Set the classpath
-    ===================================================================
-    -->
-
     <path id="project.class.path">
         <pathelement location="${commons-logging.jar}" />
         <pathelement location="${log4j.jar}" />
@@ -61,33 +55,18 @@
     </path>
     
     <import file='../build.xml'/>
+    <target name="main" depends="run-tests" description=" - main target"/>
 
-    <!--
-    ===================================================================
-                                  Main target
-    ===================================================================
-    -->
-    <target name="main" depends="run-tests" description='foo'/>
-    <!--
-    ===================================================================
-                                  Prepare target
-    ===================================================================
-    -->
-    <target name="prepare" depends="preprocess">
+    <target name="prepare" depends="preprocess" description=" - paparations                   [internal]">
         <CheckMailConditions/>
     </target>
-
-    <!--
-    ===================================================================
-                                  pre-process
-    ===================================================================
-    -->
+    
     <!--
     Unless you want to alter the Sieve grammar, expressed by the seive.jjt 
     file, is built, consider the following processing a black box.
     Or zen for the more spiritual amongst you.
-    -->
-    <target name="preprocess">
+    -->                       
+    <target name="preprocess" description=" - generate source from grammar  [internal]">
         <!--
         Generate JavaCC source inserting parse tree building actions 
         and the Java source for the parse classes.
@@ -125,12 +104,7 @@
         </java>
     </target>
 
-    <!--
-    ===================================================================
-                                  compile
-    ===================================================================
-    -->
-    <target name="compile" depends="prepare">
+    <target name="compile" depends="prepare" description=" - compiles test and main source">
         <CompileMain>
             <src path="${build.src}" />
             <src path="${java.dir}" />
@@ -138,13 +112,7 @@
         <CompileTests/>
     </target>
 
-    <!--
-    ===================================================================
-                                  Make jSieve jars
-    ===================================================================
-    -->
-
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile" description=" - jars classes">
         <Jar name='' prefix=''/>     
     
         <!-- Make jSieve jUnit jar-->
@@ -162,30 +130,15 @@
         <copy todir='${lib.jsieve.dir}' file='${build.lib}/${name}-tests-${version}.jar' />
     </target>
 
-    <!--
-    ===================================================================
-                                  Test the dist-lite build
-    ===================================================================
-    -->
-    <target name="run-tests" depends="jar">
+    <target name="run-tests" depends="jar" description=" - runs all tests">
         <RunTests/>
     </target>
 
-    <!--
-    ===================================================================
-                                  delete dist/, build/ and www/
-    ===================================================================
-    -->
-    <target name="clean">
+    <target name="clean" description=" - cleans build files">
         <Clean/>
     </target>
 
-    <!--
-    ===================================================================
-                                   Help on usage                                                       
-    =================================================================== 
-    -->
-    <target name="usage">
+    <target name="usage" description=" - prints help">
         <Usage/>
     </target>
 

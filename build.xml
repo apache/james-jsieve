@@ -27,6 +27,19 @@
 
 <project name='jsieve-master' default="main" basedir=".">
     
+    <macrodef name='CheckMailConditions'>
+        <sequential>
+            <available classname="javax.mail.Message" property="is.available.javamail" classpathref="project.test.class.path" />
+            <available classname="javax.activation.MimeType" property="is.available.activation" classpathref="project.test.class.path" />
+            <condition property="is.available.libs.test">
+                <and>
+                    <isset property='is.available.javamail' />
+                    <isset property='is.available.activation' />
+                </and>
+            </condition>
+        </sequential>
+    </macrodef>
+    
     <macrodef name='RunTests'>
         <sequential>
             <echo message="Running tests" />

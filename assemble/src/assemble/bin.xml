@@ -25,7 +25,6 @@
   <formats>
     <format>zip</format>
     <format>tar.gz</format>
-    <format>bz2</format>
   </formats>
   <fileSets>
     <fileSet>

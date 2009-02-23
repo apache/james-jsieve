@@ -40,6 +40,7 @@
     <module>main</module>
     <module>mailet</module>
     <module>util</module>
+    <module>assemble</module>
   </modules>
   
   <build>

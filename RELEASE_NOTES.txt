@@ -5,8 +5,6 @@ jSieve is a Java implementation of the Sieve mail filtering language defined by
 RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
 internet mail application to add Sieve support.
 
-This contains a mailet which processes mail using Sieve.
-
 Comments, Questions and Issues
 ------------------------------
 

@@ -305,7 +305,7 @@ JAMES project.
       <plugin>
         <groupId>org.apache.james</groupId>
         <artifactId>maven-mailetdocs-plugin</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>

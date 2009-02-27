@@ -38,6 +38,7 @@
         <exclude>*.jar</exclude>
         <exclude>**/james-project/**</exclude>
         <exclude>**/site/**</exclude>
+        <exclude>**/.*</exclude>
       </excludes>
       <useDefaultExcludes>true</useDefaultExcludes>
     </fileSet>

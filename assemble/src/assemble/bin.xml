@@ -57,6 +57,10 @@
         <include>apache-jsieve*.jar</include>
       </includes>
     </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../target/site/apidocs</directory>
+      <outputDirectory>/apidocs</outputDirectory>
+    </fileSet>
   </fileSets>
   <dependencySets>
     <dependencySet>

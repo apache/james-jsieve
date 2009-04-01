@@ -83,7 +83,7 @@ JAMES project.
     <dependency>
       <groupId>org.apache.james</groupId>
       <artifactId>apache-mailet-base</artifactId>
-      <version>1.0RC3</version>
+      <version>1.0</version>
     </dependency>
       
     <dependency>

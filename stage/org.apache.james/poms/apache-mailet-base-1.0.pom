@@ -21,7 +21,7 @@
   <groupId>org.apache.james</groupId>
   <artifactId>apache-mailet-base</artifactId>
   <name>Apache JAMES Basic Mailet Toolkit</name>
-  <version>1.0RC3</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
   <description>
     Apache JAMES Basic Mailet Toolkit is a collection of utilities and lightweight framework
@@ -76,9 +76,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/james/mailet/base/tags/apache-mailet-base-1.0RC3</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/mailet/base/tags/apache-mailet-base-1.0RC3</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/james/mailet/base/tags/apache-mailet-base-1.0RC3?root=Apache-SVN</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/james/mailet/base/tags/apache-mailet-base-1.0</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/mailet/base/tags/apache-mailet-base-1.0</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/james/mailet/base/tags/apache-mailet-base-1.0?root=Apache-SVN</url>
   </scm>
 
   <dependencies>

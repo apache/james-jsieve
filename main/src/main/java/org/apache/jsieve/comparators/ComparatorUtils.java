@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.comparators;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -84,7 +85,8 @@ public class ComparatorUtils implements MatchTypeTags {
         // TODO Is there a way to re-use the compiled pattern?
         try {
             String regex = sieveToJavaRegex(glob);
-            return Pattern.compile(regex).matcher(string).matches();
+            final Matcher matcher = Pattern.compile(regex).matcher(string);
+            return matcher.matches();
         } catch (PatternSyntaxException e) {
             throw new SievePatternException(e.getMessage());
         }
@@ -142,10 +144,17 @@ public class ComparatorUtils implements MatchTypeTags {
     public static String sieveToJavaRegex(String pattern) {
         int ch;
         StringBuffer buffer = new StringBuffer(2 * pattern.length());
+        boolean lastCharWasStar = false;
         for (ch = 0; ch < pattern.length(); ch++) {
-            switch (pattern.charAt(ch)) {
+            final char nextChar = pattern.charAt(ch);
+            switch (nextChar) {
             case '*':
-                buffer.append(".*");
+                //
+                // Java Matcher has issues with repeated stars
+                //
+                if (!lastCharWasStar) {
+                    buffer.append(".*");
+                }
                 break;
             case '?':
                 buffer.append('.');
@@ -160,11 +169,13 @@ public class ComparatorUtils implements MatchTypeTags {
                     buffer.append('\\');
                 break;
             default:
-                if (isRegexSpecialChar(pattern.charAt(ch)))
+                if (isRegexSpecialChar(nextChar))
                     buffer.append('\\');
-                buffer.append(pattern.charAt(ch));
+                buffer.append(nextChar);
                 break;
             }
+            // Workaround for issue with Java Matcher
+            lastCharWasStar = '*' == nextChar;
         }
         return buffer.toString();
     }

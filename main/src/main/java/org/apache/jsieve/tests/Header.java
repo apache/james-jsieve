@@ -224,8 +224,9 @@ public class Header extends AbstractTest implements ComparatorTags,
         boolean isMatched = false;
         Iterator keysIter = keys.iterator();
         while (!isMatched && keysIter.hasNext()) {
+            final String nextKey = (String) keysIter.next();
             isMatched = ComparatorUtils.match(comparator, matchType,
-                    headerValue, (String) keysIter.next(), context);
+                    headerValue, nextKey, context);
         }
         return isMatched;
     }

@@ -20,8 +20,10 @@ package org.apache.jsieve.util;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
@@ -395,6 +397,7 @@ public final class XmlOut implements SieveToXml.Out {
 
     }
     
+    private final List prefixesDefined;
     private final Writer writer;
     private final Stack elementNames;
     private final Set currentAttributes = new HashSet();
@@ -406,6 +409,7 @@ public final class XmlOut implements SieveToXml.Out {
     public XmlOut(final Writer writer) {
         this.writer = writer;
         this.elementNames = new Stack();
+        prefixesDefined = new ArrayList();
     }
     
     /**
@@ -664,5 +668,9 @@ public final class XmlOut implements SieveToXml.Out {
     public void openElement(CharSequence localName, CharSequence uri, CharSequence prefix) throws IOException {
         final CharSequence name = toName(localName, uri, prefix);
         openElement(name);
+        if (!prefixesDefined.contains(prefix)) {
+            prefixesDefined.add(prefix);
+            attribute("xmlns:" + prefix, uri);
+        }
     }
 }

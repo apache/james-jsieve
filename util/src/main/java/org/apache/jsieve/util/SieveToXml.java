@@ -49,7 +49,7 @@ public class SieveToXml {
 
     public static final String DEFAULT_PREFIX = "sieve";
     
-    public static final String DEFAULT_NAMESPACE = "http://james.apache.org/sieve";
+    public static final String DEFAULT_NAMESPACE = "urn:ietf:params:xml:ns:sieve";
     
     /** Control commands (as listed in RFC 3028) */
     public static final String[] CONTROL_COMMANDS = {"If", "Require", "Stop"};

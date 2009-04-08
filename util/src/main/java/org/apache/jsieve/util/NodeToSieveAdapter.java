@@ -153,7 +153,15 @@ public class NodeToSieveAdapter implements NodeHandler {
         } else if (value instanceof TagArgument) {
             final TagArgument tagArgument = (TagArgument) value;
             final String tag = tagArgument.getTag();
-            handler.argument(tag);
+            // tag = ":" identifier
+            // handlers are only interesting in the identifier for the tag
+            final String identifier;
+            if (tag.charAt(0) == ':') {
+                identifier = tag.substring(1);
+            } else {
+                identifier = tag;
+            }
+            handler.argument(identifier);
         }
     }
 

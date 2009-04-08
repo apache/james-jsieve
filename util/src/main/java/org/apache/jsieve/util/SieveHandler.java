@@ -107,11 +107,13 @@ public interface SieveHandler {
     
     /**
      * Handles a tag argument.
-     * @param tag not null
+     * Note that this supplies the identifier for the tag
+     * (after the leading ':' has been stripped).
+     * @param identifier not null
      * @throws HaltTraversalException
      * @return this
      */
-    public SieveHandler argument(String tag) throws HaltTraversalException;
+    public SieveHandler argument(String identifier) throws HaltTraversalException;
     
     /**
      * Handler a numeric argument.

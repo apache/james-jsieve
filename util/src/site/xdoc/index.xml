@@ -25,15 +25,17 @@
  </properties>
 
 <body>
-<section name="What is jSieve?">
+<section name="Introduction">
 <p>
 jSieve is a Java implementation of the Sieve mail filtering language defined by 
 <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>. jSieve is implemented 
 as a language processor that can be plugged into any internet mail application to add 
 Sieve support.
-</p><p>
-Sieve Utilities a collection of lightweight frameworks and utilities useful when
-working with <a href='../main/'>JSieve</a>.
+</p>
+<p>
+JSieve Utilities collects lightweight frameworks and utilities useful when
+working with Sieve (in general) and 
+<a href='http://james.apache.org/jsieve'>JSieve</a> (in particular).
 </p>
 <subsection name='What is Sieve?'>
 <p>
@@ -48,6 +50,26 @@ Test commands define side-effect free criteria.
 Action commands are mail operations to be performed.
 </p>
 </subsection>
+</section>
+<section name='Highlights'>
+  <subsection name='Script Checker'>
+    <p>
+      Checks Sieve scripts. Includes monitoring controlled execution of a script against a message.
+    </p>
+  </subsection>
+  <subsection name='Sieve In Xml'>
+    <p>
+    <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04' rel='tag'>Sieve-in-xml</a> is an 
+    <a href='http://dbpedia.org/resource/Internet_Draft' rel='tag'>Internet Draft</a>.
+    It describes a method to convert Sieve scripts to and from an XML format suitable
+    for editing by a UI. A typical use case is as the payload for a web based editor backed by web services.
+    </p><p>
+    <code>OutputUtils</code> contains an experimental preview of a subset of this draft. It allows a 
+    JSieve node tree to be output as sieve-in-xml. Full support is planned but feedback is 
+    encouraged, through the <a href='http://james.apache.org/mail.html'>mailing lists</a> 
+    or the <a href='http://issues.apache.org/jira/browse/JSIEVE'>issue tracker</a>.
+    </p>
+  </subsection>
 </section>
 </body>
 </document>

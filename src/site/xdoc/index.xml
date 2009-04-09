@@ -77,6 +77,16 @@
         </p>
       </subsection>
     </section>
+    <section name='Extensions Supported'>
+      <subsection name='Sieve-In-Xml'>
+          <p>
+    <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04' rel='tag'>Sieve-in-xml</a> is an Internet Draft.
+    It describes a method for converting Sieve scripts to and from XML fragments.
+    <a href='util/index.html'>JSieve Utilities</a> contains an experimental preview of a subset of this draft
+    to allow early feedback. <a href='util/index.html#Sieve In Xml'>More...</a>
+        </p>
+      </subsection>
+    </section>
     <section name="News">
       <subsection name="2008">
         <h4>Aug/2008 - jSieve-0.2 released</h4>

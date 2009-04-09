@@ -32,8 +32,13 @@ import org.apache.jsieve.parser.generated.Node;
 public class OutputUtils {
 
     /**
-     * Writes the given node as xml.
+     * <p>Writes the given node as xml.
      * This convenience method first writes a prolog before calling {@link #toXml(Node, Writer)}.
+     * </p><p>
+     * The output format is a subset of the
+     * <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04'>sieve-in-xml</a>
+     * Internet Draft.
+     * </p>
      * @param node not null
      * @param writer not null
      * @throws IOException when prolog cannot be written
@@ -46,10 +51,15 @@ public class OutputUtils {
     }
     
     /**
-     * Writes the given node as xml.
+     * <p>Writes the given node as xml.
      * Note that the xml will be written as a fragment.
      * An appropriate prolog must be added to convert this fragment 
      * to a document.
+     * </p><p>
+     * The output format is a subset of the
+     * <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04'>sieve-in-xml</a>
+     * Internet Draft. Note that this support is experimental.
+     * </p>
      * @param node not null
      * @param writer not null
      * @throws SieveException when script cannot be converted to xml

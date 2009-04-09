@@ -74,4 +74,17 @@ public class OutputUtils {
         final NodeTraverser traverser = new NodeTraverser();
         traverser.traverse(handler, node);
     }
+    
+    /**
+     * <p>Writes the tree rooted at the given node to a Sieve script.
+     * @param node not null
+     * @param writer not null
+     * @throws SieveException whenever the serialization fails
+     */
+    public static void toSieve(final Node node, final Writer writer) throws SieveException {
+        final ToSieveHandlerFactory factory = new ToSieveHandlerFactory();
+        final SieveHandler handler = factory.build(writer);
+        final NodeTraverser traverser = new NodeTraverser();
+        traverser.traverse(handler, node);
+    }
 }

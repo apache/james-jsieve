@@ -170,5 +170,31 @@ public class SizeTest extends TestCase {
         }
         assertTrue(isTestPassed);
     }
+    
+    /**
+     * Test for Test 'size' with quantifier
+     */
+    public void testSizeIsWithQuantifier() throws Exception {
+        boolean isTestPassed = false;
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().setText("Hi!");
+        mail.getMessage().saveChanges();
+        // Need to copy the mail to get JavaMail to report the message size
+        // correctly (saveChanges() only saves the headers!)
+        mail = (SieveMailAdapter) JUnitUtils.copyMail(mail);
+
+        String script = "if size :over 1G {throwTestException;}";
+        try {
+
+            JUnitUtils.interpret(mail, script);
+            isTestPassed = true;
+        }
+
+        catch (ThrowTestException.TestException e) {
+        } catch (ParseException e) {
+        } catch (SieveException e) {
+        }
+        assertTrue(isTestPassed);
+    }
 
 }

@@ -57,12 +57,14 @@ public class ToSieveHandlerFactory {
         private boolean commaRequiredBeforeNextTest;
         private boolean firstTestInList;
         private boolean commandUsedBlock;
+        private boolean commandAfterEndCommand;
      
         public ToSieveHandler(final Writer writer) {
             this.writer = writer;
             commaRequiredBeforeNextTest = false;
             firstTestInList = false;
             commandUsedBlock = false;
+            commandAfterEndCommand = false;
         }
         
         /** @see SieveHandler#endBlock() */
@@ -82,6 +84,11 @@ public class ToSieveHandlerFactory {
         /** @see SieveHandler#startCommand() */
         //@Override
         public SieveHandler startCommand(String commandName) throws HaltTraversalException {
+            commaRequiredBeforeNextTest = false;
+            if (commandAfterEndCommand) {
+                space();
+                commandAfterEndCommand = false;
+            }
             return append(commandName);
         }
         
@@ -91,6 +98,7 @@ public class ToSieveHandlerFactory {
             if (!commandUsedBlock) {
                 append(';');
             }
+            commandAfterEndCommand = true;
             commandUsedBlock = false;
             return this;
         }
@@ -157,6 +165,7 @@ public class ToSieveHandlerFactory {
         /** @see SieveHandler#endTestList() */
         //@Override
         public SieveHandler endTestList() throws HaltTraversalException {
+            commaRequiredBeforeNextTest = false;
             return append(')');
         }
 

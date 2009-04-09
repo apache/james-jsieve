@@ -27,7 +27,7 @@ import org.apache.jsieve.parser.generated.Node;
 import junit.framework.TestCase;
 
 public class SieveGenerationTest extends TestCase {
-
+    
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -36,9 +36,28 @@ public class SieveGenerationTest extends TestCase {
         super.tearDown();
     }
 
+    public void testShouldGenerateSoloToEmailScriptFromNode() throws Exception {
+        assertShouldRoundtripScript(
+                "if address :is :all [\"to\"] [\"coyote@desert.example.org\"] {"
+                + "fileinto [\"coyote\"];} "
+                + "if address :is :all [\"to\"] [\"bugs@example.org\"] {"
+                + "fileinto [\"bugs\"];} "
+                + "if address :is :all [\"to\"] [\"roadrunneracme.@example.org\"] {"
+                + "fileinto [\"rr\"];} "
+                + "if address :is :all [\"to\"] [\"elmer@hunters.example.org\"] {"
+                + "fileinto [\"elmer\"];}");
+    }
+    
     public void testShouldGenerateSimpleScriptFromNode() throws Exception {
+        assertShouldRoundtripScript("if address :all :is [\"from\"] [\"user@domain\"] {stop;}");
+    }
+    
+    public void testShouldGenerateFileintoFromNode() throws Exception {
+        assertShouldRoundtripScript("fileinto [\"INBOX.test1\"]; fileinto [\"INBOX.test1\"];");
+    }
+    
+    private void assertShouldRoundtripScript(final String script) throws Exception {
         // Set up
-        final String script = "if address :all :is [\"from\"] [\"user@domain\"] {stop;}";
         final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));
         final StringWriter monitor = new StringWriter();
         
@@ -48,4 +67,5 @@ public class SieveGenerationTest extends TestCase {
         // Verify
         assertEquals(script, monitor.toString());
     }
+
 }

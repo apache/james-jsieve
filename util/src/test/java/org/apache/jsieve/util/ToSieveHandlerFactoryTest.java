@@ -353,4 +353,18 @@ public class ToSieveHandlerFactoryTest extends TestCase {
         // Verify
         assertEquals("}", monitor.toString());
     }
+    
+    public void testAfterEndCommandNextShouldPrintSpace() throws Exception {
+        // Setup
+        SieveHandler handler = factory.build(monitor);
+        String firstCommandName = "FirstCommand";
+        String secondCommandName = "SecondCommand";
+        
+        // Exercise
+        handler.endCommand(firstCommandName);
+        handler.startCommand(secondCommandName);
+        
+        // Verify
+        assertEquals("; " + secondCommandName, monitor.toString());
+    }
 }

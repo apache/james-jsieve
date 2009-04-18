@@ -179,6 +179,7 @@
     </target>
 
     <target name='main'  description=' - builds modules                [multimodule]'>
+        <echo>Note that Maven is used for the releases</echo>
         <forall do='main' />
     </target>
 </project>

@@ -106,7 +106,8 @@
             </jar>
 
             <taskdef resource="aQute/bnd/ant/taskdef.properties" classpath="${bnd.jar.relative}" />
-            <bndwrap jars='${build.lib}/${name}-@{module}-${version}.jar' output='${build.lib}/${name}-@{module}-${version}.jar' definitions="." />
+            <bndwrap jars='${build.lib}/${name}@{prefix}@{name}-${version}.jar' output='${name}@{prefix}@{name}-${version}.jar' definitions="." />
+            <copy todir='${lib.jsieve.dir}' file='${build.lib}/${name}@{prefix}@{name}-${version}.jar' />
         </sequential>
     </macrodef>
     

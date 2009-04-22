@@ -29,6 +29,8 @@ changed, existing configurations should still be compatible.
  
 Utilities include node serializers to xml and sieve script. The mailet module provides Sieve
 in the James 3 codebase.
+
+Java 1.5 is now the minimum version required.
  
 Changes   
 -------

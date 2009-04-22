@@ -22,7 +22,7 @@
   <groupId>org.apache.james</groupId>
   <artifactId>jsieve-project</artifactId>
   <name>Apache JAMES JSieve Project</name>
-  <version>0.3RC3-SNAPSHOT</version>
+  <version>0.3RC3</version>
   <packaging>pom</packaging>
   <description>
     Apache JAMES JSieve Project
@@ -113,13 +113,13 @@
 
   <scm>
     <connection>
-      scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk
+      scm:svn:http://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.3RC3
     </connection>
     <developerConnection>
-      scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk
+      scm:svn:https://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.3RC3
     </developerConnection>
     <url>
-      http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN
+      http://svn.apache.org/viewcvs.cgi/james/jsieve/tags/apache-jsieve-0.3RC3?root=Apache-SVN
     </url>
   </scm>
 

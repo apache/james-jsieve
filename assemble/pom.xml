@@ -21,14 +21,14 @@
   <parent>
     <artifactId>jsieve-project</artifactId>
     <groupId>org.apache.james</groupId>
-    <version>0.3RC4</version>
+    <version>0.3RC5-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>apache-james-jsieve</artifactId>
   <name>Apache JAMES jSieve Assembly</name>
-  <version>0.3RC4</version>
+  <version>0.3RC5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>
 Apache jSieve is a server side mail filtering system 

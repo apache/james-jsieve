@@ -21,14 +21,14 @@
   <parent>
     <artifactId>jsieve-project</artifactId>
     <groupId>org.apache.james</groupId>
-    <version>0.3RC2-SNAPSHOT</version>
+    <version>0.3RC2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
   <artifactId>apache-jsieve-util</artifactId>
   <name>Apache JAMES jSieve Utilities</name>
-  <version>0.3RC2-SNAPSHOT</version>
+  <version>0.3RC2</version>
   <packaging>jar</packaging>
   <description>
 Apache jSieve is a server side mail filtering system 
@@ -51,9 +51,9 @@ JAMES project. This module contains additional utilities.
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/james/jsieve/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.3RC2</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.3RC2</developerConnection>
+    <url>http://svn.apache.org/viewvc/james/jsieve/tags/apache-jsieve-0.3RC2</url>
   </scm>
   
   <repositories>

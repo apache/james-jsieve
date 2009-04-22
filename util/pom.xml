@@ -38,13 +38,6 @@ JAMES project. This module contains additional utilities.
   <url>http://james.apache.org/jsieve</url>
   <inceptionYear>2004</inceptionYear>
 
-  <distributionManagement>
-    <site>
-      <id>jsieve-website</id>
-      <url>scp://people.apache.org/www/james.apache.org/jsieve/</url>
-    </site>
-  </distributionManagement>
-
   <issueManagement>
     <system>JIRA</system>
     <url>http://issues.apache.org/jira/browse/JSIEVE</url>

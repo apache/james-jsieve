@@ -88,7 +88,18 @@
       </subsection>
     </section>
     <section name="News">
-      <subsection name="2008">
+        <h4>Jun/2008 - jSieve-0.3 released</h4>
+        <p>
+          The Apache JAMES team is happy to announce the availability of
+          <a href='http://james.apache.org/download.cgi#Apache%20JSieve'>
+            Apache jSieve 0.3
+          </a>
+          . This is the first modular release including a filtering 
+          <a href='http://james.apache.org/mailet'>mailet</a> as well as many fixes 
+          and improvements. See the 
+          <a href='http://james.apache.org/jsieve/0.3/release-notes.html'>release notes</a> 
+          for more details.
+        </p>
         <h4>Aug/2008 - jSieve-0.2 released</h4>
         <p>
           The Apache JAMES team is happy to announce the availability of
@@ -97,7 +108,6 @@
           </a>
           . This first public release is a major milestone for JSieve.
         </p>
-      </subsection>
     </section>
   </body>
 </document>

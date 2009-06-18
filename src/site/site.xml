@@ -54,6 +54,11 @@
         href="http://www.ietf.org/rfc/rfc3028.txt" />
     </menu>
 
+    <menu name='0.3 Release'>
+      <item name='Release Notes' href='0.3/release-notes.html'/>
+      <item name='Documentation' href='0.3/index.html'/>
+    </menu>
+
     <menu name="Useful Information">
       <item name="Get Involved"
         href="http://jakarta.apache.org/site/getinvolved.html" />

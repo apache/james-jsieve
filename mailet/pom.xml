@@ -67,7 +67,7 @@ JAMES project.
   <distributionManagement>
     <site>
       <id>${james.www.id}</id>
-      <url>${james.jsieve.www}</url>
+      <url>${james.jsieve.www}/mailet</url>
     </site>
   </distributionManagement>
 

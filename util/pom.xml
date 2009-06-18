@@ -67,7 +67,7 @@ JAMES project. This module contains additional utilities.
   <distributionManagement>
     <site>
       <id>${james.www.id}</id>
-      <url>${james.jsieve.www}</url>
+      <url>${james.jsieve.www}/util</url>
     </site>
   </distributionManagement>
 

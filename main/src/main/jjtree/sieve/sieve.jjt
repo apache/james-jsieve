@@ -255,26 +255,25 @@ void string() :
 {
   (quoted_string = <QUOTED_STRING> | multi_line = <MULTI_LINE>)
   {
-    final String stringValue;
+    final StringBuilder builder;
     if (null != quoted_string)
-      stringValue = quoted_string.image;
+      builder=new StringBuilder(quoted_string.image);
     else if (null != multi_line)
-      stringValue=multi_line.image;
+      builder=new StringBuilder(multi_line.image);
     else
-      stringValue=null;  
-    if (stringValue != null) {
+      builder=null;  
+    if (builder != null) {
         // Unescape and unquote
-        final StringBuffer buffer = new StringBuffer(stringValue);
-        buffer.deleteCharAt(stringValue.length() - 1);
-        buffer.deleteCharAt(0);
+        builder.deleteCharAt(builder.length() - 1);
+        builder.deleteCharAt(0);
         int i = 0;
-        while (i < buffer.length()) {
-            if ('\\' == buffer.charAt(i)) {
-                buffer.deleteCharAt(i);
+        while (i < builder.length()) {
+            if ('\\' == builder.charAt(i)) {
+                builder.deleteCharAt(i);
             }
             i++;
         }
-        jjtThis.setValue(buffer.toString());
+        jjtThis.setValue(builder.toString());
     }
   }
 }

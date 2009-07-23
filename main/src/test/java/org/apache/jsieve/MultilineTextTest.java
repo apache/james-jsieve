@@ -52,7 +52,29 @@ public class MultilineTextTest extends TestCase {
         ActionReject rejection = runRejectScript(script);        
         assertEquals(message, rejection.getMessage());
     }    
-
+    
+    /**
+     * Tests that a multiline message is correctly passed when dots within a line
+     * between the command and the content.
+     */
+    public void testRejectMultilineMessageWithDotsMidline() throws Exception {
+        String message = "This is not.....a love song";
+        String script = "reject text:\n" + message + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(message, rejection.getMessage());
+    }    
+    
+    /**
+     * Tests that a multiline message with dot stuffing is correctly decoded.
+     */
+    public void testRejectMultilineMessageWithDotStuffing() throws Exception {
+        String lineOne = "This is not\n";
+        String lineTwo = ".A Love Story";
+        String script = "reject text:\n" + lineOne + '.' + lineTwo + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(lineOne + lineTwo, rejection.getMessage());
+    }
+    
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
         JUnitUtils.interpret(mail, script);

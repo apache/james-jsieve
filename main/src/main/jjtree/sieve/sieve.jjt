@@ -270,6 +270,12 @@ void string() :
       builder.deleteCharAt(builder.length() - 1);
       builder.deleteCharAt(builder.length() - 1);
       builder.deleteCharAt(builder.length() - 1);
+      
+      int nextStuffedDot = builder.indexOf("\n..");
+      while (nextStuffedDot >= 0) {
+      	 builder.deleteCharAt(nextStuffedDot+1);
+      	 nextStuffedDot = builder.indexOf("\n..", nextStuffedDot);
+      } 
     } else {
       builder=null;  
     }

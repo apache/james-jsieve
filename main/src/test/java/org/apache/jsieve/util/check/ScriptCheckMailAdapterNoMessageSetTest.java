@@ -33,7 +33,7 @@ public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
     }
 
     public void testGetHeader() throws Exception {
-        List headers = adapter.getHeader("From");
+        List<String> headers = adapter.getHeader("From");
         assertNotNull(headers);
     }
 

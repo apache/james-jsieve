@@ -196,12 +196,12 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getHeader(String)
      */
-    public List getHeader(String name) throws SieveMailException
+    public List<String> getHeader(String name) throws SieveMailException
     {
         try
         {
             String[] headers = getMessage().getHeader(name);
-            return (headers == null ? new ArrayList(0) : Arrays.asList(headers));
+            return (headers == null ? new ArrayList<String>(0) : Arrays.asList(headers));
         }
         catch (MessagingException ex)
         {
@@ -211,9 +211,9 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getHeaderNames()
      */
-    public List getHeaderNames() throws SieveMailException
+    public List<String> getHeaderNames() throws SieveMailException
     {
-        Set headerNames = new HashSet();
+        Set<String> headerNames = new HashSet<String>();
         try
         {
             Enumeration allHeaders = getMessage().getAllHeaders();
@@ -221,7 +221,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             {
                 headerNames.add(((Header) allHeaders.nextElement()).getName());
             }
-            return new ArrayList(headerNames);
+            return new ArrayList<String>(headerNames);
         }
         catch (MessagingException ex)
         {
@@ -231,7 +231,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getMatchingHeader(String)
      */
-    public List getMatchingHeader(String name) throws SieveMailException
+    public List<String> getMatchingHeader(String name) throws SieveMailException
     {
         return MailUtils.getMatchingHeader(this, name);
     }
@@ -254,9 +254,9 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * 
      * @return Map
      */
-    protected Map getEnvelopes()
+    protected Map<String, String> getEnvelopes()
     {
-        Map envelopes = new HashMap(2);
+        Map<String, String> envelopes = new HashMap<String, String>(2);
         if (null != getEnvelopeFrom())
             envelopes.put("From", getEnvelopeFrom());
         if (null != getEnvelopeTo())
@@ -266,10 +266,10 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getEnvelope(String)
      */
-    public List getEnvelope(String name) throws SieveMailException
+    public List<String> getEnvelope(String name) throws SieveMailException
     {
-        List values = new ArrayList(1);
-        Object value = getEnvelopes().get(name);
+        List<String> values = new ArrayList<String>(1);
+        String value = getEnvelopes().get(name);
         if (null != value)
             values.add(value);
         return values;
@@ -277,20 +277,17 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getEnvelopeNames()
      */
-    public List getEnvelopeNames() throws SieveMailException
+    public List<String> getEnvelopeNames() throws SieveMailException
     {
-        return new ArrayList(getEnvelopes().keySet());
+        return new ArrayList<String>(getEnvelopes().keySet());
     }
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getMatchingEnvelope(String)
      */
-    public List getMatchingEnvelope(String name) throws SieveMailException
+    public List<String> getMatchingEnvelope(String name) throws SieveMailException
     {
-        Iterator envelopeNamesIter = getEnvelopeNames().iterator();
-        List matchedEnvelopeValues = new ArrayList(32);
-        while (envelopeNamesIter.hasNext())
-        {
-            String envelopeName = (String) envelopeNamesIter.next();
+        final List<String> matchedEnvelopeValues = new ArrayList<String>(32);
+        for (String envelopeName: getEnvelopeNames()) {
             if (envelopeName.trim().equalsIgnoreCase(name))
                 matchedEnvelopeValues.addAll(getEnvelope(envelopeName));
         }

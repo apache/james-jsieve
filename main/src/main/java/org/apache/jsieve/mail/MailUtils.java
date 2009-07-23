@@ -20,7 +20,6 @@
 package org.apache.jsieve.mail;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,16 +52,13 @@ public class MailUtils {
      * @return List
      * @throws SieveMailException
      */
-    static public List getMatchingHeader(MailAdapter mail, String name)
-            throws SieveMailException {
-        Iterator headerNamesIter = mail.getHeaderNames().iterator();
-        List matchedHeaderValues = new ArrayList(32);
-        while (headerNamesIter.hasNext()) {
-            String headerName = (String) headerNamesIter.next();
+    static public List<String> getMatchingHeader(MailAdapter mail, String name)
+            throws SieveMailException {;
+        final List<String> matchedHeaderValues = new ArrayList<String>(32);
+        for (String headerName: mail.getHeaderNames()) {
             if (headerName.trim().equalsIgnoreCase(name))
                 matchedHeaderValues.addAll(mail.getHeader(headerName));
         }
-
         return matchedHeaderValues;
     }
 }

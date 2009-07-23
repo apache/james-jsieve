@@ -29,7 +29,7 @@ import java.util.List;
  * <code>string-list = "[" string *("," string) "]" / string</code>
  */
 public class StringListArgument implements Argument {
-    private List fieldList;
+    private List<String> fieldList;
 
     /**
      * Constructor for StringListArgument.
@@ -41,7 +41,7 @@ public class StringListArgument implements Argument {
     /**
      * Constructor for StringListArgument.
      */
-    public StringListArgument(List stringList) {
+    public StringListArgument(List<String> stringList) {
         this();
         setList(stringList);
     }
@@ -51,8 +51,8 @@ public class StringListArgument implements Argument {
      * 
      * @return List
      */
-    public List getList() {
-        List list = null;
+    public List<String> getList() {
+        List<String> list = null;
         if (null == (list = getListBasic())) {
             updateList();
             return getList();
@@ -65,7 +65,7 @@ public class StringListArgument implements Argument {
      * 
      * @return List
      */
-    private List getListBasic() {
+    private List<String> getListBasic() {
         return fieldList;
     }
 
@@ -74,8 +74,8 @@ public class StringListArgument implements Argument {
      * 
      * @return List
      */
-    protected List computeList() {
-        return new ArrayList();
+    protected List<String> computeList() {
+        return new ArrayList<String>();
     }
 
     /**
@@ -84,7 +84,7 @@ public class StringListArgument implements Argument {
      * @param list
      *            The list to set
      */
-    protected void setList(List list) {
+    protected void setList(List<String> list) {
         fieldList = list;
     }
 

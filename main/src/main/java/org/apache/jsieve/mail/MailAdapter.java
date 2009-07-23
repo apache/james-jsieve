@@ -98,7 +98,7 @@ public interface MailAdapter {
      *         unmodifiable
      * @throws SieveMailException
      */
-    public List getHeader(String name) throws SieveMailException;
+    public List<String> getHeader(String name) throws SieveMailException;
 
     /**
      * <p>
@@ -119,7 +119,7 @@ public interface MailAdapter {
      *         unmodifiable
      * @throws SieveMailException
      */
-    public List getMatchingHeader(String name) throws SieveMailException;
+    public List<String> getMatchingHeader(String name) throws SieveMailException;
 
     /**
      * Method getHeaderNames answers a List of all of the headers in the
@@ -129,7 +129,7 @@ public interface MailAdapter {
      *         unmodifiable
      * @throws SieveMailException
      */
-    public List getHeaderNames() throws SieveMailException;
+    public List<String> getHeaderNames() throws SieveMailException;
 
     /**
      * Method addAction adds an Action to the List of Actions to be performed by

@@ -68,8 +68,8 @@ public class Header extends AbstractTest implements ComparatorTags,
             SieveContext context) throws SieveException {
         String comparator = null;
         String matchType = null;
-        List headerNames = null;
-        List keys = null;
+        List<String> headerNames = null;
+        List<String> keys = null;
 
         ListIterator argumentsIter = arguments.getArgumentList().listIterator();
         boolean stop = false;
@@ -154,7 +154,7 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @throws SieveException
      */
     protected boolean match(MailAdapter mail, String comparator,
-            String matchType, List headerNames, List keys, SieveContext context)
+            String matchType, List<String> headerNames, List<String> keys, SieveContext context)
             throws SieveException {
         // Iterate over the header names looking for a match
         boolean isMatched = false;
@@ -180,7 +180,7 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            List headerValues, List keys, SieveContext context)
+            List<String> headerValues, List<String> keys, SieveContext context)
             throws SieveException {
         // Special case for empty values
         // If the matchType is :contains
@@ -190,7 +190,7 @@ public class Header extends AbstractTest implements ComparatorTags,
         if (headerValues.isEmpty())
             if (matchType.equals(CONTAINS_TAG)) {
                 // header values may be immutable
-                headerValues = new ArrayList(headerValues);
+                headerValues = new ArrayList<String>(headerValues);
                 headerValues.add("");
             } else {
                 return false;
@@ -218,15 +218,16 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @throws SieveException
      */
     protected boolean match(String comparator, String matchType,
-            String headerValue, List keys, SieveContext context)
+            String headerValue, List<String> keys, SieveContext context)
             throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
-        Iterator keysIter = keys.iterator();
-        while (!isMatched && keysIter.hasNext()) {
-            final String nextKey = (String) keysIter.next();
+        for (final String key: keys) {
             isMatched = ComparatorUtils.match(comparator, matchType,
-                    headerValue, nextKey, context);
+                    headerValue, key, context);
+            if (isMatched) {
+                break;
+            }
         }
         return isMatched;
     }

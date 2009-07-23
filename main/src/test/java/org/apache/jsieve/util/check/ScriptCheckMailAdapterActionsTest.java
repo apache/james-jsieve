@@ -68,7 +68,7 @@ public class ScriptCheckMailAdapterActionsTest extends TestCase {
     public void testGetActions() {
         assertNotNull(adapter.getActions());
         try {
-            adapter.getActions().add("A Little Extra");
+            adapter.getActions().add(new Action() {});
             fail("Should not be able to modify collection");
         } catch (UnsupportedOperationException e) {
             // expected
@@ -137,7 +137,7 @@ public class ScriptCheckMailAdapterActionsTest extends TestCase {
                 .getExecutedActions().get(0));
         assertEquals("Two actions executed", anotherAction, adapter
                 .getExecutedActions().get(1));
-        adapter.getExecutedActions().add("Whatever");
+        adapter.getExecutedActions().add(new Action(){});
         assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
         assertEquals("Two actions executed", action, adapter

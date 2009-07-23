@@ -213,8 +213,9 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>List</code>, not null possibly empty
      * @throws SieveMailException
      */
-    public List getMatchingHeader(String name) throws SieveMailException {
-        List result = Collections.EMPTY_LIST;
+    @SuppressWarnings("unchecked")
+    public List<String> getMatchingHeader(String name) throws SieveMailException {
+        List<String> result = Collections.EMPTY_LIST;
         if (mail != null) {
             result = MailUtils.getMatchingHeader(this, name);
         }

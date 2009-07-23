@@ -185,10 +185,10 @@ public class SieveMailAdapter implements MailAdapter {
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getHeader(String)
      */
-    public List getHeader(String name) throws SieveMailException {
+    public List<String> getHeader(String name) throws SieveMailException {
         try {
             String[] headers = getMessage().getHeader(name);
-            return (headers == null ? new ArrayList(0) : Arrays.asList(headers));
+            return (headers == null ? new ArrayList<String>(0) : Arrays.asList(headers));
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         }
@@ -197,14 +197,14 @@ public class SieveMailAdapter implements MailAdapter {
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getHeaderNames()
      */
-    public List getHeaderNames() throws SieveMailException {
-        Set headerNames = new HashSet();
+    public List<String> getHeaderNames() throws SieveMailException {
+        Set<String> headerNames = new HashSet<String>();
         try {
             Enumeration allHeaders = getMessage().getAllHeaders();
             while (allHeaders.hasMoreElements()) {
                 headerNames.add(((Header) allHeaders.nextElement()).getName());
             }
-            return new ArrayList(headerNames);
+            return new ArrayList<String>(headerNames);
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         }
@@ -213,7 +213,7 @@ public class SieveMailAdapter implements MailAdapter {
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getMatchingHeader(String)
      */
-    public List getMatchingHeader(String name) throws SieveMailException {
+    public List<String> getMatchingHeader(String name) throws SieveMailException {
         return MailUtils.getMatchingHeader(this, name);
     }
 

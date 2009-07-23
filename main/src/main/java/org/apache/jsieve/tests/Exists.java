@@ -52,7 +52,7 @@ public class Exists extends AbstractTest {
 
         boolean found = true;
         while (found && headerNamesIter.hasNext()) {
-            List headers = mail.getMatchingHeader((String) headerNamesIter
+            List<String> headers = mail.getMatchingHeader((String) headerNamesIter
                     .next());
             found = found && !headers.isEmpty();
         }

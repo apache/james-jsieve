@@ -72,7 +72,7 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
     }
 
     public void testGetHeader() throws Exception {
-        List headers = adapter.getHeader(FROM);
+        List<String> headers = adapter.getHeader(FROM);
         assertNotNull(headers);
         assertEquals("From header", 1, headers.size());
         assertEquals("From header", FROM_ADDRESS, headers.get(0));

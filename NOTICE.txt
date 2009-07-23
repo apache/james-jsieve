@@ -1,16 +1,6 @@
-   =========================================================================
-   ==      NOTICE file for use with the Apache License, Version 2.0,      ==
-   =========================================================================
+Apache James JSieve Library
+Copyright 2009 The Apache Software Foundation
 
-   Apache James JSieve Library
-   Copyright 2009 The Apache Software Foundation
-
-   This product includes software developed at
-   The Apache Software Foundation (http://www.apache.org/).
-   
-   This product may include or use software developed by :
-     - Sun Microsystems (http://java.sun.com/)
-     - JMock, (http://jmock.org)
-     - JUnit (http://www.junit.org/)
-     - aQute / Peter Kriens (http://www.aqute.biz/)
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
    

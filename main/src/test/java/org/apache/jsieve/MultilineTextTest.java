@@ -41,6 +41,17 @@ public class MultilineTextTest extends TestCase {
         ActionReject rejection = runRejectScript(script);        
         assertEquals(message, rejection.getMessage());
     }
+    
+    /**
+     * Tests that a multiline message is correctly passed when whitespace is inserted
+     * between the command and the content.
+     */
+    public void testRejectMultilineMessageWithWhitespace() throws Exception {
+        String message = "This is not a love song";
+        String script = "reject text: \t \t \n" + message + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(message, rejection.getMessage());
+    }    
 
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();

@@ -75,6 +75,17 @@ public class MultilineTextTest extends TestCase {
         assertEquals(lineOne + lineTwo, rejection.getMessage());
     }
     
+    /**
+     * Tests that a multiline message with missed dot stuffing is correctly decoded.
+     */
+    public void testRejectMultilineMessageWithMissedDotStuffing() throws Exception {
+        String lineOne = "This is not\n";
+        String lineTwo = ".A Love Story";
+        String script = "reject text:\n" + lineOne + lineTwo + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(lineOne + lineTwo, rejection.getMessage());
+    }
+    
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
         JUnitUtils.interpret(mail, script);

@@ -88,6 +88,26 @@ public class RejectTest extends TestCase {
     }
 
     /**
+     * Tests that the message is correctly passed
+     */
+    public void testRejectMessage() throws Exception {
+        String message = "Spam not consumed here!";
+        String script = "reject \"" + message + "\";";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(message, rejection.getMessage());
+    }
+
+    private ActionReject runRejectScript(String script) throws SieveException, ParseException {
+        MailAdapter mail = JUnitUtils.createMail();
+        JUnitUtils.interpret(mail, script);
+        assertTrue(mail.getActions().size() == 1);
+        Object action = mail.getActions().get(0);
+        assertTrue(action instanceof ActionReject);
+        ActionReject rejection = (ActionReject) action;
+        return rejection;
+    }
+    
+    /**
      * Test for Command 'reject'
      */
     public void testRejectMissingMessage() {

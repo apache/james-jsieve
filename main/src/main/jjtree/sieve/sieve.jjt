@@ -256,15 +256,23 @@ void string() :
   (quoted_string = <QUOTED_STRING> | multi_line = <MULTI_LINE>)
   {
     final StringBuilder builder;
-    if (null != quoted_string)
+    if (null != quoted_string) {
       builder=new StringBuilder(quoted_string.image);
-    else if (null != multi_line)
+      // unquote
+      builder.deleteCharAt(builder.length() - 1);
+    } else if (null != multi_line) {
       builder=new StringBuilder(multi_line.image);
-    else
+      // remove prefixing 'text'
+      builder.delete(0,5);
+      // remove suffixing newline-dot-newline
+      builder.deleteCharAt(builder.length() - 1);
+      builder.deleteCharAt(builder.length() - 1);
+      builder.deleteCharAt(builder.length() - 1);
+    } else {
       builder=null;  
+    }
     if (builder != null) {
-        // Unescape and unquote
-        builder.deleteCharAt(builder.length() - 1);
+        // Unescape
         builder.deleteCharAt(0);
         int i = 0;
         while (i < builder.length()) {

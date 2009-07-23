@@ -82,14 +82,12 @@ public class Body extends AbstractTest {
         if (mail.getContentType().indexOf("text/") != 0) {
             throw new SieveMailException("Message is not of type 'text'");
         }
-        String body = (String) mail.getContent();
-        body = body.toLowerCase();
 
         // Compare each test string with body, ignoring case
         ListIterator iter = strings.getList().listIterator();
         while (iter.hasNext()) {
-            String str = (String) iter.next();
-            if (body.indexOf(str.toLowerCase()) != -1) {
+            String phrase = (String) iter.next();
+            if (mail.isInBodyText(phrase)) {
                 return true;
             }
         }

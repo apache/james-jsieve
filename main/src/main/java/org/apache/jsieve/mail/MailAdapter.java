@@ -162,16 +162,15 @@ public interface MailAdapter {
     public String getContentType() throws SieveMailException;
 
     /**
-     * Method getContent returns object containing the message content. TODO:
-     * This is poorly defined. TODO: This is used to search a mail body and
-     * needs to return a string. TODO: But creating a string is not efficient.
-     * TODO: It would be better to allow the adapter to search.
-     * 
-     * @return Object
-     * @throws SieveMailException
+     * Is the given phrase found in the body text of this mail?
+     * This search should be case insensitive.
+     * @param phraseInLowerCase the phrase to search
+     * @return true when the mail has a textual body and contains the phrase
+     * (case insensitive), false otherwise
+     * @throws SieveMailException when the search cannot be completed
      */
-    public Object getContent() throws SieveMailException;
-
+    public boolean isInBodyText(final String phraseCaseInsensitive) throws SieveMailException;
+    
     /**
      * <p>
      * Parses the named header value into individual addresses.

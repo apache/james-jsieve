@@ -261,26 +261,6 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         return result;
     }
 
-    /**
-     * Method getContent returns object containing the message content.
-     * 
-     * @return Object
-     * @throws SieveMailException
-     */
-    public Object getContent() throws SieveMailException {
-        Object result = null;
-        if (mail != null) {
-            try {
-                result = mail.getContent();
-            } catch (MessagingException e) {
-                throw new SieveMailException(e);
-            } catch (IOException e) {
-                throw new SieveMailException(e);
-            }
-        }
-        return result;
-    }
-
     public Address[] parseAddresses(String headerName)
             throws SieveMailException {
         return parseAddresses(headerName, mail);
@@ -317,6 +297,20 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         } catch (ParseException ex) {
             throw new SieveMailException(ex);
         }
+    }
+
+    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
+        boolean result = false;
+        if (mail != null) {
+            try {
+                result = mail.getContent().toString().toLowerCase().contains(phraseCaseInsensitive);
+            } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            } catch (IOException e) {
+                throw new SieveMailException(e);
+            }
+        }
+        return result;
     }
 
 }

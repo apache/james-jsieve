@@ -66,6 +66,8 @@ public class SieveMailAdapter implements MailAdapter {
      */
     private List<Action> fieldActions;
 
+    private String contentAsLowerCaseString;
+
     /**
      * Constructor for SieveMailAdapter.
      */
@@ -239,19 +241,6 @@ public class SieveMailAdapter implements MailAdapter {
         }
     }
 
-    /**
-     * @see org.apache.jsieve.mail.MailAdapter#getContent()
-     */
-    public Object getContent() throws SieveMailException {
-        try {
-            return getMessage().getContent();
-        } catch (MessagingException ex) {
-            throw new SieveMailException(ex);
-        } catch (IOException ex) {
-            throw new SieveMailException(ex);
-        }
-    }
-
     public Address[] parseAddresses(final String headerName)
             throws SieveMailException {
         return parseAddresses(headerName, getMessage());
@@ -288,6 +277,23 @@ public class SieveMailAdapter implements MailAdapter {
         } catch (org.apache.jsieve.parser.generated.address.ParseException ex) {
             throw new SieveMailException(ex);
         }
+    }
+
+    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
+        try {
+            return contentAsText().indexOf(phraseCaseInsensitive.toLowerCase()) != -1;
+        } catch (MessagingException ex) {
+            throw new SieveMailException(ex);
+        } catch (IOException ex) {
+            throw new SieveMailException(ex);
+        }
+    }
+
+    private String contentAsText() throws IOException, MessagingException {
+        if (contentAsLowerCaseString == null) {
+            contentAsLowerCaseString = getMessage().getContent().toString().toLowerCase();
+        }
+        return contentAsLowerCaseString;
     }
 
 }

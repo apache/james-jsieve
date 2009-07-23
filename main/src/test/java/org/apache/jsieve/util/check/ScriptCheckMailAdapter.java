@@ -259,17 +259,11 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         return result;
     }
 
-    /**
-     * Method getContent returns object containing the message content.
-     * 
-     * @return Object
-     * @throws SieveMailException
-     */
-    public Object getContent() throws SieveMailException {
-        Object result = null;
+    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
+        boolean result = false;
         if (mail != null) {
             try {
-                result = mail.getContent();
+                result = mail.getContent().toString().toLowerCase().contains(phraseCaseInsensitive);
             } catch (MessagingException e) {
                 throw new SieveMailException(e);
             } catch (IOException e) {

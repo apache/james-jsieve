@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.mailet;
 import java.io.IOException;
+import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,6 +80,8 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     private final ActionDispatcher dispatcher;
     
     private final Poster poster;
+
+    private String contentText;
     
     /**
      * Constructor for SieveMailAdapter.
@@ -333,6 +336,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     protected void setMail(Mail mail)
     {
         fieldMail = mail;
+        contentText = null;
     }
     /**
      * Returns the mailetContext.
@@ -373,15 +377,6 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
                 + " Message ID: " + (null == messageID ? "null" : messageID);
     }
     
-    public Object getContent() throws SieveMailException {
-        try {
-            return getMessage().getContent();
-        } catch (MessagingException e) {
-            throw new SieveMailException(e);
-        } catch (IOException e) {
-            throw new SieveMailException(e);
-        }
-    }
     public String getContentType() throws SieveMailException {
         try {
             return getMessage().getContentType();
@@ -455,4 +450,20 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     public void post(MailAddress sender, Collection recipients, MimeMessage mail) throws MessagingException {
         getMailetContext().sendMail(sender, recipients, mail);
     }
+
+
+    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
+        try {
+            if (contentText == null) {
+                contentText = getMessage().getContent().toString().toLowerCase();
+            }
+            return contentText.contains(phraseCaseInsensitive);
+        } catch (MessagingException e) {
+            throw new SieveMailException(e);
+        } catch (IOException e) {
+            throw new SieveMailException(e);
+        }
+    }
+    
+    
 }

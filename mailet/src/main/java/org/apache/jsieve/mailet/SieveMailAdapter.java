@@ -74,7 +74,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     /**
      * List of Actions to perform.
      */
-    private List fieldActions;
+    private List<Action> fieldActions;
     
     private final ActionDispatcher dispatcher;
     
@@ -113,9 +113,9 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * 
      * @return List
      */
-    public List getActions()
+    public List<Action> getActions()
     {
-        List actions = null;
+        List<Action> actions = null;
         if (null == (actions = getActionsBasic()))
         {
             updateActions();
@@ -128,16 +128,16 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * 
      * @return List
      */
-    protected List computeActions()
+    protected List<Action> computeActions()
     {
-        return new ArrayList();
+        return new ArrayList<Action>();
     }
     /**
      * Returns the List of actions.
      * 
      * @return List
      */
-    private List getActionsBasic()
+    private List<Action> getActionsBasic()
     {
         return fieldActions;
     }
@@ -175,7 +175,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * 
      * @param actions The actions to set
      */
-    protected void setActions(List actions)
+    protected void setActions(List<Action> actions)
     {
         fieldActions = actions;
     }

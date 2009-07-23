@@ -64,7 +64,7 @@ public class SieveMailAdapter implements MailAdapter {
     /**
      * List of Actions to perform.
      */
-    private List fieldActions;
+    private List<Action> fieldActions;
 
     /**
      * Constructor for SieveMailAdapter.
@@ -107,8 +107,8 @@ public class SieveMailAdapter implements MailAdapter {
      * 
      * @return List
      */
-    public List getActions() {
-        List actions = null;
+    public List<Action> getActions() {
+        List<Action> actions = null;
         if (null == (actions = getActionsBasic())) {
             updateActions();
             return getActions();
@@ -121,8 +121,8 @@ public class SieveMailAdapter implements MailAdapter {
      * 
      * @return List
      */
-    protected List computeActions() {
-        return new ArrayList();
+    protected List<Action> computeActions() {
+        return new ArrayList<Action>();
     }
 
     /**
@@ -130,7 +130,7 @@ public class SieveMailAdapter implements MailAdapter {
      * 
      * @return List
      */
-    private List getActionsBasic() {
+    private List<Action> getActionsBasic() {
         return fieldActions;
     }
 
@@ -164,7 +164,7 @@ public class SieveMailAdapter implements MailAdapter {
      * @param actions
      *            The actions to set
      */
-    protected void setActions(List actions) {
+    protected void setActions(List<Action> actions) {
         fieldActions = actions;
     }
 

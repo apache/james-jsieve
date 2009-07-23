@@ -77,7 +77,7 @@ public interface MailAdapter {
      * @return <code>List</code> of {@link Action}'s, not null, possibly
      *         unmodifiable
      */
-    public List getActions();
+    public List<Action> getActions();
 
     /**
      * Method getActionIteraror answers an Iterator over the List of Actions

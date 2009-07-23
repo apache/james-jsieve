@@ -127,7 +127,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>ListIterator</code>, not null, possibly unmodifiable
      */
     public ListIterator getActionsIterator() {
-        final List unmodifiableActions = getActions();
+        final List<Action> unmodifiableActions = getActions();
         final ListIterator result = unmodifiableActions.listIterator();
         return result;
     }

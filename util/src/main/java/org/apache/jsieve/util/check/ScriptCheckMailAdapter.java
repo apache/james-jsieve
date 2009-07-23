@@ -47,15 +47,15 @@ import org.apache.jsieve.parser.generated.address.ParseException;
  */
 public class ScriptCheckMailAdapter implements MailAdapter {
 
-    private final List actions;
+    private final List<Action> actions;
 
-    private final List executedActions;
+    private final List<Action> executedActions;
 
     private Message mail = null;
 
     public ScriptCheckMailAdapter() {
-        actions = new ArrayList();
-        executedActions = new ArrayList();
+        actions = new ArrayList<Action>();
+        executedActions = new ArrayList<Action>();
     }
 
     /**
@@ -104,8 +104,8 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>List</code> of {@link Action}s, not null. This list is a
      *         modifiable copy
      */
-    public List getExecutedActions() {
-        final ArrayList result = new ArrayList(executedActions);
+    public List<Action> getExecutedActions() {
+        final ArrayList<Action> result = new ArrayList<Action>(executedActions);
         return result;
     }
 
@@ -116,8 +116,8 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>List</code> of {@link Action}'s, not null, possibly
      *         unmodifiable
      */
-    public List getActions() {
-        final List result = Collections.unmodifiableList(actions);
+    public List<Action> getActions() {
+        final List<Action> result = Collections.unmodifiableList(actions);
         return result;
     }
 
@@ -129,7 +129,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>ListIterator</code>, not null, possibly unmodifiable
      */
     public ListIterator getActionsIterator() {
-        final List unmodifiableActions = getActions();
+        final List<Action> unmodifiableActions = getActions();
         final ListIterator result = unmodifiableActions.listIterator();
         return result;
     }
@@ -152,8 +152,9 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @return <code>List</code> not null, possibly empty
      * @throws SieveMailException
      */
-    public List getHeader(String name) throws SieveMailException {
-        List result = Collections.EMPTY_LIST;
+    @SuppressWarnings("unchecked")
+    public List<String> getHeader(String name) throws SieveMailException {
+        List<String> result = Collections.EMPTY_LIST;
         if (mail != null) {
             try {
                 String[] values = mail.getHeader(name);
@@ -175,11 +176,12 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      *         unmodifiable
      * @throws SieveMailException
      */
-    public List getHeaderNames() throws SieveMailException {
-        List results = Collections.EMPTY_LIST;
+    @SuppressWarnings("unchecked")
+    public List<String> getHeaderNames() throws SieveMailException {
+        List<String> results = Collections.EMPTY_LIST;
         if (mail != null) {
             try {
-                results = new ArrayList();
+                results = new ArrayList<String>();
                 for (final Enumeration en = mail.getAllHeaders(); en
                         .hasMoreElements();) {
                     final Header header = (Header) en.nextElement();

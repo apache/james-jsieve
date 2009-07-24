@@ -65,13 +65,14 @@ public class FileInto extends AbstractActionCommand {
 
         // Only one fileinto per destination allowed, others should be
         // discarded
-        ListIterator actionsIter = mail.getActionsIterator();
         boolean isDuplicate = false;
-        while (actionsIter.hasNext()) {
-            Action action = (Action) actionsIter.next();
+        for (final Action action: mail.getActions()) {
             isDuplicate = (action instanceof ActionFileInto)
                     && (((ActionFileInto) action).getDestination()
                             .equals(destination));
+            if (isDuplicate) {
+                break;
+            }
         }
 
         if (!isDuplicate)

@@ -230,10 +230,11 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTtest_list, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTtest_list node, Object data) throws SieveException {
         // return visitChildren(node, data);
-        List children = new ArrayList(node.jjtGetNumChildren());
-        TestList testList = new TestList(((List) node.childrenAccept(this,
+        List<Test> children = new ArrayList<Test>(node.jjtGetNumChildren());
+        TestList testList = new TestList(((List<Test>) node.childrenAccept(this,
                 children)));
         ((List) data).add(testList);
         return data;

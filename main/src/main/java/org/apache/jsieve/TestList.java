@@ -37,7 +37,7 @@ public class TestList implements Executable {
     /**
      * List of Tests
      */
-    private List fieldTests;
+    private List<Test> fieldTests;
 
     /**
      * Constructor for TestList.
@@ -52,7 +52,7 @@ public class TestList implements Executable {
      * @param children -
      *            A List of Tests
      */
-    public TestList(List children) {
+    public TestList(List<Test> children) {
         this();
         setTests(children);
     }
@@ -65,7 +65,7 @@ public class TestList implements Executable {
      */
     public TestList(Test child) {
         this();
-        List children = new ArrayList();
+        List<Test> children = new ArrayList<Test>();
         children.add(child);
         setTests(children);
     }
@@ -90,7 +90,7 @@ public class TestList implements Executable {
      * 
      * @return List
      */
-    public List getTests() {
+    public List<Test> getTests() {
         return fieldTests;
     }
 
@@ -100,7 +100,7 @@ public class TestList implements Executable {
      * @param children
      *            The children to set
      */
-    protected void setTests(List children) {
+    protected void setTests(List<Test> children) {
         fieldTests = children;
     }
 

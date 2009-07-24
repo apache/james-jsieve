@@ -38,7 +38,7 @@ public class Arguments {
     /**
      * A List of the parsed Arguments
      */
-    private List fieldArgumentList;
+    private List<Argument> fieldArgumentList;
 
     /**
      * The parsed tests
@@ -58,7 +58,7 @@ public class Arguments {
      * @param arguments
      * @param testList
      */
-    public Arguments(List arguments, TestList testList) {
+    public Arguments(List<Argument> arguments, TestList testList) {
         this();
         setArgumentList(arguments);
         setTestList(testList);
@@ -69,7 +69,7 @@ public class Arguments {
      * 
      * @return List
      */
-    public List getArgumentList() {
+    public List<Argument> getArgumentList() {
         return fieldArgumentList;
     }
 
@@ -113,7 +113,7 @@ public class Arguments {
      * @return TestList
      */
     protected TestList computeTestList() {
-        return new TestList(new ArrayList());
+        return new TestList(new ArrayList<Test>());
     }
 
     /**
@@ -122,7 +122,7 @@ public class Arguments {
      * @param arguments
      *            The arguments to set
      */
-    protected void setArgumentList(List arguments) {
+    protected void setArgumentList(List<Argument> arguments) {
         fieldArgumentList = arguments;
     }
 

@@ -44,6 +44,7 @@ public class FileIntoTest extends TestCase {
     Arguments dummyArguments;
     SieveContext dummyContext;
     
+    @SuppressWarnings("unchecked")
     protected void setUp() throws Exception {
         super.setUp();
         mockAdapter = new ScriptCheckMailAdapter();

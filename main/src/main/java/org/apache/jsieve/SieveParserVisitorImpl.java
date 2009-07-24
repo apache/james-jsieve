@@ -118,15 +118,18 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         // Extract Tests and TestList from the children
         Iterator childrenIter = children.iterator();
         TestList testList = null;
-        List argList = new ArrayList(children.size());
+        List<Argument> argList = new ArrayList<Argument>(children.size());
         while (childrenIter.hasNext()) {
             Object next = childrenIter.next();
             if (next instanceof Test)
                 testList = new TestList((Test) next);
             else if (next instanceof TestList)
                 testList = (TestList) next;
-            else
-                argList.add(next);
+            else if (next instanceof Argument) {
+                argList.add((Argument)next);
+            } else {
+                context.getLog().error("Expected an 'Argument' but was " + next);
+            }
         }
 
         Arguments arguments = new Arguments(argList, testList);

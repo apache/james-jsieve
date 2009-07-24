@@ -19,11 +19,8 @@
 
 package org.apache.jsieve.tests;
 
-import java.util.Iterator;
-
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.Test;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -45,13 +42,7 @@ public class AllOf extends AbstractTest {
      */
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException {
-        boolean result = true;
-        Iterator testsIter = arguments.getTestList().getTests().iterator();
-        while (result && testsIter.hasNext()) {
-            result = ((Boolean) ((Test) testsIter.next())
-                    .execute(mail, context)).booleanValue();
-        }
-        return result;
+        return arguments.getTestList().isTestPassed(mail, context);
     }
 
 }

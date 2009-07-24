@@ -19,8 +19,6 @@
 
 package org.apache.jsieve.commands.optional;
 
-import java.util.ListIterator;
-
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;

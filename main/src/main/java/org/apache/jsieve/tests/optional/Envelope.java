@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.tests.optional;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.SieveContext;
@@ -43,11 +42,7 @@ public class Envelope extends AbstractCompatatorTest {
         super();
     }
 
-    /**
-     * @see org.apache.jsieve.tests.Address#getMatchingValues(MailAdapter,
-     *      String)
-     */
-    protected List getMatchingValues(MailAdapter mail, String valueName)
+    protected List<String> getMatchingValues(MailAdapter mail, String valueName)
             throws SieveMailException {
         return ((EnvelopeAccessors) mail).getMatchingEnvelope(valueName);
     }
@@ -108,12 +103,13 @@ public class Envelope extends AbstractCompatatorTest {
     protected boolean match(MailAdapter mail, String addressPart,
             String comparator, String matchType, String headerName, String key,
             SieveContext context) throws SieveException {
-        Iterator headerValuesIter = getMatchingValues(mail, headerName)
-                .iterator();
+        final List<String> headerValues = getMatchingValues(mail, headerName);
         boolean isMatched = false;
-        while (!isMatched && headerValuesIter.hasNext()) {
-            isMatched = match(addressPart, comparator, matchType,
-                    ((String) headerValuesIter.next()), key, context);
+        for (final String value:headerValues) {
+            isMatched = match(addressPart, comparator, matchType, value, key, context);
+            if (isMatched) {
+                break;
+            }
         }
         return isMatched;
     }

@@ -37,7 +37,7 @@ public interface EnvelopeAccessors {
      * @return List
      * @throws SieveMailException
      */
-    public List getEnvelope(String name) throws SieveMailException;
+    public List<String> getEnvelope(String name) throws SieveMailException;
 
     /**
      * Method getEnvelopeNames answers a List of the names of the envelope
@@ -46,7 +46,7 @@ public interface EnvelopeAccessors {
      * @return List
      * @throws SieveMailException
      */
-    public List getEnvelopeNames() throws SieveMailException;
+    public List<String> getEnvelopeNames() throws SieveMailException;
 
     /**
      * <p>
@@ -66,6 +66,6 @@ public interface EnvelopeAccessors {
      * @return List
      * @throws SieveMailException
      */
-    public List getMatchingEnvelope(String name) throws SieveMailException;
+    public List<String> getMatchingEnvelope(String name) throws SieveMailException;
 
 }

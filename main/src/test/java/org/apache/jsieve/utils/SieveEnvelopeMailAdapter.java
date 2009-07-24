@@ -68,8 +68,8 @@ public class SieveEnvelopeMailAdapter extends SieveMailAdapter implements
      * 
      * @return Map
      */
-    protected Map getEnvelopes() {
-        Map envelopes = new HashMap(2);
+    protected Map<String, String> getEnvelopes() {
+        Map<String, String> envelopes = new HashMap<String, String>(2);
         if (null != getEnvelopeFrom())
             envelopes.put("From", getEnvelopeFrom());
         if (null != getEnvelopeTo())
@@ -80,9 +80,9 @@ public class SieveEnvelopeMailAdapter extends SieveMailAdapter implements
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getEnvelope(String)
      */
-    public List getEnvelope(String name) throws SieveMailException {
-        List values = new ArrayList(1);
-        Object value = getEnvelopes().get(name);
+    public List<String> getEnvelope(String name) throws SieveMailException {
+        List<String> values = new ArrayList<String>(1);
+        String value = getEnvelopes().get(name);
         if (null != value)
             values.add(value);
         return values;
@@ -91,16 +91,16 @@ public class SieveEnvelopeMailAdapter extends SieveMailAdapter implements
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getEnvelopeNames()
      */
-    public List getEnvelopeNames() throws SieveMailException {
-        return new ArrayList(getEnvelopes().keySet());
+    public List<String> getEnvelopeNames() throws SieveMailException {
+        return new ArrayList<String>(getEnvelopes().keySet());
     }
 
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getMatchingEnvelope(String)
      */
-    public List getMatchingEnvelope(String name) throws SieveMailException {
+    public List<String> getMatchingEnvelope(String name) throws SieveMailException {
         Iterator envelopeNamesIter = getEnvelopeNames().iterator();
-        List matchedEnvelopeValues = new ArrayList(32);
+        List<String> matchedEnvelopeValues = new ArrayList<String>(32);
         while (envelopeNamesIter.hasNext()) {
             String envelopeName = (String) envelopeNamesIter.next();
             if (envelopeName.trim().equalsIgnoreCase(name))

@@ -74,7 +74,7 @@ public class TestList implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        return new Boolean(isTestPassed(mail, context));
+        return new Boolean(allTestsPass(mail, context));
     }
 
     /**
@@ -86,7 +86,7 @@ public class TestList implements Executable {
      * true when no tests fail
      * @throws SieveException
      */
-    public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
+    public boolean allTestsPass(MailAdapter mail, SieveContext context) throws SieveException {
         boolean result = true;
         for (Test test:getTests()) {
             result = test.isTestPassed(mail, context);
@@ -97,6 +97,26 @@ public class TestList implements Executable {
         return result;
     }
 
+    /**
+     * Do any tests pass for the given mail?
+     * 
+     * @param mail not null
+     * @param context not null
+     * @return true when any test in this list passes,
+     * false otherwise
+     * @throws SieveException
+     */
+    public boolean anyTestsPass(MailAdapter mail, SieveContext context) throws SieveException {
+        boolean result = false;
+        for (Test test:getTests()) {
+            result = test.isTestPassed(mail, context);
+            if (result) {
+                break;
+            }
+        }
+        return result;
+    }
+    
     /**
      * Returns the children.
      * 

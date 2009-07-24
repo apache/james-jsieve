@@ -42,7 +42,7 @@ public class AllOf extends AbstractTest {
      */
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException {
-        return arguments.getTestList().isTestPassed(mail, context);
+        return arguments.getTestList().allTestsPass(mail, context);
     }
 
 }

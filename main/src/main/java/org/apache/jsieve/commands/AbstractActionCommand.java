@@ -21,6 +21,7 @@ package org.apache.jsieve.commands;
 
 import java.util.List;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
@@ -85,12 +86,12 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
      */
     protected void validateSingleStringArguments(Arguments arguments,
             SieveContext context) throws SieveException {
-        List args = arguments.getArgumentList();
+        List<Argument> args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
                     "Exactly 1 argument permitted. Found " + args.size());
 
-        Object argument = args.get(0);
+        Argument argument = args.get(0);
         if (!(argument instanceof StringListArgument))
             throw context.getCoordinate().syntaxException(
                     "Expecting a string-list");

@@ -54,7 +54,7 @@ public class Redirect extends AbstractActionCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
-        String recipient = (String) ((StringListArgument) arguments
+        String recipient = ((StringListArgument) arguments
                 .getArgumentList().get(0)).getList().get(0);
 
         mail.addAction(new ActionRedirect(recipient));

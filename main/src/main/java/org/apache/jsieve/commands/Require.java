@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.commands;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.Argument;
@@ -58,11 +57,10 @@ public class Require extends AbstractPrologCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
-        Iterator stringsIter = ((StringListArgument) arguments
-                .getArgumentList().get(0)).getList().iterator();
-
-        while (stringsIter.hasNext()) {
-            validateFeature((String) stringsIter.next(), mail, context);
+        final List<String> stringArgumentList = ((StringListArgument) arguments
+                                .getArgumentList().get(0)).getList();
+        for (String stringArgument: stringArgumentList) {
+            validateFeature(stringArgument, mail, context);
         }
         return null;
     }

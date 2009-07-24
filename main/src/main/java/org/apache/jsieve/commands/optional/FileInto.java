@@ -58,7 +58,7 @@ public class FileInto extends AbstractActionCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
-        String destination = (String) ((StringListArgument) arguments
+        final String destination = ((StringListArgument) arguments
                 .getArgumentList().get(0)).getList().get(0);
 
         // Only one fileinto per destination allowed, others should be

@@ -22,6 +22,7 @@ package org.apache.jsieve.commands.extensions;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
@@ -62,14 +63,14 @@ public class Log extends AbstractCommand implements LogLevelTags {
         // First MAY be a tag argument of fatal, error, warn, info, debug or
         // trace.
         // default is info.
-        ListIterator argumentsIter = arguments.getArgumentList().listIterator();
+        final ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
         boolean stop = false;
 
         // Tag processing
         while (!stop && argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            final Argument argument = argumentsIter.next();
             if (argument instanceof TagArgument) {
-                String tag = ((TagArgument) argument).getTag();
+                final String tag = ((TagArgument) argument).getTag();
 
                 // LogLevel?
                 if (null == logLevel
@@ -90,11 +91,11 @@ public class Log extends AbstractCommand implements LogLevelTags {
 
         // Next MUST be a String
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            final Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument) {
-                List strings = ((StringListArgument) argument).getList();
+                List<String> strings = ((StringListArgument) argument).getList();
                 if (1 == strings.size())
-                    message = (String) strings.get(0);
+                    message = strings.get(0);
             }
         }
         if (null == message)

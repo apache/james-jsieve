@@ -64,7 +64,7 @@ public class Reject extends AbstractActionCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
-        String message = (String) ((StringListArgument) arguments
+        final String message = ((StringListArgument) arguments
                 .getArgumentList().get(0)).getList().get(0);
 
         mail.addAction(new ActionReject(message));

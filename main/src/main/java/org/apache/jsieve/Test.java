@@ -20,6 +20,7 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.tests.ExecutableTest;
@@ -44,14 +45,25 @@ public class Test implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
+        return new Boolean(isTestPassed(mail, context));
+    }
+
+    /**
+     * Is this test passed for the given mail?
+     * @param mail not null
+     * @param context not null
+     * @return true when the test passes, false otherwise
+     * @throws LookupException
+     * @throws SieveException
+     */
+    public boolean isTestPassed(MailAdapter mail, SieveContext context) throws LookupException, SieveException {
         Log log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
         }
         final String name = getName();
         final ExecutableTest test = context.getTest(name);
-        final boolean result = test.execute(mail, getArguments(), context);
-        return new Boolean(result);
+        return test.execute(mail, getArguments(), context);
     }
 
     /**

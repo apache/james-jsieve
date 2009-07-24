@@ -90,7 +90,7 @@ public class TestList implements Executable {
     public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
         boolean result = true;
         for (Test test:getTests()) {
-            result = ((Boolean) test.execute(mail, context)).booleanValue();
+            result = test.isTestPassed(mail, context);
             if (!result) {
                 break;
             }

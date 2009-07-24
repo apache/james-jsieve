@@ -21,6 +21,7 @@ package org.apache.jsieve.tests;
 
 import java.util.ListIterator;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.NumberArgument;
 import org.apache.jsieve.SieveContext;
@@ -56,13 +57,13 @@ public class Size extends AbstractTest {
             SieveContext context) throws SyntaxException, SieveMailException {
         String comparator = null;
         Integer size = null;
-        ListIterator argumentsIter = arguments.getArgumentList().listIterator();
+        ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
 
         // First argument MUST be a tag of ":under" or ":over"
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            Argument argument = argumentsIter.next();
             if (argument instanceof TagArgument) {
-                String tag = ((TagArgument) argument).getTag();
+                final String tag = ((TagArgument) argument).getTag();
                 if (tag.equals(":under") || tag.equals(":over"))
                     comparator = tag;
                 else
@@ -75,7 +76,7 @@ public class Size extends AbstractTest {
 
         // Second argument MUST be a number
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            final Argument argument = argumentsIter.next();
             if (argument instanceof NumberArgument)
                 size = ((NumberArgument) argument).getInteger();
         }

@@ -20,8 +20,8 @@
 package org.apache.jsieve.tests.optional;
 
 import java.util.List;
-import java.util.ListIterator;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
@@ -48,7 +48,7 @@ public class Body extends AbstractTest {
     protected void validateArguments(Arguments args, SieveContext ctx)
             throws SieveException {
 
-        List arglist = args.getArgumentList();
+        final List<Argument> arglist = args.getArgumentList();
         if (arglist.size() != 2) {
             throw new SyntaxException(
                     "Currently body-test can only two arguments");
@@ -56,7 +56,7 @@ public class Body extends AbstractTest {
 
         // FIXME: As this is a limited implementation force the use of
         // ':contains'.
-        Object arg = arglist.get(0);
+        Argument arg = arglist.get(0);
         if (!(arg instanceof TagArgument)) {
             throw new SyntaxException("Body expects a :contains tag");
         }
@@ -84,9 +84,7 @@ public class Body extends AbstractTest {
         }
 
         // Compare each test string with body, ignoring case
-        ListIterator iter = strings.getList().listIterator();
-        while (iter.hasNext()) {
-            String phrase = (String) iter.next();
+        for (final String phrase:strings.getList()) {
             if (mail.isInBodyText(phrase)) {
                 return true;
             }

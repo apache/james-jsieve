@@ -28,12 +28,12 @@ import org.apache.jsieve.exception.LookupException;
  */
 public class CommandManagerImpl implements CommandManager {
 
-    private final Map classNameMap;
+    private final Map<String, String> classNameMap;
 
     /**
      * Constructor for CommandManager.
      */
-    public CommandManagerImpl(final Map classNameMap) {
+    public CommandManagerImpl(final Map<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }
@@ -113,7 +113,7 @@ public class CommandManagerImpl implements CommandManager {
      * @throws LookupException
      */
     protected String getClassName(String name) throws LookupException {
-        final String className = (String) classNameMap.get(name.toLowerCase());
+        final String className = classNameMap.get(name.toLowerCase());
         if (null == className)
             throw new LookupException("Command named '" + name
                     + "' not mapped.");

@@ -30,12 +30,12 @@ import org.apache.jsieve.tests.ExecutableTest;
  */
 public class TestManagerImpl implements TestManager {
 
-    private final Map classNameMap;
+    private final Map<String, String> classNameMap;
 
     /**
      * TestManager is instanciated with getInstance
      */
-    public TestManagerImpl(final Map classNameMap) {
+    public TestManagerImpl(final Map<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }
@@ -98,7 +98,7 @@ public class TestManagerImpl implements TestManager {
      * @throws LookupException
      */
     private String getClassName(String name) throws LookupException {
-        final String className = (String) classNameMap.get(name.toLowerCase());
+        final String className = classNameMap.get(name.toLowerCase());
         if (null == className)
             throw new LookupException("Test named '" + name + "' not mapped.");
         return className;

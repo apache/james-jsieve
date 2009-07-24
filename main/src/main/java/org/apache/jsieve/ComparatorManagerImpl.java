@@ -29,12 +29,12 @@ import org.apache.jsieve.exception.LookupException;
  */
 public class ComparatorManagerImpl implements ComparatorManager {
 
-    private final Map classNameMap;
+    private final Map<String, String> classNameMap;
 
     /**
      * Constructor for ComparatorManager.
      */
-    public ComparatorManagerImpl(final Map classNameMap) {
+    public ComparatorManagerImpl(final Map<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }
@@ -97,7 +97,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * @throws LookupException
      */
     private String getClassName(String name) throws LookupException {
-        String className = (String) classNameMap.get(name.toLowerCase());
+        String className = classNameMap.get(name.toLowerCase());
         if (null == className)
             throw new LookupException("Command named '" + name
                     + "' not mapped.");

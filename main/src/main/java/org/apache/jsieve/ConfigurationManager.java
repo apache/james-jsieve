@@ -55,17 +55,17 @@ public class ConfigurationManager {
     /**
      * A Map of the Command names and their associated class names.
      */
-    private Map fieldCommandMap;
+    private Map<String, String> fieldCommandMap;
 
     /**
      * A Map of the Test names and their associated class names.
      */
-    private Map fieldTestMap;
+    private Map<String, String> fieldTestMap;
 
     /**
      * A Map of the Comparator names and their associated class names.
      */
-    private Map fieldComparatorMap;
+    private Map<String, String> fieldComparatorMap;
 
     private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
 
@@ -133,9 +133,9 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public Map getCommandMap() {
+    public Map<String, String> getCommandMap() {
         if (null == fieldCommandMap) {
-            fieldCommandMap = new HashMap();
+            fieldCommandMap = new HashMap<String, String>();
         }
         return Collections.synchronizedMap(fieldCommandMap);
     }
@@ -146,9 +146,9 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public Map getTestMap() {
+    public Map<String, String> getTestMap() {
         if (null == fieldTestMap) {
-            fieldTestMap = new HashMap();
+            fieldTestMap = new HashMap<String, String>();
         }
         return Collections.synchronizedMap(fieldTestMap);
     }
@@ -159,9 +159,9 @@ public class ConfigurationManager {
      * 
      * @return Map
      */
-    public Map getComparatorMap() {
+    public Map<String, String> getComparatorMap() {
         if (null == fieldComparatorMap) {
-            fieldComparatorMap = new HashMap();
+            fieldComparatorMap = new HashMap<String, String>();
         }
         return Collections.synchronizedMap(fieldComparatorMap);
     }
@@ -174,20 +174,25 @@ public class ConfigurationManager {
      * @throws IOException
      */
     private void parse() throws SAXException, IOException {
-        InputStream is;
-        Properties p;
-        is = getConfigStream(COMMANDSMAP_PROPERTIES);
-        p = new Properties();
+        setCommandMap(loadConfiguration(COMMANDSMAP_PROPERTIES));
+        setTestMap(loadConfiguration(TESTSMAP_PROPERTIES));
+        setComparatorMap(loadConfiguration(COMPARATORSMAP_PROPERTIES));
+    }
+
+    private Map<String,String> loadConfiguration(final String name) throws IOException {
+        final Properties properties = loadProperties(name);
+        final Map<String, String> result = new HashMap<String, String>(properties.size(), 1.0f);
+        for (final Map.Entry<Object, Object> entry: properties.entrySet()) {
+            result.put(entry.getKey().toString(), entry.getValue().toString());
+        }
+        return result;
+    }
+    
+    private Properties loadProperties(final String name) throws IOException {
+        final InputStream is = getConfigStream(name);
+        final Properties p = new Properties();
         p.load(is);
-        setCommandMap(p);
-        is = getConfigStream(TESTSMAP_PROPERTIES);
-        p = new Properties();
-        p.load(is);
-        setTestMap(p);
-        is = getConfigStream(COMPARATORSMAP_PROPERTIES);
-        p = new Properties();
-        p.load(is);
-        setComparatorMap(p);
+        return p;
     }
 
     /**
@@ -196,7 +201,7 @@ public class ConfigurationManager {
      * @param commandMap
      *            The commandMap to set
      */
-    private void setCommandMap(Map commandMap) {
+    private void setCommandMap(Map<String, String> commandMap) {
         fieldCommandMap = commandMap;
     }
 
@@ -206,7 +211,7 @@ public class ConfigurationManager {
      * @param testMap
      *            The testMap to set
      */
-    private void setTestMap(Map testMap) {
+    private void setTestMap(Map<String, String> testMap) {
         fieldTestMap = testMap;
     }
 
@@ -216,7 +221,7 @@ public class ConfigurationManager {
      * @param comparatorMap
      *            The comparatorMap to set
      */
-    private void setComparatorMap(Map comparatorMap) {
+    private void setComparatorMap(Map<String, String> comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
 

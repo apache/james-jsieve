@@ -44,6 +44,7 @@ import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
+import org.apache.jsieve.mail.AddressImpl;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
@@ -388,42 +389,6 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             return null;
         } catch (ParseException e) {
             throw new InternetAddressException(e);
-        }
-    }
-    
-    /**
-     * Simple immutable address implementation.
-     * TODO: replace this with JSieve version
-     */
-    private static final class AddressImpl implements MailAdapter.Address {
-
-        private final String localPart;
-        private final String domain;
-        
-        /**
-         * Constructs an address.
-         * @param localPart the local part of the address
-         * @param domain the domain part of the address
-         */
-        public AddressImpl(final String localPart, final String domain) {
-            super();
-            this.localPart = localPart;
-            this.domain = domain;
-        }
-
-        /**
-         * Gets the domain of the address.
-         * @return domain
-         */
-        public String getDomain() {
-            return domain;
-        }
-
-        /**
-         * Gets the local part of the address.
-         */
-        public String getLocalPart() {
-            return localPart;
         }
     }
 

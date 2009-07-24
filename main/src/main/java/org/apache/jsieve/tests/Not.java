@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.tests;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.Arguments;
@@ -47,15 +46,12 @@ public class Not extends AbstractTest {
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException {
         boolean result = true;
-        List tests = arguments.getTestList().getTests();
+        List<Test> tests = arguments.getTestList().getTests();
         if (tests.size() != 1)
             throw context.getCoordinate().syntaxException(
                     "Exactly 1 test permitted. Found " + tests.size());
-        Iterator testsIter = tests.iterator();
-        while (testsIter.hasNext()) {
-            result = result
-                    && ((Boolean) ((Test) testsIter.next()).execute(mail,
-                            context)).booleanValue();
+        for (Test test: tests) {
+            result = result && test.isTestPassed(mail, context);
         }
         return !result;
     }

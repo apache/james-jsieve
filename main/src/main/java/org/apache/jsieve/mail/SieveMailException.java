@@ -25,6 +25,7 @@ import org.apache.jsieve.exception.SieveException;
  * Class <code>SieveMailException</code> indicates an exceptional condition
  * encountered while processing Sieve Mail.
  */
+@SuppressWarnings("serial")
 public class SieveMailException extends SieveException {
 
     /**

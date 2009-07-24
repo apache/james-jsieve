@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
@@ -63,15 +64,15 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
         String addressPart = null;
         String comparator = null;
         String matchType = null;
-        List headerNames = null;
-        List keys = null;
+        List<String> headerNames = null;
+        List<String> keys = null;
 
-        ListIterator argumentsIter = arguments.getArgumentList().listIterator();
+        ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
         boolean stop = false;
 
         // Tag processing
         while (!stop && argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            Argument argument = argumentsIter.next();
             if (argument instanceof TagArgument) {
                 String tag = ((TagArgument) argument).getTag();
 
@@ -113,7 +114,7 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
 
         // The next argument MUST be a string-list of header names
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 headerNames = ((StringListArgument) argument).getList();
         }
@@ -123,7 +124,7 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
 
         // The next argument MUST be a string-list of keys
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 keys = ((StringListArgument) argument).getList();
         } else if (null == keys)
@@ -149,20 +150,21 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerNames
      * @param keys
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, List headerNames, List keys,
+            String comparator, String matchType, List<String> headerNames, List<String> keys,
             SieveContext context) throws SieveException {
         // Iterate over the header names looking for a match
         boolean isMatched = false;
-        Iterator headerNamesIter = headerNames.iterator();
-        while (!isMatched && headerNamesIter.hasNext()) {
+        for (final String headerName: headerNames) {
             isMatched = match(mail, addressPart, comparator, matchType,
-                    (String) headerNamesIter.next(), keys, context);
+                    headerName, keys, context); 
+            if (isMatched) {
+                break;
+            }
         }
         return isMatched;
     }
@@ -176,20 +178,21 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerName
      * @param keys
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveMailException
      */
     protected boolean match(MailAdapter mail, String addressPart,
-            String comparator, String matchType, String headerName, List keys,
+            String comparator, String matchType, String headerName, List<String> keys,
             SieveContext context) throws SieveException {
         // Iterate over the keys looking for a match
         boolean isMatched = false;
-        Iterator keysIter = keys.iterator();
-        while (!isMatched && keysIter.hasNext()) {
+        for (final String key:keys) {
             isMatched = match(mail, addressPart, comparator, matchType,
-                    headerName, (String) keysIter.next(), context);
+                    headerName, key, context);
+            if (isMatched) {
+                break;
+            }
         }
         return isMatched;
     }
@@ -203,8 +206,7 @@ public abstract class AbstractCompatatorTest extends AbstractTest implements
      * @param matchType
      * @param headerName
      * @param key
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveMailException
      */

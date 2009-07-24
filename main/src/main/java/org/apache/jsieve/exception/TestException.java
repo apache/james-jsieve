@@ -24,6 +24,7 @@ package org.apache.jsieve.exception;
  * encountered while executing a Test.
  * 
  */
+@SuppressWarnings("serial")
 public class TestException extends OperationException {
 
     /**

@@ -23,6 +23,7 @@ package org.apache.jsieve.exception;
  * Class <code>SieveException</code> indicates an exceptional condition
  * encountered within Sieve.
  */
+@SuppressWarnings("serial")
 public class SieveException extends Exception {
 
     /**

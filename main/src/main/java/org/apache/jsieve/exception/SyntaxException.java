@@ -24,6 +24,7 @@ package org.apache.jsieve.exception;
  * encountered while evaluating the operands of a Sieve operation, such as a
  * Command, Test or Comparator.
  */
+@SuppressWarnings("serial")
 public class SyntaxException extends SieveException {
 
     /**

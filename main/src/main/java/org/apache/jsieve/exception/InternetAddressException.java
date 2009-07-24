@@ -23,6 +23,7 @@ package org.apache.jsieve.exception;
  * Class InternetAddressException indicates an exceptional condition encountered
  * while evaluating an Internet Address.
  */
+@SuppressWarnings("serial")
 public class InternetAddressException extends SieveException {
 
     /**

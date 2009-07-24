@@ -23,6 +23,7 @@ package org.apache.jsieve.exception;
  * Class <code>SievePatternException</code> indicates an exceptional condition
  * encountered while evaluating a glob expression.
  */
+@SuppressWarnings("serial")
 public class SievePatternException extends SieveException {
 
     /**

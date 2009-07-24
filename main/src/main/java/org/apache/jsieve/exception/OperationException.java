@@ -24,6 +24,7 @@ package org.apache.jsieve.exception;
  * encountered while executing an Operation.
  * 
  */
+@SuppressWarnings("serial")
 public class OperationException extends SieveException {
 
     /**

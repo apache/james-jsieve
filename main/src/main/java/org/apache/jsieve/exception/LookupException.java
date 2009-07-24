@@ -23,6 +23,7 @@ package org.apache.jsieve.exception;
  * Class LookupException indicates an exceptional condition encountered while
  * locating a Sieve resource.
  */
+@SuppressWarnings("serial")
 public class LookupException extends SieveException {
 
     /**

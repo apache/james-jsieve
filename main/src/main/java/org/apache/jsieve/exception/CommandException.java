@@ -24,6 +24,7 @@ package org.apache.jsieve.exception;
  * encountered while executing a Command.
  * 
  */
+@SuppressWarnings("serial")
 public class CommandException extends OperationException {
 
     /**

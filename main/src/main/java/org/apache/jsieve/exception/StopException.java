@@ -24,6 +24,7 @@ package org.apache.jsieve.exception;
  * terminated. Typically, this exception is thrown when a Stop Command is
  * encountered.
  */
+@SuppressWarnings("serial")
 public class StopException extends SieveException {
 
     /**

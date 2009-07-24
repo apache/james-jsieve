@@ -23,6 +23,7 @@ package org.apache.jsieve.exception;
  * Class FeatureException indicates an exceptional condition encountered while
  * evaluating a feature of Sieve.
  */
+@SuppressWarnings("serial")
 public class FeatureException extends SieveException {
 
     /**

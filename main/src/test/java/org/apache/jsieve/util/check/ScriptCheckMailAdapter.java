@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.mail.Header;
 import javax.mail.Message;
@@ -117,19 +116,6 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      */
     public List<Action> getActions() {
         final List<Action> result = Collections.unmodifiableList(actions);
-        return result;
-    }
-
-    /**
-     * Method getActionIteraror answers an Iterator over the List of Actions
-     * accumulated by the receiver. Implementations may elect to supply an
-     * unmodifiable iterator.
-     * 
-     * @return <code>ListIterator</code>, not null, possibly unmodifiable
-     */
-    public ListIterator getActionsIterator() {
-        final List<Action> unmodifiableActions = getActions();
-        final ListIterator result = unmodifiableActions.listIterator();
         return result;
     }
 

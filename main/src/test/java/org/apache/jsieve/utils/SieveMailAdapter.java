@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import javax.mail.Header;
@@ -152,9 +151,8 @@ public class SieveMailAdapter implements MailAdapter {
      */
     public void executeActions() throws SieveException {
         boolean isDebugEnabled = log.isDebugEnabled();
-        ListIterator actionsIter = getActionsIterator();
-        while (actionsIter.hasNext()) {
-            Action action = (Action) actionsIter.next();
+        final List<Action> actions = getActions();
+        for (final Action action:actions) {
             if (isDebugEnabled)
                 log.debug("Executing " + action.toString());
         }
@@ -176,13 +174,6 @@ public class SieveMailAdapter implements MailAdapter {
      */
     protected void updateActions() {
         setActions(computeActions());
-    }
-
-    /**
-     * @see org.apache.jsieve.mail.MailAdapter#getActionsIterator()
-     */
-    public ListIterator getActionsIterator() {
-        return getActions().listIterator();
     }
 
     /**

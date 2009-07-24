@@ -20,7 +20,6 @@
 package org.apache.jsieve.mail;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
@@ -94,16 +93,7 @@ public interface MailAdapter {
      *         unmodifiable
      */
     public List<Action> getActions();
-
-    /**
-     * Method getActionIteraror answers an Iterator over the List of Actions
-     * accumulated by the receiver. Implementations may elect to supply an
-     * unmodifiable iterator.
-     * 
-     * @return <code>ListIterator</code>, not null, possibly unmodifiable
-     */
-    public ListIterator getActionsIterator();
-
+    
     /**
      * Method getHeader answers a List of all of the headers in the receiver
      * whose name is equal to the passed name. If no headers are found an empty

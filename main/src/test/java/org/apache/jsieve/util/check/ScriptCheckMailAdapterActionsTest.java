@@ -85,33 +85,6 @@ public class ScriptCheckMailAdapterActionsTest extends TestCase {
                 .get(1));
     }
 
-    public void testGetActionsIterator() {
-        ListIterator iterator = adapter.getActionsIterator();
-        assertNotNull(iterator);
-        assertFalse("No actions", iterator.hasNext());
-        adapter.addAction(action);
-        iterator = adapter.getActionsIterator();
-        assertNotNull(iterator);
-        assertTrue("One action", iterator.hasNext());
-        assertEquals("One action", action, iterator.next());
-        assertFalse("One action", iterator.hasNext());
-        adapter.addAction(anotherAction);
-        iterator = adapter.getActionsIterator();
-        assertNotNull(iterator);
-        assertTrue("Two actions", iterator.hasNext());
-        assertEquals("Two actions", action, iterator.next());
-        assertTrue("Two actions", iterator.hasNext());
-        assertEquals("Two actions", anotherAction, iterator.next());
-        assertTrue("Two actions", iterator.hasPrevious());
-        assertFalse("Two actions", iterator.hasNext());
-        try {
-            iterator.remove();
-            fail("Should not be able to modify collection");
-        } catch (UnsupportedOperationException e) {
-            // expected
-        }
-    }
-
     public void testGetExecutedActions() throws Exception {
         assertNotNull(adapter.getExecutedActions());
         assertEquals("No actions executed", 0, adapter.getExecutedActions()

@@ -75,14 +75,27 @@ public class TestList implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        boolean result = true;
+        return new Boolean(isTestPassed(mail, context));
+    }
 
-        Iterator testsIter = getTests().iterator();
-        while (result && testsIter.hasNext()) {
-            result = ((Boolean) ((Test) testsIter.next())
-                    .execute(mail, context)).booleanValue();
+    /**
+     * Do all tests pass for the given mail?
+     * 
+     * @param mail not null
+     * @param context not null
+     * @return false when any test in the list fails when run against the given mail,
+     * true when no tests fail
+     * @throws SieveException
+     */
+    public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
+        boolean result = true;
+        for (Test test:getTests()) {
+            result = ((Boolean) test.execute(mail, context)).booleanValue();
+            if (!result) {
+                break;
+            }
         }
-        return new Boolean(result);
+        return result;
     }
 
     /**

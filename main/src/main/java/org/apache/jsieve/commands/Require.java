@@ -71,8 +71,7 @@ public class Require extends AbstractPrologCommand {
      * 
      * @param name
      * @param mail
-     * @param context
-     *            TODO
+     * @param context not nul
      * @throws FeatureException
      */
     protected void validateFeature(String name, MailAdapter mail,
@@ -108,9 +107,8 @@ public class Require extends AbstractPrologCommand {
     /**
      * Method validateTest.
      * 
-     * @param name
-     * @param context
-     *            TODO
+     * @param name not null
+     * @param context not null
      * @throws LookupException
      */
     protected void validateTest(String name, SieveContext context)

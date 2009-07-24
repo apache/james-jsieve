@@ -46,12 +46,11 @@ public class ComparatorUtils implements MatchTypeTags {
      * <code>matchArgument</code> is a match of <code>matchType</code> using
      * the comparator <code>comparatorName</code>.
      * 
-     * @param comparatorName
-     * @param matchType
-     * @param matchTarget
-     * @param matchArgument
-     * @param context
-     *            TODO
+     * @param comparatorName not null
+     * @param matchType not null
+     * @param matchTarget not null
+     * @param matchArgument not null
+     * @param context not null
      * @return boolean
      */
     public static boolean match(String comparatorName, String matchType,
@@ -184,10 +183,10 @@ public class ComparatorUtils implements MatchTypeTags {
      * Method <code>contains<code> answers a boolean indicating if the parameter 
      * <code>container</code> contains the parameter <code>contents</code> using an
      * instance of <code>comparatorName</code>.
-     * @param comparatorName
-     * @param container
-     * @param contents
-     * @param context TODO
+     * @param comparatorName not null
+     * @param container not null
+     * @param contents not null
+     * @param context not null
      * @return boolean
      */
     public static boolean contains(String comparatorName, String container,
@@ -201,9 +200,9 @@ public class ComparatorUtils implements MatchTypeTags {
      * <code>container</code> is equal to the parameter <code>contents</code> using 
      * an instance of <code>comparatorName</code>.
      * @param comparatorName
-     * @param string1
-     * @param string2
-     * @param context TODO
+     * @param string1 not null
+     * @param string2 not null
+     * @param context not null
      * @return boolean
      */
     public static boolean is(String comparatorName, String string1,
@@ -217,10 +216,10 @@ public class ComparatorUtils implements MatchTypeTags {
      * parameter
      * <code>string/code> is matched by the patterm <code>glob</code> using an
      * instance of <code>comparatorName</code>.
-     * @param comparatorName
-     * @param string
-     * @param glob
-     * @param context TODO
+     * @param comparatorName not null
+     * @param string not null
+     * @param glob not null
+     * @param context not null
      * @return boolean
      */
     public static boolean matches(String comparatorName, String string,

@@ -140,9 +140,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logFatal.
      * 
-     * @param message
-     * @param sieveContext
-     *            TODO
+     * @param message not null
+     * @param sieveContext not null
      */
     protected void logFatal(String message, SieveContext sieveContext) {
         org.apache.commons.logging.Log log = sieveContext.getLog();
@@ -153,9 +152,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logWarn.
      * 
-     * @param message
-     * @param context
-     *            TODO
+     * @param message not null
+     * @param context not null
      */
     protected void logWarn(String message, SieveContext context) {
         org.apache.commons.logging.Log log = context.getLog();
@@ -166,9 +164,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logInfo.
      * 
-     * @param message
-     * @param context
-     *            TODO
+     * @param message not null
+     * @param context not null
      */
     protected void logInfo(String message, SieveContext context) {
         org.apache.commons.logging.Log log = context.getLog();
@@ -179,9 +176,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logDebug.
      * 
-     * @param message
-     * @param context
-     *            TODO
+     * @param message not null
+     * @param context not null
      */
     protected void logDebug(String message, SieveContext context) {
         org.apache.commons.logging.Log log = context.getLog();
@@ -192,9 +188,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logTrace.
      * 
-     * @param message
-     * @param context
-     *            TODO
+     * @param message not null
+     * @param context not null
      */
     protected void logTrace(String message, SieveContext context) {
         org.apache.commons.logging.Log log = context.getLog();
@@ -205,9 +200,8 @@ public class Log extends AbstractCommand implements LogLevelTags {
     /**
      * Method logError.
      * 
-     * @param message
-     * @param context
-     *            TODO
+     * @param message not null
+     * @param context not null
      */
     protected void logError(String message, SieveContext context) {
         org.apache.commons.logging.Log log = context.getLog();

@@ -35,6 +35,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -296,4 +297,5 @@ public class SieveMailAdapter implements MailAdapter {
         return contentAsLowerCaseString;
     }
 
+    public void setContext(SieveContext context) {}
 }

@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.mailet;
 import java.io.IOException;
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,6 +41,7 @@ import org.apache.james.mime4j.field.address.AddressList;
 import org.apache.james.mime4j.field.address.Mailbox;
 import org.apache.james.mime4j.field.address.MailboxList;
 import org.apache.james.mime4j.field.address.parser.ParseException;
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
@@ -464,6 +464,6 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             throw new SieveMailException(e);
         }
     }
-    
-    
+
+    public void setContext(SieveContext context) {}
 }

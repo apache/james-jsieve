@@ -22,6 +22,7 @@ package org.apache.jsieve.mail;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 
@@ -70,6 +71,21 @@ import org.apache.jsieve.exception.SieveException;
  * </pre></code>
  */
 public interface MailAdapter {
+    
+    /**
+     * <p>Sets the context for the current sieve script execution.</p>
+     * <p>Sieve engines <code>MUST</code> set this property before any calls
+     * related to the execution of a script are made.</p>
+     * <p>Implementations intended to be shared between separate threads of
+     * execution <code>MUST</code> ensure that they manage concurrency contexts,
+     * for example by storage in a thread local variable. Engines <code>MUST</code>
+     * - for a script execution - ensure that all calls are made within the
+     * same thread of execution.</p>
+     * @param context the current context, 
+     * or null to clear the contest once the execution of a script has completed.
+     */
+    public void setContext(SieveContext context);
+    
     /**
      * Method getActions answers the List of Actions accumulated by the
      * receiver. Implementations may elect to supply an unmodifiable collection.

@@ -31,6 +31,7 @@ import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -310,5 +311,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             throw new SieveMailException(ex);
         }
     }
+
+    public void setContext(SieveContext context) {}
 
 }

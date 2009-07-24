@@ -136,38 +136,47 @@ public class SieveFactory {
      */
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
-        SieveContext context = new BaseSieveContext(commandManager,
+        final SieveContext context = new BaseSieveContext(commandManager,
                 comparatorManager, testManager, log);
-        SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
         try {
-            // Evaluate the Nodes
-            startNode.jjtAccept(visitor, mail);
-
-        } catch (StopException ex) {
-            // Stop is OK
-        } catch (SieveException ex) {
-            if (log.isErrorEnabled())
-                log.error("Evaluation failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Evaluation failed.", ex);
-            throw ex;
-        }
-
-        // If after evaluating all of the nodes or stopping, implicitKeep is
-        // still
-        // in effect, add a Keep to the list of Actions.
-        if (context.getCommandStateManager().isImplicitKeep())
-            mail.addAction(new ActionKeep());
-
-        // Execute the List of Actions
-        try {
-            mail.executeActions();
-        } catch (SieveException ex) {
-            if (log.isErrorEnabled())
-                log.error("Evaluation failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Evaluation failed.", ex);
-            throw ex;
+            // Ensure that the context is set on the mail
+            mail.setContext(context);
+            
+            SieveParserVisitor visitor = new SieveParserVisitorImpl(context);
+            try {
+                // Evaluate the Nodes
+                startNode.jjtAccept(visitor, mail);
+    
+            } catch (StopException ex) {
+                // Stop is OK
+            } catch (SieveException ex) {
+                if (log.isErrorEnabled())
+                    log.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (log.isDebugEnabled())
+                    log.debug("Evaluation failed.", ex);
+                throw ex;
+            }
+    
+            // If after evaluating all of the nodes or stopping, implicitKeep is
+            // still
+            // in effect, add a Keep to the list of Actions.
+            if (context.getCommandStateManager().isImplicitKeep())
+                mail.addAction(new ActionKeep());
+    
+            // Execute the List of Actions
+            try {
+                mail.executeActions();
+            } catch (SieveException ex) {
+                if (log.isErrorEnabled())
+                    log.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (log.isDebugEnabled())
+                    log.debug("Evaluation failed.", ex);
+                throw ex;
+            }
+        } finally {
+            // Tidy up by ensuring that a reference to the context is not held by the adapter.
+            // This prevents leaks when the adapter stores the context in a thread local variable.
+            mail.setContext(null);
         }
     }
 

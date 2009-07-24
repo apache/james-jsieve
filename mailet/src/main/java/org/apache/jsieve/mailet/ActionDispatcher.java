@@ -41,7 +41,7 @@ public class ActionDispatcher
      * handle the Action.
      * <Action, MailAction>
      */ 
-    private Map/*<Action, MailAction>*/ fieldMailActionMap;
+    private Map<Class, MailAction> fieldMailActionMap;
 
     /**
      * Constructor for ActionDispatcher.
@@ -63,7 +63,7 @@ public class ActionDispatcher
      */
     public void execute(final Action anAction, final Mail aMail, final ActionContext context) throws MessagingException
     {
-        MailAction mailAction = (MailAction) getMethodMap().get(anAction.getClass());
+        MailAction mailAction = getMethodMap().get(anAction.getClass());
         mailAction.execute(anAction, aMail, context);
     }
 
@@ -71,7 +71,7 @@ public class ActionDispatcher
      * Returns the methodMap.
      * @return Map
      */
-    public Map getMethodMap()
+    public Map<Class, MailAction> getMethodMap()
     {
         return fieldMailActionMap;
     }    
@@ -80,9 +80,9 @@ public class ActionDispatcher
      * Returns a new methodMap.
      * @return Map
      */
-    private Map defaultMethodMap()
+    private Map<Class, MailAction> defaultMethodMap()
     {
-        Map/*<Action, MailAction>*/ actionMap = new HashMap/*<Action, MailAction>*/(4);
+        Map<Class, MailAction> actionMap = new HashMap<Class, MailAction>(4);
         actionMap.put(ActionFileInto.class, new FileIntoAction());
         actionMap.put(ActionKeep.class, new KeepAction());
         actionMap.put(ActionRedirect.class, new RedirectAction());
@@ -94,7 +94,7 @@ public class ActionDispatcher
      * Sets the mail action mail.
      * @param mailActionMap <Action, MailAction> not null
      */
-    protected void setMethodMap(Map/*<Action, MailAction>*/  mailActionMap)
+    protected void setMethodMap(Map<Class, MailAction>  mailActionMap)
     {
         fieldMailActionMap = mailActionMap;
     }

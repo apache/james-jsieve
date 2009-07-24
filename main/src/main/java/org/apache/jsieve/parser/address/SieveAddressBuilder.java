@@ -46,12 +46,12 @@ public class SieveAddressBuilder {
 
     private static final Address[] EMPTY_ADDRESSES = {};
 
-    private final Collection addresses;
+    private final Collection<Address> addresses;
 
     private final Worker worker;
 
     public SieveAddressBuilder() {
-        addresses = Collections.synchronizedCollection(new ArrayList());
+        addresses = Collections.synchronizedCollection(new ArrayList<Address>());
         worker = new Worker();
     }
 
@@ -81,8 +81,7 @@ public class SieveAddressBuilder {
      * @return addresses, not null
      */
     public Address[] getAddresses() {
-        final Address[] results = (Address[]) addresses
-                .toArray(EMPTY_ADDRESSES);
+        final Address[] results = (Address[]) addresses.toArray(EMPTY_ADDRESSES);
         return results;
     }
 
@@ -99,6 +98,7 @@ public class SieveAddressBuilder {
             root.childrenAccept(this, results);
         }
 
+        @SuppressWarnings("unchecked")
         public Object visit(ASTaddr_spec node, Object data) {
             final AddressBean address = new AddressBean();
             node.childrenAccept(this, address);

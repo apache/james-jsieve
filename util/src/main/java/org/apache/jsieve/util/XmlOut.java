@@ -397,10 +397,10 @@ public final class XmlOut implements SieveToXml.Out {
 
     }
     
-    private final List prefixesDefined;
+    private final List<CharSequence> prefixesDefined;
     private final Writer writer;
-    private final Stack elementNames;
-    private final Set currentAttributes = new HashSet();
+    private final Stack<CharSequence> elementNames;
+    private final Set<CharSequence> currentAttributes = new HashSet<CharSequence>();
     
     boolean elementsWritten = false;
     boolean inElement = false;
@@ -408,8 +408,8 @@ public final class XmlOut implements SieveToXml.Out {
     
     public XmlOut(final Writer writer) {
         this.writer = writer;
-        this.elementNames = new Stack();
-        prefixesDefined = new ArrayList();
+        this.elementNames = new Stack<CharSequence>();
+        prefixesDefined = new ArrayList<CharSequence>();
     }
     
     /**

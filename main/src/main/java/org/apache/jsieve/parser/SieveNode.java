@@ -151,8 +151,8 @@ public class SieveNode {
      * Comments are returned in the order of occurance in the script.
      * @return collection of strings, not null
      */
-    public List getPrecedingComments() {
-        final LinkedList results = new LinkedList();
+    public List<String> getPrecedingComments() {
+        final LinkedList<String> results = new LinkedList<String>();
         if (firstToken != null) {
             Token special = firstToken.specialToken;
             while (special != null) {

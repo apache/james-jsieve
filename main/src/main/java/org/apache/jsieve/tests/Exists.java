@@ -19,9 +19,9 @@
 
 package org.apache.jsieve.tests;
 
-import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
@@ -47,14 +47,16 @@ public class Exists extends AbstractTest {
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException {
 
-        Iterator headerNamesIter = ((StringListArgument) arguments
-                .getArgumentList().get(0)).getList().iterator();
-
+        final List<String> argumentList = ((StringListArgument) arguments
+                                .getArgumentList().get(0)).getList();
+        
         boolean found = true;
-        while (found && headerNamesIter.hasNext()) {
-            List<String> headers = mail.getMatchingHeader((String) headerNamesIter
-                    .next());
+        for (final String arg:argumentList) {
+            List<String> headers = mail.getMatchingHeader(arg);
             found = found && !headers.isEmpty();
+            if (!found) {
+                break;
+            }
         }
         return found;
     }
@@ -65,7 +67,7 @@ public class Exists extends AbstractTest {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        List argumentsList = arguments.getArgumentList();
+        List<Argument> argumentsList = arguments.getArgumentList();
         if (1 != argumentsList.size())
             throw context.getCoordinate().syntaxException(
                     "Expecting exactly one argument");

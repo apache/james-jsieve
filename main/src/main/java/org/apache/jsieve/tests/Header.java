@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
@@ -71,26 +72,26 @@ public class Header extends AbstractTest implements ComparatorTags,
         List<String> headerNames = null;
         List<String> keys = null;
 
-        ListIterator argumentsIter = arguments.getArgumentList().listIterator();
+        ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
         boolean stop = false;
 
         // Tag processing
         while (!stop && argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            Argument argument = argumentsIter.next();
             if (argument instanceof TagArgument) {
-                String tag = ((TagArgument) argument).getTag();
+                final String tag = ((TagArgument) argument).getTag();
 
                 if (null == comparator && tag.equals(COMPARATOR_TAG)) {
                     // The next argument must be a stringlist
                     if (argumentsIter.hasNext()) {
                         argument = argumentsIter.next();
                         if (argument instanceof StringListArgument) {
-                            List stringList = ((StringListArgument) argument)
+                            List<String> stringList = ((StringListArgument) argument)
                                     .getList();
                             if (stringList.size() != 1)
                                 throw context.getCoordinate().syntaxException(
                                         "Expecting exactly one String");
-                            comparator = (String) stringList.get(0);
+                            comparator = stringList.get(0);
                         } else
                             throw context.getCoordinate().syntaxException(
                                     "Expecting a StringList");
@@ -113,7 +114,7 @@ public class Header extends AbstractTest implements ComparatorTags,
 
         // The next argument MUST be a string-list of header names
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            final Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 headerNames = ((StringListArgument) argument).getList();
         }
@@ -123,7 +124,7 @@ public class Header extends AbstractTest implements ComparatorTags,
 
         // The next argument MUST be a string-list of keys
         if (argumentsIter.hasNext()) {
-            Object argument = argumentsIter.next();
+            final Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 keys = ((StringListArgument) argument).getList();
         }
@@ -148,8 +149,7 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerNames
      * @param keys
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveException
      */
@@ -174,8 +174,7 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValues
      * @param keys
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveException
      */
@@ -212,8 +211,7 @@ public class Header extends AbstractTest implements ComparatorTags,
      * @param matchType
      * @param headerValue
      * @param keys
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveException
      */

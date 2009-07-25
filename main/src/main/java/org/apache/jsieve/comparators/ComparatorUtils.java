@@ -28,10 +28,12 @@ import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
 
+import static  org.apache.jsieve.comparators.MatchTypeTags.*;
+
 /**
  * Class ComparatorUtils implements utility methods used by Comparators.
  */
-public class ComparatorUtils implements MatchTypeTags {
+public class ComparatorUtils {
 
     /**
      * Constructor for ComparatorUtils.

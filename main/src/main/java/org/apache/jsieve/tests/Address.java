@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.tests;
 
+import static org.apache.jsieve.tests.AddressPartTags.DOMAIN_TAG;
+import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
+
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.InternetAddressException;

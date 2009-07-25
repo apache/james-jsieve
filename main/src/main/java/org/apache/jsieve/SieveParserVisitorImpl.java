@@ -82,6 +82,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
      * @return Object - A List
      * @throws SieveException
      */
+    @SuppressWarnings("unchecked")
     protected Object visitChildren(SimpleNode node, Object data)
             throws SieveException {
         List children = new ArrayList(node.jjtGetNumChildren());
@@ -93,8 +94,9 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTargument, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTargument node, Object data) throws SieveException {
-        List children = new ArrayList(node.jjtGetNumChildren());
+        List<String> children = new ArrayList<String>(node.jjtGetNumChildren());
         Argument argument = null;
 
         if (null != node.getValue()) {
@@ -111,6 +113,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTarguments, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTarguments node, Object data) throws SieveException {
         List children = new ArrayList(node.jjtGetNumChildren());
         children = ((List) node.childrenAccept(this, children));
@@ -140,6 +143,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTblock, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTblock node, Object data) throws SieveException {
         // if (node.jjtGetNumChildren() != 1)
         // throw new ParseException("Expecting exactly one 1 child");
@@ -154,6 +158,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTcommand, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTcommand node, Object data) throws SieveException {
         List children = new ArrayList(node.jjtGetNumChildren());
         children = ((List) node.childrenAccept(this, children));
@@ -223,6 +228,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTstring, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTstring node, Object data) {
         // Strings are always surround by double-quotes
         final String value = (String) node.getValue();
@@ -247,6 +253,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTtest, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTtest node, Object data) throws SieveException {
         List children = new ArrayList(node.jjtGetNumChildren());
         children = ((List) node.childrenAccept(this, children));

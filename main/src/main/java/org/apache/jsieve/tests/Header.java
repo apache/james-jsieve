@@ -19,6 +19,12 @@
 
 package org.apache.jsieve.tests;
 
+import static org.apache.jsieve.comparators.ComparatorNames.ASCII_CASEMAP_COMPARATOR;
+import static org.apache.jsieve.comparators.MatchTypeTags.CONTAINS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.IS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.MATCHES_TAG;
+import static org.apache.jsieve.tests.ComparatorTags.COMPARATOR_TAG;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,17 +35,14 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TagArgument;
-import org.apache.jsieve.comparators.ComparatorNames;
 import org.apache.jsieve.comparators.ComparatorUtils;
-import org.apache.jsieve.comparators.MatchTypeTags;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
  * Class Header implements the Header Test as defined in RFC 3028, section 5.7.
  */
-public class Header extends AbstractTest implements ComparatorTags,
-        MatchTypeTags, ComparatorNames {
+public class Header extends AbstractTest {
 
     /**
      * Constructor for Header.

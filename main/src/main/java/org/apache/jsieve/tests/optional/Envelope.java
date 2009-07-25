@@ -19,6 +19,10 @@
 
 package org.apache.jsieve.tests.optional;
 
+
+import static org.apache.jsieve.tests.AddressPartTags.DOMAIN_TAG;
+import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
+
 import java.util.List;
 
 import org.apache.jsieve.SieveContext;
@@ -55,8 +59,7 @@ public class Envelope extends AbstractCompatatorTest {
      * @param matchType
      * @param headerValue
      * @param key
-     * @param context
-     *            TODO
+     * @param context not null
      * @return boolean
      * @throws SieveMailException
      */

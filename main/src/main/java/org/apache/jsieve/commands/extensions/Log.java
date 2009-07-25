@@ -19,6 +19,13 @@
 
 package org.apache.jsieve.commands.extensions;
 
+import static org.apache.jsieve.commands.extensions.LogLevelTags.DEBUG_TAG;
+import static org.apache.jsieve.commands.extensions.LogLevelTags.ERROR_TAG;
+import static org.apache.jsieve.commands.extensions.LogLevelTags.FATAL_TAG;
+import static org.apache.jsieve.commands.extensions.LogLevelTags.INFO_TAG;
+import static org.apache.jsieve.commands.extensions.LogLevelTags.TRACE_TAG;
+import static org.apache.jsieve.commands.extensions.LogLevelTags.WARN_TAG;
+
 import java.util.List;
 import java.util.ListIterator;
 
@@ -43,7 +50,7 @@ import org.apache.jsieve.mail.MailAdapter;
  * The default log level is :info.
  * </p>
  */
-public class Log extends AbstractCommand implements LogLevelTags {
+public class Log extends AbstractCommand {
     /**
      * Constructor for Log.
      */

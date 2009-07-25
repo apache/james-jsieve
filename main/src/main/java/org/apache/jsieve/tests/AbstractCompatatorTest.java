@@ -19,6 +19,15 @@
 
 package org.apache.jsieve.tests;
 
+import static org.apache.jsieve.comparators.ComparatorNames.ASCII_CASEMAP_COMPARATOR;
+import static org.apache.jsieve.comparators.MatchTypeTags.CONTAINS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.IS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.MATCHES_TAG;
+import static org.apache.jsieve.tests.AddressPartTags.ALL_TAG;
+import static org.apache.jsieve.tests.AddressPartTags.DOMAIN_TAG;
+import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
+import static org.apache.jsieve.tests.ComparatorTags.COMPARATOR_TAG;
+
 import java.util.List;
 import java.util.ListIterator;
 
@@ -27,15 +36,13 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TagArgument;
-import org.apache.jsieve.comparators.ComparatorNames;
-import org.apache.jsieve.comparators.MatchTypeTags;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 
-public abstract class AbstractCompatatorTest extends AbstractTest implements
-        AddressPartTags, ComparatorTags, MatchTypeTags, ComparatorNames {
+
+public abstract class AbstractCompatatorTest extends AbstractTest {
 
     public AbstractCompatatorTest() {
         super();

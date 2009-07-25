@@ -44,6 +44,7 @@ public class Body extends AbstractTest {
         strings = null;
     }
 
+    // TODO: Check how complete this is of the body specification
     // Validate (sorta); we're only implementing part of the spec
     protected void validateArguments(Arguments args, SieveContext ctx)
             throws SieveException {
@@ -54,7 +55,7 @@ public class Body extends AbstractTest {
                     "Currently body-test can only two arguments");
         }
 
-        // FIXME: As this is a limited implementation force the use of
+        // TODO: FIXME: As this is a limited implementation force the use of
         // ':contains'.
         Argument arg = arglist.get(0);
         if (!(arg instanceof TagArgument)) {

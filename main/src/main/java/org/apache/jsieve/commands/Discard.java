@@ -51,6 +51,7 @@ public class Discard extends AbstractActionCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
+        // TODO: check whether discard works without the line below
         // mail.addAction(new ActionDiscard());
         return null;
     }

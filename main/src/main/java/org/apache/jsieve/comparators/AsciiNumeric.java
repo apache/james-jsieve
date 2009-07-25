@@ -71,8 +71,9 @@ public class AsciiNumeric implements Comparator {
      */
     public boolean matches(String string, String glob)
             throws SievePatternException {
+        // TODO: Review comments and either correct or fix
         // return computeCompareString(string).matches(regex);
-
+        
         // Still to fix: computeCompareString(glob) will remove glob characters!
         // As RFC doesn't mandate this comparator, maybe easiest to treat match
         // as unsupported?

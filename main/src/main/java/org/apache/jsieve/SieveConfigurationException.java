@@ -26,6 +26,7 @@ import org.apache.jsieve.exception.SieveException;
  * condition encountered while evaluating the Sieve configuration.
  * 
  */
+@SuppressWarnings("serial")
 public class SieveConfigurationException extends SieveException {
 
     /**

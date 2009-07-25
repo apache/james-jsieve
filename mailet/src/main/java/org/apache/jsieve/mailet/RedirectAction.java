@@ -52,8 +52,8 @@ public class RedirectAction implements MailAction {
     public void execute(ActionRedirect anAction, Mail aMail, ActionContext context) throws MessagingException
     {
         ActionUtils.detectAndHandleLocalLooping(aMail, context, "redirect");
-        Collection recipients = new ArrayList(1);
-        recipients.add(new InternetAddress(anAction.getAddress()));
+        Collection<MailAddress> recipients = new ArrayList<MailAddress>(1);
+        recipients.add(new MailAddress(new InternetAddress(anAction.getAddress())));
         MailAddress sender = aMail.getSender();
         context.post(sender, recipients, aMail.getMessage());
         aMail.setState(Mail.GHOST);

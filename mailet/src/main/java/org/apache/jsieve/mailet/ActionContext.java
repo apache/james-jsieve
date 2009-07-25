@@ -55,7 +55,7 @@ public interface ActionContext {
      * @param mail not null
      * @throws MessagingException when mail cannot be posted
      */
-    public void post(MailAddress sender, Collection recipients, MimeMessage mail) throws MessagingException;
+    public void post(MailAddress sender, Collection<MailAddress> recipients, MimeMessage mail) throws MessagingException;
 
     /**
      * Gets name (including version) of this server.

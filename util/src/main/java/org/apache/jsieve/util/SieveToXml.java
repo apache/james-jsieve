@@ -371,7 +371,7 @@ public class SieveToXml {
             this.out = out;
         }
 
-        //@Override
+        @Override
         public SieveHandler endCommand(String commandName) throws HaltTraversalException {
             return closeElement();
         }
@@ -385,7 +385,7 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler startCommand(String commandName) throws HaltTraversalException {
             try {
                 out.openElement(commandNameMapper.toElementName(commandName), namespaceUri, namespacePrefix);
@@ -396,7 +396,7 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler listMember(String string) throws HaltTraversalException {
             try {
                 out.openElement(stringElementName, namespaceUri, namespacePrefix);
@@ -408,7 +408,7 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler argument(int number) throws HaltTraversalException {
             try {
                 out.openElement(numberElementName, namespaceUri, namespacePrefix);
@@ -420,7 +420,7 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler argument(String tag) throws HaltTraversalException {
             try {
                 out.openElement(tagElementName, namespaceUri, namespacePrefix);
@@ -432,12 +432,12 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler endTest(String testName) throws HaltTraversalException {
             return closeElement();
         }
 
-        //@Override
+        @Override
         public SieveHandler startTest(String testName) throws HaltTraversalException {
             try {
                 out.openElement(testNameMapper.toElementName(testName), namespaceUri, namespacePrefix);
@@ -448,12 +448,12 @@ public class SieveToXml {
             }
         }
 
-        //@Override
+        @Override
         public SieveHandler endTestList() throws HaltTraversalException {
             return closeElement();
         }
 
-        //@Override
+        @Override
         public SieveHandler startTestList() throws HaltTraversalException {
             try {
                 out.openElement(listElementName, namespaceUri, namespacePrefix);

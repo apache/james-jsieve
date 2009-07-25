@@ -181,8 +181,9 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     /**
      * @see SieveParserVisitor#visit(ASTcommands, Object)
      */
+    @SuppressWarnings("unchecked")
     public Object visit(ASTcommands node, Object data) throws SieveException {
-        List children = new ArrayList(node.jjtGetNumChildren());
+        List<Command> children = new ArrayList<Command>(node.jjtGetNumChildren());
         Commands commands = new Commands(((List) node.childrenAccept(this,
                 children)));
         ((List) data).add(commands);

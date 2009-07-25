@@ -72,8 +72,7 @@ public class RejectAction implements MailAction {
 
         // Create the MDN part
         StringBuffer humanText = new StringBuffer(128);
-        humanText
-                .append("This message was refused by the recipient's mail filtering program.");
+        humanText.append("This message was refused by the recipient's mail filtering program.");
         humanText.append("\r\n");
         humanText.append("The reason given was:");
         humanText.append("\r\n");
@@ -122,7 +121,7 @@ public class RejectAction implements MailAction {
         Address[] recipientAddresses = reply.getAllRecipients();
         if (null != recipientAddresses)
         {
-            Collection recipients = new ArrayList(recipientAddresses.length);
+            Collection<MailAddress> recipients = new ArrayList<MailAddress>(recipientAddresses.length);
             for (int i = 0; i < recipientAddresses.length; i++)
             {
                 recipients.add(new MailAddress(

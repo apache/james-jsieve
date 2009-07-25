@@ -218,9 +218,10 @@ public class SieveMailboxMailet extends GenericMailet {
      * @throws MessagingException
      *             if an error occurs while storing the mail
      */
+    @SuppressWarnings("unchecked")
     public void service(Mail mail) throws MessagingException {
-        Collection recipients = mail.getRecipients();
-        Collection errors = new Vector();
+        Collection<MailAddress> recipients = mail.getRecipients();
+        Collection<MailAddress> errors = new Vector<MailAddress>();
 
         MimeMessage message = null;
         if (deliveryHeader != null || resetReturnPath) {
@@ -249,8 +250,8 @@ public class SieveMailboxMailet extends GenericMailet {
             }
         }
 
-        for (Iterator i = recipients.iterator(); i.hasNext();) {
-            MailAddress recipient = (MailAddress) i.next();
+        for (Iterator<MailAddress> i = recipients.iterator(); i.hasNext();) {
+            MailAddress recipient = i.next();
             try {
                 if (deliveryHeader != null) {
                     // Add qmail's de facto standard Delivered-To header
@@ -311,6 +312,7 @@ public class SieveMailboxMailet extends GenericMailet {
      * @param mail
      * @throws MessagingException
      */
+    @SuppressWarnings("deprecation")
     public void storeMail(MailAddress sender, MailAddress recipient,
             Mail mail) throws MessagingException {
         String username;

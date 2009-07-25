@@ -133,25 +133,25 @@ public class Disposition
      */
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer(64);
-        buffer.append("Disposition: ");
-        buffer.append(getActionMode() == null ? "" : getActionMode().toString());
-        buffer.append('/');
-        buffer.append(getSendingMode() == null ? "" : getSendingMode().toString());
-        buffer.append(';');
-        buffer.append(getDispositionType() == null ? "" : getDispositionType().toString());
+        StringBuilder builder = new StringBuilder(64);
+        builder.append("Disposition: ");
+        builder.append(getActionMode() == null ? "" : getActionMode().toString());
+        builder.append('/');
+        builder.append(getSendingMode() == null ? "" : getSendingMode().toString());
+        builder.append(';');
+        builder.append(getDispositionType() == null ? "" : getDispositionType().toString());
         if (null != getDispositionModifiers()
                 && getDispositionModifiers().length > 0)
         {
-            buffer.append('/');
+            builder.append('/');
             for (int i = 0; i < getDispositionModifiers().length; i++)
             {
                 if (i > 0)
-                    buffer.append(',');
-                buffer.append(getDispositionModifiers()[i]);
+                    builder.append(',');
+                builder.append(getDispositionModifiers()[i]);
             }
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**

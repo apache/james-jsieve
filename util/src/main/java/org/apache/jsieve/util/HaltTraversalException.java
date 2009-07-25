@@ -25,7 +25,7 @@ import org.apache.jsieve.exception.SieveException;
  */
 public class HaltTraversalException extends SieveException {
 
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = -1632011752987659040L;
 
     public HaltTraversalException() {
     }

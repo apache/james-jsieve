@@ -73,7 +73,7 @@ public class MDNFactory
 
         // Part 2: MDN Report Part
         // 1) reporting-ua-field
-        StringBuffer mdnReport = new StringBuffer(128);
+        StringBuilder mdnReport = new StringBuilder(128);
         mdnReport.append("Reporting-UA: ");
         mdnReport.append((reporting_UA_name == null ? "" : reporting_UA_name));
         mdnReport.append("; ");

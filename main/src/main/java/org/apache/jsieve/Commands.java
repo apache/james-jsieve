@@ -19,7 +19,6 @@
 
 package org.apache.jsieve;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.exception.SieveException;
@@ -37,7 +36,7 @@ public class Commands implements Executable {
     /**
      * A List of children of the receiver
      */
-    private List fieldChildren;
+    private List<Command> fieldChildren;
 
     /**
      * Constructor for Commands.
@@ -51,7 +50,7 @@ public class Commands implements Executable {
      * 
      * @param commands
      */
-    public Commands(List commands) {
+    public Commands(List<Command> commands) {
         this();
         setChildren(commands);
     }
@@ -61,7 +60,7 @@ public class Commands implements Executable {
      * 
      * @return List
      */
-    public List getChildren() {
+    public List<Command> getChildren() {
         return fieldChildren;
     }
 
@@ -71,7 +70,7 @@ public class Commands implements Executable {
      * @param commands
      *            The commands to set
      */
-    protected void setChildren(List commands) {
+    protected void setChildren(List<Command> commands) {
         fieldChildren = commands;
     }
 
@@ -80,9 +79,9 @@ public class Commands implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        Iterator commandsIter = getChildren().iterator();
-        while (commandsIter.hasNext())
-            ((Executable) commandsIter.next()).execute(mail, context);
+        for (Command command:fieldChildren) {
+            command.execute(mail, context);
+        };
         return null;
     }
 

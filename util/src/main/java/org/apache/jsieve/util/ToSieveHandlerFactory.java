@@ -68,21 +68,21 @@ public class ToSieveHandlerFactory {
         }
         
         /** @see SieveHandler#endBlock() */
-        //@Override
+        @Override
         public SieveHandler endBlock() throws HaltTraversalException {
             commandUsedBlock = true;
             return append('}');
         }
 
         /** @see SieveHandler#startBlock() */
-        //@Override
+        @Override
         public SieveHandler startBlock() throws HaltTraversalException {
             space();
             return append('{');
         }
         
         /** @see SieveHandler#startCommand() */
-        //@Override
+        @Override
         public SieveHandler startCommand(String commandName) throws HaltTraversalException {
             commaRequiredBeforeNextTest = false;
             if (commandAfterEndCommand) {
@@ -93,7 +93,7 @@ public class ToSieveHandlerFactory {
         }
         
         /** @see SieveHandler#endCommand() */
-        //@Override
+        @Override
         public SieveHandler endCommand(String commandName) throws HaltTraversalException {
             if (!commandUsedBlock) {
                 append(';');
@@ -104,7 +104,7 @@ public class ToSieveHandlerFactory {
         }
         
         /** @see SieveHandler#argument(String) */
-        //@Override
+        @Override
         public SieveHandler argument(String tag) throws HaltTraversalException {
             space();
             append(':');
@@ -120,27 +120,27 @@ public class ToSieveHandlerFactory {
         }
 
         /** @see SieveHandler#argument(int) */
-        //@Override
+        @Override
         public SieveHandler argument(int number) throws HaltTraversalException {
             space();
             return append(Integer.toString(number));
         }
         
         /** @see SieveHandler#startStringListArgument() */
-        //@Override
+        @Override
         public SieveHandler startStringListArgument() throws HaltTraversalException {
             space();
             return append('[');
         }
         
         /** @see SieveHandler#endStringListArgument() */
-        //@Override
+        @Override
         public SieveHandler endStringListArgument() throws HaltTraversalException {
             return append(']');
         }
         
         /** @see SieveHandler#listMember(String) */
-        //@Override
+        @Override
         public SieveHandler listMember(String string) throws HaltTraversalException {
             append('"');
             for (int i=0;i<string.length();i++) {
@@ -155,7 +155,7 @@ public class ToSieveHandlerFactory {
         
         
         /** @see SieveHandler#startTestList() */
-        //@Override
+        @Override
         public SieveHandler startTestList() throws HaltTraversalException {
             firstTestInList = true;
             commaRequiredBeforeNextTest = false;
@@ -163,14 +163,14 @@ public class ToSieveHandlerFactory {
         }
         
         /** @see SieveHandler#endTestList() */
-        //@Override
+        @Override
         public SieveHandler endTestList() throws HaltTraversalException {
             commaRequiredBeforeNextTest = false;
             return append(')');
         }
 
         /** @see SieveHandler#startTest(String) */
-        //@Override
+        @Override
         public SieveHandler startTest(String testName) throws HaltTraversalException {
             if (commaRequiredBeforeNextTest) {
                 append(",");

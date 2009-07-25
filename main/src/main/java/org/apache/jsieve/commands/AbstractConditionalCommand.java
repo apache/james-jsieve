@@ -43,11 +43,10 @@ public abstract class AbstractConditionalCommand extends AbstractControlCommand 
      * Method execute executes a Block within the context of a new
      * ConditionManager.
      * 
-     * @param mail
-     * @param block
-     * @param context
-     *            TODO
-     * @return Object
+     * @param mail not null
+     * @param block not null
+     * @param context not null
+     * @return Object 
      * @throws SieveException
      */
     protected Object execute(MailAdapter mail, Block block, SieveContext context)

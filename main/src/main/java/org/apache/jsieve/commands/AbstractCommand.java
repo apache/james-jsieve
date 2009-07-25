@@ -58,8 +58,7 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * executed to update the Sieve state. Subclass methods are expected to
      * override or extend this method to update state as appropriate.
      * 
-     * @param context
-     *            TODO
+     * @param context not null
      */
     protected void updateState(SieveContext context) {
     }

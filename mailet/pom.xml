@@ -164,36 +164,10 @@ JAMES project.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>rat-maven-plugin</artifactId>
-        <version>1.0-alpha-3</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
       	<groupId>org.apache.felix</groupId>
       	<artifactId>maven-bundle-plugin</artifactId>
-      	<version>1.4.3</version>
-      	<executions>
-      		<execution>
-      			<id>bundle-manifest</id>
-      			<phase>process-classes</phase>
-      			<goals>
-      				<goal>manifest</goal>
-      			</goals>
-      		</execution>
-      	</executions>
-      	<extensions>true</extensions>
-      	<configuration>
-      		<instructions>
-      			<Export-Package>org.apache.jsieve.*</Export-Package>
-      			<Embed-Dependency>*;scope=runtime</Embed-Dependency>
-      		</instructions>
-      	</configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -274,7 +274,7 @@ void string() :
       int nextStuffedDot = builder.indexOf("\n..");
       while (nextStuffedDot >= 0) {
       	 builder.deleteCharAt(nextStuffedDot+1);
-      	 nextStuffedDot = builder.indexOf("\n..", nextStuffedDot);
+      	 nextStuffedDot = builder.indexOf("\n..", nextStuffedDot + 2);
       } 
     } else {
       builder=null;  

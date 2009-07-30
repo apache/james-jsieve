@@ -86,6 +86,32 @@ public class MultilineTextTest extends TestCase {
         assertEquals(lineOne + lineTwo, rejection.getMessage());
     }
     
+    /**
+     * Tests that a multiline message with many dots stuffed is correctly decoded.
+     */
+    public void testNumberOfStuffedDotsInMultilineMessage() throws Exception {
+        String lineOne = "This is line 1.\n";
+        String lineTwo = "This is line 2.\n";
+        String lineThree = "........ This is line 3.\n";
+        String script = "reject text:\n" + lineOne + lineTwo + '.' + lineThree + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(lineOne + lineTwo + lineThree, rejection.getMessage());
+    }
+    
+    /**
+     * Tests that a multiline message with many dots stuffed is correctly decoded.
+     */
+    public void testConsecutiveDotStuffedLineInMultilineMessage() throws Exception {
+        String lineOne = "This is line 1.\n";
+        String lineTwo = "This is line 2.\n";
+        String lineThree = "........ This is line 3.\n";
+        String lineFour = ".\n";
+        String lineFive = ".\n";
+        String script = "reject text:\n" + lineOne + lineTwo + '.' + lineThree + '.' + lineFour + '.' + lineFive + "\n.\n;";
+        ActionReject rejection = runRejectScript(script);        
+        assertEquals(lineOne + lineTwo + lineThree + lineFour + lineFive, rejection.getMessage());
+    }
+    
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
         JUnitUtils.interpret(mail, script);

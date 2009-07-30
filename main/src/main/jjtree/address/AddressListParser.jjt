@@ -35,6 +35,7 @@ options {
     OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated/address";
     //DEBUG_PARSER=true;
     //DEBUG_TOKEN_MANAGER=true;
+    JDK_VERSION="1.5";
 }
 
 PARSER_BEGIN(AddressListParser)

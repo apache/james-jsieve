@@ -172,29 +172,6 @@ JAMES project.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-doap-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>site</id>
-            <phase>site</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-         <doapOptions>
-           <programmingLanguage>java</programmingLanguage>
-           <category>mail</category>
-           <download-page>http://james.apache.org/download.cgi</download-page>
-         </doapOptions>
-
-         <asfExtOptions>
-           <included>true</included>
-           <pmc>http://james.apache.org</pmc>
-           <name>Apache JAMES</name>
-         </asfExtOptions>
-
-        </configuration>
       </plugin>
     </plugins>
   </build>

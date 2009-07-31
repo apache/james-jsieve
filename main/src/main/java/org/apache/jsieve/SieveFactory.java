@@ -54,8 +54,13 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  * the parse result should be stored for reuse in subsequent evaluations. </dd>
  * </dl>
  * </p>
- * 
- * 
+ * <h4>Thread Safety</h4>
+ * <p>
+ * An instance can be safely accessed concurrently by multiple threads
+ * provided that the managers used to construct the instance 
+ * (when {@link #SieveFactory(CommandManager, ComparatorManager, TestManager, Log)} 
+ * is called) are thread safe.
+ * </p>
  */
 public class SieveFactory {
 

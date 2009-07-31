@@ -436,7 +436,6 @@ public final class XmlOut implements SieveToXml.Out {
      * Writes the start of an element.
      * 
      * @param elementName the name of the element, not null
-     * @return this object 
      * @throws InvalidXmlException if the name is not valid for an xml element
      * @throws OperationNotAllowedException 
      * if called after the first element has been closed
@@ -466,7 +465,6 @@ public final class XmlOut implements SieveToXml.Out {
      * 
      * @param name the attribute name, not null
      * @param value the attribute value, not null
-     * @return this object
      * @throws InvalidXmlException if the name is not valid for an xml attribute 
      * or if a value for the attribute has already been written
      * @throws OperationNotAllowedException if called after {@link #content} 
@@ -508,7 +506,6 @@ public final class XmlOut implements SieveToXml.Out {
      * Note that this method does not use CDATA.
      * 
      * @param content the content to write
-     * @return this object
      * @throws OperationNotAllowedException 
      * if called before any call to {@link #openElement} 
      * or after the first element has been closed

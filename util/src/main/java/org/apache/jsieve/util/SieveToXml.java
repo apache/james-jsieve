@@ -142,7 +142,7 @@ public class SieveToXml {
      * <blockquote cite='http://tools.ietf.org/id/draft-freed-sieve-in-xml-01.txt'>
      * Sieve Email Filtering: Sieves and display directives in XML</blockquote>.  
      * @param elementName
-     * @return
+     * @return not null
      */
     public static final NameMapper sieveInXmlMapper() {
         return new NameMapper() {

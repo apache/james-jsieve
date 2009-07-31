@@ -19,21 +19,25 @@
 
 package org.apache.jsieve;
 
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Maps command names to comman implementations.
+ * <p>Maps command names to comman implementations.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Instances may safely be accessed concurrently by multiple threads.
+ * </p>
  */
 public class CommandManagerImpl implements CommandManager {
 
-    private final Map<String, String> classNameMap;
+    private final ConcurrentMap<String, String> classNameMap;
 
     /**
      * Constructor for CommandManager.
      */
-    public CommandManagerImpl(final Map<String, String> classNameMap) {
+    public CommandManagerImpl(final ConcurrentMap<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }

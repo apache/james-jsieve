@@ -22,7 +22,11 @@ package org.apache.jsieve;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Maps Command names to configured Command implementation classes.
+ * <p>Maps Command names to configured Command implementation classes.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Implementation dependent. {@link CommandManagerImpl} is a thread safe implementation.
+ * </p>
  */
 public interface CommandManager {
 

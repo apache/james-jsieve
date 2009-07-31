@@ -21,10 +21,10 @@ package org.apache.jsieve;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,8 +43,31 @@ import org.xml.sax.SAXException;
  * org/apache/jsieve/testsmap.properties
  * org/apache/jsieve/comparatorsmap.properties
  * </p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Each configuration manager instance may be safely accessed by concurrent threads.
+ * </p>
+ * <p>
+ * The managers constructed by 
+ * </p>
+ * <ul>
+ * <li>{@link #getCommandManager()}</li> 
+ * <li>{@link #getComparatorManager()}</li>
+ * <li>{@link #getTestManager()}</li>
+ * </ul>
+ * <p>
+ * and the {@link SieveFactory} built by
+ * </p>
+ * <ul>
+ * <li>{@link #build()}</li>
+ * </ul>
+ * <p>
+ * may be safely shared by multiple threads.
+ * </p>
  */
 public class ConfigurationManager {
+
+    private static final int DEFAULT_INITIAL_CONCURRENCY_LEVEL = 8;
 
     private static final String COMMANDSMAP_PROPERTIES = "org/apache/jsieve/commandsmap.properties";
 
@@ -55,17 +78,22 @@ public class ConfigurationManager {
     /**
      * A Map of the Command names and their associated class names.
      */
-    private Map<String, String> fieldCommandMap;
+    private ConcurrentMap<String, String> fieldCommandMap;
 
     /**
      * A Map of the Test names and their associated class names.
      */
-    private Map<String, String> fieldTestMap;
+    private ConcurrentMap<String, String> fieldTestMap;
 
     /**
      * A Map of the Comparator names and their associated class names.
      */
-    private Map<String, String> fieldComparatorMap;
+    private ConcurrentMap<String, String> fieldComparatorMap;
+    
+    /**
+     * The initial size for the {@link ConcurrentHashMap} concurrency level.
+     */
+    private int initialConcurrencyLevel = DEFAULT_INITIAL_CONCURRENCY_LEVEL;
 
     private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
 
@@ -90,6 +118,24 @@ public class ConfigurationManager {
             throw new SieveConfigurationException(e);
         }
     }
+
+    /**
+     * Gets the current initial size for the {@link ConcurrentHashMap} concurrency level.
+     * @return number of concurrent threads estimated for initial sizing
+     */
+    public int getInitialConcurrencyLevel() {
+        return initialConcurrencyLevel;
+    }
+
+    /**
+     * Sets the current initial size for the {@link ConcurrentHashMap} concurrency level.
+     * @param initialConcurrencyLevel number of concurrent threads estimated for initial sizing
+     */
+    public void setInitialConcurrencyLevel(int initialConcurrencyLevel) {
+        this.initialConcurrencyLevel = initialConcurrencyLevel;
+    }
+
+
 
     /**
      * <p>
@@ -131,39 +177,39 @@ public class ConfigurationManager {
      * Method getCommandMap answers a Map of Command names and their associated
      * class names, lazily initialized if required.
      * 
-     * @return Map
+     * @return Map not null
      */
-    public Map<String, String> getCommandMap() {
+    public ConcurrentMap<String, String> getCommandMap() {
         if (null == fieldCommandMap) {
-            fieldCommandMap = new HashMap<String, String>();
+            fieldCommandMap = new ConcurrentHashMap<String, String>();
         }
-        return Collections.synchronizedMap(fieldCommandMap);
+        return fieldCommandMap;
     }
 
     /**
      * Method getTestMap answers a Map of Test names and their associated class
      * names, lazily initialized if required.
      * 
-     * @return Map
+     * @return Map not null
      */
-    public Map<String, String> getTestMap() {
+    public ConcurrentMap<String, String> getTestMap() {
         if (null == fieldTestMap) {
-            fieldTestMap = new HashMap<String, String>();
+            fieldTestMap = new ConcurrentHashMap<String, String>();
         }
-        return Collections.synchronizedMap(fieldTestMap);
+        return fieldTestMap;
     }
 
     /**
      * Method getComparatorMap answers a Map of Comparator names and their
      * associated class names, lazily initialized if required.
      * 
-     * @return Map
+     * @return Map not null
      */
-    public Map<String, String> getComparatorMap() {
+    public ConcurrentMap<String, String> getComparatorMap() {
         if (null == fieldComparatorMap) {
-            fieldComparatorMap = new HashMap<String, String>();
+            fieldComparatorMap = new ConcurrentHashMap<String, String>();
         }
-        return Collections.synchronizedMap(fieldComparatorMap);
+        return fieldComparatorMap;
     }
 
     /**
@@ -179,9 +225,10 @@ public class ConfigurationManager {
         setComparatorMap(loadConfiguration(COMPARATORSMAP_PROPERTIES));
     }
 
-    private Map<String,String> loadConfiguration(final String name) throws IOException {
+    private ConcurrentMap<String,String> loadConfiguration(final String name) throws IOException {
         final Properties properties = loadProperties(name);
-        final Map<String, String> result = new HashMap<String, String>(properties.size(), 1.0f);
+        final ConcurrentMap<String, String> result = 
+            new ConcurrentHashMap<String, String>(properties.size(), 1.0f, initialConcurrencyLevel);
         for (final Map.Entry<Object, Object> entry: properties.entrySet()) {
             result.put(entry.getKey().toString(), entry.getValue().toString());
         }
@@ -201,7 +248,7 @@ public class ConfigurationManager {
      * @param commandMap
      *            The commandMap to set
      */
-    private void setCommandMap(Map<String, String> commandMap) {
+    private void setCommandMap(ConcurrentMap<String, String> commandMap) {
         fieldCommandMap = commandMap;
     }
 
@@ -211,7 +258,7 @@ public class ConfigurationManager {
      * @param testMap
      *            The testMap to set
      */
-    private void setTestMap(Map<String, String> testMap) {
+    private void setTestMap(ConcurrentMap<String, String> testMap) {
         fieldTestMap = testMap;
     }
 
@@ -221,7 +268,7 @@ public class ConfigurationManager {
      * @param comparatorMap
      *            The comparatorMap to set
      */
-    private void setComparatorMap(Map<String, String> comparatorMap) {
+    private void setComparatorMap(ConcurrentMap<String, String> comparatorMap) {
         fieldComparatorMap = comparatorMap;
     }
 

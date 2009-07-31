@@ -19,22 +19,26 @@
 
 package org.apache.jsieve;
 
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Maps Comparator names to configured Comparator implementation classes.
+ * <p>Maps Comparator names to configured Comparator implementation classes.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Instances may safely be accessed concurrently by multiple threads.
+ * </p>
  */
 public class ComparatorManagerImpl implements ComparatorManager {
 
-    private final Map<String, String> classNameMap;
+    private final ConcurrentMap<String, String> classNameMap;
 
     /**
      * Constructor for ComparatorManager.
      */
-    public ComparatorManagerImpl(final Map<String, String> classNameMap) {
+    public ComparatorManagerImpl(final ConcurrentMap<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }

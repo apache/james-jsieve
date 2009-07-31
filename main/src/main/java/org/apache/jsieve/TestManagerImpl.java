@@ -19,23 +19,26 @@
 
 package org.apache.jsieve;
 
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Maps Test names to configured Test
- * implementation classes.
+ * <p>Maps Test names to configured Test implementation classes.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Instances may safely be accessed concurrently by multiple threads.
+ * </p>
  */
 public class TestManagerImpl implements TestManager {
 
-    private final Map<String, String> classNameMap;
+    private final ConcurrentMap<String, String> classNameMap;
 
     /**
      * TestManager is instanciated with getInstance
      */
-    public TestManagerImpl(final Map<String, String> classNameMap) {
+    public TestManagerImpl(final ConcurrentMap<String, String> classNameMap) {
         super();
         this.classNameMap = classNameMap;
     }

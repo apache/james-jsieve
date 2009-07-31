@@ -23,7 +23,11 @@ import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
 /**
- * Maps Test names to configured Test implementation classes.
+ * <p>Maps Test names to configured Test implementation classes.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Implementation dependent. {@link TestManagerImpl} is a thread safe implementation.
+ * </p>
  */
 public interface TestManager {
 

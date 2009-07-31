@@ -23,7 +23,11 @@ import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * Maps Comparator names to configured Comparator implementation classes.
+ * <p>Maps Comparator names to configured Comparator implementation classes.</p>
+ * <h4>Thread Safety</h4>
+ * <p>
+ * Implementation dependent. {@link ComparatorManagerImpl} is a thread safe implementation.
+ * </p>
  */
 public interface ComparatorManager {
 

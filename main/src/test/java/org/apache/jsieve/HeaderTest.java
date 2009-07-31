@@ -306,7 +306,7 @@ public class HeaderTest extends TestCase {
      * Test for square brackets in matching headers When the "[" is in the first
      * char of the pattern it does not matches.
      * 
-     * @see http://issues.apache.org/jira/browse/JSIEVE-19
+     * See http://issues.apache.org/jira/browse/JSIEVE-19
      */
     public void testSquareBracketsInMatch() {
         boolean isTestPassed = false;

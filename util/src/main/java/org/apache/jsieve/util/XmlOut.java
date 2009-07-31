@@ -416,7 +416,6 @@ public final class XmlOut implements SieveToXml.Out {
      * Starts a document by writing a prolog.
      * Calling this method is optional.
      * When writing a document fragment, it should <em>not</em> be called.
-     * @return this object
      * @throws OperationNotAllowedException 
      * if called after the first element has been written
      * or once a prolog has already been written
@@ -468,7 +467,7 @@ public final class XmlOut implements SieveToXml.Out {
      * @throws InvalidXmlException if the name is not valid for an xml attribute 
      * or if a value for the attribute has already been written
      * @throws OperationNotAllowedException if called after {@link #content} 
-     * or {@link #closeElement() or before any call to {@link #openElement}
+     * or {@link #closeElement()} or before any call to {@link #openElement}
      */
     public void attribute(CharSequence name, CharSequence value) throws IOException {
         if (elementNames.isEmpty()) {
@@ -559,7 +558,6 @@ public final class XmlOut implements SieveToXml.Out {
     /**
      * Closes the last element written.
      * 
-     * @return this object
      * @throws OperationNotAllowedException 
      * if called before any call to {@link #openElement} 
      * or after the first element has been closed
@@ -592,7 +590,6 @@ public final class XmlOut implements SieveToXml.Out {
      * When appropriate, resources are also flushed and closed.
      * No exception is raised when called upon a document whose
      * root element has already been closed.
-     * @return this object
      * @throws OperationNotAllowedException 
      * if called before any call to {@link #openElement} 
      */

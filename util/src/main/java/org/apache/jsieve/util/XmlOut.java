@@ -27,8 +27,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.jsieve.util.SieveToXml.Out;
+
 /**
- * <p>Lightweight {@link SieveToXml#Out} implementation.</p>
+ * <p>Lightweight {@link Out} implementation.</p>
  * <p>
  * Requires a wrapper to be used safely in a multithreaded
  * environment.</p>

@@ -35,21 +35,21 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 /**
  * <p>
  * SieveFactory is the primary invocation point for all Sieve
- * operations. Theses are...
+ * operations. These are...
  * <dl>
- * <dt>parse</dt>
+ * <dt>{@link #parse(InputStream)}</dt>
  * <dd> Parse a Sieve script into a hierarchy of parsed nodes. A succesful parse
  * means the script is lexically and gramatically valid according to RFC 3028,
  * section 8. The result is the start node of the parsed Sieve script. The start
  * node is resuable. Typically it is stored for reuse in all subsequent
  * evaluations of the script. </dd>
- * <dt>evaluate</dt>
- * <dd> Evaluate an RFC 822 compliant mail message wrapped in a MailAdapter
+ * <dt>{@link #evaluate(MailAdapter, Node)}</dt>
+ * <dd> Evaluate an RFC 822 compliant mail message wrapped in a {@link MailAdapter}
  * against the parse result referenced by the start node from the Parse
- * operation above. As evaluation proceeds a List of Actions is added to the
+ * operation above. As evaluation proceeds a List of {@link Action}s is added to the
  * MailAdapter. At the end of evaluation, each Action in the List is executed in
  * the order they were added. </dd>
- * <dt>interpret/dt>
+ * <dt>{@link #interpret(MailAdapter, InputStream)}</dt>
  * <dd>A concatenation of parse and evaluate. Useful for testing, but generally
  * the parse result should be stored for reuse in subsequent evaluations. </dd>
  * </dl>

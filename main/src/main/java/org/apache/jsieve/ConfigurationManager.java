@@ -35,13 +35,15 @@ import org.xml.sax.SAXException;
  * <code>ConfigurationManager</code> parses the XML statements
  * in the Sieve configuration file and translates them to Java objects.
  * </p>
- * 
  * <p>
- * The Sieve configuration is read from 3 properties file. They are located by
- * searching the classpath of the current ClassLoader.
- * org/apache/jsieve/commandsmap.properties
- * org/apache/jsieve/testsmap.properties
- * org/apache/jsieve/comparatorsmap.properties
+ * The Sieve configuration is read from 3 properties files
+ * </p>
+ * <ul>
+ * <li><code>org/apache/jsieve/commandsmap.properties</code></li>
+ * <li><code>org/apache/jsieve/testsmap.properties</code></li>
+ * <li><code>org/apache/jsieve/comparatorsmap.properties</code></li>
+ * </ul>
+ * <p>They are located by searching the classpath of the current ClassLoader.
  * </p>
  * <h4>Thread Safety</h4>
  * <p>

@@ -32,14 +32,11 @@ import org.apache.jsieve.tests.ExecutableTest;
 public interface TestManager {
 
     /**
-     * <p>
-     * Method newInstance answers an instance of the class to which a Test name
-     * is mapped.
-     * </p>
+     * <p>Gets a test instance by name.</p>
      * 
      * @param name -
      *            The name of the Test
-     * @return Class - The class of the Test
+     * @return the test, not null
      * @throws LookupException
      */
     public ExecutableTest getTest(String name) throws LookupException;

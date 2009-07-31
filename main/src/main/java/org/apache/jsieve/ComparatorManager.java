@@ -32,14 +32,11 @@ import org.apache.jsieve.exception.LookupException;
 public interface ComparatorManager {
 
     /**
-     * <p>
-     * Method newInstance answers an instance of the class to which a Comparator
-     * name is mapped.
-     * </p>
+     * <p>Gets a comparator by name.</p>
      * 
      * @param name -
-     *            The name of the Comparator
-     * @return Class - The class of the Comparator
+     *            The (logical) name of the Comparator
+     * @return a comparator, not null
      * @throws LookupException
      */
     public Comparator getComparator(String name) throws LookupException;

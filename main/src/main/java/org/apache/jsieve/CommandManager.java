@@ -31,14 +31,11 @@ import org.apache.jsieve.exception.LookupException;
 public interface CommandManager {
 
     /**
-     * <p>
-     * Method newInstance answers an instance of the class to which a Command
-     * name is mapped.
-     * </p>
+     * <p>Gets an instance of a command by name.</p>
      * 
      * @param name -
      *            The name of the Command
-     * @return Class - The class of the Command
+     * @return command, not null
      * @throws LookupException
      */
     public ExecutableCommand getCommand(String name) throws LookupException;

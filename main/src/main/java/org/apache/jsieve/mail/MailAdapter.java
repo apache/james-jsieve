@@ -170,7 +170,7 @@ public interface MailAdapter {
     /**
      * Is the given phrase found in the body text of this mail?
      * This search should be case insensitive.
-     * @param phraseInLowerCase the phrase to search
+     * @param phraseCaseInsensitive the phrase to search
      * @return true when the mail has a textual body and contains the phrase
      * (case insensitive), false otherwise
      * @throws SieveMailException when the search cannot be completed

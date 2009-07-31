@@ -46,8 +46,8 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  * <dt>{@link #evaluate(MailAdapter, Node)}</dt>
  * <dd> Evaluate an RFC 822 compliant mail message wrapped in a {@link MailAdapter}
  * against the parse result referenced by the start node from the Parse
- * operation above. As evaluation proceeds a List of {@link Action}s is added to the
- * MailAdapter. At the end of evaluation, each Action in the List is executed in
+ * operation above. As evaluation proceeds a List of {@link org.apache.jsieve.mail.Action}s 
+ * is added to the MailAdapter. At the end of evaluation, each Action in the List is executed in
  * the order they were added. </dd>
  * <dt>{@link #interpret(MailAdapter, InputStream)}</dt>
  * <dd>A concatenation of parse and evaluate. Useful for testing, but generally

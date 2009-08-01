@@ -186,7 +186,7 @@ public class SieveMailboxMailet extends GenericMailet {
         return verbose || !quiet;
     }
 
-    //@Override
+    @Override
     public void init(MailetConfig config) throws MessagingException {
         
         super.init(config);
@@ -219,6 +219,7 @@ public class SieveMailboxMailet extends GenericMailet {
      *             if an error occurs while storing the mail
      */
     @SuppressWarnings("unchecked")
+    @Override
     public void service(Mail mail) throws MessagingException {
         Collection<MailAddress> recipients = mail.getRecipients();
         Collection<MailAddress> errors = new Vector<MailAddress>();
@@ -301,6 +302,7 @@ public class SieveMailboxMailet extends GenericMailet {
      * 
      * @return a string describing this mailet
      */
+    @Override
     public String getMailetInfo() {
         return "Sieve Mailbox Mailet";
     }
@@ -371,6 +373,7 @@ public class SieveMailboxMailet extends GenericMailet {
     /**
      * @see org.apache.mailet.base.GenericMailet#init()
      */
+    @Override
     public void init() throws MessagingException {
         super.init();
         if (poster == null || locator == null) {

@@ -180,6 +180,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         fieldActions = actions;
     }
+    
     /**
      * Updates the actions.
      */
@@ -203,6 +204,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             throw new SieveMailException(ex);
         }
     }
+    
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getHeaderNames()
      */
@@ -223,6 +225,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             throw new SieveMailException(ex);
         }
     }
+    
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getMatchingHeader(String)
      */
@@ -230,6 +233,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         return MailUtils.getMatchingHeader(this, name);
     }
+    
     /**
      * @see org.apache.jsieve.mail.MailAdapter#getSize()
      */
@@ -244,6 +248,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             throw new SieveMailException(ex);
         }
     }
+    
     /**
      * Method getEnvelopes.
      * 
@@ -269,6 +274,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             values.add(value);
         return values;
     }
+    
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getEnvelopeNames()
      */
@@ -276,6 +282,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         return new ArrayList<String>(getEnvelopes().keySet());
     }
+    
     /**
      * @see org.apache.jsieve.mail.optional.EnvelopeAccessors#getMatchingEnvelope(String)
      */
@@ -288,6 +295,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         }
         return matchedEnvelopeValues;
     }
+    
     /**
      * Returns the from.
      * 
@@ -298,6 +306,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         MailAddress sender = getMail().getSender(); 
         return (null == sender ? "" : sender.toString());
     }
+    
     /**
      * Returns the sole recipient or null if there isn't one.
      * 
@@ -311,6 +320,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
             recipient = (String) recipientIter.next().toString();
         return recipient;
     }
+    
     /**
      * Returns the mail.
      * 
@@ -320,6 +330,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         return fieldMail;
     }
+    
     /**
      * Sets the mail.
      * 
@@ -330,6 +341,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         fieldMail = mail;
         contentText = null;
     }
+    
     /**
      * Returns the mailetContext.
      * 
@@ -339,6 +351,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         return fieldMailetContext;
     }
+    
     /**
      * Sets the mailetContext.
      * 
@@ -348,6 +361,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         fieldMailetContext = mailetContext;
     }
+    
     /**
      * @see java.lang.Object#toString()
      */

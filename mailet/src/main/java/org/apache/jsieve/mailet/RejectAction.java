@@ -76,7 +76,7 @@ public class RejectAction implements MailAction {
         ActionUtils.detectAndHandleLocalLooping(aMail, context, "reject");
 
         // Create the MDN part
-        StringBuffer humanText = new StringBuffer(128);
+        StringBuilder humanText = new StringBuilder(128);
         humanText.append("This message was refused by the recipient's mail filtering program.");
         humanText.append("\r\n");
         humanText.append("The reason given was:");

@@ -19,8 +19,8 @@
 
 package org.apache.jsieve.mailet;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.mail.MessagingException;
 
@@ -33,6 +33,8 @@ import org.apache.mailet.Mail;
 
 /**
  * Dynamically dispatches an Action depending on the type of Action received at runtime. 
+ * <h4>Thread Safety</h4>
+ * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
  */
 public class ActionDispatcher
 {   
@@ -41,7 +43,7 @@ public class ActionDispatcher
      * handle the Action.
      * <Action, MailAction>
      */ 
-    private Map<Class, MailAction> fieldMailActionMap;
+    private ConcurrentMap<Class, MailAction> fieldMailActionMap;
 
     /**
      * Constructor for ActionDispatcher.
@@ -63,7 +65,7 @@ public class ActionDispatcher
      */
     public void execute(final Action anAction, final Mail aMail, final ActionContext context) throws MessagingException
     {
-        MailAction mailAction = getMethodMap().get(anAction.getClass());
+        final MailAction mailAction = getMethodMap().get(anAction.getClass());
         mailAction.execute(anAction, aMail, context);
     }
 
@@ -71,7 +73,7 @@ public class ActionDispatcher
      * Returns the methodMap.
      * @return Map
      */
-    public Map<Class, MailAction> getMethodMap()
+    public ConcurrentMap<Class, MailAction> getMethodMap()
     {
         return fieldMailActionMap;
     }    
@@ -80,9 +82,9 @@ public class ActionDispatcher
      * Returns a new methodMap.
      * @return Map
      */
-    private Map<Class, MailAction> defaultMethodMap()
+    private ConcurrentMap<Class, MailAction> defaultMethodMap()
     {
-        Map<Class, MailAction> actionMap = new HashMap<Class, MailAction>(4);
+        final ConcurrentMap<Class, MailAction> actionMap = new ConcurrentHashMap<Class, MailAction>(4);
         actionMap.put(ActionFileInto.class, new FileIntoAction());
         actionMap.put(ActionKeep.class, new KeepAction());
         actionMap.put(ActionRedirect.class, new RedirectAction());
@@ -94,7 +96,7 @@ public class ActionDispatcher
      * Sets the mail action mail.
      * @param mailActionMap <Action, MailAction> not null
      */
-    protected void setMethodMap(Map<Class, MailAction>  mailActionMap)
+    protected void setMethodMap(ConcurrentMap<Class, MailAction>  mailActionMap)
     {
         fieldMailActionMap = mailActionMap;
     }

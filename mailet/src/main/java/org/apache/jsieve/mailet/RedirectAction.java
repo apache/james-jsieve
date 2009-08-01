@@ -30,6 +30,11 @@ import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
+/**
+ * Performs the redirection of a mail. 
+ * <h4>Thread Safety</h4>
+ * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
+ */
 public class RedirectAction implements MailAction {
 
     public void execute(Action action, Mail mail, ActionContext context)

@@ -25,6 +25,7 @@ import org.apache.mailet.Mail;
 
 /**
  * Executes a Sieve action.
+ * Implementations may be accessed concurrently by multiple threads.
  */
 public interface MailAction {
     

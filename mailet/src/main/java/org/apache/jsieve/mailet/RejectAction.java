@@ -41,6 +41,11 @@ import org.apache.jsieve.mailet.mdn.ModifierError;
 import org.apache.jsieve.mailet.mdn.SendingModeAutomatic;
 import org.apache.jsieve.mailet.mdn.TypeDeleted;
 
+/**
+ * Performs the rejection of a mail, with a reply to the sender. 
+ * <h4>Thread Safety</h4>
+ * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
+ */
 public class RejectAction implements MailAction {
 
     public void execute(Action action, Mail mail, ActionContext context)

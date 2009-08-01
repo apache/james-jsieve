@@ -25,6 +25,11 @@ import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.mailet.Mail;
 
+/**
+ * Performs the filing of a mail into the inbox. 
+ * <h4>Thread Safety</h4>
+ * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
+ */
 public class KeepAction extends FileIntoAction implements MailAction {
     
     private static final String INBOX = "INBOX";

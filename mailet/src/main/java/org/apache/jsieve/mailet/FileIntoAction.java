@@ -27,6 +27,11 @@ import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
+/**
+ * Performs the filing of a mail into a specified destination. 
+ * <h4>Thread Safety</h4>
+ * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
+ */
 public class FileIntoAction implements MailAction {
     
     private static final char HIERARCHY_DELIMITER = '.';

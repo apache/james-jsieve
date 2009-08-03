@@ -44,6 +44,9 @@
       <item name="Changes" href="http://james.apache.org/jsieve/jira-report.html" />
       <item name="Release Notes" href="http://james.apache.org/jsieve/release-notes.html" />
       <item name="JavaDocs" href="http://james.apache.org/jsieve/apidocs/index.html" />
+    </menu>
+
+    <menu name='Specifications' inherit='bottom'>
       <item name="RFC 2234 (ABNF)"
         href="http://www.ietf.org/rfc/rfc2234.txt" />
       <item name="RFC 2244 (ACAP)"

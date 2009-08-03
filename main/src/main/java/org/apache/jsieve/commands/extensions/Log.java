@@ -141,7 +141,7 @@ public class Log extends AbstractCommand {
             logTrace(message, context);
         else
             throw context.getCoordinate().syntaxException(
-                    "Unsupported logging level: " + logLevel);
+                    new StringBuilder("Unsupported logging level: ").append (logLevel));
     }
 
     /**

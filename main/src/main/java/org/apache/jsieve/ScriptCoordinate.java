@@ -148,11 +148,11 @@ public final class ScriptCoordinate {
      *         positional phrase appended, not null
      */
     public String addStartLineAndColumn(CharSequence message) {
-        final StringBuffer buffer;
-        if (message instanceof StringBuffer) {
-            buffer = (StringBuffer) message;
+        final StringBuilder buffer;
+        if (message instanceof StringBuilder) {
+            buffer = (StringBuilder) message;
         } else {
-            buffer = new StringBuffer(message.toString());
+            buffer = new StringBuilder(message.toString());
         }
         buffer.append(" Line ");
         buffer.append(startLineNumber);

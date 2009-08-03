@@ -49,7 +49,7 @@ public class Not extends AbstractTest {
         List<Test> tests = arguments.getTestList().getTests();
         if (tests.size() != 1)
             throw context.getCoordinate().syntaxException(
-                    "Exactly 1 test permitted. Found " + tests.size());
+                    new StringBuilder("Exactly 1 test permitted. Found ").append(tests.size()));
         for (Test test: tests) {
             result = result && test.isTestPassed(mail, context);
         }

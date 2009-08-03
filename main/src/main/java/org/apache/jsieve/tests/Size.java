@@ -68,7 +68,7 @@ public class Size extends AbstractTest {
                     comparator = tag;
                 else
                     throw context.getCoordinate().syntaxException(
-                            "Found unexpected TagArgument: \"" + tag + "\"");
+                            new StringBuilder("Found unexpected TagArgument: \"").append(tag).append("\""));
             }
         }
         if (null == comparator)

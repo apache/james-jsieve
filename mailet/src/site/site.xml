@@ -32,7 +32,7 @@
 
   <body>
 
-    <menu name="jSieve">
+    <menu name="jSieve Mailet">
       <item name="Overview" href="index.html"/>
       <item name='Catalog' href='mailet-report.html'/>
       <item 

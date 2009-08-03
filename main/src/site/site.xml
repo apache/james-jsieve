@@ -32,7 +32,7 @@
 
   <body>
 
-    <menu name="jSieve">
+    <menu name="jSieve Engine">
       <item name="Overview" href="index.html"/>
       <item name="Sieve Features" href="features.html"/>
       <item name="Getting Started" href="start.html"/>

@@ -140,4 +140,13 @@ public class TestList implements Executable {
         return "TEST LIST: " + fieldTests;
     }
 
+    /**
+     * Is this test list empty?
+     * @return true when empty,
+     * false when tests exist
+     */
+    public boolean isEmpty() {
+        return fieldTests.isEmpty();
+    }
+
 }

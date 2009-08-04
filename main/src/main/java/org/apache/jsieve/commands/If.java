@@ -22,7 +22,6 @@ package org.apache.jsieve.commands;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.TestList;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
@@ -61,16 +60,14 @@ public class If extends AbstractConditionalCommand {
             return Boolean.FALSE;
 
         // Run the tests
-        Boolean isTestPassed = (Boolean) arguments.getTestList().execute(mail,
-                context);
+        final boolean isTestPassed = arguments.getTestList().allTestsPass(mail,context);
 
         // If the tests answered TRUE, execute the Block
-        if (isTestPassed.booleanValue())
+        if (isTestPassed)
             execute(mail, block, context);
 
         // Update the ConditionManager
-        context.getConditionManager().setIfTestResult(
-                isTestPassed.booleanValue());
+        context.getConditionManager().setIfTestResult(isTestPassed);
 
         // Return the result
         return isTestPassed;
@@ -82,8 +79,7 @@ public class If extends AbstractConditionalCommand {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        TestList testList = arguments.getTestList();
-        if (null == testList || testList.getTests().isEmpty())
+        if (!arguments.hasTests())
             throw context.getCoordinate().syntaxException("Expecting a Test");
     }
 

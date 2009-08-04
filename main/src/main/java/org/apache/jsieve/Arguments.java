@@ -95,7 +95,7 @@ public class Arguments {
      */
     public boolean hasTests() {
         TestList testList = getTestListBasic();
-        return null != testList && testList.getTests().size() == 0;
+        return null != testList && !testList.isEmpty();
     }
 
     /**

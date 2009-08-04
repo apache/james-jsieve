@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.exception.FeatureException;
+
+
 /**
  * Interface Contains defines the method signatures for contains comparators.
  */
@@ -32,7 +35,8 @@ public interface Contains {
      * @param container
      * @param content
      * @return boolean
+     * @throws FeatureException when substring is unsupported
      */
-    public boolean contains(String container, String content);
+    public boolean contains(String container, String content) throws FeatureException;
 
 }

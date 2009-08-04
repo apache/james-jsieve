@@ -192,7 +192,7 @@ public class ComparatorUtils {
      * @return boolean
      */
     public static boolean contains(String comparatorName, String container,
-            String contents, SieveContext context) throws LookupException {
+            String contents, SieveContext context) throws SieveException {
         Contains comparatorObj = context.getComparatorManager().getComparator(comparatorName);
         return comparatorObj.contains(container, contents);
     }

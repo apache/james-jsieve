@@ -19,7 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
-import org.apache.jsieve.exception.SievePatternException;
+import java.math.BigInteger;
+
+import org.apache.jsieve.exception.FeatureException;
 
 /**
  * Class AsciiNumeric implements the EQUALITY operation of the i;ascii-numeric
@@ -38,8 +40,58 @@ public class AsciiNumeric implements Comparator {
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
     public boolean equals(String string1, String string2) {
-        return ComparatorUtils.equals(computeCompareString(string1),
-                computeCompareString(string2));
+        final boolean result;
+        if (isPositiveInfinity(string1)) {
+            if (isPositiveInfinity(string2)) {
+                result = true;
+            } else {
+                result = false;
+            }
+        } else {
+            if (isPositiveInfinity(string2)) {
+                result = false;
+            } else {
+                final BigInteger integer1 = toInteger(string1);
+                final BigInteger integer2 = toInteger(string2);
+                result = integer1.equals(integer2);
+            }
+        }
+        return result;
+    }
+    
+    private BigInteger toInteger(final String value) {
+        int i;
+        for (i=0;i<value.length();i++) {
+            final char next = value.charAt(i);
+            if (!isDigit(next)) {
+                break;
+            }
+        }
+        final BigInteger result = new BigInteger(value.substring(0,i));
+        return result;
+    }
+    
+    /**
+     * Does the given string to be handled as positive infinity?
+     * See <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a>
+     * @param value not null
+     * @return true when the value should represent positive infinity,
+     * false otherwise
+     */
+    private boolean isPositiveInfinity(final String value) {
+       final char initialCharacter = value.charAt(0);
+       final boolean result = !isDigit(initialCharacter);
+       return result;
+    }
+
+    /**
+     * Is the given character an ASCII digit?
+     * @param character character to be tested
+     * @return true when the given character is an ASCII digit,
+     * false otherwise 
+     */
+    private boolean isDigit(final char character) {
+        return character>=0x30 && character<=0x39;
     }
 
     /**
@@ -59,26 +111,26 @@ public class AsciiNumeric implements Comparator {
     }
 
     /**
+     * Unsupported, see <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a>.
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
-    public boolean contains(String container, String content) {
-        return ComparatorUtils.contains(computeCompareString(container),
-                computeCompareString(content));
+    public boolean contains(String container, String content) throws FeatureException {
+        // TODO: Consider using finer grained exception
+        throw new FeatureException("Substring match unsupported by ascii-numeric");
     }
 
     /**
+     * Unsupported operation.
+     * <a href='http://tools.ietf.org/html/rfc5228#section-2.7.1'>RFC5228</a> limits
+     * support to comparators that support <code>:contains</code>. 
+     * <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a> states
+     * that substring matches are not supported.
      * @see org.apache.jsieve.comparators.Matches#matches(String, String)
      */
     public boolean matches(String string, String glob)
-            throws SievePatternException {
-        // TODO: Review comments and either correct or fix
-        // return computeCompareString(string).matches(regex);
-        
-        // Still to fix: computeCompareString(glob) will remove glob characters!
-        // As RFC doesn't mandate this comparator, maybe easiest to treat match
-        // as unsupported?
-        return ComparatorUtils.matches(computeCompareString(string),
-                computeCompareString(glob));
+            throws FeatureException {
+        // TODO: Consider using finer grained exception
+        throw new FeatureException("Substring match unsupported by ascii-numeric");
     }
 
 }

@@ -47,14 +47,16 @@
     </menu>
 
     <menu name='Specifications' inherit='bottom'>
-      <item name="RFC 2234 (ABNF)"
+      <item name="RFC 2234 ABNF"
         href="http://www.ietf.org/rfc/rfc2234.txt" />
-      <item name="RFC 2244 (ACAP)"
+      <item name="RFC 2244 ACAP"
         href="http://www.ietf.org/rfc/rfc2244.txt" />
-      <item name="RFC 2298 (MDN)"
+      <item name="RFC 2298 MDN"
         href="http://www.ietf.org/rfc/rfc2298.txt" />
-      <item name="RFC 3028 (Sieve)"
-        href="http://www.ietf.org/rfc/rfc3028.txt" />
+      <item name="RFC 5228 Sieve"
+        href="http://tools.ietf.org/html/rfc5228" />
+      <item name='RFC 4790 IAPCR'
+        href='http://tools.ietf.org/html/rfc4790'/>
     </menu>
 
     <menu name='0.3 Release'>

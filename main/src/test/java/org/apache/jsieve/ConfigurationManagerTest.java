@@ -38,7 +38,7 @@ public class ConfigurationManagerTest extends TestCase {
      * correct classes.
      */
     public void testCommandMap() {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
         // Condition Commands
         // RFC3082 - Implementations MUST support these:
         map.put("if", "org.apache.jsieve.commands.If");
@@ -79,7 +79,7 @@ public class ConfigurationManagerTest extends TestCase {
      * correct classes.
      */
     public void testTestMap() {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
 
         // RFC3082 - Implementations MUST support these tests:
         map.put("address", "org.apache.jsieve.tests.Address");
@@ -118,7 +118,7 @@ public class ConfigurationManagerTest extends TestCase {
      * to the correct classes.
      */
     public void testComparatorMap() {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
 
         // RFC3082 - Required Comparators
         map.put("i;octet", "org.apache.jsieve.comparators.Octet");

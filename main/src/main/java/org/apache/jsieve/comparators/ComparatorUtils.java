@@ -83,7 +83,6 @@ public class ComparatorUtils {
      */
     static public boolean matches(String string, String glob)
             throws SievePatternException {
-        // TODO Is there a way to re-use the compiled pattern?
         try {
             String regex = sieveToJavaRegex(glob);
             final Matcher matcher = Pattern.compile(regex).matcher(string);

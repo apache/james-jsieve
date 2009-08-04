@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
@@ -93,15 +92,19 @@ public class BaseSieveContext extends SieveContext {
         return commandManager.getCommand(name);
     }
 
-    public Comparator getComparator(String name) throws LookupException {
-        return comparatorManager.getComparator(name);
-    }
-
     public ExecutableTest getTest(String name) throws LookupException {
         return testManager.getTest(name);
     }
 
     public Log getLog() {
         return log;
+    }
+
+    /**
+     * @see SieveContext#getComparatorManager()
+     */
+    @Override
+    public ComparatorManager getComparatorManager() {
+        return comparatorManager;
     }
 }

@@ -44,18 +44,23 @@ import org.apache.jsieve.parser.generated.SimpleNode;
 public class SieveValidationVisitor implements SieveParserVisitor {
 
     private final CommandManager commandManager;
-
     private final TestManager testManager;
+    private final ComparatorManager comparatorManager;
 
     private boolean requireAllowed = true;
-
+    /** Is the visitor within a <code>require</code>? */
     private boolean isInRequire = false;
-
+    /** Is the next argument expected to be a comparator name? */
+    private boolean nextArgumentIsComparatorName = false;
+    /** Is the visitor within a comparator name argument? */
+    private boolean isInComparatorNameArgument = false;
+    
     protected SieveValidationVisitor(final CommandManager commandManager,
-            final TestManager testManager) {
+            final TestManager testManager, final ComparatorManager comparatorManager) {
         super();
         this.commandManager = commandManager;
         this.testManager = testManager;
+        this.comparatorManager = comparatorManager;
     }
 
     public Object visit(SimpleNode node, Object data) throws SieveException {
@@ -99,12 +104,30 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     }
 
     public Object visit(ASTarguments node, Object data) throws SieveException {
-
+        // Reset test for explicitly required comparator types
+        nextArgumentIsComparatorName = false;
         return visitNode(node, data);
     }
 
     public Object visit(ASTargument node, Object data) throws SieveException {
-        return visitNode(node, data);
+        final Object value = node.getValue();
+        if (value == null) { 
+            if (nextArgumentIsComparatorName) {
+                // Mark enclosed string for check against required list
+                isInComparatorNameArgument = true;
+            }
+            nextArgumentIsComparatorName = false;
+        } else {
+            if (value instanceof TagArgument) {
+                final TagArgument tag = (TagArgument) value;
+                nextArgumentIsComparatorName = tag.isComparator();
+            } else {
+                nextArgumentIsComparatorName = false;
+            }
+        }
+        final Object result = visitNode(node, data);
+        isInComparatorNameArgument = false;
+        return result;
     }
 
     public Object visit(ASTtest node, Object data) throws SieveException {
@@ -117,18 +140,36 @@ public class SieveValidationVisitor implements SieveParserVisitor {
 
     public Object visit(ASTstring node, Object data) throws SieveException {
         if (isInRequire) {
-            final Object value = node.getValue();
-            if (value != null && value instanceof String) {
-                final String name = (String) value;
-                try {
-                    commandManager.getCommand(name);
-                } catch (LookupException e) {
-                    // TODO: catching is inefficient, should just check
-                    testManager.getTest(name);
-                }
-            }
+            requirements(node);
+        }
+        if (isInComparatorNameArgument) {
+            comparatorNameArgument(node);
         }
         return visitNode(node, data);
+    }
+
+    private void comparatorNameArgument(ASTstring node) throws SieveException {
+        final Object value = node.getValue();
+        if (value != null && value instanceof String) {
+            final String name = (String) value;
+            if (!comparatorManager.isImplicitlyDeclared(name)) {
+                // TODO: replace with better exception
+                throw new SieveException("Comparator must be explicitly declared in a require statement.");
+            }
+        }
+    }
+
+    private void requirements(ASTstring node) throws LookupException {
+        final Object value = node.getValue();
+        if (value != null && value instanceof String) {
+            final String name = (String) value;
+            try {
+                commandManager.getCommand(name);
+            } catch (LookupException e) {
+                // TODO: catching is inefficient, should just check
+                testManager.getTest(name);
+            }
+        }
     }
 
     public Object visit(ASTstring_list node, Object data) throws SieveException {

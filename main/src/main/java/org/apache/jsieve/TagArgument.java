@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import static org.apache.jsieve.Constants.TAG_COMPARATOR;
+
 import org.apache.jsieve.parser.generated.Token;
 
 /**
@@ -70,6 +72,25 @@ public class TagArgument implements Argument {
         return fieldTag;
     }
 
+    /**
+     * Does this argument match the given tag?
+     * @param tag not null
+     * @return true when the tag identifier equals that given,
+     * false otherwise
+     */
+    public boolean is(String tag) {
+       return tag.equals(fieldTag); 
+    }
+    
+    /**
+     * Is this a comparator tag?
+     * @return true when identifier matches {@link Constants#TAG_COMPARATOR},
+     * false otherwise
+     */
+    public boolean isComparator() {
+        return this.is(TAG_COMPARATOR);
+    }
+    
     /**
      * Sets the tag.
      * 

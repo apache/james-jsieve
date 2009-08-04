@@ -19,7 +19,11 @@
 
 package org.apache.jsieve;
 
+import static org.apache.jsieve.Constants.COMPARATOR_ASCII_CASEMAP_NAME;
+import static org.apache.jsieve.Constants.COMPARATOR_OCTET_NAME;
+
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
@@ -33,14 +37,53 @@ import org.apache.jsieve.exception.LookupException;
  */
 public class ComparatorManagerImpl implements ComparatorManager {
 
+    /** 
+     * Constructs a set containing the names of those comparisons for which <code>require</code> 
+     * is not necessary before usage, according to RFC5228.
+     * See <a href='http://tools.ietf.org/html/rfc5228#section-2.7.3'>RFC5228, 2.7.3 Comparators</a>. 
+     */
+    public static CopyOnWriteArraySet<String> standardDefinedComparators() {
+        final CopyOnWriteArraySet<String> results = new CopyOnWriteArraySet<String>();
+        results.add(COMPARATOR_OCTET_NAME);
+        results.add(COMPARATOR_ASCII_CASEMAP_NAME);
+        return results;
+    }
+    
     private final ConcurrentMap<String, String> classNameMap;
+    /** 
+     * The names of those comparisons for which <code>require</code> is not necessary before usage.
+     * See <a href='http://tools.ietf.org/html/rfc5228#section-2.7.3'>RFC5228, 2.7.3 Comparators</a>. 
+     */
+    private final CopyOnWriteArraySet<String> implicitlyDeclared;
 
     /**
-     * Constructor for ComparatorManager.
+     * Constructs a manager with the standard comparators implicitly defined.
+     * @param classNameMap not null
      */
     public ComparatorManagerImpl(final ConcurrentMap<String, String> classNameMap) {
+        this(classNameMap, standardDefinedComparators());
+    }
+    
+    /**
+     * Constructor for ComparatorManager.
+     * @param classNameMap indexes names of implementation classes against logical names, not null
+     * @param implicitlyDeclared names of those comparisons for which <code>require</code> is not necessary before usage
+     */
+    public ComparatorManagerImpl(final ConcurrentMap<String, String> classNameMap, final CopyOnWriteArraySet<String> implicitlyDeclared) {
         super();
         this.classNameMap = classNameMap;
+        this.implicitlyDeclared = implicitlyDeclared;
+    }
+    
+    /**
+     * Is an explicit declaration in a <code>require</code> statement
+     * unnecessary for this comparator?
+     * @param comparatorName not null
+     * @return true when this comparator need not be declared by <core>require</code>,
+     * false when any usage of this comparator must be declared in a <code>require</code> statement
+     */
+    public boolean isImplicitlyDeclared(final String comparatorName) {
+        return implicitlyDeclared.contains(comparatorName);
     }
 
     /**
@@ -103,7 +146,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
     private String getClassName(String name) throws LookupException {
         String className = classNameMap.get(name.toLowerCase());
         if (null == className)
-            throw new LookupException("Command named '" + name
+            throw new LookupException("Comparator named '" + name
                     + "' not mapped.");
         return className;
     }

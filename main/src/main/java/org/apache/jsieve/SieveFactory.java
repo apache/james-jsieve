@@ -101,7 +101,7 @@ public class SieveFactory {
             final SimpleNode node = new SieveParser(inputStream, "UTF-8")
                     .start();
             SieveValidationVisitor visitor = new SieveValidationVisitor(
-                    commandManager, testManager);
+                    commandManager, testManager, comparatorManager);
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {

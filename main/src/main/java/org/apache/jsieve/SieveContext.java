@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
@@ -55,13 +54,14 @@ public abstract class SieveContext {
     public abstract void setConditionManager(final ConditionManager manager);
 
     // TODO: consider whether API can be consolidated
-    public abstract ExecutableCommand getCommand(String name)
-            throws LookupException;
+    public abstract ExecutableCommand getCommand(String name) throws LookupException;
 
-    // TODO: consider whether API can be consolidated
-    public abstract Comparator getComparator(String name)
-            throws LookupException;
-
+    /**
+     * Gets the comparator manager.
+     * @return not null
+     */
+    public abstract ComparatorManager getComparatorManager();
+    
     // TODO: consider whether API can be consolidated
     public abstract ExecutableTest getTest(String name) throws LookupException;
 

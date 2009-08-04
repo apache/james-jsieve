@@ -193,7 +193,7 @@ public class ComparatorUtils {
      */
     public static boolean contains(String comparatorName, String container,
             String contents, SieveContext context) throws LookupException {
-        Contains comparatorObj = context.getComparator(comparatorName);
+        Contains comparatorObj = context.getComparatorManager().getComparator(comparatorName);
         return comparatorObj.contains(container, contents);
     }
 
@@ -209,7 +209,7 @@ public class ComparatorUtils {
      */
     public static boolean is(String comparatorName, String string1,
             String string2, SieveContext context) throws LookupException {
-        Equals comparatorObj = context.getComparator(comparatorName);
+        Equals comparatorObj = context.getComparatorManager().getComparator(comparatorName);
         return comparatorObj.equals(string1, string2);
     }
 
@@ -226,7 +226,7 @@ public class ComparatorUtils {
      */
     public static boolean matches(String comparatorName, String string,
             String glob, SieveContext context) throws SieveException {
-        Matches comparatorObj = context.getComparator(comparatorName);
+        Matches comparatorObj = context.getComparatorManager().getComparator(comparatorName);
         return comparatorObj.matches(string, glob);
     }
 

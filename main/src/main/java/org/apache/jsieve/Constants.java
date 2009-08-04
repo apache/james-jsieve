@@ -16,37 +16,15 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-
 package org.apache.jsieve;
 
-import org.apache.jsieve.comparators.Comparator;
-import org.apache.jsieve.exception.LookupException;
+public class Constants {
 
-/**
- * <p>Maps Comparator names to configured Comparator implementation classes.</p>
- * <h4>Thread Safety</h4>
- * <p>
- * Implementation dependent. {@link ComparatorManagerImpl} is a thread safe implementation.
- * </p>
- */
-public interface ComparatorManager {
-
-    /**
-     * <p>Gets a comparator by name.</p>
-     * 
-     * @param name -
-     *            The (logical) name of the Comparator
-     * @return a comparator, not null
-     * @throws LookupException
-     */
-    public Comparator getComparator(String name) throws LookupException;
+    public static final String TAG_COMPARATOR = ":comparator";
     
-    /**
-     * Is an explicit declaration in a <code>require</code> statement
-     * unnecessary for this comparator?
-     * @param comparatorName not null
-     * @return true when this comparator need not be declared by <core>require</code>,
-     * false when any usage of this comparator must be declared in a <code>require</code> statement
-     */
-    public boolean isImplicitlyDeclared(final String comparatorName);
+    /** Name of the standard ascii casemap comparator. See <a href='http://tools.ietf.org/html/rfc4790'>RFC4790</a>. */
+    public static final String COMPARATOR_ASCII_CASEMAP_NAME = "i;ascii-casemap";
+    /** Name of the standard octet comparator. See <a href='http://tools.ietf.org/html/rfc4790'>RFC4790</a>. */
+    public static final String COMPARATOR_OCTET_NAME = "i;octet";
+
 }

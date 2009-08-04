@@ -42,4 +42,9 @@ public class AsciiNumericTest extends TestCase {
             // Expected
         }
     }
+    
+    public void testVerificationPassesWhenAsciiNumericIsRequired() throws Exception {
+        String script = "require [\"comparator-i;ascii-numeric\"]; if header :contains :comparator \"i;ascii-numeric\" \"Subject\" \"69\" {stop;}";
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
 }

@@ -30,7 +30,7 @@ import org.apache.jsieve.exception.LookupException;
  * </p>
  */
 public interface ComparatorManager {
-
+    
     /**
      * <p>Gets a comparator by name.</p>
      * 
@@ -49,4 +49,11 @@ public interface ComparatorManager {
      * false when any usage of this comparator must be declared in a <code>require</code> statement
      */
     public boolean isImplicitlyDeclared(final String comparatorName);
+    
+    /**
+     * Is the comparator with the given name supported?
+     * @param name not null
+     * @return true when supported, false otherwise
+     */
+    public boolean isSupported(String name);
 }

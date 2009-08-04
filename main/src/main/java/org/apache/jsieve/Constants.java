@@ -26,5 +26,10 @@ public class Constants {
     public static final String COMPARATOR_ASCII_CASEMAP_NAME = "i;ascii-casemap";
     /** Name of the standard octet comparator. See <a href='http://tools.ietf.org/html/rfc4790'>RFC4790</a>. */
     public static final String COMPARATOR_OCTET_NAME = "i;octet";
-
+    /** Prefix used to identify extension groups. See <a href='http://tools.ietf.org/html/rfc5228#section-6.1'>RFC5228, 6.1. Capability String</a> */
+    public static final char REQUIRE_EXTENSION_PREFIX = '-';
+    /** Prefix used to identify comparator extensions. See <a href='http://tools.ietf.org/html/rfc5228#section-6.1'>RFC5228, 6.1. Capability String</a> */
+    public static final String COMPARATOR_PREFIX = "comparator" + REQUIRE_EXTENSION_PREFIX;
+    /** Number of characters in {@link #COMPARATOR_PREFIX} */
+    public static final int COMPARATOR_PREFIX_LENGTH = COMPARATOR_PREFIX.length();
 }

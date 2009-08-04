@@ -150,4 +150,16 @@ public class ComparatorManagerImpl implements ComparatorManager {
                     + "' not mapped.");
         return className;
     }
+
+    /**
+     * @see ComparatorManager#isSupported(String)
+     */
+    public boolean isSupported(String name) {
+        try {
+            getComparator(name);
+            return true;
+        } catch (LookupException e) {
+            return false;
+        }
+    }
 }

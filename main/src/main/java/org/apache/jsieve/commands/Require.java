@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.commands;
 
+import static org.apache.jsieve.Constants.COMPARATOR_PREFIX;
+import static org.apache.jsieve.Constants.COMPARATOR_PREFIX_LENGTH;
+
 import java.util.List;
 
 import org.apache.jsieve.Argument;
@@ -76,20 +79,28 @@ public class Require extends AbstractPrologCommand {
      */
     protected void validateFeature(String name, MailAdapter mail,
             SieveContext context) throws FeatureException {
-        // Validate as a Command
-        try {
-            validateCommand(name, context);
-            return;
-        } catch (LookupException e) {
-            // Not a command
-        }
-
-        // Validate as a Test
-        try {
-            validateTest(name, context);
-        } catch (LookupException e) {
-            throw new FeatureException("Feature \"" + name
-                    + "\" is not supported.");
+        if (name.startsWith(COMPARATOR_PREFIX)) {
+            final String comparatorName = name.substring(COMPARATOR_PREFIX_LENGTH);
+            if (!context.getComparatorManager().isSupported(comparatorName)) {
+                throw new FeatureException("Comparator \"" + comparatorName
+                        + "\" is not supported.");
+            }
+        } else {
+            // Validate as a Command
+            try {
+                validateCommand(name, context);
+                return;
+            } catch (LookupException e) {
+                // Not a command
+            }
+    
+            // Validate as a Test
+            try {
+                validateTest(name, context);
+            } catch (LookupException e) {
+                throw new FeatureException("Feature \"" + name
+                        + "\" is not supported.");
+            }
         }
     }
 

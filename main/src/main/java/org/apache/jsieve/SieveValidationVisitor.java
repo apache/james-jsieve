@@ -1,7 +1,9 @@
 package org.apache.jsieve;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
@@ -17,6 +19,8 @@ import org.apache.jsieve.parser.generated.ASTtest;
 import org.apache.jsieve.parser.generated.ASTtest_list;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
 import org.apache.jsieve.parser.generated.SimpleNode;
+
+import static org.apache.jsieve.Constants.*;
 
 /****************************************************************
  * Licensed to the Apache Software Foundation (ASF) under one   *
@@ -47,6 +51,8 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     private final TestManager testManager;
     private final ComparatorManager comparatorManager;
 
+    private final Set<String> declaredComparators;
+    
     private boolean requireAllowed = true;
     /** Is the visitor within a <code>require</code>? */
     private boolean isInRequire = false;
@@ -61,6 +67,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
         this.commandManager = commandManager;
         this.testManager = testManager;
         this.comparatorManager = comparatorManager;
+        declaredComparators = new HashSet<String>();
     }
 
     public Object visit(SimpleNode node, Object data) throws SieveException {
@@ -79,6 +86,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     }
 
     public Object visit(ASTcommands node, Object data) throws SieveException {
+        declaredComparators.clear();
         return visitNode(node, data);
     }
 
@@ -152,22 +160,35 @@ public class SieveValidationVisitor implements SieveParserVisitor {
         final Object value = node.getValue();
         if (value != null && value instanceof String) {
             final String name = (String) value;
+            // Comparators must either be declared (either implicitly or explicitly)
             if (!comparatorManager.isImplicitlyDeclared(name)) {
-                // TODO: replace with better exception
-                throw new SieveException("Comparator must be explicitly declared in a require statement.");
+                if (!declaredComparators.contains(name)) {
+                    // TODO: replace with better exception
+                    throw new SieveException("Comparator must be explicitly declared in a require statement.");
+                }
             }
         }
     }
 
-    private void requirements(ASTstring node) throws LookupException {
+    private void requirements(ASTstring node) throws SieveException {
         final Object value = node.getValue();
         if (value != null && value instanceof String) {
             final String name = (String) value;
-            try {
-                commandManager.getCommand(name);
-            } catch (LookupException e) {
-                // TODO: catching is inefficient, should just check
-                testManager.getTest(name);
+            if (name.startsWith(COMPARATOR_PREFIX)) {
+                final String comparatorName = name.substring(COMPARATOR_PREFIX_LENGTH);
+                if (comparatorManager.isSupported(comparatorName)) {
+                    declaredComparators.add(comparatorName);
+                } else {
+//                  TODO: Replace with more finely grained exception
+                    throw new SieveException("Comparator " + comparatorName + " is not supported");
+                }
+            } else {
+                try {
+                    commandManager.getCommand(name);
+                } catch (LookupException e) {
+                    // TODO: catching is inefficient, should just check
+                    testManager.getTest(name);
+                }
             }
         }
     }

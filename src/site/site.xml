@@ -57,6 +57,8 @@
         href="http://tools.ietf.org/html/rfc5228" />
       <item name='RFC 4790 IAPCR'
         href='http://tools.ietf.org/html/rfc4790'/>
+      <item name='RFC 5173 Body Extension'
+        href='http://tools.ietf.org/html/rfc5173'/>
     </menu>
 
     <menu name='0.3 Release'>

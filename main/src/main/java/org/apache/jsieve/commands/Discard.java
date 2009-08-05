@@ -51,8 +51,9 @@ public class Discard extends AbstractActionCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
-        // TODO: check whether discard works without the line below
-        // mail.addAction(new ActionDiscard());
+        // Just cancels the implicit keep
+        // See http://tools.ietf.org/html/rfc5228#section-4.4
+        context.getCommandStateManager().setImplicitKeep(false);
         return null;
     }
 

@@ -112,7 +112,7 @@ public class Require extends AbstractPrologCommand {
      */
     protected void validateCommand(String name, SieveContext context)
             throws LookupException {
-        context.getCommand(name);
+        context.getCommandManager().getCommand(name);
     }
 
     /**
@@ -124,7 +124,7 @@ public class Require extends AbstractPrologCommand {
      */
     protected void validateTest(String name, SieveContext context)
             throws LookupException {
-        context.getTest(name);
+        context.getTestManager().getTest(name);
     }
 
     /**

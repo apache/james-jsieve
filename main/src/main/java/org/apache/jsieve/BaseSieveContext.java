@@ -20,8 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.exception.LookupException;
-import org.apache.jsieve.tests.ExecutableTest;
 
 /**
  * Bean based implementation of context.
@@ -59,6 +57,7 @@ public class BaseSieveContext extends SieveContext {
      * 
      * @return <code>ScriptCoordinate</code>, not null
      */
+    @Override
     public ScriptCoordinate getCoordinate() {
         return coordinate;
     }
@@ -69,6 +68,7 @@ public class BaseSieveContext extends SieveContext {
      * @param coordinate
      *            <code>ScriptCoordinate</code>, not null
      */
+    @Override
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;
         if (coordinate != null) {
@@ -76,26 +76,34 @@ public class BaseSieveContext extends SieveContext {
         }
     }
 
+    /**
+     * @see SieveContext#getCommandStateManager()
+     */
+    @Override
     public CommandStateManager getCommandStateManager() {
         return commandStateManager;
     }
 
+    /**
+     * @see SieveContext#getConditionManager()
+     */
+    @Override
     public ConditionManager getConditionManager() {
         return conditionManager;
     }
 
+    /**
+     * @see SieveContext#setConditionManager(ConditionManager)
+     */
+    @Override
     public void setConditionManager(ConditionManager conditionManager) {
         this.conditionManager = conditionManager;
     }
 
-    public ExecutableCommand getCommand(String name) throws LookupException {
-        return commandManager.getCommand(name);
-    }
-
-    public ExecutableTest getTest(String name) throws LookupException {
-        return testManager.getTest(name);
-    }
-
+    /**
+     * @see SieveContext#getLog()
+     */
+    @Override
     public Log getLog() {
         return log;
     }
@@ -107,4 +115,22 @@ public class BaseSieveContext extends SieveContext {
     public ComparatorManager getComparatorManager() {
         return comparatorManager;
     }
+
+    /**
+     * @see SieveContext#getCommandManager()
+     */
+    @Override
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    /**
+     * @see SieveContext#getTestManager()
+     */
+    @Override
+    public TestManager getTestManager() {
+        return testManager;
+    }
+    
+    
 }

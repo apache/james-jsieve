@@ -20,8 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.commons.logging.Log;
-import org.apache.jsieve.exception.LookupException;
-import org.apache.jsieve.tests.ExecutableTest;
 
 /**
  * Context for sieve operations.
@@ -62,17 +60,27 @@ public abstract class SieveContext {
      */
     public abstract void setConditionManager(final ConditionManager manager);
 
-    // TODO: consider whether API can be consolidated
-    public abstract ExecutableCommand getCommand(String name) throws LookupException;
-
+    /**
+     * Gets the command manager.
+     * @return command manager, not null
+     */
+    public abstract CommandManager getCommandManager();
+    
     /**
      * Gets the comparator manager.
      * @return not null
      */
     public abstract ComparatorManager getComparatorManager();
     
-    // TODO: consider whether API can be consolidated
-    public abstract ExecutableTest getTest(String name) throws LookupException;
+    /**
+     * Gets the test manager.
+     * @return test manager, not null
+     */
+    public abstract TestManager getTestManager();
 
+    /**
+     * Gets the log.
+     * @return log, not null
+     */
     public abstract Log getLog();
 }

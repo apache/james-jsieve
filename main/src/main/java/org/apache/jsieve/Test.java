@@ -62,7 +62,7 @@ public class Test implements Executable {
             log.debug(toString());
         }
         final String name = getName();
-        final ExecutableTest test = context.getTest(name);
+        final ExecutableTest test = context.getTestManager().getTest(name);
         return test.execute(mail, getArguments(), context);
     }
 

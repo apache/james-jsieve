@@ -44,13 +44,22 @@ public abstract class SieveContext {
      */
     public abstract void setCoordinate(ScriptCoordinate coordinate);
 
-    // TODO: simplify interface
+    /**
+     * Gets the command state manager.
+     * @return command state manage, not null
+     */
     public abstract CommandStateManager getCommandStateManager();
 
-    // TODO: simplify interface
+    /**
+     * Gets the condition manager.
+     * @return condition manager, not null
+     */
     public abstract ConditionManager getConditionManager();
 
-    // TODO: simplify interface
+    /**
+     * Sets the condition manager.
+     * @param manager not null
+     */
     public abstract void setConditionManager(final ConditionManager manager);
 
     // TODO: consider whether API can be consolidated

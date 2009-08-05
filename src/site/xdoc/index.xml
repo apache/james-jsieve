@@ -78,6 +78,10 @@
       </subsection>
     </section>
     <section name='Extensions Supported'>
+      <subsection name='Body Extension'>
+        <abbr title='Sieve Email Filtering: Body Extension'><a href='http://tools.ietf.org/html/rfc5173'>RFC 5173</a></abbr> describes 
+        an extension command that tests the body of an email for one or more strings.
+      </subsection>
       <subsection name='Sieve-In-Xml'>
           <p>
     <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04' rel='tag'>Sieve-in-xml</a> is an Internet Draft.

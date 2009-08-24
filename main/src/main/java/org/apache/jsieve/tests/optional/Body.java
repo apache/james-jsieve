@@ -33,8 +33,8 @@ import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.tests.AbstractTest;
 
 /**
- * This implements a single subset of the 'body' Sieve test as define here:
- * http://tools.ietf.org/html/draft-ietf-sieve-body-00
+ * Implementation of body extension defined in
+ * <a href='http://tools.ietf.org/html/rfc5173'>RFC5173</a>.
  */
 public class Body extends AbstractTest {
     private StringListArgument strings;

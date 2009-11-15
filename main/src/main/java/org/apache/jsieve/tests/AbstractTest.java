@@ -27,15 +27,6 @@ import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
- * Class | Interface Enter description here
- * 
- * Creation Date: 13-Jan-04
- * 
- * @author sbrewin
- * 
- * Copyright 2003, Synergy Systems Limited
- */
-/**
  * Abstract class AbstractTest defines a framework of common behavior for Sieve
  * Tests.
  */

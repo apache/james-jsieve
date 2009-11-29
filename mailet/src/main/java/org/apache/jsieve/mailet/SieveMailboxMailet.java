@@ -177,6 +177,7 @@ public class SieveMailboxMailet extends GenericMailet {
         this.quiet = quiet;
     }
     
+   
     /**
      * Is informational logging turned on? 
      * @return true when minimal logging is off,
@@ -317,7 +318,6 @@ public class SieveMailboxMailet extends GenericMailet {
     @SuppressWarnings("deprecation")
     public void storeMail(MailAddress sender, MailAddress recipient,
             Mail mail) throws MessagingException {
-        String username;
         if (recipient == null) {
             throw new IllegalArgumentException(
                     "Recipient for mail to be spooled cannot be null.");
@@ -326,16 +326,15 @@ public class SieveMailboxMailet extends GenericMailet {
             throw new IllegalArgumentException(
                     "Mail message to be spooled cannot be null.");
         }
-        // recipient.toString was used here (JD)
-        username = recipient.getUser();
         
-        sieveMessage(username, mail);
+        sieveMessage(recipient, mail);
  
     }
     
-    void sieveMessage(String username, Mail aMail) throws MessagingException {
+    void sieveMessage(MailAddress recpient, Mail aMail) throws MessagingException {
+    	String username = getUsername(recpient);
         // Evaluate the script against the mail
-        String relativeUri = "//" + username + "@" + "localhost/sieve"; 
+        String relativeUri = "//" + username +"/sieve"; 
         try
         {
             final InputStream ins = locator.get(relativeUri);
@@ -366,7 +365,7 @@ public class SieveMailboxMailet extends GenericMailet {
     }
     
     void storeMessageInbox(String username, Mail mail) throws MessagingException {
-        String url = "mailbox://" + username + "@localhost/";
+        String url = "mailbox://" + username + "/";
         poster.post(url, mail.getMessage());
     }
 
@@ -388,5 +387,15 @@ public class SieveMailboxMailet extends GenericMailet {
         this.quiet = getInitParameter("quiet", false);
         
         actionDispatcher = new ActionDispatcher();
+    }
+    
+    /**
+     * Return the username to use for sieve processing for the given MailAddress
+     * 
+     * @param m
+     * @return username
+     */
+    protected String getUsername(MailAddress m) {
+    	return m.getLocalPart() + "@localhost";
     }
 }

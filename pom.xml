@@ -30,7 +30,7 @@
   <parent>
     <groupId>org.apache.james</groupId>
     <artifactId>james-project</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5</version>
   </parent>
   <url>http://james.apache.org/jsieve/</url>
   <inceptionYear>2008</inceptionYear>

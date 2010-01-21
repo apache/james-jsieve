@@ -22,7 +22,6 @@
     <artifactId>jsieve-project</artifactId>
     <groupId>org.apache.james</groupId>
     <version>0.4-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.james</groupId>
@@ -82,17 +81,6 @@ JAMES project.
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/james/jsieve/trunk/</url>
   </scm>
-  
-  <repositories>
-  	<!-- enable central that is otherwise disabled by the parent pom. -->
-  	<repository>
-  		<id>central</id>
-  		<url>http://repo1.maven.org/maven2</url>
-  		<releases>
-  			<enabled>true</enabled>
-  		</releases>
-  	</repository>
-  </repositories>
 
   <dependencies>
     <dependency>

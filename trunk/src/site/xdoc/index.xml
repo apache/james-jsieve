@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one   
+  or more contributor license agreements.  See the NOTICE file 
+  distributed with this work for additional information        
+  regarding copyright ownership.  The ASF licenses this file   
+  to you under the Apache License, Version 2.0 (the            
+  "License"); you may not use this file except in compliance   
+  with the License.  You may obtain a copy of the License at   
+  
+  http://www.apache.org/licenses/LICENSE-2.0                 
+  
+  Unless required by applicable law or agreed to in writing,   
+  software distributed under the License is distributed on an  
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       
+  KIND, either express or implied.  See the License for the    
+  specific language governing permissions and limitations      
+  under the License.  
+-->
+<document>
+
+  <properties>
+    <title>Overview</title>
+    <author email="server-dev@james.apache.org">jSieve Project</author>
+  </properties>
+
+  <body>
+    <section name="What is jSieve?">
+      <p>
+        jSieve is a Java implementation of the Sieve mail filtering
+        language defined by
+        <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>
+        . jSieve is implemented as a language processor that can be
+        plugged into any internet mail application to add Sieve support.
+      </p>
+      <p>
+        jSieve is a subproject of
+        <a href='http://james.apache.org'>Apache JAMES</a>
+        . All who are interested in developing jSieve and JAMES will be
+        warmly welcomed on the
+        <a href='mail-lists.html'>mailing lists</a>
+        .
+      </p>
+      <p>jSieve consists of three products:</p>
+      <ol>
+        <li>
+          <a href='main/index.html'>Apache JSieve</a>
+          is a Sieve library coded in Java.
+        </li>
+        <li>
+          <a href='mailet/index.html'>Apache JSieve Mailet</a>
+          is a
+          <a href='http://james.apache.org/mailet'>Mailet</a>
+          which builds on the JSieve library to create a comprehensive
+          server side Sieve filtering system.
+        </li>
+        <li>
+          <a href='util/index.html'>Apache JSieve Utilities</a>
+          contains utility classes helpful when using Sieve but not
+          considered sufficiently core to be included in the main
+          library.
+        </li>
+      </ol>
+      <subsection name='What is Sieve?'>
+        <p>
+          Sieve is an extensible mail filtering language. It's limited
+          expressiveness (no loops or variables, no tests with side
+          effects) allows user created scripts to be run safely on email
+          servers. Sieve is targeted at the final delivery phase (where
+          an incoming email is transferred to a user's mailbox).
+        </p>
+        <p>
+          Sieve scripts are composed of commands. Control commands
+          manage the execution of the script. Test commands define
+          side-effect free criteria. Action commands are mail operations
+          to be performed.
+        </p>
+      </subsection>
+    </section>
+    <section name='Extensions Supported'>
+      <subsection name='Body Extension'>
+        <abbr title='Sieve Email Filtering: Body Extension'><a href='http://tools.ietf.org/html/rfc5173'>RFC 5173</a></abbr> describes 
+        an extension command that tests the body of an email for one or more strings.
+      </subsection>
+      <subsection name='Sieve-In-Xml'>
+          <p>
+    <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04' rel='tag'>Sieve-in-xml</a> is an Internet Draft.
+    It describes a method for converting Sieve scripts to and from XML fragments.
+    <a href='util/index.html'>JSieve Utilities</a> contains an experimental preview of a subset of this draft
+    to allow early feedback. <a href='util/index.html#Sieve In Xml'>More...</a>
+        </p>
+      </subsection>
+    </section>
+    <section name="News">
+        <h4>Jun/2008 - jSieve-0.3 released</h4>
+        <p>
+          The Apache JAMES team is happy to announce the availability of
+          <a href='http://james.apache.org/download.cgi#Apache%20JSieve'>
+            Apache jSieve 0.3
+          </a>
+          . This is the first modular release including a filtering 
+          <a href='http://james.apache.org/mailet'>mailet</a> as well as many fixes 
+          and improvements. See the 
+          <a href='http://james.apache.org/jsieve/0.3/release-notes.html'>release notes</a> 
+          for more details.
+        </p>
+        <h4>Aug/2008 - jSieve-0.2 released</h4>
+        <p>
+          The Apache JAMES team is happy to announce the availability of
+          <a href='http://james.apache.org/download.cgi#jsieve'>
+            Apache jSieve 0.2
+          </a>
+          . This first public release is a major milestone for JSieve.
+        </p>
+    </section>
+  </body>
+</document>

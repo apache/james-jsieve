@@ -1,0 +1,54 @@
+#############################################################################
+# BUILDING JSIEVE WITH MAVEN
+#############################################################################
+
+1) Install maven 2.0.9
+
+2) Add maven to your path and make sure you also have a JAVA_HOME environment
+   variable to point a java 1.4+ virtual machine.
+
+3) Run "mvn package"
+
+
+#############################################################################
+# BUILDING JSIEVE WITH ANT
+#############################################################################
+
+The source trunk for JSIEVE no longer includes Ant, so in order to
+build JSIEVE, you will need to install Ant as well as acquire JSIEVE
+source from subversion or a source tarball.
+
+JSIEVE uses JavaCC during the build process to generate the script parser.
+Unfortunately, though the latest codebase is now available under the BSD
+license there is (at this time) no official open sourced release. So
+to build JSIEVE download the JavaCC 4.0 release from 
+https://javacc.dev.java.net/. Extract the javacc.jar and copy into the
+root of the JSIEVE directory. Rename this to javacc-4.0.jar.
+
+You also have to download activation-1.1.1.jar and mail-1.4.1.jar files to 
+the root folder in order to build/run unit tests.
+
+Steps:
+
+1) Install Ant (v1.6.5 as of the time of this writing)
+
+2) Add Ant to your path.  For me, I do the following:
+   $ tar zxvf apache-ant-1.6.5-bin.tar.gz
+   $ mv apache-ant-1.6.5 /usr/local
+   $ ln -sf /usr/local/apache-ant-1.6.5 /usr/local/ant
+   $ ln -sf /usr/local/ant/bin/ant /usr/local/bin/ant
+
+3) Change any JSIEVE-related build scripts that you might have to call
+    Ant directly, e.g.:  ./build.sh <target> ==> ant <target>
+
+That's it.  Please contact general@james.apache.org if you have any
+problems.
+
+##############################################################################
+# SET UP JSIEVE INSIDE ECLIPSE
+##############################################################################
+
+You can use maven facility to setup an eclipse project:
+mvn eclipse:eclipse
+
+You can also use q4e plugin from eclipse.

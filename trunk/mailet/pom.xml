@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+  
+      http://www.apache.org/licenses/LICENSE-2.0
+  
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.    
+  -->
+  <parent>
+    <artifactId>jsieve-project</artifactId>
+    <groupId>org.apache.james</groupId>
+    <version>0.4</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.james</groupId>
+  <artifactId>apache-jsieve-mailet</artifactId>
+  <name>Apache JAMES jSieve Mailet</name>
+  <version>0.4</version>
+  <packaging>jar</packaging>
+  <description>
+Apache jSieve is a server side mail filtering system 
+implementing RFC3028. Apache jSieve is developed by the 
+JAMES project.
+  </description>
+  <url>http://james.apache.org/jsieve</url>
+  <inceptionYear>2004</inceptionYear>
+
+  <properties>
+    <!--
+    The website is committed to subversion. This property can be overriden
+    to upload the site to a local staging location.
+    For example, adding the following to ~/.m2/settings.xml will upload
+    to localhost:
+    
+      <profiles>
+        <profile>
+           <id>main</id>
+           <activation>
+              <activeByDefault>true</activeByDefault>
+           </activation>
+           <properties>
+              <james.www>scp://localhost/www</james.www>
+              <james.www.id>localhost</james.www.id>
+      ...
+    -->
+    <!-- General location for site stage -->
+    <james.www>scp://people.apache.org/www/james.apache.org/</james.www>
+    <!-- Project specific location, allowing specific override -->
+    <james.jsieve.www>${james.www}/jsieve/</james.jsieve.www>
+    <!-- Overridding this value allows single set of loopback settings to be maintained -->
+    <james.www.id>jsieve-website</james.www.id>
+  </properties>
+
+  <distributionManagement>
+    <site>
+      <id>${james.www.id}</id>
+      <url>${james.jsieve.www}/mailet</url>
+    </site>
+  </distributionManagement>
+
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://issues.apache.org/jira/browse/JSIEVE</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/tags/jsieve-project-0.4</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/tags/jsieve-project-0.4</developerConnection>
+    <url>http://svn.apache.org/viewvc/james/jsieve/tags/jsieve-project-0.4</url>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-jsieve</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mailet</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mailet-base</artifactId>
+    </dependency>
+      
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mime4j</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>jmock</groupId>
+      <artifactId>jmock</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    
+    <plugins>     
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+      	<groupId>org.apache.felix</groupId>
+      	<artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-doap-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.james</groupId>
+        <artifactId>maven-mailetdocs-plugin</artifactId>
+        <version>0.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin> 
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <targetJdk>1.5</targetJdk>
+          <rulesets>
+            <ruleset>/rulesets/basic.xml</ruleset>
+            <ruleset>/rulesets/controversial.xml</ruleset>
+          </rulesets>
+          <format>xml</format>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-7</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+        <version>1.0-alpha-3</version>
+        <configuration>
+          <excludes>
+            <exclude>NOTICE.base</exclude>
+            <exclude>LICENSE.apache</exclude>
+            <exclude>release.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Apache James User</name>
+      <subscribe>server-user-subscribe@james.apache.org</subscribe>
+      <unsubscribe>server-user-unsubscribe@james.apache.org</unsubscribe>
+      <post>server-user@james.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/james-server-user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Apache James Developer</name>
+      <subscribe>server-dev-subscribe@james.apache.org</subscribe>
+      <unsubscribe>server-dev-unsubscribe@james.apache.org</unsubscribe>
+      <post>server-dev@james.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/james-server-dev/</archive>
+    </mailingList>
+  </mailingLists>
+
+</project>

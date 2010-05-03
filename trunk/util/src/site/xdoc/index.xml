@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one   
+  or more contributor license agreements.  See the NOTICE file 
+  distributed with this work for additional information        
+  regarding copyright ownership.  The ASF licenses this file   
+  to you under the Apache License, Version 2.0 (the            
+  "License"); you may not use this file except in compliance   
+  with the License.  You may obtain a copy of the License at   
+                                                               
+    http://www.apache.org/licenses/LICENSE-2.0                 
+                                                               
+  Unless required by applicable law or agreed to in writing,   
+  software distributed under the License is distributed on an  
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       
+  KIND, either express or implied.  See the License for the    
+  specific language governing permissions and limitations      
+  under the License.  
+-->
+<document>
+
+ <properties>
+  <title>Overview</title>
+  <author email="jsieve-dev@jakarta.apache.org">jSieve Project</author>
+ </properties>
+
+<body>
+<section name="Introduction">
+<p>
+jSieve is a Java implementation of the Sieve mail filtering language defined by 
+<a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>. jSieve is implemented 
+as a language processor that can be plugged into any internet mail application to add 
+Sieve support.
+</p>
+<p>
+JSieve Utilities collects lightweight frameworks and utilities useful when
+working with Sieve (in general) and 
+<a href='http://james.apache.org/jsieve'>JSieve</a> (in particular).
+</p>
+<subsection name='What is Sieve?'>
+<p>
+Sieve is an extensible mail filtering language. It's limited expressiveness (no loops
+or variables, no tests with side effects) allows user created scripts to be run 
+safely on email servers. Sieve is targeted at the final delivery phase 
+(where an incoming email is transferred to a user's mailbox).
+</p>
+<p>
+Sieve scripts are composed of commands. Control commands manage the execution of the script.
+Test commands define side-effect free criteria. 
+Action commands are mail operations to be performed.
+</p>
+</subsection>
+</section>
+<section name='Highlights'>
+  <subsection name='Script Checker'>
+    <p>
+      Checks Sieve scripts. Includes monitoring controlled execution of a script against a message.
+    </p>
+  </subsection>
+  <subsection name='Sieve In Xml'>
+    <p>
+    <a href='http://tools.ietf.org/html/draft-freed-sieve-in-xml-04' rel='tag'>Sieve-in-xml</a> is an 
+    <a href='http://dbpedia.org/resource/Internet_Draft' rel='tag'>Internet Draft</a>.
+    It describes a method to convert Sieve scripts to and from an XML format suitable
+    for editing by a UI. A typical use case is as the payload for a web based editor backed by web services.
+    </p><p>
+    <code>OutputUtils</code> contains an experimental preview of a subset of this draft. It allows a 
+    JSieve node tree to be output as sieve-in-xml. Full support is planned but feedback is 
+    encouraged, through the <a href='http://james.apache.org/mail.html'>mailing lists</a> 
+    or the <a href='http://issues.apache.org/jira/browse/JSIEVE'>issue tracker</a>.
+    </p>
+  </subsection>
+</section>
+</body>
+</document>

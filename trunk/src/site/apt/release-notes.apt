@@ -1,0 +1,107 @@
+ ------
+ Release Notes
+ ------
+ Apache JAMES Project Team
+ ------
+ 2009-04-09
+ ------
+  
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+Release Notes
+
+Apache JSieve
+
+ jSieve is a Java implementation of the Sieve mail filtering language defined by 
+ RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
+ internet mail application to add Sieve support.
+
+*Comments, Questions and Issues
+
+ jSieve is a sub-project of Apache James. Please direct your comments and questions to 
+ the relevant James list.
+
+ To report issues, such as bugs, go to 
+ http://issues.apache.org/jira/browse/JSIEVE
+ As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
+ helpful for bug reports to be accompanied by an illustrative jUnit test case.
+
+*Licensing and legal issues
+
+ For legal and licensing issues, please look in the legal section of
+ the documentation or read the LICENSE and NOTICE files.
+
+Version 0.3
+ 
+ This release is the first to include mailet and utility modules, in addition to the core parsing
+ library. The configuration API has changed significantly to replace magic singletons with POJOs
+ suitable for IoC. The default configuration mechanism has been retained so though calls have
+ changed, existing configurations should still be compatible.
+ 
+ Utilities include node serializers to xml and sieve script. The mailet module provides Sieve
+ in the James 3 codebase.
+ 
+*Changes   
+
+**Sub-tasks Completed
+
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-27}JSIEVE-27}}] -         Refactor ComparatorManager
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-29}JSIEVE-29}}] -         Refactor ConfigurationManager
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-32}JSIEVE-32}}] -         Refactor TestManager
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-37}JSIEVE-37}}] -         Push main source down a level
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-38}JSIEVE-38}}] -         Modular Ant Build
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-44}JSIEVE-44}}] -         Create Check Module
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-45}JSIEVE-45}}] -         Extract Reusable Ant Macros
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-46}JSIEVE-46}}] -         Unified Distribution
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-48}JSIEVE-48}}] -         Release Quality Maven Build
+    
+** Bugs Fixed
+
+ * [{{{href='https://issues.apache.org/jira/browse/JSIEVE-49}JSIEVE-49}}] -         CPU spins when :matches expression contains &quot;*************&quot;
+
+** Improvements Made
+
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-47}JSIEVE-47}}] -         Access to script comments
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-52}JSIEVE-52}}] -         Check Support For Numeric Quantifiers
+    
+** New Features Added
+
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-43}JSIEVE-43}}] -         Add API for generating a Sieve script from a parse tree 
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-50}JSIEVE-50}}] -         Sieve-In-XML (Experimental Preview)
+ 
+                
+** Tasks Completed
+
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-16}JSIEVE-16}}] -         Singletons -> IoC
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-24}JSIEVE-24}}] -         Include build time libraries (javacc, javamail, activation) in the source distribution
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-33}JSIEVE-33}}] -         Remove .junit. package name from tests.
+ 
+ * [{{{https://issues.apache.org/jira/browse/JSIEVE-34}JSIEVE-34}}] -         make jsieve a multimodule project
+

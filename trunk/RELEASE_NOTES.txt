@@ -1,0 +1,65 @@
+                        Release Notes
+                        -------------
+
+Apache JSieve is a Java implementation of the Sieve mail filtering language defined by 
+RFC 3028. jSieve is implemented as a langauge processor that can be plugged into any
+internet mail application to add Sieve support.
+
+Comments, Questions and Issues
+------------------------------
+jSieve is a sub-project of Apache James. Please direct your comments and questions to 
+the relevant James list.
+
+To report issues, such as bugs, go to 
+http://issues.apache.org/jira/browse/JSIEVE
+As jSieve comes with a fairly extensive suite of jUnit Tests, it would be most 
+helpful for bug reports to be accompanied by an illustrative jUnit test case.
+
+Licensing and legal issues
+--------------------------
+For legal and licensing issues, please look in the legal section of
+the documentation or read the LICENSE and NOTICE files.
+
+Version 0.3
+----------- 
+This release is the first to include mailet and utility modules, in addition to the core parsing
+library. The configuration API has changed significantly to replace magic singletons with POJOs
+suitable for IoC. The default configuration mechanism has been retained so though calls have
+changed, existing configurations should still be compatible.
+ 
+Utilities include node serializers to xml and sieve script. The mailet module provides Sieve
+in the James 3 codebase.
+
+Java 1.5 is now the minimum version required.
+ 
+Changes   
+-------
+Sub-tasks Completed
+ * https://issues.apache.org/jira/browse/JSIEVE-27 - Refactor ComparatorManager
+ * https://issues.apache.org/jira/browse/JSIEVE-29 - Refactor ConfigurationManager
+ * https://issues.apache.org/jira/browse/JSIEVE-32 - Refactor TestManager
+ * https://issues.apache.org/jira/browse/JSIEVE-37 - Push main source down a level
+ * https://issues.apache.org/jira/browse/JSIEVE-38 - Modular Ant Build
+ * https://issues.apache.org/jira/browse/JSIEVE-44 - Create Check Module
+ * https://issues.apache.org/jira/browse/JSIEVE-45 - Extract Reusable Ant Macros
+ * https://issues.apache.org/jira/browse/JSIEVE-46 - Unified Distribution
+ * https://issues.apache.org/jira/browse/JSIEVE-48 - Release Quality Maven Build
+    
+Bugs Fixed
+ * https://issues.apache.org/jira/browse/JSIEVE-49 - CPU spins when :matches expression 
+                                                     contains &quot;*************&quot;
+                                                     
+Improvements Made
+ * https://issues.apache.org/jira/browse/JSIEVE-47 - Access to script comments
+ * https://issues.apache.org/jira/browse/JSIEVE-52 - Check Support For Numeric Quantifiers
+    
+New Features Added
+ * https://issues.apache.org/jira/browse/JSIEVE-43 - Add API for generating a Sieve script from a parse tree 
+ * https://issues.apache.org/jira/browse/JSIEVE-50 - Sieve-In-XML (Experimental Preview)
+                
+Tasks Completed
+ * https://issues.apache.org/jira/browse/JSIEVE-16 - Singletons -> IoC
+ * https://issues.apache.org/jira/browse/JSIEVE-24 - Include build time libraries (javacc, 
+                                                     javamail, activation) in the source distribution
+ * https://issues.apache.org/jira/browse/JSIEVE-33 - Remove .junit. package name from tests.
+ * https://issues.apache.org/jira/browse/JSIEVE-34 - make jsieve a multimodule project

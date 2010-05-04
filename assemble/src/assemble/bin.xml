@@ -31,8 +31,8 @@
       <directory>${project.basedir}/..</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>LICENSE.*</include>
-        <include>NOTICE.*</include>
+        <include>LICENSE.txt</include>
+        <include>NOTICE.txt</include>
         <include>RELEASE_NOTES.txt</include>
       </includes>
     </fileSet>
@@ -61,17 +61,19 @@
       <directory>${project.basedir}/../target/site/apidocs</directory>
       <outputDirectory>/apidocs</outputDirectory>
     </fileSet>
-     <file>
-      <source>LICENSE.mail</source>
+  </fileSets>
+  <files>
+    <file>
+      <source>../LICENSE.mail</source>
       <outputDirectory>lib</outputDirectory>
       <destName>mail.LICENSE</destName>
     </file>
     <file>
-      <source>LICENSE.activation</source>
+      <source>../LICENSE.activation</source>
       <outputDirectory>lib</outputDirectory>
       <destName>activation.LICENSE</destName>
     </file>
-  </fileSets>
+  </files>
   <dependencySets>
     <dependencySet>
       <outputDirectory>/lib/</outputDirectory>

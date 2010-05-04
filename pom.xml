@@ -36,6 +36,9 @@
   <inceptionYear>2008</inceptionYear>
   
   <properties>
+    <!-- Override the source descriptor -->
+    <sourceReleaseAssemblyDescriptor>src</sourceReleaseAssemblyDescriptor>
+    
     <!--
     The website is committed to subversion. This property can be overriden
     to upload the site to a local staging location.
@@ -59,6 +62,7 @@
     <james.jsieve.www>${james.www}/jsieve/</james.jsieve.www>
     <!-- Overridding this value allows single set of loopback settings to be maintained -->
     <james.www.id>jsieve-website</james.www.id>
+    
   </properties>
   
   

@@ -31,6 +31,7 @@
       <directory>${project.basedir}/..</directory>
       <outputDirectory></outputDirectory>
       <excludes>
+        <exclude>**/bin/**</exclude>     
         <exclude>**/target/**</exclude>
         <exclude>.*</exclude>
         <exclude>.*/**</exclude>

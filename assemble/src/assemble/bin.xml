@@ -61,20 +61,16 @@
       <directory>${project.basedir}/../target/site/apidocs</directory>
       <outputDirectory>/apidocs</outputDirectory>
     </fileSet>
-    <fileSet>
-      <directory>../stage/javax.activation/jars/</directory>
-      <outputDirectory>/lib</outputDirectory>
-      <includes>
-        <include>activation.LICENSE</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../stage/javax.mail/jars/</directory>
-      <outputDirectory>/lib</outputDirectory>
-      <includes>
-        <include>mail.LICENSE</include>
-      </includes>
-    </fileSet>
+     <file>
+      <source>LICENSE.mail</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>mail.LICENSE</destName>
+    </file>
+    <file>
+      <source>LICENSE.activation</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>activation.LICENSE</destName>
+    </file>
   </fileSets>
   <dependencySets>
     <dependencySet>

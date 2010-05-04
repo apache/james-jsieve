@@ -20,6 +20,35 @@ Licensing and legal issues
 For legal and licensing issues, please look in the legal section of
 the documentation or read the LICENSE and NOTICE files.
 
+Version 0.4
+----------- 
+
+Changes
+---------
+Sub-tasks Completed
+ * https://issues.apache.org/jira/browse/JSIEVE-59 -  Generify MailAdapter API
+ * https://issues.apache.org/jira/browse/JSIEVE-66 - Ensure SieveFactory is thread safe by default
+ * https://issues.apache.org/jira/browse/JSIEVE-72 - Validate Extension Comparators 
+ 
+ Bugs Fixed
+ * https://issues.apache.org/jira/browse/JSIEVE-57 - Parse failure with multi-line form when the line begins with a dot
+ 
+ Improvements Made
+ * https://issues.apache.org/jira/browse/JSIEVE-35 - Revise MailAdapter.getContent() 
+ * https://issues.apache.org/jira/browse/JSIEVE-54 - Remove Ant Build
+ * https://issues.apache.org/jira/browse/JSIEVE-55 - Remove Staging Directory
+ * https://issues.apache.org/jira/browse/JSIEVE-56 - Provide a way to determine if a keep action is implicit or explicit
+ * https://issues.apache.org/jira/browse/JSIEVE-58 - Clarify SieveFactory thread safety
+ * https://issues.apache.org/jira/browse/JSIEVE-69 - Improve Test Coverage Of Ascii Numeric Test
+ 
+ New Features Added
+ * https://issues.apache.org/jira/browse/JSIEVE-71 - Add Support For i;ascii-numeric Comparator
+ 
+ Tasks Completed
+ * https://issues.apache.org/jira/browse/JSIEVE-53 - Generify
+ * https://issues.apache.org/jira/browse/JSIEVE-63 - Switch To apache-release Profile
+ * https://issues.apache.org/jira/browse/JSIEVE-68 - Ensure Mailet is thread safe
+
 Version 0.3
 ----------- 
 This release is the first to include mailet and utility modules, in addition to the core parsing

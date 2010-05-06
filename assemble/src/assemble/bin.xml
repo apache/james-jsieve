@@ -31,8 +31,8 @@
       <directory>${project.basedir}/..</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>LICENSE.*</include>
-        <include>NOTICE.*</include>
+        <include>LICENSE.txt</include>
+        <include>NOTICE.txt</include>
         <include>RELEASE_NOTES.txt</include>
       </includes>
     </fileSet>
@@ -61,21 +61,39 @@
       <directory>${project.basedir}/../target/site/apidocs</directory>
       <outputDirectory>/apidocs</outputDirectory>
     </fileSet>
-    <fileSet>
-      <directory>../stage/javax.activation/jars/</directory>
-      <outputDirectory>/lib</outputDirectory>
-      <includes>
-        <include>activation.LICENSE</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../stage/javax.mail/jars/</directory>
-      <outputDirectory>/lib</outputDirectory>
-      <includes>
-        <include>mail.LICENSE</include>
-      </includes>
-    </fileSet>
   </fileSets>
+  <files>
+    <file>
+      <source>${project.basedir}/../LICENSE.mail</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>mail.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.activation</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>activation.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mailet.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mailet-base.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mime4j.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>commons-logging.LICENSE</destName>
+    </file>
+  </files>
   <dependencySets>
     <dependencySet>
       <outputDirectory>/lib/</outputDirectory>

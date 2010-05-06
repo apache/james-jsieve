@@ -64,14 +64,34 @@
   </fileSets>
   <files>
     <file>
-      <source>../LICENSE.mail</source>
+      <source>${project.basedir}/../LICENSE.mail</source>
       <outputDirectory>lib</outputDirectory>
       <destName>mail.LICENSE</destName>
     </file>
     <file>
-      <source>../LICENSE.activation</source>
+      <source>${project.basedir}/../LICENSE.activation</source>
       <outputDirectory>lib</outputDirectory>
       <destName>activation.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mailet.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mailet-base.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>apache-mime4j.LICENSE</destName>
+    </file>
+    <file>
+      <source>${project.basedir}/../LICENSE.txt</source>
+      <outputDirectory>lib</outputDirectory>
+      <destName>commons-logging.LICENSE</destName>
     </file>
   </files>
   <dependencySets>

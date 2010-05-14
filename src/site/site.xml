@@ -60,10 +60,5 @@
       <item name='RFC 5173 Body Extension'
         href='http://tools.ietf.org/html/rfc5173'/>
     </menu>
-
-    <menu name='0.3 Release'>
-      <item name='Release Notes' href='0.3/release-notes.html'/>
-      <item name='Documentation' href='0.3/index.html'/>
-    </menu>
   </body>
 </project>

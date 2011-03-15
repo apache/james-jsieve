@@ -18,17 +18,6 @@
   under the License.    
 -->
 <project name="jSieve">
-  <bannerLeft>
-    <name>JAMES jSieve</name>
-    <src>images/james-jsieve-logo.gif</src>
-    <href>http://james.apache.org/</href>
-  </bannerLeft>
-
-  <bannerRight>
-    <name>The Apache Software Foundation</name>
-    <src>images/asf-logo-reduced.gif</src>
-    <href>http://www.apache.org/index.html</href>
-  </bannerRight> 
 
   <body>
 
@@ -36,13 +25,14 @@
       <item name="Overview" href="index.html"/>
       <item name="Sieve Features" href="features.html"/>
       <item name="Getting Started" href="start.html"/>
+      <item
+        name="Technical Reports"
+        href="https://builds.apache.org/hudson/view/G-L/view/James/job/jsieve-trunk/site/main/index.html" />
       <item 
         name="DOAP" 
         href="doap_apache-jsieve.rdf" 
         img='http://www.w3.org/RDF/icons/rdf_metadata_button.32'/>
     </menu>
-    
-    <menu ref="reports" />
     
   </body>
 </project>

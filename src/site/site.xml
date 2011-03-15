@@ -18,23 +18,25 @@
   under the License.    
 -->
 <project name="jSieve">
-  <bannerLeft>
-    <name>JAMES jSieve</name>
-    <src>images/james-jsieve-logo.gif</src>
-    <href>http://james.apache.org/</href>
-  </bannerLeft>
-
-  <bannerRight>
-    <name>The Apache Software Foundation</name>
-    <src>images/asf-logo-reduced.gif</src>
-    <href>http://www.apache.org/index.html</href>
-  </bannerRight>
 
   <skin>
     <groupId>org.apache.james</groupId>
     <artifactId>maven-skin</artifactId>
-    <version>1.2</version>
+    <version>1.6-SNAPSHOT</version>
   </skin>
+
+  <bannerLeft>
+    <name>JAMES jSieve</name>
+    <src>images/james-jsieve-logo.gif</src>
+    <href>http://james.apache.org/</href>
+    <alt>james-jsieve-logo.gif</alt>
+  </bannerLeft>
+
+  <bannerRight>
+    <name>The Apache Software Foundation</name>
+    <src>/images/logos/asf-logo-reduced.gif</src>
+    <href>http://www.apache.org/index.html</href>
+  </bannerRight>
 
   <body>
     <menu name="jSieve">
@@ -44,6 +46,9 @@
       <item name="Changes" href="http://james.apache.org/jsieve/jira-report.html" />
       <item name="Release Notes" href="http://james.apache.org/jsieve/release-notes.html" />
       <item name="JavaDocs" href="http://james.apache.org/jsieve/apidocs/index.html" />
+      <item
+        name="Technical Reports"
+        href="https://builds.apache.org/hudson/view/G-L/view/James/job/jsieve-trunk/site/index.html" />
     </menu>
 
     <menu name='Specifications' inherit='bottom'>

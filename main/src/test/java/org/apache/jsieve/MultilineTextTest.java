@@ -37,7 +37,7 @@ public class MultilineTextTest extends TestCase {
      */
     public void testRejectMultilineMessage() throws Exception {
         String message = "This is not a love song";
-        String script = "reject text:\n" + message + "\n.\n;";
+        String script = "reject text:\r\n" + message + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(message, rejection.getMessage());
     }
@@ -48,7 +48,7 @@ public class MultilineTextTest extends TestCase {
      */
     public void testRejectMultilineMessageWithWhitespace() throws Exception {
         String message = "This is not a love song";
-        String script = "reject text: \t \t \n" + message + "\n.\n;";
+        String script = "reject text: \t \t \r\n" + message + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(message, rejection.getMessage());
     }    
@@ -59,7 +59,7 @@ public class MultilineTextTest extends TestCase {
      */
     public void testRejectMultilineMessageWithDotsMidline() throws Exception {
         String message = "This is not.....a love song";
-        String script = "reject text:\n" + message + "\n.\n;";
+        String script = "reject text:\r\n" + message + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(message, rejection.getMessage());
     }    
@@ -70,7 +70,7 @@ public class MultilineTextTest extends TestCase {
     public void testRejectMultilineMessageWithDotStuffing() throws Exception {
         String lineOne = "This is not\n";
         String lineTwo = ".A Love Story";
-        String script = "reject text:\n" + lineOne + '.' + lineTwo + "\n.\n;";
+        String script = "reject text:\r\n" + lineOne + '.' + lineTwo + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(lineOne + lineTwo, rejection.getMessage());
     }
@@ -81,7 +81,7 @@ public class MultilineTextTest extends TestCase {
     public void testRejectMultilineMessageWithMissedDotStuffing() throws Exception {
         String lineOne = "This is not\n";
         String lineTwo = ".A Love Story";
-        String script = "reject text:\n" + lineOne + lineTwo + "\n.\n;";
+        String script = "reject text:\r\n" + lineOne + lineTwo + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(lineOne + lineTwo, rejection.getMessage());
     }
@@ -93,7 +93,7 @@ public class MultilineTextTest extends TestCase {
         String lineOne = "This is line 1.\n";
         String lineTwo = "This is line 2.\n";
         String lineThree = "........ This is line 3.\n";
-        String script = "reject text:\n" + lineOne + lineTwo + '.' + lineThree + "\n.\n;";
+        String script = "reject text:\r\n" + lineOne + lineTwo + '.' + lineThree + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(lineOne + lineTwo + lineThree, rejection.getMessage());
     }
@@ -107,7 +107,7 @@ public class MultilineTextTest extends TestCase {
         String lineThree = "........ This is line 3.\n";
         String lineFour = ".\n";
         String lineFive = ".\n";
-        String script = "reject text:\n" + lineOne + lineTwo + '.' + lineThree + '.' + lineFour + '.' + lineFive + "\n.\n;";
+        String script = "reject text:\r\n" + lineOne + lineTwo + '.' + lineThree + '.' + lineFour + '.' + lineFive + "\r\n.\r\n;";
         ActionReject rejection = runRejectScript(script);        
         assertEquals(lineOne + lineTwo + lineThree + lineFour + lineFive, rejection.getMessage());
     }

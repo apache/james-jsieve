@@ -138,29 +138,33 @@ TOKEN : /* LITERALS */
   <#MULTI_LINE_START: 
       ("text:")
       ([" ", "\t"])*
-      (<HASH_COMMENT>|<NEWLINE>)
+      (<HASH_COMMENT>|<CRLF>)
   >
 |
   <#MULTI_LINE_END:
-      ("." <NEWLINE>)
+      ("." <CRLF>)
   >              
+|
+  <#CRLF:
+      ("\r\n")
+  >
 |
   <#NEWLINE:
       ("\n"|"\r"|"\r\n")
   >
-|                           
+|
 // multi-line-literal  = [CHAR-NOT-DOT *CHAR_NOT_NEWLINE] NEWLINE 
   < #MULTI_LINE_LITERAL:
       (<CHAR_NOT_DOT> (<CHAR_NOT_NEWLINE>)*)?
       <NEWLINE>
   >  
 |
-  < #CHAR_NOT_DOT: 
-      (~["."])
+  < #CHAR_NOT_DOT:
+      (~[".","\n","\r"])
   >
 |
   < #CHAR_NOT_NEWLINE: 
-      (~["\n"] | ("\r" ~["\n"]))
+      (~["\n","\r"])
   >   
 |
 // multi-line-dotstuff = "." 1*CHAR-NOT-CRLF CRLF
@@ -267,7 +271,9 @@ void string() :
       while (builder.length()>0 && builder.charAt(0) != '\n') {
       	 builder.deleteCharAt(0);
       }
-      // remove suffixing newline-dot-newline
+      // remove suffixing CRLF-dot-CRLF
+      builder.deleteCharAt(builder.length() - 1);
+      builder.deleteCharAt(builder.length() - 1);
       builder.deleteCharAt(builder.length() - 1);
       builder.deleteCharAt(builder.length() - 1);
       builder.deleteCharAt(builder.length() - 1);

@@ -329,11 +329,11 @@ public class HeaderTest extends TestCase {
      */
     public void testSpecialCharsEscapingInMatch() {
         boolean isTestPassed = false;
-        String script = "if header :matches \"X-Caffeine\" \"my,\\\\,?,\\?,\\\\?,*,\\*,\\\\*,pattern\" {throwTestException;}";
+        String script = "if header :matches \"X-Caffeine\" \"my,\\\\,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine",
-                    "my,\\,x,x,?,foo,bar,*,pattern");
+                    "my,\\,x,?,foo,*,pattern");
             JUnitUtils.interpret(mail, script);
         } catch (MessagingException e) {
         } catch (ThrowTestException.TestException e) {
@@ -349,11 +349,11 @@ public class HeaderTest extends TestCase {
      */
     public void testSpecialCharsEscapingInMatchFalse() {
         boolean isTestPassed = false;
-        String script = "if header :matches \"X-Caffeine\" \"my,?,\\?,\\\\?,*,\\*,\\\\*,pattern\" {throwTestException;}";
+        String script = "if header :matches \"X-Caffeine\" \"my,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine",
-                    "my,x,x,q,foo,bar,*,pattern");
+                    "my,x,q,foo,*,pattern");
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
         } catch (MessagingException e) {

@@ -100,7 +100,7 @@ public class SieveParserVisitorImplQuoteTest extends TestCase {
 
     public void testVisitASTstringObjectMultiSlashQuoted() throws Exception {
 
-        node = stringNode("\"v\\\\al\\\\u\\e\\\\\"");
+        node = stringNode("\"v\\\\al\\\\ue\\\\\"");
         visitor.visit(node, data);
         assertEquals("Data value added after quotes stripped", 1, data.size());
         assertEquals("Data value added after quotes stripped", "v\\al\\ue\\",

@@ -332,7 +332,7 @@
                     <head>WARNING</head>
                   </tag>
                 </tags>
-                <source>1.5</source>
+                <source>${target.jdk}</source>
               </configuration>
               <reportSets>
                 <reportSet>
@@ -380,6 +380,42 @@
             </plugin>
             -->
           </reportPlugins>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <goals>
+              <goal>aggregate</goal>
+              <goal>test-aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <minmemory>256m</minmemory>
+          <maxmemory>1g</maxmemory>
+          <linksource>true</linksource>
+          <tags>
+            <tag>
+              <name>note</name>
+              <placement>a</placement>
+              <head>NOTE</head>
+            </tag>
+            <tag>
+              <name>todo</name>
+              <placement>a</placement>
+              <head>TODO</head>
+            </tag>
+            <tag>
+              <name>warning</name>
+              <placement>a</placement>
+              <head>WARNING</head>
+            </tag>
+          </tags>
+          <source>${target.jdk}</source>
         </configuration>
       </plugin>
     </plugins>

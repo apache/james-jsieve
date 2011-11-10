@@ -41,7 +41,6 @@
     JAMES project. This module is used by Maven to create
     fully assembled and packaged distributions.
     </description>
-    <url>http://james.apache.org/jsieve</url>
     <inceptionYear>2004</inceptionYear>
 
     <dependencies>

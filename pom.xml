@@ -26,11 +26,10 @@
     <parent>
         <groupId>org.apache.james</groupId>
         <artifactId>james-project</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
         <relativePath></relativePath>
     </parent>
 
-    <groupId>org.apache.james</groupId>
     <artifactId>jsieve-project</artifactId>
     <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -291,21 +290,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>      
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>emma-maven-plugin</artifactId>
-                <inherited>true</inherited>          
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>               
-                        <goals>
-                            <goal>instrument</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>

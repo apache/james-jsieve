@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import java.util.List;
+
 import org.apache.jsieve.exception.LookupException;
 
 /**
@@ -49,4 +51,11 @@ public interface CommandManager {
      * @return boolean - True if the Command name is configured.
      */
     public boolean isCommandSupported(String name);
+    
+    /**
+     * Answer a List of the names of supported Sieve extensions.
+     *
+     * @return
+     */
+    public List<String> getExtensions();
 }

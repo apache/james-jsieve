@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import java.util.List;
+
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.tests.ExecutableTest;
 
@@ -40,4 +42,11 @@ public interface TestManager {
      * @throws LookupException
      */
     public ExecutableTest getTest(String name) throws LookupException;
+    
+    /**
+     * Answer a List of the names of supported Sieve extensions.
+     *
+     * @return
+     */
+    public List<String> getExtensions();
 }

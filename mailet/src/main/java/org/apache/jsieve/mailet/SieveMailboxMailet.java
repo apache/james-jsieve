@@ -19,21 +19,33 @@
 
 package org.apache.jsieve.mailet;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Vector;
 
+import javax.activation.DataHandler;
 import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetHeaders;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveConfigurationException;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.parser.generated.ParseException;
+import org.apache.jsieve.parser.generated.TokenMgrError;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetConfig;
@@ -54,7 +66,7 @@ import org.apache.mailet.base.RFC2822Headers;
  * </table>
  */
 public class SieveMailboxMailet extends GenericMailet {
-
+    
     /**
      * The delivery header
      */
@@ -315,7 +327,6 @@ public class SieveMailboxMailet extends GenericMailet {
      * @param mail
      * @throws MessagingException
      */
-    @SuppressWarnings("deprecation")
     public void storeMail(MailAddress sender, MailAddress recipient,
             Mail mail) throws MessagingException {
         if (recipient == null) {
@@ -331,42 +342,49 @@ public class SieveMailboxMailet extends GenericMailet {
  
     }
     
-    void sieveMessage(MailAddress recpient, Mail aMail) throws MessagingException {
-    	String username = getUsername(recpient);
-        // Evaluate the script against the mail
-        String relativeUri = "//" + username +"/sieve"; 
-        try
-        {
-            final InputStream ins = locator.get(relativeUri);
-            
-            SieveMailAdapter aMailAdapter = new SieveMailAdapter(aMail,
-                    getMailetContext(), actionDispatcher, poster);
-            aMailAdapter.setLog(log);
-            // This logging operation is potentially costly
-            if (verbose) {
-                log("Evaluating " + aMailAdapter.toString() + "against \""
-                    + relativeUri + "\"");
-            }
-            factory.evaluate(aMailAdapter, factory.parse(ins));
-        }
-        catch (Exception ex)
-        {
-            //
-            // SLIEVE is a mail filtering protocol.
+    protected void sieveMessage(MailAddress recipient, Mail aMail) throws MessagingException {
+        String username = getUsername(recipient);
+        try {
+            final InputStream ins = locator.get(getScriptUri(recipient));
+            sieveMessageEvaluate(recipient, aMail, ins);
+        } catch (Exception ex) {
+            // SIEVE is a mail filtering protocol.
             // Rejecting the mail because it cannot be filtered
             // seems very unfriendly.
-            // So just log and store in INBOX.
-            //
+            // So just log and store in INBOX
             if (isInfoLoggingOn()) {
                 log("Cannot evaluate Sieve script. Storing mail in user INBOX.", ex);
             }
-            storeMessageInbox(username, aMail);
+            storeMessageInbox(username, aMail.getMessage());
         }
     }
     
-    void storeMessageInbox(String username, Mail mail) throws MessagingException {
+    private void sieveMessageEvaluate(MailAddress recipient, Mail aMail, InputStream ins) throws MessagingException, IOException {    
+            try {
+                SieveMailAdapter aMailAdapter = new SieveMailAdapter(aMail,
+                        getMailetContext(), actionDispatcher, poster);
+                aMailAdapter.setLog(log);
+                // This logging operation is potentially costly
+                if (verbose) {
+                    log("Evaluating " + aMailAdapter.toString() + "against \""
+                            + getScriptUri(recipient) + "\"");
+                }
+                factory.evaluate(aMailAdapter, factory.parse(ins));
+            } catch (SieveException ex) {
+                handleFailure(recipient, aMail, ex);
+            }
+            catch (ParseException ex) {
+                handleFailure(recipient, aMail, ex);
+            }
+            catch (TokenMgrError ex)
+            {
+                handleFailure(recipient, aMail, new SieveException(ex));
+            }
+    }
+    
+    protected void storeMessageInbox(String username, MimeMessage message) throws MessagingException {
         String url = "mailbox://" + username + "/";
-        poster.post(url, mail.getMessage());
+        poster.post(url, message);
     }
 
     /**
@@ -396,6 +414,62 @@ public class SieveMailboxMailet extends GenericMailet {
      * @return username
      */
     protected String getUsername(MailAddress m) {
-    	return m.getLocalPart() + "@localhost";
+        return m.getLocalPart() + "@localhost";
     }
+    
+    /**
+     * Return the URI for the sieve script
+     *
+     * @param m
+     * @return
+     */
+    protected String getScriptUri(MailAddress m) {
+        return "//" + getUsername(m) + "/sieve";
+    }
+    
+    /**
+     * Deliver the original mail as an attachment with the main part being an error report.
+     *
+     * @param recipient
+     * @param aMail
+     * @param ex
+     * @throws MessagingException
+     * @throws IOException 
+     */
+    protected void handleFailure(MailAddress recipient, Mail aMail, Exception ex)
+            throws MessagingException, IOException {
+        String user = getUsername(recipient);
+
+        MimeMessage originalMessage = aMail.getMessage();
+        MimeMessage message = new MimeMessage(originalMessage);
+        MimeMultipart multipart = new MimeMultipart();
+        
+        MimeBodyPart noticePart = new MimeBodyPart();
+        noticePart.setText(new StringBuilder()
+            .append("An error was encountered while processing this mail with the active sieve script for user \"")
+            .append(user)
+            .append("\". The error encountered was:\r\n")
+            .append(ex.getLocalizedMessage())
+            .append("\r\n")
+            .toString());      
+        multipart.addBodyPart(noticePart);
+        
+        MimeBodyPart originalPart = new MimeBodyPart();
+        originalPart.setContent(originalMessage, "message/rfc822");
+        if ((originalMessage.getSubject() != null) && (!originalMessage.getSubject().trim().isEmpty())) {
+            originalPart.setFileName(originalMessage.getSubject().trim());
+        } else {
+            originalPart.setFileName("No Subject");
+        }
+        originalPart.setDisposition(MimeBodyPart.INLINE);
+        multipart.addBodyPart(originalPart);
+        
+        message.setContent(multipart);
+        message.setSubject("[SIEVE ERROR] " + originalMessage.getSubject());
+        message.setHeader("X-Priority", "1");
+        message.saveChanges();
+        
+        storeMessageInbox(user, message);
+    }
+   
 }

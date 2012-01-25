@@ -19,6 +19,9 @@
 
 package org.apache.jsieve;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
@@ -32,6 +35,13 @@ import org.apache.jsieve.tests.ExecutableTest;
  * </p>
  */
 public class TestManagerImpl implements TestManager {
+       
+    private static List<String> IMPLICITLY_DECLARED = Arrays.asList("address",
+            "allof", "anyof", "exists", "false", "header", "not", "size", "true");
+
+    private static boolean isImplicitlyDeclared(String name) {
+        return IMPLICITLY_DECLARED.contains(name);
+    }
 
     private final ConcurrentMap<String, String> classNameMap;
 
@@ -106,4 +116,20 @@ public class TestManagerImpl implements TestManager {
             throw new LookupException("Test named '" + name + "' not mapped.");
         return className;
     }
+
+    /**
+     * @see org.apache.jsieve.TestManager#getExtensions()
+     */
+    public List<String> getExtensions() {
+        List<String> extensions = new ArrayList<String>(classNameMap.size());
+        for (String key : classNameMap.keySet())
+        {
+            if (!isImplicitlyDeclared(key))
+            {
+                extensions.add(key);
+            }
+        }
+        return extensions;
+    }
+
 }

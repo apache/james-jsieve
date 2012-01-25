@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import java.util.List;
+
 import org.apache.jsieve.comparators.Comparator;
 import org.apache.jsieve.exception.LookupException;
 
@@ -56,4 +58,11 @@ public interface ComparatorManager {
      * @return true when supported, false otherwise
      */
     public boolean isSupported(String name);
+    
+    /**
+     * Answer a List of the names of supported Sieve extensions.
+     *
+     * @return
+     */
+    public List<String> getExtensions();
 }

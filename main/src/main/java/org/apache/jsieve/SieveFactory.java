@@ -20,6 +20,8 @@
 package org.apache.jsieve;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.SieveException;
@@ -197,5 +199,23 @@ public class SieveFactory {
     public void interpret(MailAdapter mail, InputStream inputStream)
             throws ParseException, SieveException {
         evaluate(mail, parse(inputStream));
+    }
+    
+    /**
+     * <p>Answer a List of supported Sieve extensions. This depends on the configured Command, Comparator
+     * and Test managers.
+     *
+     * @return a List of supported Sieve extensions
+     */
+    public List<String> getExtensions() {
+        List<String> commands = commandManager.getExtensions();
+        List<String> comparators = comparatorManager.getExtensions();
+        List<String> tests = testManager.getExtensions();
+        List<String> extensions = new ArrayList<String>(commands.size() + comparators.size()
+                + tests.size());
+        extensions.addAll(commands);
+        extensions.addAll(comparators);
+        extensions.addAll(tests);
+        return extensions;
     }
 }

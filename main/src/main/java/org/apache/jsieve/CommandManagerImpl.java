@@ -19,18 +19,28 @@
 
 package org.apache.jsieve;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
 
 /**
- * <p>Maps command names to comman implementations.</p>
+ * <p>Maps command names to common implementations.</p>
  * <h4>Thread Safety</h4>
  * <p>
  * Instances may safely be accessed concurrently by multiple threads.
  * </p>
  */
 public class CommandManagerImpl implements CommandManager {
+    
+    private static List<String> IMPLICITLY_DECLARED = Arrays.asList("if", "else", "elsif",
+            "require", "stop", "keep", "discard", "redirect");
+
+    private static boolean isImplicitlyDeclared(String name) {
+        return IMPLICITLY_DECLARED.contains(name);
+    }
 
     private final ConcurrentMap<String, String> classNameMap;
 
@@ -122,5 +132,20 @@ public class CommandManagerImpl implements CommandManager {
             throw new LookupException("Command named '" + name
                     + "' not mapped.");
         return className;
+    }
+
+    /**
+     * @see org.apache.jsieve.CommandManager#getExtensions()
+     */
+    public List<String> getExtensions() {
+        List<String> extensions = new ArrayList<String>(classNameMap.size());
+        for (String key : classNameMap.keySet())
+        {
+            if (!isImplicitlyDeclared(key))
+            {
+                extensions.add(key);
+            }
+        }
+        return extensions;
     }
 }

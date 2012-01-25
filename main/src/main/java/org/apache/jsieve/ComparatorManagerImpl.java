@@ -22,6 +22,8 @@ package org.apache.jsieve;
 import static org.apache.jsieve.Constants.COMPARATOR_ASCII_CASEMAP_NAME;
 import static org.apache.jsieve.Constants.COMPARATOR_OCTET_NAME;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -161,5 +163,20 @@ public class ComparatorManagerImpl implements ComparatorManager {
         } catch (LookupException e) {
             return false;
         }
+    }
+
+    /**
+     * @see org.apache.jsieve.ComparatorManager#getExtensions()
+     */
+    public List<String> getExtensions() {
+        List<String> extensions = new ArrayList<String>(classNameMap.size());
+        for (String key : classNameMap.keySet())
+        {
+            if (!isImplicitlyDeclared(key))
+            {
+                extensions.add(key);
+            }
+        }
+        return extensions;
     }
 }

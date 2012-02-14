@@ -33,7 +33,7 @@ import org.apache.jsieve.mail.SieveMailException;
  * Class Address implements the Addresss Test as defined in RFC 3028, section
  * 5.1.
  */
-public class Address extends AbstractCompatatorTest {
+public class Address extends AbstractComparatorTest {
     /**
      * Constructor for Address.
      */

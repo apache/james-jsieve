@@ -31,13 +31,13 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.mail.optional.EnvelopeAccessors;
-import org.apache.jsieve.tests.AbstractCompatatorTest;
+import org.apache.jsieve.tests.AbstractComparatorTest;
 
 /**
  * Class Envelope implements the optional Envelope Test as defined in RFC 3028,
  * section 5.4.
  */
-public class Envelope extends AbstractCompatatorTest {
+public class Envelope extends AbstractComparatorTest {
 
     /**
      * Constructor for EnvelopeAccessors.

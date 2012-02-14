@@ -42,9 +42,9 @@ import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 
 
-public abstract class AbstractCompatatorTest extends AbstractTest {
+public abstract class AbstractComparatorTest extends AbstractTest {
 
-    public AbstractCompatatorTest() {
+    public AbstractComparatorTest() {
         super();
     }
 

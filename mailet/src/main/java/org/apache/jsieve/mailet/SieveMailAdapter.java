@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations      *
  * under the License.                                           *
  ****************************************************************/
-
 package org.apache.jsieve.mailet;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,10 +35,11 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.james.mime4j.field.address.AddressList;
-import org.apache.james.mime4j.field.address.Mailbox;
-import org.apache.james.mime4j.field.address.MailboxList;
-import org.apache.james.mime4j.field.address.parser.ParseException;
+import org.apache.james.mime4j.dom.address.AddressList;
+import org.apache.james.mime4j.dom.address.Mailbox;
+import org.apache.james.mime4j.dom.address.MailboxList;
+import org.apache.james.mime4j.dom.field.ParseException;
+import org.apache.james.mime4j.field.address.AddressBuilder;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
@@ -393,7 +393,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     
     public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException {
         try {
-            final MailboxList list = AddressList.parse(arg).flatten();
+            final MailboxList list = new AddressList(AddressBuilder.DEFAULT.parseAddressList(arg), true).flatten();
             final int size = list.size();
             final Address[] results = new Address[size];
             for (int i=0;i<size;i++) {

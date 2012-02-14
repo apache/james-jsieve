@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.apache.james</groupId>
         <artifactId>james-project</artifactId>
-        <version>1.8</version>
+        <version>1.9-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
 
@@ -66,7 +66,6 @@
     <properties>
         <!-- Override the source descriptor -->
         <sourceReleaseAssemblyDescriptor>src</sourceReleaseAssemblyDescriptor>
-
         <!--
             The website is committed to subversion. This property can be overriden
             to upload the site to a local staging location.
@@ -90,8 +89,8 @@
         <james.jsieve.www>${james.www}/jsieve/</james.jsieve.www>
         <!-- Overridding this value allows single set of loopback settings to be maintained -->
         <james.www.id>jsieve-website</james.www.id>
-
         <target.jdk>1.5</target.jdk>
+        <mime4j.version>0.7.2</mime4j.version>
     </properties>
 
     <dependencyManagement>
@@ -101,37 +100,36 @@
                 <artifactId>apache-jsieve</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve-mailet</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-mailet</artifactId>
                 <version>2.4</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-mailet-base</artifactId>
                 <version>1.0</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.james</groupId>
-                <artifactId>apache-mime4j</artifactId>
-                <version>0.6</version>
+                <artifactId>apache-mime4j-core</artifactId>
+                <version>${mime4j.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.james</groupId>
+                <artifactId>apache-mime4j-dom</artifactId>
+                <version>${mime4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
@@ -155,34 +153,29 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.1</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>jmock</groupId>
                 <artifactId>jmock</artifactId>
                 <version>1.1.0</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>1.2.14</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>1.4</version>
             </dependency>
-
             <dependency>
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>

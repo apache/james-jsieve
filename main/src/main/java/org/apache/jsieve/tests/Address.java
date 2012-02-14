@@ -44,8 +44,7 @@ public class Address extends AbstractCompatatorTest {
     protected boolean match(MailAdapter mail, String addressPart,
             String comparator, String matchType, String headerName, String key,
             SieveContext context) throws SieveException {
-        final MailAdapter.Address[] addresses = getMatchingValues(mail,
-                headerName);
+        final MailAdapter.Address[] addresses = getMatchingValues(mail, key);
         final int length = addresses.length;
         int i = 0;
         boolean isMatched = false;

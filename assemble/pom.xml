@@ -24,10 +24,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>jsieve-project</artifactId>
         <groupId>org.apache.james</groupId>
+        <artifactId>jsieve</artifactId>
         <version>0.5-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>..</relativePath>
     </parent>
 
     <artifactId>apache-james-jsieve</artifactId>

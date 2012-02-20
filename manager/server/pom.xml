@@ -28,6 +28,7 @@
 
 	<artifactId>apache-jsieve-manager-server</artifactId>
 	<packaging>jar</packaging>
+    <name>Apache James jSieve Manager Server</name>
 
 	<dependencies>
 		<dependency>

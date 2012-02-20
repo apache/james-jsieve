@@ -28,6 +28,7 @@
 
 	<artifactId>apache-jsieve-manager-core</artifactId>
 	<packaging>jar</packaging>
+    <name>Apache James jSieve Manager Core</name>
 
 	<dependencies>
 		<dependency>

@@ -29,5 +29,6 @@
 	
 	<artifactId>apache-jsieve-manager-api</artifactId>
 	<packaging>jar</packaging>
+    <name>Apache James jSieve Manager API</name>
 
 </project>

@@ -27,6 +27,7 @@
 	</parent>
 
 	<artifactId>apache-jsieve-manager-mailet</artifactId>
+    <name>Apache James jSieve Manager Mailet</name>
 
 	<dependencies>
 		<dependency>

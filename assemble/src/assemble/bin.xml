@@ -51,7 +51,7 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>${project.basedir}/../main/target</directory>
+      <directory>${project.basedir}/../core/target</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
         <include>apache-jsieve*.jar</include>

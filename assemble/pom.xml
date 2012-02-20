@@ -30,7 +30,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>apache-james-jsieve</artifactId>
+    <artifactId>apache-jsieve-assemble</artifactId>
     <packaging>pom</packaging>
 
     <name>Apache James jSieve Assembly</name>

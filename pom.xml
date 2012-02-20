@@ -40,7 +40,7 @@
         <module>mailet</module>
         <module>util</module>
 <!--         <module>manager</module> -->
-        <module>assemble</module>
+<!--         <module>assemble</module> -->
     </modules>
 
     <scm>

@@ -40,7 +40,7 @@
     <inceptionYear>2008</inceptionYear>
 
     <modules>
-        <module>main</module>
+        <module>core</module>
         <module>mailet</module>
         <module>util</module>
         <module>manager</module>

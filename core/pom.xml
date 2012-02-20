@@ -23,14 +23,14 @@
     <parent>
         <artifactId>apache-jsieve</artifactId>
         <groupId>org.apache.james</groupId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.5</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>apache-jsieve-core</artifactId>
     <packaging>jar</packaging>
 
-    <name>Apache James jSieve</name>
+    <name>Apache James jSieve Core</name>
     <description>
     Apache jSieve is a server side mail filtering system 
     implementing RFC3028. Apache jSieve is developed by the 

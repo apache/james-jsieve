@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>apache-jsieve</artifactId>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Apache James JSieve</name>
@@ -44,9 +44,9 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.5</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/tags/apache-jsieve-0.5</developerConnection>
-        <url>http://svn.apache.org/viewcvs.cgi/james/jsieve/tags/apache-jsieve-0.5?root=Apache-SVN</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
+        <url>http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN</url>
     </scm>
     <issueManagement>
         <system>JIRA</system>

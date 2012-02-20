@@ -33,11 +33,11 @@
     <artifactId>apache-jsieve-util</artifactId>
     <packaging>jar</packaging>
 
-    <name>Apache JAMES jSieve Utilities</name>
+    <name>Apache James jSieve Utilities</name>
     <description>
     Apache jSieve is a server side mail filtering system 
     implementing RFC3028. Apache jSieve is developed by the 
-    JAMES project. This module contains additional utilities.
+    James project. This module contains additional utilities.
     </description>
     <inceptionYear>2004</inceptionYear>
 

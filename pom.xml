@@ -34,8 +34,8 @@
     <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Apache JAMES JSieve Project</name>
-    <description>Apache JAMES JSieve Project</description>
+    <name>Apache James JSieve</name>
+    <description>Apache James JSieve</description>
     <url>http://james.apache.org/jsieve/</url>
     <inceptionYear>2008</inceptionYear>
 
@@ -268,7 +268,7 @@
                         <asfExtOptions>
                             <included>true</included>
                             <pmc>http://james.apache.org</pmc>
-                            <name>Apache JAMES</name>
+                            <name>Apache James</name>
                             <standards>
                                 <standard>
                                     <id>RFC3028</id>

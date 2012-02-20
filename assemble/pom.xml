@@ -33,11 +33,11 @@
     <artifactId>apache-james-jsieve</artifactId>
     <packaging>pom</packaging>
 
-    <name>Apache JAMES jSieve Assembly</name>
+    <name>Apache James jSieve Assembly</name>
     <description>
     Apache jSieve is a server side mail filtering system 
     implementing RFC3028. Apache jSieve is developed by the 
-    JAMES project. This module is used by Maven to create
+    James project. This module is used by Maven to create
     fully assembled and packaged distributions.
     </description>
     <inceptionYear>2004</inceptionYear>

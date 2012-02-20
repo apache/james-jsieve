@@ -21,17 +21,18 @@
   <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.james</groupId>
-        <artifactId>managesieve</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>apache-jsieve-manager</artifactId>
+        <version>0.5-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
-  <artifactId>managesieve-mock</artifactId>
+  <artifactId>apache-jsieve-manager-mock</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>managesieve-api</artifactId>
+            <artifactId>apache-jsieve-manager-api</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
             <scope>compile</scope>

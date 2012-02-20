@@ -30,7 +30,7 @@
         <relativePath></relativePath>
     </parent>
 
-    <artifactId>jsieve-project</artifactId>
+    <artifactId>apache-jsieve</artifactId>
     <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -43,6 +43,7 @@
         <module>main</module>
         <module>mailet</module>
         <module>util</module>
+        <module>manager</module>
         <module>assemble</module>
     </modules>
 
@@ -98,6 +99,11 @@
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.james</groupId>
+                <artifactId>apache-jsieve-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -19,11 +19,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.apache.james</groupId>
-	<artifactId>managesieve</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>apache-jsieve-manager</artifactId>
 	<packaging>pom</packaging>
 	
+    <parent>
+        <groupId>org.apache.james</groupId>
+        <artifactId>apache-jsieve</artifactId>
+        <version>0.5-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
 	<modules>
 		<module>api</module>
 		<module>core</module>
@@ -62,7 +67,6 @@
 	<properties>
 		<target.jdk>1.6</target.jdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jsieve.version>0.5-SNAPSHOT</jsieve.version>
 		<commons-io.version>2.1</commons-io.version>
 		<james-server.version>3.0-beta4-SNAPSHOT</james-server.version>
 		<mailet.version>2.4</mailet.version>

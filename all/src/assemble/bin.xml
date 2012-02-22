@@ -18,10 +18,6 @@
   limitations under the License.
   -->
   <id>bin</id>
-  <!-- 
-  Generates a jar file including the binary jar and the runtime dependencies.
-  including NOTICE and LICENSE in the root.
-  -->
   <formats>
     <format>zip</format>
     <format>tar.gz</format>
@@ -37,106 +33,24 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>${project.basedir}/../core/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../mailet/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../util/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../manager/api/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../manager/core/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../manager/jsieve/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../manager/mailet/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>${project.basedir}/../manager/mock/target</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>apache-jsieve*.jar</include>
-      </includes>
-    </fileSet>
-    <fileSet>
       <directory>${project.basedir}/../target/site/apidocs</directory>
       <outputDirectory>/apidocs</outputDirectory>
     </fileSet>
   </fileSets>
-  <files>
-    <file>
-      <source>${project.basedir}/../LICENSE.mail</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>mail.LICENSE</destName>
-    </file>
-    <file>
-      <source>${project.basedir}/../LICENSE.activation</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>activation.LICENSE</destName>
-    </file>
-    <file>
-      <source>${project.basedir}/../LICENSE.txt</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>apache-mailet.LICENSE</destName>
-    </file>
-    <file>
-      <source>${project.basedir}/../LICENSE.txt</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>apache-mailet-base.LICENSE</destName>
-    </file>
-    <file>
-      <source>${project.basedir}/../LICENSE.txt</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>apache-mime4j.LICENSE</destName>
-    </file>
-    <file>
-      <source>${project.basedir}/../LICENSE.txt</source>
-      <outputDirectory>lib</outputDirectory>
-      <destName>commons-logging.LICENSE</destName>
-    </file>
-  </files>
   <dependencySets>
     <dependencySet>
       <outputDirectory>/lib/</outputDirectory>
-      <useProjectArtifact>false</useProjectArtifact>
       <scope>runtime</scope>
       <excludes>
-        <exclude>apache-jsieve*</exclude>
+        <exclude>org.apache.james:apache-jsieve*</exclude>
       </excludes>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>/</outputDirectory>
+      <scope>runtime</scope>
+      <includes>
+        <include>org.apache.james:apache-jsieve*</include>
+      </includes>
     </dependencySet>
   </dependencySets>
 </assembly>

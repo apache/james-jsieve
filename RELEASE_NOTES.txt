@@ -45,6 +45,8 @@ Task
     [JSIEVE-61] - Split Parent And Aggregation Poms
     [JSIEVE-62] - Review TODOs
     [JSIEVE-64] - Improve and Standardise Build
+    [JSIEVE-89] - move to geronimo / remove oracle dependencies and licensing stuff
+    [JSIEVE-90] - Clean up build configuration, assembly, notice/license attachment, ant build
 
 Version 0.4
 ----------- 

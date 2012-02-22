@@ -58,6 +58,48 @@
       </includes>
     </fileSet>
     <fileSet>
+      <directory>${project.basedir}/../manager/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../manager/api/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../manager/core/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../manager/jsieve/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../manager/mailet/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/../manager/mock/target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>apache-jsieve*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
       <directory>${project.basedir}/../target/site/apidocs</directory>
       <outputDirectory>/apidocs</outputDirectory>
     </fileSet>

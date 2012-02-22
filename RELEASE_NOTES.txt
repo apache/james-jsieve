@@ -20,6 +20,32 @@ Licensing and legal issues
 For legal and licensing issues, please look in the legal section of
 the documentation or read the LICENSE and NOTICE files.
 
+Version 0.5
+----------- 
+
+Changes
+---------
+Sub-task
+    [JSIEVE-65] - Inherit plugin management
+Bug
+    [JSIEVE-74] - Script parsing fails when the string contains a backslash
+    [JSIEVE-75] - incorrect parsing of script containing multiple multi-line forms
+Improvement
+    [JSIEVE-67] - Improve Documentation
+    [JSIEVE-70] - Improve Validation Exceptions
+    [JSIEVE-73] - Ensure Body Extension Functions As Per Specification
+    [JSIEVE-78] - Add a Mail notification mechanism for when Sieve scripts fail
+    [JSIEVE-80] - Add the ability to advertise the available Sieve extensions
+    [JSIEVE-83] - Integrate managesieve in the current jSieve modules
+    [JSIEVE-85] - Add build-helper-maven-plugin on apache-jsieve-core pom for generated src
+    [JSIEVE-88] - Rename apache-jsieve-assembly to apache-jsieve-all
+New Feature
+    [JSIEVE-51] - Sieve-In-Xml (Full Preview)
+Task
+    [JSIEVE-61] - Split Parent And Aggregation Poms
+    [JSIEVE-62] - Review TODOs
+    [JSIEVE-64] - Improve and Standardise Build
+
 Version 0.4
 ----------- 
 

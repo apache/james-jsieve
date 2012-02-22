@@ -40,6 +40,7 @@
         <exclude>**/james-project/**</exclude>
         <exclude>**/site/**</exclude>
         <exclude>**/.*</exclude>
+        <exclude>manager/**</exclude>
       </excludes>
       <useDefaultExcludes>true</useDefaultExcludes>
     </fileSet>

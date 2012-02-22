@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>apache-jsieve</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Apache James JSieve</name>
@@ -36,11 +36,11 @@
     <inceptionYear>2008</inceptionYear>
 
     <modules>
+        <module>all</module>
         <module>core</module>
         <module>mailet</module>
+        <module>manager</module>
         <module>util</module>
-<!--         <module>manager</module> -->
-<!--         <module>assemble</module> -->
     </modules>
 
     <scm>

@@ -37,7 +37,7 @@
 		<module>jsieve</module>
 		<module>mailet</module>
 		<module>mock</module>
-		<module>server</module>
+<!-- 		<module>server</module> -->
 	</modules>
 
 	<dependencies>

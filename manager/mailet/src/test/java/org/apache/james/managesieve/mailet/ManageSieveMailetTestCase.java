@@ -197,6 +197,11 @@ public class ManageSieveMailetTestCase {
                                 "application/sieve; charset=UTF-8")
                           ));
         scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
+        // setting a DataHandler with no mailcap definition is not
+        // supported by the specs. Javamail activation still work,
+        // but Geronimo activation translate it to text/plain. 
+        // Let's manually force the header.
+        scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
         scriptPart.setFileName(scriptName);
         multipart.addBodyPart(scriptPart);
         message.setContent(multipart);
@@ -264,6 +269,7 @@ public class ManageSieveMailetTestCase {
                                     "SyntaxException", 
                                     "application/sieve; charset=UTF-8")
                               ));
+            scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
             scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
             scriptPart.setFileName(scriptName);
             multipart.addBodyPart(scriptPart);
@@ -469,6 +475,7 @@ public class ManageSieveMailetTestCase {
                                 scriptContent, 
                                 "application/sieve; charset=UTF-8")
                           ));
+        scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
         scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
         scriptPart.setFileName(scriptName);
         multipart.addBodyPart(scriptPart);
@@ -536,6 +543,7 @@ public class ManageSieveMailetTestCase {
                                     "SyntaxException", 
                                     "application/sieve; charset=UTF-8")
                               ));
+            scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
             scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
             scriptPart.setFileName(scriptName);
             multipart.addBodyPart(scriptPart);
@@ -1164,7 +1172,8 @@ public class ManageSieveMailetTestCase {
             MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
             assertNotNull(result);
             // Check the subject header
-            assertEquals("Re: ", result.getSubject());
+            // Javamail returns "Re: " instead Geronimo returns "Re:" (no trailing space)
+            assertEquals("Re:", result.getSubject().trim());
             // Check the response
             MimeMultipart multipart = (MimeMultipart) result.getContent();
             assertEquals(1, multipart.getCount());

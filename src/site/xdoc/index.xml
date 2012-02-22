@@ -44,7 +44,7 @@
       <p>jSieve consists of three products:</p>
       <ol>
         <li>
-          <a href='main/index.html'>Apache JSieve</a>
+          <a href='core/index.html'>Apache JSieve</a>
           is a Sieve library coded in Java.
         </li>
         <li>
@@ -93,6 +93,14 @@
     </section>
     <section name="News">
      <h4>May/2010 - jSieve-0.4 released</h4>
+        <p>
+          The Apache JAMES team is happy to announce the availability of
+          <a href='http://james.apache.org/download.cgi#Apache%20JSieve'>
+            Apache jSieve 0.5
+          </a>
+          See <a href='https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=10412&amp;version=12314991&amp;styleName=Html'>release notes</a> 
+          for more details.
+        </p>
         <p>
           The Apache JAMES team is happy to announce the availability of
           <a href='http://james.apache.org/download.cgi#Apache%20JSieve'>

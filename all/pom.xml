@@ -23,14 +23,14 @@
     <parent>
         <groupId>org.apache.james</groupId>
         <artifactId>apache-jsieve</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.5</version>
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>apache-jsieve-assemble</artifactId>
+    <artifactId>apache-jsieve-all</artifactId>
     <packaging>pom</packaging>
 
-    <name>Apache James jSieve Assembly</name>
+    <name>Apache James jSieve All</name>
     <description>
     Apache jSieve is a server side mail filtering system 
     implementing RFC3028. Apache jSieve is developed by the 
@@ -42,59 +42,35 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>apache-jsieve</artifactId>
+            <artifactId>apache-jsieve-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.james</groupId>
             <artifactId>apache-jsieve-mailet</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.james</groupId>
             <artifactId>apache-jsieve-util</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>apache-mailet</artifactId>
+            <artifactId>apache-jsieve-manager-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>apache-mailet-base</artifactId>
+            <artifactId>apache-jsieve-manager-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.james</groupId>
-            <artifactId>apache-mime4j-core</artifactId>
+            <artifactId>apache-jsieve-manager-jsieve</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-jsieve-manager-mailet</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-jsieve-manager-mock</artifactId>
         </dependency>
     </dependencies>
 

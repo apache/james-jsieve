@@ -37,7 +37,6 @@
 		<module>jsieve</module>
 		<module>mailet</module>
 		<module>mock</module>
-<!-- 		<module>server</module> -->
 	</modules>
 
 	<dependencies>
@@ -70,7 +69,6 @@
 		<target.jdk>1.6</target.jdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<commons-io.version>2.1</commons-io.version>
-		<james-server.version>3.0-beta4-SNAPSHOT</james-server.version>
 		<mailet.version>2.4</mailet.version>
 		<mailet-base.version>1.0</mailet-base.version>
 	</properties>

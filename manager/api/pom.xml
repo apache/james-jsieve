@@ -23,7 +23,7 @@
         <groupId>org.apache.james</groupId>
 		<artifactId>apache-jsieve-manager</artifactId>
 		<relativePath>..</relativePath>
-		<version>0.5</version>
+		<version>0.6-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>apache-jsieve-manager-api</artifactId>

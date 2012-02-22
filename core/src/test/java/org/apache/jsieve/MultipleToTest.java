@@ -29,26 +29,26 @@ import org.apache.jsieve.util.check.ScriptChecker;
 
 public class MultipleToTest extends TestCase {
 
-    private static final String SOLO_TO_EMAIL = "Date: Sun, 1 Apr 2007 1100:00:00 +0100 (BST)\r\f"
-            + "From: roadrunner@acme.example.com\r\f"
-            + "To: coyote@desert.example.org\r\f"
-            + "Subject: Who's The Fool?\r\f" + "\r\f" + "Beep-Beep\r\f";
+    private static final String SOLO_TO_EMAIL = "Date: Sun, 1 Apr 2007 1100:00:00 +0100 (BST)\r\n"
+            + "From: roadrunner@acme.example.com\r\n"
+            + "To: coyote@desert.example.org\r\n"
+            + "Subject: Who's The Fool?\r\n" + "\r\n" + "Beep-Beep\r\n";
 
-    private static final String MULTIPLE_TO_EMAIL = "Date: Sun, 1 Apr 2007 1100:00:00 +0100 (BST)\r\f"
-            + "From: roadrunner@acme.example.com\r\f"
+    private static final String MULTIPLE_TO_EMAIL = "Date: Sun, 1 Apr 2007 1100:00:00 +0100 (BST)\r\n"
+            + "From: roadrunner@acme.example.com\r\n"
             + "To: coyote@desert.example.org, bugs@example.org, "
-            + "    elmer@hunters.example.org,\r\f"
-            + "Subject: Who's The Fool?\r\f" + "\r\f" + "Beep-Beep\r\f";
+            + "    elmer@hunters.example.org,\r\n"
+            + "Subject: Who's The Fool?\r\n" + "\r\n" + "Beep-Beep\r\n";
 
-    private static final String FILTER_SCRIPT = "require \"fileinto\";\r\f"
-            + "if address :is :all \"to\" \"coyote@desert.example.org\" {\r\f"
-            + "  fileinto \"coyote\";\r\f}\r\f"
-            + "if address :is :all \"to\" \"bugs@example.org\" {\r\f"
-            + "  fileinto \"bugs\";\r\f}\r\f"
-            + "if address :is :all \"to\" \"roadrunneracme.@example.org\" {\r\f"
-            + "  fileinto \"rr\";\r\f}\r\f"
-            + "if address :is :all \"to\" \"elmer@hunters.example.org\" {\r\f"
-            + "  fileinto \"elmer\";\r\f}\r\f";
+    private static final String FILTER_SCRIPT = "require \"fileinto\";\r\n"
+            + "if address :is :all \"to\" \"coyote@desert.example.org\" {\r\n"
+            + "  fileinto \"coyote\";\r\n}\r\n"
+            + "if address :is :all \"to\" \"bugs@example.org\" {\r\n"
+            + "  fileinto \"bugs\";\r\n}\r\n"
+            + "if address :is :all \"to\" \"roadrunneracme.@example.org\" {\r\n"
+            + "  fileinto \"rr\";\r\n}\r\n"
+            + "if address :is :all \"to\" \"elmer@hunters.example.org\" {\r\n"
+            + "  fileinto \"elmer\";\r\n}\r\n";
 
     public void testSingleTo() throws Exception {
         ScriptChecker checker = new ScriptChecker();

@@ -19,22 +19,23 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class AllOfTest
  */
-public class AllOfTest extends TestCase {
+public class AllOfTest {
 
     /**
      * Test for Test 'allof'
      */
+    @Test
     public void testIfAllOfFalseTrue() {
         boolean isTestPassed = false;
         String script = "if allof (false, true) {stop;} throwTestException;";
@@ -46,12 +47,13 @@ public class AllOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'allof'
      */
+    @Test
     public void testIfAllOfTrueTrue() {
         boolean isTestPassed = false;
         String script = "if allof (true, true) {throwTestException;}";
@@ -63,12 +65,13 @@ public class AllOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'allof'
      */
+    @Test
     public void testIfAllOfFalseFalse() {
         boolean isTestPassed = false;
         String script = "if allof (false, false) {stop;} throwTestException;";
@@ -80,12 +83,13 @@ public class AllOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'allof'
      */
+    @Test
     public void testIfAllOfTrueFalse() {
         boolean isTestPassed = false;
         String script = "if allof (true, false) {stop;} throwTestException;";
@@ -97,12 +101,13 @@ public class AllOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'anyof' with invalid argument
      */
+    @Test
     public void testInvalidArgument() {
         boolean isTestPassed = false;
         String script = "if anyof 1 {throwTestException;}";
@@ -114,7 +119,7 @@ public class AllOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

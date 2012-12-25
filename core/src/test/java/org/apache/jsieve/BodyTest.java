@@ -29,11 +29,13 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.*;
+import org.junit.Test;
 
 /**
  * Class BodyTest
  */
-public class BodyTest extends TestCase {
+public class BodyTest {
 
     protected SieveMailAdapter textMail() throws MessagingException {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
@@ -52,6 +54,7 @@ public class BodyTest extends TestCase {
     /**
      * Test for Test 'header'
      */
+    @org.junit.Test
     public void testBasic() {
         boolean isTestPassed = false;
         String script = "if body :contains [\"Wibble\"] {throwTestException;}";
@@ -63,12 +66,13 @@ public class BodyTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'body'
      */
+    @Test
     public void testBodyCaseInsensitivity() {
         boolean isTestPassed = false;
         String script = "if body :contains [\"wibble\"] {throwTestException;}";
@@ -80,12 +84,13 @@ public class BodyTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'body'
      */
+    @Test
     public void testBodyNoContains() {
         boolean isTestPassed = false;
         String script = "if body [\"wibble\"] {throwTestException;}";
@@ -97,7 +102,7 @@ public class BodyTest extends TestCase {
         } catch (SieveException e) {
             isTestPassed = true;
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**

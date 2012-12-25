@@ -19,25 +19,26 @@
 
 package org.apache.jsieve;
 
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.mail.MessagingException;
 
 /**
  * Class ExistsTest
  */
-public class ExistsTest extends TestCase {
+public class ExistsTest {
 
     /**
      * Test for Test 'exists'
      */
+    @org.junit.Test
     public void testExistsTrue() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {throwTestException;}";
@@ -52,12 +53,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists'
      */
+    @Test
     public void testCaseInsensitivity() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {throwTestException;}";
@@ -72,12 +74,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists'
      */
+    @Test
     public void testExistsTrueTrue() {
         boolean isTestPassed = false;
         String script = "if exists [\"From\", \"X-Files\"] {throwTestException;}";
@@ -93,12 +96,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists'
      */
+    @Test
     public void testExistsTrueFalse() {
         boolean isTestPassed = false;
         String script = "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
@@ -112,12 +116,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists'
      */
+    @Test
     public void testExistsFalse() {
         boolean isTestPassed = false;
         String script = "if exists \"From\" {stop;} throwTestException;";
@@ -130,12 +135,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists'
      */
+    @Test
     public void testExistsFalseFalse() {
         boolean isTestPassed = false;
         String script = "if exists [\"From\", \"X-Files\"] {stop;} throwTestException;";
@@ -148,12 +154,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists' with invalid numeric argument
      */
+    @Test
     public void testInvalidNumericArgument() {
         boolean isTestPassed = false;
         String script = "if exists 1 {throwTestException;}";
@@ -165,12 +172,13 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'exists' with invalid test argument
      */
+    @Test
     public void testInvalidTestArgument() {
         boolean isTestPassed = false;
         String script = "if exists not {throwTestException;}";
@@ -182,7 +190,7 @@ public class ExistsTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

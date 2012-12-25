@@ -18,12 +18,13 @@
  ****************************************************************/
 package org.apache.jsieve.parser.address;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.mail.MailAdapter.Address;
 import org.apache.jsieve.parser.generated.address.ParseException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class SieveAddressBuilderTest extends TestCase {
+public class SieveAddressBuilderTest {
 
     public static final String DOMAIN = "example.org";
 
@@ -44,63 +45,66 @@ public class SieveAddressBuilderTest extends TestCase {
 
     SieveAddressBuilder builder;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         builder = new SieveAddressBuilder();
     }
 
+    @Test
     public void testNotAddress() throws Exception {
         try {
             builder
                     .addAddresses("What a load of rubbish - not an address in sight!");
-            fail("Parsing should fail when the input is not an address");
+            Assert.fail("Parsing should fail when the input is not an address");
         } catch (ParseException e) {
             // expected
         }
     }
 
+    @Test
     public void testAddAddresses() throws Exception {
-        assertNotNull(builder.getAddresses());
+        Assert.assertNotNull(builder.getAddresses());
         builder.addAddresses(COYOTE_ADDRESS);
         Address[] addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(1, addresses.length);
-        assertEquals(COYOTE, addresses[0].getLocalPart());
-        assertEquals(DOMAIN, addresses[0].getDomain());
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
         builder.addAddresses(HEROS);
         addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(3, addresses.length);
-        assertEquals(COYOTE, addresses[0].getLocalPart());
-        assertEquals(DOMAIN, addresses[0].getDomain());
-        assertEquals(ROADRUNNER, addresses[1].getLocalPart());
-        assertEquals(DOMAIN, addresses[1].getDomain());
-        assertEquals(BUGS, addresses[2].getLocalPart());
-        assertEquals(DOMAIN, addresses[2].getDomain());
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(3, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+        Assert.assertEquals(ROADRUNNER, addresses[1].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[1].getDomain());
+        Assert.assertEquals(BUGS, addresses[2].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[2].getDomain());
     }
 
+    @Test
     public void testReset() throws Exception {
-        assertNotNull(builder.getAddresses());
+        Assert.assertNotNull(builder.getAddresses());
         builder.addAddresses(COYOTE_ADDRESS);
         Address[] addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(1, addresses.length);
-        assertEquals(COYOTE, addresses[0].getLocalPart());
-        assertEquals(DOMAIN, addresses[0].getDomain());
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
         addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(1, addresses.length);
-        assertEquals(COYOTE, addresses[0].getLocalPart());
-        assertEquals(DOMAIN, addresses[0].getDomain());
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
         builder.reset();
         addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(0, addresses.length);
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(0, addresses.length);
         builder.addAddresses(COYOTE_ADDRESS);
         addresses = builder.getAddresses();
-        assertNotNull(addresses);
-        assertEquals(1, addresses.length);
-        assertEquals(COYOTE, addresses[0].getLocalPart());
-        assertEquals(DOMAIN, addresses[0].getDomain());
+        Assert.assertNotNull(addresses);
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
     }
 }

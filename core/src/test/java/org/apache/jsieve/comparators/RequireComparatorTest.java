@@ -18,36 +18,31 @@
  ****************************************************************/
 package org.apache.jsieve.comparators;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class RequireComparatorTest extends TestCase {
+public class RequireComparatorTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-    
+    @Test
     public void testAsciiCasemapShouldBeImplicitlyDeclared() throws Exception {
         String script = "if header :contains :comparator \"i;ascii-casemap\" \"Subject\" \"69\" {stop;}";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
-    
+
+    @Test
     public void testOctetShouldBeImplicitlyDeclared() throws Exception {
         String script = "if header :contains :comparator \"i;octet\" \"Subject\" \"69\" {stop;}";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
-    
+
+    @Test
     public void testBogusComparatorShouldFailAtParseTime() throws Exception {
         String script = "if header :contains :comparator \"i;bogus\" \"Subject\" \"69\" {stop;}";
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            fail("Bogus comparator should fail");
+            Assert.fail("Bogus comparator should fail");
         } catch (ParseException e) {
             // TODO: catch more finely grained exception
             // Expected

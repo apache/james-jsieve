@@ -19,11 +19,12 @@
 
 package org.apache.jsieve.util.check;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.mail.Action;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ScriptCheckMailAdapterMailTest extends TestCase {
+public class ScriptCheckMailAdapterMailTest {
 
     ScriptCheckMailAdapter adapter;
 
@@ -31,23 +32,24 @@ public class ScriptCheckMailAdapterMailTest extends TestCase {
 
     Action anotherAction;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         adapter = new ScriptCheckMailAdapter();
         action = new MockAction();
         anotherAction = new MockAction();
     }
 
+    @Test
     public void testSetMail() throws Exception {
         adapter.addAction(action);
         adapter.addAction(anotherAction);
         adapter.executeActions();
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+        Assert.assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions", 2, adapter.getActions().size());
+        Assert.assertEquals("Two actions", 2, adapter.getActions().size());
         adapter.setMail(null);
-        assertEquals("Set mail resets", 0, adapter.getExecutedActions().size());
-        assertEquals("Set mail resets", 0, adapter.getActions().size());
+        Assert.assertEquals("Set mail resets", 0, adapter.getExecutedActions().size());
+        Assert.assertEquals("Set mail resets", 0, adapter.getActions().size());
     }
 
 }

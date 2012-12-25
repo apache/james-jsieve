@@ -19,22 +19,23 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class FalseTest
  */
-public class FalseTest extends TestCase {
+public class FalseTest {
 
     /**
      * Test for Test 'true'
      */
+    @org.junit.Test
     public void testIfFalse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} throwTestException;";
@@ -46,12 +47,13 @@ public class FalseTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'true' with invalid argument
      */
+    @Test
     public void testInvalidArgument() {
         boolean isTestPassed = false;
         String script = "if false 1 {throwTestException;}";
@@ -63,7 +65,7 @@ public class FalseTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

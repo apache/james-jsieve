@@ -19,12 +19,12 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Before;
+import org.junit.Test;
 
-public class MultipleRequireTest extends TestCase {
+public class MultipleRequireTest {
 
     private static final String MINIMAL_SIEVE = "require [\"fileinto\", \"reject\"];\n";
 
@@ -35,15 +35,17 @@ public class MultipleRequireTest extends TestCase {
 
     MailAdapter mail;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         mail = JUnitUtils.createMail();
     }
 
+    @org.junit.Test
     public void testMinimalScriptMultipleRequiredParsing() throws Exception {
         JUnitUtils.interpret(mail, MINIMAL_SIEVE);
     }
 
+    @Test
     public void testScriptMultipleRequiredParsing() throws Exception {
         JUnitUtils.interpret(mail, MULTIPLE_REQUIRED_SIEVE);
     }

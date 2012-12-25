@@ -19,21 +19,20 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 
-public class WierdAddressTest extends TestCase {
+public class WierdAddressTest {
 
     /**
      * My god - it's full of stars
      */
+    @org.junit.Test
     public void testShouldParseAddressWithLotsOfStars() throws Exception {
         String script = "if anyof (header :matches \"from\"" +
-            "\"**********************************************address@yahoo.com\" ," +
-            "header :is \"subject\" \"5\" )" +
-            "{ fileinto \"Whatever\"; stop;}";
+                "\"**********************************************address@yahoo.com\" ," +
+                "header :is \"subject\" \"5\" )" +
+                "{ fileinto \"Whatever\"; stop;}";
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("From", "user@domain");
         JUnitUtils.interpret(mail, script);

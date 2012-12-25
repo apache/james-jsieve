@@ -19,39 +19,40 @@
 
 package org.apache.jsieve.comparator;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SievePatternException;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ComparatorUtilsTest extends TestCase {
+public class ComparatorUtilsTest {
 
+    @Test
     public void testMatchesStringString() throws SievePatternException {
         String sievematch = "[test] ?\\\\?\\?*\\\\*\\*\\";
-        assertTrue(ComparatorUtils.matches("[test] a\\x?foo\\bar*\\",
+        Assert.assertTrue(ComparatorUtils.matches("[test] a\\x?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] ab\\x?foo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] ab\\x?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test]a\\x?foo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test]a\\x?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[tst] a\\x?foo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[tst] a\\x?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\\\x?foo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] a\\\\x?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\?foo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] a\\?foo\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\xafoo\\bar*\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] a\\xafoo\\bar*\\",
                 sievematch));
-        assertTrue(ComparatorUtils.matches("[test] a\\x?\\bar*\\", sievematch));
-        assertTrue(ComparatorUtils.matches("[test] a\\x?foo\\\\bar*\\",
+        Assert.assertTrue(ComparatorUtils.matches("[test] a\\x?\\bar*\\", sievematch));
+        Assert.assertTrue(ComparatorUtils.matches("[test] a\\x?foo\\\\bar*\\",
                 sievematch));
-        assertFalse(ComparatorUtils
+        Assert.assertFalse(ComparatorUtils
                 .matches("[test] a\\x?foobar*\\", sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar.\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar.\\",
                 sievematch));
-        assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar*\\\\",
+        Assert.assertFalse(ComparatorUtils.matches("[test] a\\x?foo\\bar*\\\\",
                 sievematch));
-        assertFalse(ComparatorUtils
+        Assert.assertFalse(ComparatorUtils
                 .matches("[test] a\\x?foo\\bar*", sievematch));
     }
 
@@ -64,11 +65,11 @@ public class ComparatorUtilsTest extends TestCase {
      * is commonplace in several programming languages that use globs and
      * regular expressions.
      */
+    @Test
     public void testSieveToJavaRegex() {
         String sievematch = "[test] ?\\\\?\\?*\\\\*\\*\\";
         String res = ComparatorUtils.sieveToJavaRegex(sievematch);
         String expected = "\\[test\\] .\\\\.\\?.*\\\\.*\\*\\\\";
-        assertEquals(expected, res);
+        Assert.assertEquals(expected, res);
     }
-
 }

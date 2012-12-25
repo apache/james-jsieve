@@ -19,20 +19,21 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class LogTest
  */
-public class LogTest extends TestCase {
+public class LogTest {
 
     /**
      * Test for Command 'log'.
      */
+    @org.junit.Test
     public void testLogDebug() {
         boolean isTestPassed = false;
         String script = "log :debug \"Log a debug message.\";";
@@ -43,12 +44,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogError() {
         boolean isTestPassed = false;
         String script = "log :error \"Log an error message.\";";
@@ -59,12 +61,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogFatal() {
         boolean isTestPassed = false;
         String script = "log :fatal \"Log a fatal message.\";";
@@ -75,12 +78,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogInfo() {
         boolean isTestPassed = false;
         String script = "log :info \"Log an info message.\";";
@@ -91,12 +95,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogTrace() {
         boolean isTestPassed = false;
         String script = "log :trace \"Log a trace message.\";";
@@ -107,12 +112,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogWarn() {
         boolean isTestPassed = false;
         String script = "log :warn \"Log a warning message.\";";
@@ -123,12 +129,13 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'log'.
      */
+    @Test
     public void testLogDefault() {
         boolean isTestPassed = false;
         String script = "log \"Log a default message.\";";
@@ -139,7 +146,7 @@ public class LogTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

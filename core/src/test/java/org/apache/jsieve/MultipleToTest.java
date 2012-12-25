@@ -19,15 +19,15 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.util.check.ScriptChecker;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.util.check.ScriptChecker;
-
-public class MultipleToTest extends TestCase {
+public class MultipleToTest {
 
     private static final String SOLO_TO_EMAIL = "Date: Sun, 1 Apr 2007 1100:00:00 +0100 (BST)\r\n"
             + "From: roadrunner@acme.example.com\r\n"
@@ -50,30 +50,32 @@ public class MultipleToTest extends TestCase {
             + "if address :is :all \"to\" \"elmer@hunters.example.org\" {\r\n"
             + "  fileinto \"elmer\";\r\n}\r\n";
 
+    @org.junit.Test
     public void testSingleTo() throws Exception {
         ScriptChecker checker = new ScriptChecker();
         ScriptChecker.Results results = checker.check(toStream(SOLO_TO_EMAIL),
                 toStream(FILTER_SCRIPT));
         if (results.getException() != null) {
-            fail(results.getException().toString());
+            Assert.fail(results.getException().toString());
         }
         final List actionsExecuted = results.getActionsExecuted();
-        assertEquals(1, actionsExecuted.size());
-        assertTrue(results.isActionFileInto("coyote", 0));
+        Assert.assertEquals(1, actionsExecuted.size());
+        Assert.assertTrue(results.isActionFileInto("coyote", 0));
     }
 
+    @Test
     public void testMultipleTo() throws Exception {
         ScriptChecker checker = new ScriptChecker();
         ScriptChecker.Results results = checker.check(
                 toStream(MULTIPLE_TO_EMAIL), toStream(FILTER_SCRIPT));
         if (results.getException() != null) {
-            fail(results.getException().toString());
+            Assert.fail(results.getException().toString());
         }
         final List actionsExecuted = results.getActionsExecuted();
-        assertEquals(3, actionsExecuted.size());
-        assertTrue(results.isActionFileInto("coyote", 0));
-        assertTrue(results.isActionFileInto("bugs", 1));
-        assertTrue(results.isActionFileInto("elmer", 2));
+        Assert.assertEquals(3, actionsExecuted.size());
+        Assert.assertTrue(results.isActionFileInto("coyote", 0));
+        Assert.assertTrue(results.isActionFileInto("bugs", 1));
+        Assert.assertTrue(results.isActionFileInto("elmer", 2));
     }
 
     private InputStream toStream(String in) throws Exception {

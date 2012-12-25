@@ -19,8 +19,6 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
@@ -28,15 +26,19 @@ import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * Class RejectTest
  */
-public class RejectTest extends TestCase {
+public class RejectTest {
 
     /**
      * Test for Command 'reject' with invalid arguments
      */
+    @org.junit.Test
     public void testInvalidArguments() {
         boolean isTestPassed = false;
         String script = "reject 1 ;";
@@ -48,12 +50,13 @@ public class RejectTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'reject' with an invalid block
      */
+    @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "reject \"Spam not consumed here!\" {throwTestException;}";
@@ -65,12 +68,13 @@ public class RejectTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'reject'
      */
+    @Test
     public void testReject() {
         boolean isTestPassed = false;
         String script = "reject \"Spam not consumed here!\";";
@@ -78,23 +82,24 @@ public class RejectTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 1);
-            assertTrue(mail.getActions().get(0) instanceof ActionReject);
+            Assert.assertTrue(mail.getActions().size() == 1);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionReject);
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Tests that the message is correctly passed
      */
+    @Test
     public void testRejectMessage() throws Exception {
         String message = "Spam not consumed here!";
         String script = "reject \"" + message + "\";";
-        ActionReject rejection = runRejectScript(script);        
-        assertEquals(message, rejection.getMessage());
+        ActionReject rejection = runRejectScript(script);
+        Assert.assertEquals(message, rejection.getMessage());
     }
 
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
@@ -103,13 +108,13 @@ public class RejectTest extends TestCase {
         assertTrue(mail.getActions().size() == 1);
         Object action = mail.getActions().get(0);
         assertTrue(action instanceof ActionReject);
-        ActionReject rejection = (ActionReject) action;
-        return rejection;
+        return (ActionReject) action;
     }
-    
+
     /**
      * Test for Command 'reject'
      */
+    @Test
     public void testRejectMissingMessage() {
         boolean isTestPassed = false;
         String script = "reject;";
@@ -117,18 +122,19 @@ public class RejectTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 1);
-            assertTrue(mail.getActions().get(0) instanceof ActionReject);
+            Assert.assertTrue(mail.getActions().size() == 1);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionReject);
         } catch (ParseException e) {
         } catch (SieveException e) {
             isTestPassed = true;
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for duplicate Command 'reject'
      */
+    @Test
     public void testDuplicateReject() {
         boolean isTestPassed = false;
         String script = "reject \"Spam not consumed here!\"; reject \"Spam not consumed here!\";";
@@ -141,12 +147,13 @@ public class RejectTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'reject' preceded by another command
      */
+    @Test
     public void testRejectAndAPrecedingCommand() {
         boolean isTestPassed = false;
         String script = "keep; reject \"Spam not consumed here!\";";
@@ -159,12 +166,13 @@ public class RejectTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'reject' followed by another command
      */
+    @Test
     public void testRejectAndAFollowingCommand() {
         boolean isTestPassed = false;
         String script = "reject \"Spam not consumed here!\"; keep;";
@@ -177,7 +185,7 @@ public class RejectTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

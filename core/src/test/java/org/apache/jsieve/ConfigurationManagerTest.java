@@ -19,24 +19,23 @@
 
 package org.apache.jsieve;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.ConfigurationManager;
-import org.apache.jsieve.SieveConfigurationException;
-
 /**
  * Class ConfigurationManagerTest
  */
-public class ConfigurationManagerTest extends TestCase {
+public class ConfigurationManagerTest {
 
     /**
      * Test the CommandMap maps 'MUST' and 'SHOULD' be supported commands to the
      * correct classes.
      */
+    @org.junit.Test
     public void testCommandMap() {
         Map<String, String> map = new HashMap<String, String>();
         // Condition Commands
@@ -63,21 +62,22 @@ public class ConfigurationManagerTest extends TestCase {
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {
                 Map.Entry entry = (Map.Entry) mapIter.next();
-                assertTrue("Key: " + entry.getKey(), commandMap
+                Assert.assertTrue("Key: " + entry.getKey(), commandMap
                         .containsKey(entry.getKey()));
-                assertTrue("Value: " + entry.getValue(), commandMap.get(
+                Assert.assertTrue("Value: " + entry.getValue(), commandMap.get(
                         entry.getKey()).equals(entry.getValue()));
             }
             isTestPassed = true;
         } catch (SieveConfigurationException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test the TestMap maps 'MUST' and 'SHOULD' be supported tests to the
      * correct classes.
      */
+    @Test
     public void testTestMap() {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -102,21 +102,22 @@ public class ConfigurationManagerTest extends TestCase {
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {
                 Map.Entry entry = (Map.Entry) mapIter.next();
-                assertTrue("Key: " + entry.getKey(), testMap.containsKey(entry
+                Assert.assertTrue("Key: " + entry.getKey(), testMap.containsKey(entry
                         .getKey()));
-                assertTrue("Value: " + entry.getValue(), testMap.get(
+                Assert.assertTrue("Value: " + entry.getValue(), testMap.get(
                         entry.getKey()).equals(entry.getValue()));
             }
             isTestPassed = true;
         } catch (SieveConfigurationException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test the CommparatorMap maps 'MUST' and 'SHOULD' be supported comparators
      * to the correct classes.
      */
+    @Test
     public void testComparatorMap() {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -133,15 +134,15 @@ public class ConfigurationManagerTest extends TestCase {
             Iterator mapIter = map.entrySet().iterator();
             while (mapIter.hasNext()) {
                 Map.Entry entry = (Map.Entry) mapIter.next();
-                assertTrue("Key: " + entry.getKey(), comparatorMap
+                Assert.assertTrue("Key: " + entry.getKey(), comparatorMap
                         .containsKey(entry.getKey()));
-                assertTrue("Value: " + entry.getValue(), comparatorMap.get(
+                Assert.assertTrue("Value: " + entry.getValue(), comparatorMap.get(
                         entry.getKey()).equals(entry.getValue()));
             }
             isTestPassed = true;
         } catch (SieveConfigurationException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

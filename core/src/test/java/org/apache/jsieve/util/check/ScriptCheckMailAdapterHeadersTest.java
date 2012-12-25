@@ -19,13 +19,14 @@
 
 package org.apache.jsieve.util.check;
 
+import org.apache.jsieve.javaxmail.MockMimeMessage;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.javaxmail.MockMimeMessage;
-
-public class ScriptCheckMailAdapterHeadersTest extends TestCase {
+public class ScriptCheckMailAdapterHeadersTest {
     private static final String BCC = "Bcc";
 
     private static final String TO = "To";
@@ -55,8 +56,8 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
 
     MockMimeMessage message;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         adapter = new ScriptCheckMailAdapter();
         message = new MockMimeMessage();
         message.addHeader(FROM, FROM_ADDRESS);
@@ -71,66 +72,70 @@ public class ScriptCheckMailAdapterHeadersTest extends TestCase {
         adapter.setMail(message);
     }
 
+    @Test
     public void testGetHeader() throws Exception {
         List<String> headers = adapter.getHeader(FROM);
-        assertNotNull(headers);
-        assertEquals("From header", 1, headers.size());
-        assertEquals("From header", FROM_ADDRESS, headers.get(0));
+        Assert.assertNotNull(headers);
+        Assert.assertEquals("From header", 1, headers.size());
+        Assert.assertEquals("From header", FROM_ADDRESS, headers.get(0));
         headers = adapter.getHeader(BCC);
-        assertEquals("Bcc headers", 2, headers.size());
-        assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_ONE));
-        assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_TWO));
+        Assert.assertEquals("Bcc headers", 2, headers.size());
+        Assert.assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_ONE));
+        Assert.assertTrue("Bcc headers", headers.contains(BCC_ADDRESS_TWO));
         headers = adapter.getHeader(X_HEADER_NAME);
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE, headers
+        Assert.assertEquals("Case and whitespace sensitive", 1, headers.size());
+        Assert.assertEquals("Case and whitespace sensitive", X_HEADER_VALUE, headers
                 .get(0));
         headers = adapter.getHeader(X_HEADER_NAME.toLowerCase());
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE
+        Assert.assertEquals("Case and whitespace sensitive", 1, headers.size());
+        Assert.assertEquals("Case and whitespace sensitive", X_HEADER_VALUE
                 .toLowerCase(), headers.get(0));
         headers = adapter.getHeader(X_HEADER_WITH_WS);
-        assertEquals("Case and whitespace sensitive", 1, headers.size());
-        assertEquals("Case and whitespace sensitive", X_HEADER_VALUE_ALT,
+        Assert.assertEquals("Case and whitespace sensitive", 1, headers.size());
+        Assert.assertEquals("Case and whitespace sensitive", X_HEADER_VALUE_ALT,
                 headers.get(0));
     }
 
+    @Test
     public void testGetHeaderNames() throws Exception {
         List headers = adapter.getHeaderNames();
-        assertNotNull(headers);
-        assertEquals("All headers set returned", 6, headers.size());
-        assertTrue("All headers set returned", headers.contains(BCC));
-        assertTrue("All headers set returned", headers.contains(TO));
-        assertTrue("All headers set returned", headers.contains(FROM));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME));
-        assertTrue("All headers set returned", headers.contains(X_HEADER_NAME
+        Assert.assertNotNull(headers);
+        Assert.assertEquals("All headers set returned", 6, headers.size());
+        Assert.assertTrue("All headers set returned", headers.contains(BCC));
+        Assert.assertTrue("All headers set returned", headers.contains(TO));
+        Assert.assertTrue("All headers set returned", headers.contains(FROM));
+        Assert.assertTrue("All headers set returned", headers.contains(X_HEADER_NAME));
+        Assert.assertTrue("All headers set returned", headers.contains(X_HEADER_NAME
                 .toLowerCase()));
-        assertTrue("All headers set returned", headers
+        Assert.assertTrue("All headers set returned", headers
                 .contains(X_HEADER_WITH_WS));
     }
 
+    @Test
     public void testGetMatchingHeader() throws Exception {
         List<String> headers = adapter.getMatchingHeader(FROM);
-        assertNotNull(headers);
-        assertEquals("From headers set returned", 1, headers.size());
-        assertTrue("From headers set returned", headers.contains(FROM_ADDRESS));
+        Assert.assertNotNull(headers);
+        Assert.assertEquals("From headers set returned", 1, headers.size());
+        Assert.assertTrue("From headers set returned", headers.contains(FROM_ADDRESS));
         headers = adapter.getMatchingHeader(X_HEADER_NAME);
-        assertNotNull(headers);
-        assertEquals(
+        Assert.assertNotNull(headers);
+        Assert.assertEquals(
                 "Matches ignoring whitespace and capitalisation headers set returned",
                 3, headers.size());
-        assertTrue(
+        Assert.assertTrue(
                 "Matches ignoring whitespace and capitalisation headers set returned",
                 headers.contains(X_HEADER_VALUE));
-        assertTrue(
+        Assert.assertTrue(
                 "Matches ignoring whitespace and capitalisation headers set returned",
                 headers.contains(X_HEADER_VALUE_ALT));
-        assertTrue(
+        Assert.assertTrue(
                 "Matches ignoring whitespace and capitalisation headers set returned",
                 headers.contains(X_HEADER_VALUE.toLowerCase()));
     }
 
+    @Test
     public void testGetSize() throws Exception {
         int size = adapter.getSize();
-        assertEquals("Message size set", MESSAGE_SIZE, size);
+        Assert.assertEquals("Message size set", MESSAGE_SIZE, size);
     }
 }

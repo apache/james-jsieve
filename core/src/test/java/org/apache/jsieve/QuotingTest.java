@@ -19,14 +19,14 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.Assert;
 
-public class QuotingTest extends TestCase {
+public class QuotingTest {
 
+    @org.junit.Test
     public void testQuoteInQuotedString() throws Exception {
         String script = "if header :is \"X-Test\" \"Before\\\"After\" {throwTestException;}";
 
@@ -35,7 +35,7 @@ public class QuotingTest extends TestCase {
         mail.getMessage().addHeader("X-Test", "Before\"After");
         try {
             JUnitUtils.interpret(mail, script);
-            fail("Expected header to be matched");
+            Assert.fail("Expected header to be matched");
         } catch (ThrowTestException.TestException e) {
             // expected
         }

@@ -19,24 +19,22 @@
 
 package org.apache.jsieve;
 
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.mail.MessagingException;
 
 /**
  * Class AddressTest
  */
-public class AddressTest extends TestCase {
+public class AddressTest {
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsTrue() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
@@ -50,12 +48,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testCaseInsensitiveHeaderName() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"from\" \"user@domain\" {throwTestException;}";
@@ -69,12 +65,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testTreatmentOfEmbededSpacesInHeaderName() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
@@ -88,12 +82,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testOctetComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -107,12 +99,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testOctetComparatorFalse() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -126,12 +116,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testAsciiComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -145,12 +133,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testAsciiComparatorFalse() {
         boolean isTestPassed = false;
         String script = "if address :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -164,12 +150,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiTrue1() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
@@ -184,12 +168,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiTrue2() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -204,12 +186,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiTrue3() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -224,12 +204,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiTrue4() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -244,12 +222,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :all :matches \"From\" \"*@domain\" {throwTestException;}";
@@ -263,12 +239,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllContainsTrue() {
         boolean isTestPassed = false;
         String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
@@ -282,12 +256,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartIsTrue() {
         boolean isTestPassed = false;
         String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
@@ -301,12 +273,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :localpart :matches \"From\" \"*er\" {throwTestException;}";
@@ -320,12 +290,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartContainsTrue() {
         boolean isTestPassed = false;
         String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
@@ -339,12 +307,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainIsTrue() {
         boolean isTestPassed = false;
         String script = "if address :domain :is \"From\" \"domain\" {throwTestException;}";
@@ -359,12 +325,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if address :domain :matches \"From\" \"*main\" {throwTestException;}";
@@ -378,12 +342,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainContainsTrue() {
         boolean isTestPassed = false;
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
@@ -397,12 +359,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsFalse() {
         boolean isTestPassed = false;
         String script = "if address :all :is \"From\" \"user@domain\" {throwTestException;}";
@@ -416,12 +376,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
@@ -435,12 +393,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllContainsFalse() {
         boolean isTestPassed = false;
         String script = "if address :all :contains \"From\" \"r@dom\" {throwTestException;}";
@@ -454,12 +410,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartIsFalse() {
         boolean isTestPassed = false;
         String script = "if address :localpart :is \"From\" \"user\" {throwTestException;}";
@@ -473,12 +427,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
@@ -492,12 +444,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressLocalpartContainsFalse() {
         boolean isTestPassed = false;
         String script = "if address :localpart :contains \"From\" \"r\" {throwTestException;}";
@@ -511,12 +461,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainIsFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :is \"From\" \"domain\" {throwTestException;}";
@@ -531,12 +479,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
@@ -550,12 +496,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressDomainContainsFalse() {
         boolean isTestPassed = false;
         String script = "if address :domain :contains \"From\" \"dom\" {throwTestException;}";
@@ -569,12 +513,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiFalse1() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
@@ -589,12 +531,10 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
-    /**
-     * Test for Test 'address'
-     */
+    @Test
     public void testIfAddressAllIsMultiFalse2() {
         boolean isTestPassed = false;
         String script = "if address :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -609,7 +549,7 @@ public class AddressTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

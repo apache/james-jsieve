@@ -19,24 +19,25 @@
 
 package org.apache.jsieve;
 
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.mail.MessagingException;
 
 /**
  * Class HeaderTest
  */
-public class HeaderTest extends TestCase {
+public class HeaderTest {
 
     /**
      * Test for Test 'header'
      */
+    @org.junit.Test
     public void testHeaderIsTrue() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -50,12 +51,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderCaseInsensitivity() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -69,12 +71,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsTrueMulti1() {
         boolean isTestPassed = false;
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] \"C8H10N4O2\" {throwTestException;}";
@@ -88,12 +91,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsFalseMulti1() {
         boolean isTestPassed = false;
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] \"C8H10N4O2\" {throwTestException;}";
@@ -108,12 +112,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsTrueMulti2() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" [\"absent\", \"C8H10N4O2\"] {throwTestException;}";
@@ -127,12 +132,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsTrueMulti3() {
         boolean isTestPassed = false;
         String script = "if header :is [\"X-Decaf\", \"X-Caffeine\"] [\"absent\", \"C8H10N4O2\"] {throwTestException;}";
@@ -147,12 +153,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsFalseValue() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -166,12 +173,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsFalseHeader() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -185,12 +193,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderContainsTrue() {
         boolean isTestPassed = false;
         String script = "if header :contains \"X-Caffeine\" \"C8H10\" {throwTestException;}";
@@ -204,12 +213,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderContainsFalse() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -223,12 +233,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderContainsNullTrue() {
         boolean isTestPassed = false;
         String script = "if header :contains \"X-Caffeine\" \"\" {throwTestException;}";
@@ -242,12 +253,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderIsNullFalse() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"\" {throwTestException;}";
@@ -261,12 +273,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if header :matches \"X-Caffeine\" \"*10N?O2\" {throwTestException;}";
@@ -280,12 +293,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'header'
      */
+    @Test
     public void testHeaderMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if header :matches \"X-Caffeine\" \"*10N?O2\" {throwTestException;}";
@@ -299,15 +313,16 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for square brackets in matching headers When the "[" is in the first
      * char of the pattern it does not matches.
-     * 
+     * <p/>
      * See http://issues.apache.org/jira/browse/JSIEVE-19
      */
+    @Test
     public void testSquareBracketsInMatch() {
         boolean isTestPassed = false;
         String script = "if header :matches \"X-Caffeine\" \"[test*\" {throwTestException;}";
@@ -321,12 +336,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for special char escaping: \\? is a ? and \\* is an *
      */
+    @Test
     public void testSpecialCharsEscapingInMatch() {
         boolean isTestPassed = false;
         String script = "if header :matches \"X-Caffeine\" \"my,\\\\,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
@@ -341,12 +357,13 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for special char escaping: \\? is a ? and \\* is an *
      */
+    @Test
     public void testSpecialCharsEscapingInMatchFalse() {
         boolean isTestPassed = false;
         String script = "if header :matches \"X-Caffeine\" \"my,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
@@ -361,7 +378,7 @@ public class HeaderTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

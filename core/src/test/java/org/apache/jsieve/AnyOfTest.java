@@ -26,15 +26,18 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.*;
+import org.junit.Test;
 
 /**
  * Class AnyOfTest
  */
-public class AnyOfTest extends TestCase {
+public class AnyOfTest {
 
     /**
      * Test for Test 'anyof'
      */
+    @org.junit.Test
     public void testIfAnyOfFalseTrue() {
         boolean isTestPassed = false;
         String script = "if anyof (false, true) {throwTestException;}";
@@ -46,12 +49,13 @@ public class AnyOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'anyof'
      */
+    @Test
     public void testIfAnyOfTrueTrue() {
         boolean isTestPassed = false;
         String script = "if anyof (true, true) {throwTestException;}";
@@ -63,12 +67,13 @@ public class AnyOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'anyof'
      */
+    @Test
     public void testIfAnyOfFalseFalse() {
         boolean isTestPassed = false;
         String script = "if anyof (false, false) {stop;} throwTestException;";
@@ -80,12 +85,13 @@ public class AnyOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'anyof'
      */
+    @Test
     public void testIfAnyOfTrueFalse() {
         boolean isTestPassed = false;
         String script = "if anyof (true, false) {throwTestException;}";
@@ -97,12 +103,13 @@ public class AnyOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'anyof' with invalid argument
      */
+    @Test
     public void testInvalidArgument() {
         boolean isTestPassed = false;
         String script = "if anyof 1 {throwTestException;}";
@@ -114,7 +121,7 @@ public class AnyOfTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

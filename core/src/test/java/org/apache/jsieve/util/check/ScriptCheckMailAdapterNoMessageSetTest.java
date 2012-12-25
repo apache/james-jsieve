@@ -19,36 +19,42 @@
 
 package org.apache.jsieve.util.check;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
-
-public class ScriptCheckMailAdapterNoMessageSetTest extends TestCase {
+public class ScriptCheckMailAdapterNoMessageSetTest {
 
     ScriptCheckMailAdapter adapter;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         adapter = new ScriptCheckMailAdapter();
     }
 
+    @Test
     public void testGetHeader() throws Exception {
         List<String> headers = adapter.getHeader("From");
-        assertNotNull(headers);
+        Assert.assertNotNull(headers);
     }
 
+    @Test
     public void testGetHeaderNames() throws Exception {
         List headers = adapter.getHeaderNames();
-        assertNotNull(headers);
+        Assert.assertNotNull(headers);
     }
 
+    @Test
     public void testGetMatchingHeader() throws Exception {
         List headers = adapter.getMatchingHeader("From");
-        assertNotNull(headers);
+        Assert.assertNotNull(headers);
     }
 
-    public void tesGetSize() throws Exception {
+    @Test
+    public void testGetSize() throws Exception {
         int size = adapter.getSize();
-        assertEquals("When mail not set, size is zero", 0, size);
+        Assert.assertEquals("When mail not set, size is zero", 0, size);
     }
 }

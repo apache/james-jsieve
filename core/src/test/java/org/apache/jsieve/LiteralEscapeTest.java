@@ -20,33 +20,26 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.After;
+import org.junit.Before;
 
-import junit.framework.TestCase;
-
-public class LiteralEscapeTest extends TestCase {
+public class LiteralEscapeTest {
 
     private final String SCRIPT = "require [\"fileinto\", \"reject\"];" +
-    "" +
-    "# test" +
-    "if allof (header :contains \"to\" \"\\\\\") {" +
-    "    keep;" +
-    "    stop;" +
-    "}" +
-    "" +
-    "# test2" +
-    "if anyof (header :contains \"subject\" \"foo\") {" +
-    "    keep;" +
-    "    stop;" +
-    "}"; 
-    
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
+            "" +
+            "# test" +
+            "if allof (header :contains \"to\" \"\\\\\") {" +
+            "    keep;" +
+            "    stop;" +
+            "}" +
+            "" +
+            "# test2" +
+            "if anyof (header :contains \"subject\" \"foo\") {" +
+            "    keep;" +
+            "    stop;" +
+            "}";
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @org.junit.Test
     public void testBackSlash() throws Exception {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("to", "tweety@pie");

@@ -18,12 +18,6 @@
  ****************************************************************/
 package org.apache.jsieve.commands.optional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
@@ -35,18 +29,24 @@ import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TestList;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.util.check.ScriptCheckMailAdapter;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class FileIntoTest extends TestCase {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class FileIntoTest {
 
     FileInto subject;
-    
+
     ScriptCheckMailAdapter mockAdapter;
     Arguments dummyArguments;
     SieveContext dummyContext;
-    
-    @SuppressWarnings("unchecked")
-    protected void setUp() throws Exception {
-        super.setUp();
+
+    @Before
+    public void setUp() throws Exception {
         mockAdapter = new ScriptCheckMailAdapter();
         List<String> stringList = new ArrayList<String>();
         stringList.add("Whatever");
@@ -56,24 +56,21 @@ public class FileIntoTest extends TestCase {
         ConfigurationManager configurationManager = new ConfigurationManager();
         dummyContext = new BaseSieveContext(
                 configurationManager.getCommandManager(), configurationManager
-                        .getComparatorManager(), configurationManager
-                        .getTestManager(), LogFactory
-                        .getLog(this.getClass()));
+                .getComparatorManager(), configurationManager
+                .getTestManager(), LogFactory
+                .getLog(this.getClass()));
         dummyContext.setCoordinate(new ScriptCoordinate(0, 0, 0, 0));
         subject = new FileInto();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testFileIntoShouldNotAllowMultipleFileIntoActions() throws Exception {
         subject.execute(mockAdapter, dummyArguments, null, dummyContext);
-        assertEquals(1, mockAdapter.getActions().size());
-        assertTrue(mockAdapter.getActions().get(0) instanceof ActionFileInto);
-        
+        Assert.assertEquals(1, mockAdapter.getActions().size());
+        Assert.assertTrue(mockAdapter.getActions().get(0) instanceof ActionFileInto);
+
         subject.execute(mockAdapter, dummyArguments, null, dummyContext);
-        assertEquals(1, mockAdapter.getActions().size());
-        assertTrue(mockAdapter.getActions().get(0) instanceof ActionFileInto);
+        Assert.assertEquals(1, mockAdapter.getActions().size());
+        Assert.assertTrue(mockAdapter.getActions().get(0) instanceof ActionFileInto);
     }
 }

@@ -18,74 +18,74 @@
  ****************************************************************/
 package org.apache.jsieve.parser;
 
+import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+public class SieveNodeCommentTest {
 
-import org.apache.jsieve.utils.JUnitUtils;
-
-public class SieveNodeCommentTest extends TestCase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testGetNoCommentsBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("if address :contains [\"To\", \"From\"] \"Fish!\"{ }");
         List comments = node.getPrecedingComments();
-        assertNotNull(comments);
-        assertEquals(0, comments.size());
+        Assert.assertNotNull(comments);
+        Assert.assertEquals(0, comments.size());
     }
-    
+
+    @Test
     public void testGetBracketCommentsBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment *//* Another comment */if address :contains [\"To\", \"From\"] \"Fish!\"{ }");
         List comments = node.getPrecedingComments();
-        assertNotNull(comments);
-        assertEquals(2, comments.size());
-        assertEquals(" A Comment ", comments.get(0));
-        assertEquals(" Another comment ", comments.get(1));
+        Assert.assertNotNull(comments);
+        Assert.assertEquals(2, comments.size());
+        Assert.assertEquals(" A Comment ", comments.get(0));
+        Assert.assertEquals(" Another comment ", comments.get(1));
     }
-    
+
+    @Test
     public void testGetHashCommentsBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment */#A Line Comment\nif address :contains [\"To\", \"From\"] \"Fish!\"{ }");
         List comments = node.getPrecedingComments();
-        assertNotNull(comments);
-        assertEquals(2, comments.size());
-        assertEquals(" A Comment ", comments.get(0));
-        assertEquals("A Line Comment", comments.get(1));
+        Assert.assertNotNull(comments);
+        Assert.assertEquals(2, comments.size());
+        Assert.assertEquals(" A Comment ", comments.get(0));
+        Assert.assertEquals("A Line Comment", comments.get(1));
     }
-    
+
+    @Test
     public void testGetHashCommentsBeforeCRLF() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment */#A Line Comment\r\nif address :contains [\"To\", \"From\"] \"Fish!\"{ }");
         List comments = node.getPrecedingComments();
-        assertNotNull(comments);
-        assertEquals(2, comments.size());
-        assertEquals(" A Comment ", comments.get(0));
-        assertEquals("A Line Comment", comments.get(1));
+        Assert.assertNotNull(comments);
+        Assert.assertEquals(2, comments.size());
+        Assert.assertEquals(" A Comment ", comments.get(0));
+        Assert.assertEquals("A Line Comment", comments.get(1));
     }
-    
 
+
+    @Test
     public void testGetLastCommentNoneBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("if address :contains [\"To\", \"From\"] \"Fish!\"{ }");
-        assertNull(node.getLastComment());
+        Assert.assertNull(node.getLastComment());
     }
-    
+
+    @Test
     public void testGetBracketLastCommentBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment *//* Another comment */if address :contains [\"To\", \"From\"] \"Fish!\"{ }");
-        assertEquals(" Another comment ", node.getLastComment());
+        Assert.assertEquals(" Another comment ", node.getLastComment());
     }
-    
+
+    @Test
     public void testGetHashLastCommentBefore() throws Exception {
         SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment */#A Line Comment\nif address :contains [\"To\", \"From\"] \"Fish!\"{ }");
-        assertEquals("A Line Comment", node.getLastComment());
+        Assert.assertEquals("A Line Comment", node.getLastComment());
     }
-    
+
+    @Test
     public void testGetHashLastCommentBeforeCRLF() throws Exception {
-        SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment */#A Line Comment\r\nif address :contains [\"To\", \"From\"] \"Fish!\"{ }");;
-        assertEquals("A Line Comment", node.getLastComment());
+        SieveNode node = (SieveNode) JUnitUtils.parse("/* A Comment */#A Line Comment\r\nif address :contains [\"To\", \"From\"] \"Fish!\"{ }");
+        Assert.assertEquals("A Line Comment", node.getLastComment());
     }
 }

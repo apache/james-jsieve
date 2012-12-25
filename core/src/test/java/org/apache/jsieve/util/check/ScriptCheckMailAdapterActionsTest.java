@@ -19,13 +19,12 @@
 
 package org.apache.jsieve.util.check;
 
-import java.util.ListIterator;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.mail.Action;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ScriptCheckMailAdapterActionsTest extends TestCase {
+public class ScriptCheckMailAdapterActionsTest {
 
     ScriptCheckMailAdapter adapter;
 
@@ -33,109 +32,116 @@ public class ScriptCheckMailAdapterActionsTest extends TestCase {
 
     Action anotherAction;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         adapter = new ScriptCheckMailAdapter();
         action = new MockAction();
         anotherAction = new MockAction();
     }
 
+    @Test
     public void testAddAction() {
         adapter.addAction(action);
-        assertEquals("Running total updated", 1, adapter.getActions().size());
-        assertEquals("Running total updated", action, adapter.getActions().get(
+        Assert.assertEquals("Running total updated", 1, adapter.getActions().size());
+        Assert.assertEquals("Running total updated", action, adapter.getActions().get(
                 0));
         adapter.addAction(anotherAction);
-        assertEquals("Order preserved", 2, adapter.getActions().size());
-        assertEquals("Order preserved", anotherAction, adapter.getActions()
+        Assert.assertEquals("Order preserved", 2, adapter.getActions().size());
+        Assert.assertEquals("Order preserved", anotherAction, adapter.getActions()
                 .get(1));
     }
 
+    @Test
     public void testExecuteActions() throws Exception {
-        assertNotNull(adapter.getExecutedActions());
-        assertEquals("No actions executed", 0, adapter.getExecutedActions()
+        Assert.assertNotNull(adapter.getExecutedActions());
+        Assert.assertEquals("No actions executed", 0, adapter.getExecutedActions()
                 .size());
         adapter.addAction(action);
-        assertNotNull(adapter.getExecutedActions());
-        assertEquals("No actions executed", 0, adapter.getExecutedActions()
+        Assert.assertNotNull(adapter.getExecutedActions());
+        Assert.assertEquals("No actions executed", 0, adapter.getExecutedActions()
                 .size());
         adapter.executeActions();
-        assertNotNull(adapter.getExecutedActions());
-        assertEquals("One action executed", 1, adapter.getExecutedActions()
+        Assert.assertNotNull(adapter.getExecutedActions());
+        Assert.assertEquals("One action executed", 1, adapter.getExecutedActions()
                 .size());
     }
 
+    @Test
     public void testGetActions() {
-        assertNotNull(adapter.getActions());
+        Assert.assertNotNull(adapter.getActions());
         try {
-            adapter.getActions().add(new Action() {});
-            fail("Should not be able to modify collection");
+            adapter.getActions().add(new Action() {
+            });
+            Assert.fail("Should not be able to modify collection");
         } catch (UnsupportedOperationException e) {
             // expected
         }
         adapter.addAction(action);
-        assertNotNull(adapter.getActions());
-        assertEquals("Running total updated", 1, adapter.getActions().size());
-        assertEquals("Running total updated", action, adapter.getActions().get(
+        Assert.assertNotNull(adapter.getActions());
+        Assert.assertEquals("Running total updated", 1, adapter.getActions().size());
+        Assert.assertEquals("Running total updated", action, adapter.getActions().get(
                 0));
         adapter.addAction(anotherAction);
-        assertNotNull(adapter.getActions());
-        assertEquals("Order preserved", 2, adapter.getActions().size());
-        assertEquals("Order preserved", anotherAction, adapter.getActions()
+        Assert.assertNotNull(adapter.getActions());
+        Assert.assertEquals("Order preserved", 2, adapter.getActions().size());
+        Assert.assertEquals("Order preserved", anotherAction, adapter.getActions()
                 .get(1));
     }
 
+    @Test
     public void testGetExecutedActions() throws Exception {
-        assertNotNull(adapter.getExecutedActions());
-        assertEquals("No actions executed", 0, adapter.getExecutedActions()
+        Assert.assertNotNull(adapter.getExecutedActions());
+        Assert.assertEquals("No actions executed", 0, adapter.getExecutedActions()
                 .size());
         adapter.addAction(action);
-        assertNotNull(adapter.getExecutedActions());
-        assertEquals("No actions executed", 0, adapter.getExecutedActions()
+        Assert.assertNotNull(adapter.getExecutedActions());
+        Assert.assertEquals("No actions executed", 0, adapter.getExecutedActions()
                 .size());
         adapter.executeActions();
-        assertEquals("One action executed", 1, adapter.getExecutedActions()
+        Assert.assertEquals("One action executed", 1, adapter.getExecutedActions()
                 .size());
-        assertEquals("One action executed", action, adapter
+        Assert.assertEquals("One action executed", action, adapter
                 .getExecutedActions().get(0));
         adapter.addAction(anotherAction);
-        assertEquals("One action executed", 1, adapter.getExecutedActions()
+        Assert.assertEquals("One action executed", 1, adapter.getExecutedActions()
                 .size());
-        assertEquals("One action executed", action, adapter
+        Assert.assertEquals("One action executed", action, adapter
                 .getExecutedActions().get(0));
         adapter.executeActions();
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+        Assert.assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions executed", action, adapter
+        Assert.assertEquals("Two actions executed", action, adapter
                 .getExecutedActions().get(0));
-        assertEquals("Two actions executed", anotherAction, adapter
+        Assert.assertEquals("Two actions executed", anotherAction, adapter
                 .getExecutedActions().get(1));
-        adapter.getExecutedActions().add(new Action(){});
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+        adapter.getExecutedActions().add(new Action() {
+        });
+        Assert.assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions executed", action, adapter
+        Assert.assertEquals("Two actions executed", action, adapter
                 .getExecutedActions().get(0));
-        assertEquals("Two actions executed", anotherAction, adapter
+        Assert.assertEquals("Two actions executed", anotherAction, adapter
                 .getExecutedActions().get(1));
         adapter.executeActions();
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+        Assert.assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions executed", action, adapter
+        Assert.assertEquals("Two actions executed", action, adapter
                 .getExecutedActions().get(0));
-        assertEquals("Two actions executed", anotherAction, adapter
+        Assert.assertEquals("Two actions executed", anotherAction, adapter
                 .getExecutedActions().get(1));
     }
 
+    @Test
     public void testReset() throws Exception {
         adapter.addAction(action);
         adapter.addAction(anotherAction);
         adapter.executeActions();
-        assertEquals("Two actions executed", 2, adapter.getExecutedActions()
+        Assert.assertEquals("Two actions executed", 2, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions", 2, adapter.getActions().size());
+        Assert.assertEquals("Two actions", 2, adapter.getActions().size());
         adapter.reset();
-        assertEquals("Two actions executed", 0, adapter.getExecutedActions()
+        Assert.assertEquals("Two actions executed", 0, adapter.getExecutedActions()
                 .size());
-        assertEquals("Two actions", 0, adapter.getActions().size());
+        Assert.assertEquals("Two actions", 0, adapter.getActions().size());
     }
 }

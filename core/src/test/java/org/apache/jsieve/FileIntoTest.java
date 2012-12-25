@@ -19,23 +19,24 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class FileIntoTest
  */
-public class FileIntoTest extends TestCase {
+public class FileIntoTest {
 
     /**
      * Test for Command 'fileinto'
      */
+    @org.junit.Test
     public void testFileInto() {
         boolean isTestPassed = false;
         String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test2\";";
@@ -43,24 +44,25 @@ public class FileIntoTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 2);
-            assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
-            assertTrue(((ActionFileInto) mail.getActions().get(0))
+            Assert.assertTrue(mail.getActions().size() == 2);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
+            Assert.assertTrue(((ActionFileInto) mail.getActions().get(0))
                     .getDestination().equals("INBOX.test1"));
-            assertTrue(mail.getActions().get(1) instanceof ActionFileInto);
-            assertTrue(((ActionFileInto) mail.getActions().get(1))
+            Assert.assertTrue(mail.getActions().get(1) instanceof ActionFileInto);
+            Assert.assertTrue(((ActionFileInto) mail.getActions().get(1))
                     .getDestination().equals("INBOX.test2"));
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'fileinto' with duplicate destinations. Only one
      * ActionFileInto should result.
      */
+    @Test
     public void testDuplicateFileInto() {
         boolean isTestPassed = false;
         String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test1\";";
@@ -68,20 +70,21 @@ public class FileIntoTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 1);
-            assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
-            assertTrue(((ActionFileInto) mail.getActions().get(0))
+            Assert.assertTrue(mail.getActions().size() == 1);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionFileInto);
+            Assert.assertTrue(((ActionFileInto) mail.getActions().get(0))
                     .getDestination().equals("INBOX.test1"));
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'fileinto' with an invalid argument type
      */
+    @Test
     public void testInvalidArgumentType() {
         boolean isTestPassed = false;
         String script = "fileinto 1 ;";
@@ -93,12 +96,13 @@ public class FileIntoTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'fileinto' with an invalid argument number
      */
+    @Test
     public void testInvalidArgumentNumber() {
         boolean isTestPassed = false;
         String script = "fileinto [\"INBOX.test\", \"elsewhere\"];";
@@ -110,12 +114,13 @@ public class FileIntoTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'fileinto' with an invalid block
      */
+    @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "fileinto 1 {throwTestException;}";
@@ -127,7 +132,7 @@ public class FileIntoTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

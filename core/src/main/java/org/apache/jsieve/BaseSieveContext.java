@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 
 /**
  * Bean based implementation of context.
- * 
  */
 public class BaseSieveContext extends SieveContext {
 
@@ -42,8 +41,8 @@ public class BaseSieveContext extends SieveContext {
     private final Log log;
 
     public BaseSieveContext(final CommandManager commandManager,
-            final ComparatorManager comparatorManager,
-            final TestManager testManager, final Log log) {
+                            final ComparatorManager comparatorManager,
+                            final TestManager testManager, final Log log) {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
@@ -54,7 +53,7 @@ public class BaseSieveContext extends SieveContext {
 
     /**
      * Gets the script position of the current operation.
-     * 
+     *
      * @return <code>ScriptCoordinate</code>, not null
      */
     @Override
@@ -64,9 +63,8 @@ public class BaseSieveContext extends SieveContext {
 
     /**
      * Sets the script position of the current operation.
-     * 
-     * @param coordinate
-     *            <code>ScriptCoordinate</code>, not null
+     *
+     * @param coordinate <code>ScriptCoordinate</code>, not null
      */
     @Override
     public void setCoordinate(ScriptCoordinate coordinate) {
@@ -131,6 +129,4 @@ public class BaseSieveContext extends SieveContext {
     public TestManager getTestManager() {
         return testManager;
     }
-    
-    
 }

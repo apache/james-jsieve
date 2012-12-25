@@ -19,22 +19,23 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class DiscardTest
  */
-public class DiscardTest extends TestCase {
+public class DiscardTest {
 
     /**
      * Test for Command 'discard' with invalid arguments
      */
+    @org.junit.Test
     public void testInvalidArguments() {
         boolean isTestPassed = false;
         String script = "discard 1 ;";
@@ -46,12 +47,13 @@ public class DiscardTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'discard' with an invalid block
      */
+    @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "discard 1 {throwTestException;}";
@@ -63,12 +65,13 @@ public class DiscardTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /*
      * Test for Command 'discard'
      */
+    @Test
     public void testDiscard() {
         boolean isTestPassed = false;
         String script = "discard;";
@@ -76,12 +79,12 @@ public class DiscardTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().isEmpty());
+            Assert.assertTrue(mail.getActions().isEmpty());
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

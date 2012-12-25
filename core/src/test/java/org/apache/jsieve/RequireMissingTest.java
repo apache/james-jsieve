@@ -19,24 +19,25 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class AddressTest
  */
-public class RequireMissingTest extends TestCase {
+public class RequireMissingTest {
 
     /**
      * Tests that unsupported requires are caught before script execution.
      */
+    @org.junit.Test
     public void testUnsupportedRequireNoBrackets() throws Exception {
         String script = "require \"whatever\"; if address :contains [\"To\", \"From\"] \"Fish!\"{ fileinto \"aFolder\"; }";
         try {
             JUnitUtils.parse(script);
-            fail("Expect exception to be throw during parse since command is unsupported");
+            Assert.fail("Expect exception to be throw during parse since command is unsupported");
         } catch (ParseException e) {
             // expected
         }
@@ -45,11 +46,12 @@ public class RequireMissingTest extends TestCase {
     /**
      * Tests that unsupported requires are caught before script execution.
      */
+    @Test
     public void testUnsupportedRequireMultiple() throws Exception {
         String script = "require [\"fileinto\",\"whatever\"]; if address :contains [\"To\", \"From\"] \"Fish!\"{ fileinto \"aFolder\"; }";
         try {
             JUnitUtils.parse(script);
-            fail("Expect exception to be throw during parse since command is unsupported");
+            Assert.fail("Expect exception to be throw during parse since command is unsupported");
         } catch (ParseException e) {
             // expected
         }
@@ -58,11 +60,12 @@ public class RequireMissingTest extends TestCase {
     /**
      * Tests that unsupported requires are caught before script execution.
      */
+    @Test
     public void testUnsupportedRequire() throws Exception {
         String script = "require [\"whatever\"]; if address :contains [\"To\", \"From\"] \"Fish!\"{ fileinto \"aFolder\"; }";
         try {
             JUnitUtils.parse(script);
-            fail("Expect exception to be throw during parse since command is unsupported");
+            Assert.fail("Expect exception to be throw during parse since command is unsupported");
         } catch (ParseException e) {
             // expected
         }
@@ -73,11 +76,12 @@ public class RequireMissingTest extends TestCase {
      * enabled with "required" they must treat it as if they do not support it
      * at all.
      */
+    @Test
     public void testMissingRequire() throws Exception {
         String script = "if address :contains [\"To\", \"From\"] \"Fish!\"{ bogus \"aFolder\"; }";
         try {
             JUnitUtils.parse(script);
-            fail("Expect exception to be throw during parse since command is missing");
+            Assert.fail("Expect exception to be throw during parse since command is missing");
         } catch (ParseException e) {
             // expected
         }
@@ -87,11 +91,12 @@ public class RequireMissingTest extends TestCase {
      * Tests 3.2 Control Structure Require: Require MUST NOT be used after any
      * other command.
      */
+    @Test
     public void testRequireAfterOtherCommand() throws Exception {
         String script = "if address :contains [\"To\", \"From\"] \"Fish!\"{ fileinto \"aFolder\"; } require [\"whatever\"]; ";
         try {
             JUnitUtils.parse(script);
-            fail("Expect exception to be throw during parse");
+            Assert.fail("Expect exception to be throw during parse");
         } catch (ParseException e) {
             // expected
         }

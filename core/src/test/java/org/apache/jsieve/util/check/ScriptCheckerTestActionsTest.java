@@ -19,17 +19,18 @@
 
 package org.apache.jsieve.util.check;
 
-import java.util.Arrays;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.mail.ActionReject;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ScriptCheckerTestActionsTest extends TestCase {
+import java.util.Arrays;
+
+public class ScriptCheckerTestActionsTest {
 
     private static final String REDIRECT_ADDRESS_TWO = "roadrunner@acme.example.org";
 
@@ -43,120 +44,124 @@ public class ScriptCheckerTestActionsTest extends TestCase {
 
     private static final String DESTINATION_ONE = "org.apache.james";
 
-    static final Action[] ACTIONS = { new ActionFileInto(DESTINATION_ONE),
+    static final Action[] ACTIONS = {new ActionFileInto(DESTINATION_ONE),
             new ActionKeep(), new ActionFileInto(DESTINATION_TWO),
             new ActionReject(REJECT_MESSAGE_ONE),
             new ActionRedirect(REDIRECT_ADDRESS_ONE),
             new ActionRedirect(REDIRECT_ADDRESS_TWO),
-            new ActionReject(REJECT_MESSAGE_TWO), };
+            new ActionReject(REJECT_MESSAGE_TWO),};
 
     ScriptChecker.Results result;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         result = new ScriptChecker.Results(Arrays.asList(ACTIONS));
     }
 
+    @Test
     public void testFileInto() throws Exception {
-        assertTrue("Check for file into action with right destination", result
+        Assert.assertTrue("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 0));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 1));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 2));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 3));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 4));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 5));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_ONE, 6));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 0));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 1));
-        assertTrue("Check for file into action with right destination", result
+        Assert.assertTrue("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 2));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 3));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 4));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 5));
-        assertFalse("Check for file into action with right destination", result
+        Assert.assertFalse("Check for file into action with right destination", result
                 .isActionFileInto(DESTINATION_TWO, 6));
     }
 
+    @Test
     public void testRedirect() throws Exception {
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 0));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 1));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 2));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 3));
-        assertTrue("Check for redirect action with right message", result
+        Assert.assertTrue("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 4));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 5));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_ONE, 6));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 0));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 1));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 2));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 3));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 4));
-        assertTrue("Check for redirect action with right message", result
+        Assert.assertTrue("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 5));
-        assertFalse("Check for redirect action with right message", result
+        Assert.assertFalse("Check for redirect action with right message", result
                 .isActionRedirect(REDIRECT_ADDRESS_TWO, 6));
     }
 
+    @Test
     public void testReject() throws Exception {
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 0));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 1));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 2));
-        assertTrue("Check for reject action with right message", result
+        Assert.assertTrue("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 3));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 4));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 5));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_ONE, 6));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 0));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 1));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 2));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 3));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 4));
-        assertFalse("Check for reject action with right message", result
+        Assert.assertFalse("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 5));
-        assertTrue("Check for reject action with right message", result
+        Assert.assertTrue("Check for reject action with right message", result
                 .isActionReject(REJECT_MESSAGE_TWO, 6));
     }
 
+    @Test
     public void testKeep() throws Exception {
-        assertFalse("Check for keep action ", result.isActionKeep(0));
-        assertTrue("Check for keep action ", result.isActionKeep(1));
-        assertFalse("Check for keep action ", result.isActionKeep(2));
-        assertFalse("Check for keep action ", result.isActionKeep(3));
-        assertFalse("Check for keep action ", result.isActionKeep(4));
-        assertFalse("Check for keep action ", result.isActionKeep(5));
-        assertFalse("Check for keep action ", result.isActionKeep(6));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(0));
+        Assert.assertTrue("Check for keep action ", result.isActionKeep(1));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(2));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(3));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(4));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(5));
+        Assert.assertFalse("Check for keep action ", result.isActionKeep(6));
     }
 }

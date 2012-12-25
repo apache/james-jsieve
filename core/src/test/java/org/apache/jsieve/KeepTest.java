@@ -19,23 +19,24 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class KeepTest
  */
-public class KeepTest extends TestCase {
+public class KeepTest {
 
     /**
      * Test for Command 'keep' with invalid arguments
      */
+    @org.junit.Test
     public void testInvalidArguments() {
         boolean isTestPassed = false;
         String script = "keep 1 ;";
@@ -47,12 +48,13 @@ public class KeepTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'keep' with an invalid block
      */
+    @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "keep 1 {throwTestException;}";
@@ -64,12 +66,13 @@ public class KeepTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'keep'
      */
+    @Test
     public void testKeep() {
         boolean isTestPassed = false;
         String script = "keep;";
@@ -77,13 +80,13 @@ public class KeepTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 1);
-            assertTrue(mail.getActions().get(0) instanceof ActionKeep);
+            Assert.assertTrue(mail.getActions().size() == 1);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionKeep);
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

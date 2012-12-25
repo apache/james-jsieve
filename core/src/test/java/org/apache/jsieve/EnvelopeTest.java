@@ -19,22 +19,23 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveEnvelopeMailAdapter;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class EnvelopeTest
  */
-public class EnvelopeTest extends TestCase {
+public class EnvelopeTest {
 
     /**
      * Test for Test 'envelope'
      */
+    @org.junit.Test
     public void testIfEnvelopeAllIsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
@@ -47,12 +48,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testCaseInsensitiveEnvelopeName() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"from\" \"user@domain\" {throwTestException;}";
@@ -65,12 +67,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testOctetComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -83,12 +86,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testOctetComparatorFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -101,12 +105,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testAsciiComparatorTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -119,12 +124,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testAsciiComparatorFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
@@ -137,12 +143,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiTrue1() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
@@ -156,12 +163,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiTrue2() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -175,12 +183,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiTrue3() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -194,12 +203,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiTrue4() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -213,12 +223,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :all :matches \"From\" \"*@domain\" {throwTestException;}";
@@ -231,12 +242,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllContainsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
@@ -249,12 +261,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartIsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
@@ -267,12 +280,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :matches \"From\" \"*er\" {throwTestException;}";
@@ -285,12 +299,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartContainsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
@@ -303,12 +318,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainIsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
@@ -322,12 +338,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainMatchesTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :matches \"From\" \"*main\" {throwTestException;}";
@@ -340,12 +357,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainContainsTrue() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
@@ -358,12 +376,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
@@ -376,12 +395,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
@@ -394,12 +414,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllContainsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
@@ -412,12 +433,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartIsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
@@ -430,12 +452,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
@@ -448,12 +471,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeLocalpartContainsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
@@ -466,12 +490,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainIsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
@@ -485,12 +510,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainMatchesFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
@@ -503,12 +529,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeDomainContainsFalse() {
         boolean isTestPassed = false;
         String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
@@ -521,12 +548,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiFalse1() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
@@ -540,12 +568,13 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'envelope'
      */
+    @Test
     public void testIfEnvelopeAllIsMultiFalse2() {
         boolean isTestPassed = false;
         String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
@@ -559,7 +588,7 @@ public class EnvelopeTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

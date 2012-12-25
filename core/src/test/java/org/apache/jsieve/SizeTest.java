@@ -19,25 +19,26 @@
 
 package org.apache.jsieve;
 
-import javax.mail.MessagingException;
-
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.mail.MessagingException;
 
 /**
  * Class SizeTest
  */
-public class SizeTest extends TestCase {
+public class SizeTest {
 
     /**
      * Test for Test 'size'
      */
+    @org.junit.Test
     public void testSizeIsOverTrue() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
@@ -59,19 +60,18 @@ public class SizeTest extends TestCase {
         try {
 
             JUnitUtils.interpret(mail, script);
-        }
-
-        catch (ThrowTestException.TestException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'size'
      */
+    @Test
     public void testSizeIsOverFalse() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
@@ -94,18 +94,17 @@ public class SizeTest extends TestCase {
 
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
-        }
-
-        catch (ThrowTestException.TestException e) {
+        } catch (ThrowTestException.TestException e) {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'size'
      */
+    @Test
     public void testSizeIsUnderTrue() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
@@ -127,19 +126,18 @@ public class SizeTest extends TestCase {
         try {
 
             JUnitUtils.interpret(mail, script);
-        }
-
-        catch (ThrowTestException.TestException e) {
+        } catch (ThrowTestException.TestException e) {
             isTestPassed = true;
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Test 'size'
      */
+    @Test
     public void testSizeIsUnderFalse() {
         boolean isTestPassed = false;
         SieveMailAdapter mail = null;
@@ -162,18 +160,17 @@ public class SizeTest extends TestCase {
 
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
-        }
-
-        catch (ThrowTestException.TestException e) {
+        } catch (ThrowTestException.TestException e) {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
-    
+
     /**
      * Test for Test 'size' with quantifier
      */
+    @Test
     public void testSizeIsWithQuantifier() throws Exception {
         boolean isTestPassed = false;
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
@@ -188,13 +185,11 @@ public class SizeTest extends TestCase {
 
             JUnitUtils.interpret(mail, script);
             isTestPassed = true;
-        }
-
-        catch (ThrowTestException.TestException e) {
+        } catch (ThrowTestException.TestException e) {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

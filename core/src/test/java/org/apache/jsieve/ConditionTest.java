@@ -19,24 +19,25 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class <code>ConditionTest</code> tests the conditional commands if, elsif
  * and else.
  */
-public class ConditionTest extends TestCase {
+public class ConditionTest {
 
     /**
      * Test for Command 'if' with an argument of 'true'
      */
+    @org.junit.Test
     public void testIfTrue() {
         boolean isTestPassed = false;
         String script = "if true {throwTestException;}";
@@ -48,12 +49,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'if' with an argument of 'false'
      */
+    @Test
     public void testIfFalse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} throwTestException;";
@@ -65,12 +67,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'elsif' with an argument of 'true'
      */
+    @Test
     public void testElsifTrue() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif true {throwTestException;}";
@@ -82,12 +85,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'elsif' with an argument of 'false'
      */
+    @Test
     public void testElsifFalse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif false {stop;} throwTestException;";
@@ -99,12 +103,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for nested Command 'elsif' with an argument of 'true'
      */
+    @Test
     public void testElsifFalseElsifTrue() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif false {stop;} elsif true {throwTestException;}";
@@ -116,12 +121,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'else' after 'elseif'
      */
+    @Test
     public void testElsifFalseElse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif false {stop;} else {throwTestException;}";
@@ -133,12 +139,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'else'
      */
+    @Test
     public void testElse() {
         boolean isTestPassed = false;
         String script = "if false {stop;} else {throwTestException;}";
@@ -150,12 +157,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'else' out of sequence
      */
+    @Test
     public void testOutOfSequenceElse() {
         boolean isTestPassed = false;
         String script = "else {stop;}";
@@ -167,12 +175,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'elsif' out of sequence
      */
+    @Test
     public void testOutOfSequenceElsif() {
         boolean isTestPassed = false;
         String script = "elsif {stop;}";
@@ -184,12 +193,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'if' without a corresponding Block
      */
+    @Test
     public void testIfMissingBlock() {
         boolean isTestPassed = false;
         String script = "if true stop;";
@@ -201,12 +211,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'if' without a test
      */
+    @Test
     public void testIfMissingTest() {
         boolean isTestPassed = false;
         String script = "if {stop;}";
@@ -218,12 +229,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'if' without a test
      */
+    @Test
     public void testElsifMissingTest() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif {stop;}";
@@ -235,12 +247,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'elsif' without a corresponding Block
      */
+    @Test
     public void testElsifMissingBlock() {
         boolean isTestPassed = false;
         String script = "if false {stop;} elsif true stop;";
@@ -252,12 +265,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'else' without a corresponding Block
      */
+    @Test
     public void testElseMissingBlock() {
         boolean isTestPassed = false;
         String script = "if false {stop;} else stop;";
@@ -269,12 +283,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'if' nested in a block
      */
+    @Test
     public void testNestedIf() {
         boolean isTestPassed = false;
         String script = "if true {if true {throwTestException;}}";
@@ -286,12 +301,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'else' out of sequence nested in a block
      */
+    @Test
     public void testNestedOutOfSequenceElse() {
         boolean isTestPassed = false;
         String script = "if true {else {stop;}}";
@@ -303,12 +319,13 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'elsif' out of sequence nested in a block
      */
+    @Test
     public void testNestedOutOfSequenceElsif() {
         boolean isTestPassed = false;
         String script = "if true {elsif true {stop;}}";
@@ -320,7 +337,7 @@ public class ConditionTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

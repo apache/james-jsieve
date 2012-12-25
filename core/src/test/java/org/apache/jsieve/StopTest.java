@@ -19,8 +19,6 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
@@ -28,15 +26,18 @@ import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Class StopTest
  */
-public class StopTest extends TestCase {
+public class StopTest {
 
     /**
      * Test for Command 'stop'. This has an implicit Keep.
      */
+    @org.junit.Test
     public void testStop() {
         boolean isTestPassed = false;
         String script = "stop; throwTestException;";
@@ -44,19 +45,20 @@ public class StopTest extends TestCase {
         try {
             MailAdapter mail = JUnitUtils.createMail();
             JUnitUtils.interpret(mail, script);
-            assertTrue(mail.getActions().size() == 1);
-            assertTrue(mail.getActions().get(0) instanceof ActionKeep);
+            Assert.assertTrue(mail.getActions().size() == 1);
+            Assert.assertTrue(mail.getActions().get(0) instanceof ActionKeep);
             isTestPassed = true;
         } catch (ThrowTestException.TestException e) {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'stop' with invalid arguments
      */
+    @Test
     public void testInvalidArguments() {
         boolean isTestPassed = false;
         String script = "stop 1 ;";
@@ -68,12 +70,13 @@ public class StopTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
     /**
      * Test for Command 'stop' with an invalid block
      */
+    @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
         String script = "stop 1 {throwTestException;}";
@@ -85,7 +88,7 @@ public class StopTest extends TestCase {
         } catch (ParseException e) {
         } catch (SieveException e) {
         }
-        assertTrue(isTestPassed);
+        Assert.assertTrue(isTestPassed);
     }
 
 }

@@ -19,15 +19,15 @@
 
 package org.apache.jsieve;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.LogFactory;
-import org.apache.jsieve.BaseSieveContext;
-import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
-public class AddressParseTest extends TestCase {
+public class AddressParseTest {
 
     private static final String MULTIPLE_ADDRESS_VALUES = "coyote@desert.example.org, bugs@example.org,  elmer@hunters.example.org";
 
@@ -39,18 +39,19 @@ public class AddressParseTest extends TestCase {
 
     OpenedAddress address;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         ConfigurationManager configurationManager = new ConfigurationManager();
         context = new BaseSieveContext(
                 configurationManager.getCommandManager(), configurationManager
-                        .getComparatorManager(), configurationManager
-                        .getTestManager(), LogFactory
-                        .getLog(AddressParseTest.class));
+                .getComparatorManager(), configurationManager
+                .getTestManager(), LogFactory
+                .getLog(AddressParseTest.class));
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }
 
+    @Test
     public void testSingleAddress() throws Exception {
         mail.getMessage().addHeader("From", SOLO_ADDRESS_VALUES);
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",
@@ -63,6 +64,7 @@ public class AddressParseTest extends TestCase {
                 "from", "roadrunner@example.org", context));
     }
 
+    @Test
     public void testMultipleAddresses() throws Exception {
         mail.getMessage().addHeader("From", MULTIPLE_ADDRESS_VALUES);
         assertTrue(address.match(mail, ":all", "i;ascii-casemap", ":is",

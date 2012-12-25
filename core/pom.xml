@@ -93,22 +93,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>NOTICE.base</exclude>
-                        <exclude>LICENSE.apache</exclude>
-                        <exclude>release.properties</exclude>
-                        <exclude>BUILDING.txt</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.7</version>
@@ -151,7 +135,7 @@
                                     <goal>attach-descriptor</goal>
                                 </goals>
                                 <configuration>
-                                    <siteDirectory>${basedir}/src/site</siteDirectory>
+                                    <siteDirectory>${project.basedir}/src/site</siteDirectory>
                                     <generateReports>false</generateReports>
                                 </configuration>
                             </execution>

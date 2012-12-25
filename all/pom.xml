@@ -80,7 +80,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <descriptorSourceDirectory>${basedir}/src/assemble/</descriptorSourceDirectory>
+                    <descriptorSourceDirectory>${project.basedir}/src/assemble/</descriptorSourceDirectory>
                     <tarLongFileMode>gnu</tarLongFileMode>
                 </configuration>
                 <executions>

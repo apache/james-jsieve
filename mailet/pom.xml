@@ -106,22 +106,6 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>NOTICE.base</exclude>
-                        <exclude>LICENSE.apache</exclude>
-                        <exclude>release.properties</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <profiles>
         <!--
             Switches between generating the documentation site (without using this profile) and

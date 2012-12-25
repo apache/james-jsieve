@@ -17,212 +17,155 @@
  *   under the License.
  *
  */
-
 package org.apache.james.managesieve.mailet;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import org.apache.mailet.LookupException;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
 
-/**
- * <code>MockMailetContext</code>
- */
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 public class MockMailetContext implements MailetContext {
-    
+
     private MimeMessage _message = null;
 
-    /**
-     * @see org.apache.mailet.MailetContext#bounce(org.apache.mailet.Mail, java.lang.String)
-     */
+    @Override
     public void bounce(Mail mail, String s) throws MessagingException {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#bounce(org.apache.mailet.Mail, java.lang.String, org.apache.mailet.MailAddress)
-     */
+    @Override
     public void bounce(Mail mail, String s, MailAddress mailaddress) throws MessagingException {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getAttribute(java.lang.String)
-     */
+    @Override
+    public List<String> dnsLookup(String s, RecordType recordType) throws LookupException {
+        throw new UnsupportedOperationException("Not yet implemented!");
+    }
+
+    @Override
     public Object getAttribute(String s) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getAttributeNames()
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Iterator getAttributeNames() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getMailServers(java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public Collection getMailServers(String s) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getMajorVersion()
-     */
+    @Override
     public int getMajorVersion() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getMinorVersion()
-     */
+    @Override
     public int getMinorVersion() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getPostmaster()
-     */
+    @Override
     public MailAddress getPostmaster() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getSMTPHostAddresses(java.lang.String)
-     */
     @SuppressWarnings("unchecked")
+    @Override
     public Iterator getSMTPHostAddresses(String s) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#getServerInfo()
-     */
+    @Override
     public String getServerInfo() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#isLocalEmail(org.apache.mailet.MailAddress)
-     */
+    @Override
     public boolean isLocalEmail(MailAddress mailaddress) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#isLocalServer(java.lang.String)
-     */
+    @Override
     public boolean isLocalServer(String s) {
         return s.equals("localhost");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#isLocalUser(java.lang.String)
-     */
+    @Override
     public boolean isLocalUser(String s) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#log(java.lang.String)
-     */
+    @Override
     public void log(String s) {
-        // TODO Auto-generated method stub
-
+        System.out.println(s);
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#log(java.lang.String, java.lang.Throwable)
-     */
+    @Override
     public void log(String s, Throwable throwable) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#removeAttribute(java.lang.String)
-     */
+    @Override
+    public void log(LogLevel logLevel, String s) {
+        throw new UnsupportedOperationException("Not yet implemented!");
+    }
+
+    @Override
+    public void log(LogLevel logLevel, String s, Throwable throwable) {
+        throw new UnsupportedOperationException("Not yet implemented!");
+    }
+
+    @Override
     public void removeAttribute(String s) {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Not yet implemented!");
 
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#sendMail(javax.mail.internet.MimeMessage)
-     */
+    @Override
     public void sendMail(MimeMessage mimemessage) throws MessagingException {
         _message = mimemessage;
-
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#sendMail(org.apache.mailet.Mail)
-     */
+    @Override
     public void sendMail(Mail mail) throws MessagingException {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#sendMail(org.apache.mailet.MailAddress, java.util.Collection, javax.mail.internet.MimeMessage)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void sendMail(MailAddress mailaddress, Collection collection, MimeMessage mimemessage)
             throws MessagingException {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#sendMail(org.apache.mailet.MailAddress, java.util.Collection, javax.mail.internet.MimeMessage, java.lang.String)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void sendMail(MailAddress mailaddress, Collection collection, MimeMessage mimemessage,
-            String s) throws MessagingException {
-        // TODO Auto-generated method stub
-
+                         String s) throws MessagingException {
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#setAttribute(java.lang.String, java.lang.Object)
-     */
+    @Override
     public void setAttribute(String s, Object obj) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @see org.apache.mailet.MailetContext#storeMail(org.apache.mailet.MailAddress, org.apache.mailet.MailAddress, javax.mail.internet.MimeMessage)
-     */
-    public void storeMail(MailAddress mailaddress, MailAddress mailaddress1, MimeMessage mimemessage)
-            throws MessagingException {
-        // TODO Auto-generated method stub
-
+    public void storeMail(MailAddress mailaddress, MailAddress mailaddress1, MimeMessage mimemessage) {
+        throw new UnsupportedOperationException("Not yet implemented!");
     }
 
-    /**
-     * @return the message
-     */
     public MimeMessage getMessage() {
         return _message;
     }

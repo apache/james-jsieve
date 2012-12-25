@@ -26,7 +26,8 @@
 	</parent>
 
 	<artifactId>apache-jsieve-manager-mailet</artifactId>
-    <name>Apache James jSieve Manager Mailet</name>
+    <name>Apache James :: jSieve :: Manager Mailet</name>
+    <packaging>bundle</packaging>
 
 	<dependencies>
 		<dependency>
@@ -38,13 +39,13 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>apache-mailet</artifactId>
-			<version>${mailet.version}</version>
+			<artifactId>apache-mailet-api</artifactId>
+			<version>${apache-mailet.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.james</groupId>
 			<artifactId>apache-mailet-base</artifactId>
-			<version>${mailet-base.version}</version>
+			<version>${apache-mailet.version}</version>
 		</dependency>
         <dependency>
             <groupId>${javax.mail.groupId}</groupId>

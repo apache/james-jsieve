@@ -17,7 +17,8 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -30,12 +31,12 @@
     <artifactId>apache-jsieve-all</artifactId>
     <packaging>pom</packaging>
 
-    <name>Apache James jSieve All</name>
+    <name>Apache James :: jSieve :: All</name>
     <description>
-    Apache jSieve is a server side mail filtering system 
-    implementing RFC3028. Apache jSieve is developed by the 
-    James project. This module is used by Maven to create
-    fully assembled and packaged distributions.
+        Apache jSieve is a server side mail filtering system
+        implementing RFC3028. Apache jSieve is developed by the
+        James project. This module is used by Maven to create
+        fully assembled and packaged distributions.
     </description>
     <inceptionYear>2004</inceptionYear>
 
@@ -85,7 +86,8 @@
                 <executions>
                     <execution>
                         <id>make-assembly</id>
-                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <phase>package</phase>
+                        <!-- append to the packaging phase. -->
                         <goals>
                             <goal>attached</goal>
                         </goals>
@@ -116,7 +118,7 @@
                                 <generateReports>false</generateReports>
                             </configuration>
                         </plugin>
-                     </plugins>
+                    </plugins>
                 </pluginManagement>
             </build>
         </profile>

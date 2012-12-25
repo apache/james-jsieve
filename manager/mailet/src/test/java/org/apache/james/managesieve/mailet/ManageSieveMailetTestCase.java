@@ -20,17 +20,20 @@
 
 package org.apache.james.managesieve.mailet;
 
+import org.apache.james.managesieve.api.DuplicateUserException;
+import org.apache.james.managesieve.api.QuotaExceededException;
+import org.apache.james.managesieve.api.ScriptNotFoundException;
+import org.apache.james.managesieve.api.SieveRepository;
+import org.apache.james.managesieve.api.StorageException;
+import org.apache.james.managesieve.api.UserNotFoundException;
+import org.apache.james.managesieve.mock.MockSieveParser;
+import org.apache.james.managesieve.mock.MockSieveRepository;
+import org.apache.mailet.Mail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.activation.DataHandler;
 import javax.mail.Address;
@@ -41,40 +44,25 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeMessage.RecipientType;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
 
-import org.apache.james.managesieve.api.DuplicateUserException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.SieveRepository;
-import org.apache.james.managesieve.api.StorageException;
-import org.apache.james.managesieve.api.UserNotFoundException;
-import org.apache.james.managesieve.mailet.ManageSieveMailet;
-import org.apache.james.managesieve.mock.MockSieveParser;
-import org.apache.james.managesieve.mock.MockSieveRepository;
-import org.apache.mailet.Mail;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-/**
- * <code>ManageSieveMailetTestCase</code>
- */
 public class ManageSieveMailetTestCase {
-    
+
     ManageSieveMailet _mailet = null;
     SieveRepository _repository = null;
     MockSieveParser _parser = null;
 
-    /**
-     * setUp.
-     *
-     * @throws java.lang.Exception
-     */
     @Before
-    public void setUp() throws Exception {      
+    public void setUp() throws Exception {
         _mailet = new ManageSieveMailet();
         _repository = new MockSieveRepository();
         _parser = new MockSieveParser();
@@ -83,15 +71,6 @@ public class ManageSieveMailetTestCase {
         MockMailetConfig config = new MockMailetConfig(new MockMailetContext());
         config.setInitParameter("helpURL", "file:./src/test/resources/help.txt");
         _mailet.init(config);
-    }
-    
-    /**
-     * tearDown.
-     *
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -103,12 +82,12 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
-        _parser.setExtensions(Arrays.asList(new String[]{"a","b","c"}));
-        
+
+        _parser.setExtensions(Arrays.asList(new String[]{"a", "b", "c"}));
+
         // Unauthorised
         _mailet.service(mail);
-        MimeMessage result = ((MockMailetContext)_mailet.getMailetContext()).getMessage();       
+        MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
         assertNotNull(result);
         // Check the subject header
         assertEquals("Re: CAPABILITY", result.getSubject());
@@ -123,65 +102,60 @@ public class ManageSieveMailetTestCase {
         String response = (String) part.getContent();
         Scanner scanner = new Scanner(response);
         Map<String, String> capabilities = new HashMap<String, String>();
-        while (scanner.hasNextLine())
-        {
+        while (scanner.hasNextLine()) {
             String key = scanner.next();
             String value = null;
-            if (scanner.hasNextLine())
-            {
+            if (scanner.hasNextLine()) {
                 value = scanner.nextLine().trim();
             }
             capabilities.put(key, value);
-        }        
+        }
         assertEquals("1.0", capabilities.get("VERSION"));
         assertEquals("a b c", capabilities.get("SIEVE"));
         assertEquals("Apache ManageSieve v1.0", capabilities.get("IMPLEMENTATION"));
         assertEquals(null, capabilities.get("OK"));
-        
+
         // Authorised
         mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, "test");
         _mailet.service(mail);
         // Check the response
-        result = ((MockMailetContext)_mailet.getMailetContext()).getMessage();  
+        result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
         multipart = (MimeMultipart) result.getContent();
         assertEquals(1, multipart.getCount());
         part = multipart.getBodyPart(0);
         response = (String) part.getContent();
         scanner = new Scanner(response);
         capabilities = new HashMap<String, String>();
-        while (scanner.hasNextLine())
-        {
+        while (scanner.hasNextLine()) {
             String key = scanner.next();
             String value = null;
-            if (scanner.hasNextLine())
-            {
+            if (scanner.hasNextLine()) {
                 value = scanner.nextLine().trim();
             }
             capabilities.put(key, value);
-        }        
+        }
         assertEquals("1.0", capabilities.get("VERSION"));
-        assertEquals(message.getSender().toString(), capabilities.get("OWNER"));        
+        assertEquals(message.getSender().toString(), capabilities.get("OWNER"));
         assertEquals("a b c", capabilities.get("SIEVE"));
         assertEquals("Apache ManageSieve v1.0", capabilities.get("IMPLEMENTATION"));
         assertEquals(null, capabilities.get("OK"));
-        
+
         // Extra arguments should be rejected
         message.setSubject("CAPABILITY extra");
         message.saveChanges();
         _mailet.service(mail);
-        result = ((MockMailetContext)_mailet.getMailetContext()).getMessage();
+        result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
         multipart = (MimeMultipart) result.getContent();
         assertEquals(1, multipart.getCount());
         part = multipart.getBodyPart(0);
         response = (String) part.getContent();
         assertEquals("NO \"Too many arguments: extra\"", response);
-        
-        
+
+
     }
-    
+
     @Test
-    public final void testPutScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException
-    {
+    public final void testPutScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException {
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties()));
         String scriptName = "scriptName";
         String scriptContent = "scriptContent";
@@ -193,9 +167,9 @@ public class ManageSieveMailetTestCase {
         scriptPart.setDataHandler(
                 new DataHandler(
                         new ByteArrayDataSource(
-                                scriptContent, 
+                                scriptContent,
                                 "application/sieve; charset=UTF-8")
-                          ));
+                ));
         scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
         // setting a DataHandler with no mailcap definition is not
         // supported by the specs. Javamail activation still work,
@@ -208,7 +182,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-       
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -227,7 +201,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -241,7 +215,7 @@ public class ManageSieveMailetTestCase {
             assertEquals(response, "OK (WARNINGS) \"warning1\" \"warning2\"");
             assertEquals(scriptContent, _repository.getScript(message.getSender().toString(), scriptName));
         }
-        
+
         // Extra arguments
         {
             message.setSubject("PUTSCRIPT \"" + scriptName + "\" extra");
@@ -254,7 +228,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-       
+
         // Syntax Error
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -266,9 +240,9 @@ public class ManageSieveMailetTestCase {
             scriptPart.setDataHandler(
                     new DataHandler(
                             new ByteArrayDataSource(
-                                    "SyntaxException", 
+                                    "SyntaxException",
                                     "application/sieve; charset=UTF-8")
-                              ));
+                    ));
             scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
             scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
             scriptPart.setFileName(scriptName);
@@ -287,7 +261,7 @@ public class ManageSieveMailetTestCase {
             assertTrue(response.startsWith("NO \"Syntax Error: "));
             assertEquals(scriptContent, _repository.getScript(message.getSender().toString(), scriptName));
         }
-        
+
         // No script
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -305,7 +279,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Missing argument: script content\"", response);
         }
-        
+
         // No script name
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -324,7 +298,7 @@ public class ManageSieveMailetTestCase {
             assertEquals("NO \"Missing argument: script name\"", response);
         }
     }
-    
+
     @Test
     public final void testGetScript() throws MessagingException, IOException, UserNotFoundException, StorageException, QuotaExceededException, DuplicateUserException {
         String scriptName = "scriptName";
@@ -339,7 +313,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -358,7 +332,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response);
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, user);
@@ -383,7 +357,7 @@ public class ManageSieveMailetTestCase {
             }
             assertEquals(scriptContent, script);
         }
-        
+
         // Extra arguments
         {
             message.setSubject("GETSCRIPT \"" + scriptName + "\" extra");
@@ -396,7 +370,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // No such script
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -415,7 +389,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO (NONEXISTENT) \"There is no script by that name\"", response);
         }
-        
+
         // No such user
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -434,7 +408,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO (NONEXISTENT) \"There is no script by that name\"", response);
         }
-        
+
         // No script name
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -453,13 +427,12 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Missing argument: script name\"", response);
         }
-        
+
     }
-    
-    
+
+
     @Test
-    public final void testCheckScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException
-    {
+    public final void testCheckScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException {
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties()));
         String scriptName = "scriptName";
         String scriptContent = "scriptContent";
@@ -472,9 +445,9 @@ public class ManageSieveMailetTestCase {
         scriptPart.setDataHandler(
                 new DataHandler(
                         new ByteArrayDataSource(
-                                scriptContent, 
+                                scriptContent,
                                 "application/sieve; charset=UTF-8")
-                          ));
+                ));
         scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
         scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
         scriptPart.setFileName(scriptName);
@@ -483,7 +456,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -502,7 +475,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -515,7 +488,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("OK (WARNINGS) \"warning1\" \"warning2\"", response);
         }
-        
+
         // Extra arguments should be rejected
         {
             message.setSubject("CHECKSCRIPT extra");
@@ -528,7 +501,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // Syntax Error
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -540,9 +513,9 @@ public class ManageSieveMailetTestCase {
             scriptPart.setDataHandler(
                     new DataHandler(
                             new ByteArrayDataSource(
-                                    "SyntaxException", 
+                                    "SyntaxException",
                                     "application/sieve; charset=UTF-8")
-                              ));
+                    ));
             scriptPart.setHeader("Content-Type", "application/sieve; charset=UTF-8");
             scriptPart.setDisposition(MimeBodyPart.ATTACHMENT);
             scriptPart.setFileName(scriptName);
@@ -560,7 +533,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertTrue(response.startsWith("NO \"Syntax Error: "));
         }
-        
+
         // No script
         {
             message = new MimeMessage(Session.getDefaultInstance(new Properties()));
@@ -578,9 +551,9 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Script part not found in this message\"", response);
         }
-        
+
     }
-    
+
     @Test
     public final void testDeleteScript() throws DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, MessagingException, IOException {
         String scriptName = "scriptName";
@@ -595,7 +568,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -614,7 +587,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -627,7 +600,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("OK", response.trim());
         }
-        
+
         // Extra arguments
         {
             message.setSubject("DELETESCRIPT \"" + scriptName + "\" extra");
@@ -640,10 +613,10 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // No script name
         {
-            message.setSubject("DELETESCRIPT"); 
+            message.setSubject("DELETESCRIPT");
             message.saveChanges();
             _mailet.service(mail);
             MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
@@ -654,9 +627,9 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Missing argument: script name\"", response.trim());
         }
-        
+
     }
-    
+
     @Test
     public final void testHaveSpace() throws DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, MessagingException, IOException {
         String scriptName = "scriptName";
@@ -671,7 +644,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -690,7 +663,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -703,7 +676,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("OK", response.trim());
         }
-        
+
         // Extra arguments
         {
             message.setSubject("HAVESPACE \"" + scriptName + "\" 1 extra");
@@ -716,10 +689,10 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // No script name
         {
-            message.setSubject("HAVESPACE"); 
+            message.setSubject("HAVESPACE");
             message.saveChanges();
             _mailet.service(mail);
             MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
@@ -730,10 +703,10 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Missing argument: script name\"", response.trim());
         }
-        
+
         // No script size
         {
-            message.setSubject("HAVESPACE \"" + scriptName + "\""); 
+            message.setSubject("HAVESPACE \"" + scriptName + "\"");
             message.saveChanges();
             _mailet.service(mail);
             MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
@@ -744,10 +717,10 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Missing argument: script size\"", response.trim());
         }
-        
+
         // Invalid script size
         {
-            message.setSubject("HAVESPACE \"" + scriptName + "\" X"); 
+            message.setSubject("HAVESPACE \"" + scriptName + "\" X");
             message.saveChanges();
             _mailet.service(mail);
             MimeMessage result = ((MockMailetContext) _mailet.getMailetContext()).getMessage();
@@ -758,9 +731,9 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Invalid argument: script size\"", response.trim());
         }
-        
+
     }
-    
+
     @Test
     public final void testListScripts() throws AddressException, MessagingException, DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, ScriptNotFoundException, IOException {
         String scriptName1 = "scriptName1";
@@ -778,7 +751,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -797,7 +770,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -810,7 +783,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("\"scriptName2\" ACTIVE\r\n\"scriptName1\"\r\nOK", response.trim());
         }
-        
+
         // Extra arguments
         {
             message.setSubject("LISTSCRIPTS extra");
@@ -823,9 +796,9 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
     }
-    
+
     @Test
     public final void testRenameScripts() throws MessagingException, DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, IOException {
         String oldScriptName = "oldScriptName";
@@ -841,7 +814,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -860,7 +833,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -873,7 +846,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("OK", response.trim());
         }
-        
+
         // Extra arguments
         {
             message.setSubject("RENAMESCRIPT \"" + oldScriptName + "\" \"" + newScriptName + "\" extra");
@@ -886,7 +859,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // No script names
         {
             message.setSubject("RENAMESCRIPT");
@@ -898,9 +871,9 @@ public class ManageSieveMailetTestCase {
             assertEquals(1, content.getCount());
             BodyPart part = content.getBodyPart(0);
             String response = (String) part.getContent();
-            assertEquals("NO \"Missing argument: old script name\"", response.trim());          
+            assertEquals("NO \"Missing argument: old script name\"", response.trim());
         }
-        
+
         // No new script name
         {
             message.setSubject("RENAMESCRIPT \"" + oldScriptName + "\"");
@@ -912,11 +885,11 @@ public class ManageSieveMailetTestCase {
             assertEquals(1, content.getCount());
             BodyPart part = content.getBodyPart(0);
             String response = (String) part.getContent();
-            assertEquals("NO \"Missing argument: new script name\"", response.trim());          
+            assertEquals("NO \"Missing argument: new script name\"", response.trim());
         }
-        
+
     }
-    
+
     @Test
     public final void testSetActive() throws DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, MessagingException, IOException {
         String scriptName = "scriptName";
@@ -931,7 +904,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -950,7 +923,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response.trim());
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, message.getSender().toString());
@@ -963,7 +936,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("OK", response.trim());
         }
-        
+
         // Extra arguments
         {
             message.setSubject("SETACTIVE \"" + scriptName + "\" extra");
@@ -976,7 +949,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // No script name
         {
             message.setSubject("SETACTIVE");
@@ -988,9 +961,9 @@ public class ManageSieveMailetTestCase {
             assertEquals(1, content.getCount());
             BodyPart part = content.getBodyPart(0);
             String response = (String) part.getContent();
-            assertEquals("NO \"Missing argument: script name\"", response.trim());          
+            assertEquals("NO \"Missing argument: script name\"", response.trim());
         }
-        
+
         // Deactivated
         {
             message.setSubject("SETACTIVE \"\"");
@@ -1011,9 +984,9 @@ public class ManageSieveMailetTestCase {
             }
             assertTrue("Expected ScriptNotFoundException", thrown);
         }
-        
+
     }
-    
+
     @Test
     public final void testGetActive() throws MessagingException, UserNotFoundException, ScriptNotFoundException, StorageException, QuotaExceededException, DuplicateUserException, IOException {
         String scriptName = "scriptName";
@@ -1029,7 +1002,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-        
+
         // Unauthorised
         {
             _mailet.service(mail);
@@ -1048,7 +1021,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO", response);
         }
-        
+
         // Authorised
         {
             mail.setAttribute(ManageSieveMailet.SMTP_AUTH_USER_ATTRIBUTE_NAME, user);
@@ -1073,7 +1046,7 @@ public class ManageSieveMailetTestCase {
             }
             assertEquals(scriptContent, script);
         }
-        
+
         // Extra arguments
         {
             message.setSubject("GETACTIVE extra");
@@ -1086,7 +1059,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("NO \"Too many arguments: extra\"", response);
         }
-        
+
         // Deactivated
         {
             _repository.setActive(user, "");
@@ -1101,11 +1074,11 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertTrue(response.trim().startsWith("NO (NONEXISTENT)"));
         }
-        
+
     }
 
     @Test
-    public final void testHelp() throws MessagingException, IOException {      
+    public final void testHelp() throws MessagingException, IOException {
         String user = "test@localhost";
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties()));
         message.setSubject("HELP");
@@ -1114,7 +1087,7 @@ public class ManageSieveMailetTestCase {
         message.saveChanges();
         Mail mail = new MockMail();
         mail.setMessage(message);
-      
+
         // Explicit invocation
         {
             _mailet.service(mail);
@@ -1133,7 +1106,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("Help text", response);
         }
-        
+
         // Extra arguments
         {
             message.setSubject("HELP extra");
@@ -1146,7 +1119,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("Help text", response);
         }
-        
+
         // Implicit invocation - no subject header
         {
             message.removeHeader("subject");
@@ -1163,7 +1136,7 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("Help text", response);
         }
-        
+
         // Implicit invocation - empty subject
         {
             message.setSubject("");
@@ -1181,9 +1154,9 @@ public class ManageSieveMailetTestCase {
             String response = (String) part.getContent();
             assertEquals("Help text", response);
         }
-        
+
         // Implicit invocation - invalid command
-        { 
+        {
             message.setSubject("INVALID");
             message.saveChanges();
             _mailet.service(mail);
@@ -1199,7 +1172,7 @@ public class ManageSieveMailetTestCase {
             assertEquals("Help text", response);
         }
     }
-    
+
     /*
     @Test
     public final void testMessageWrap() throws MessagingException, IOException {
@@ -1216,5 +1189,5 @@ public class ManageSieveMailetTestCase {
         MimeMessage result = ((MockMailetContext)_mailet.getMailetContext()).getMessage();
         MimeMessageWrapper wrapped = new MimeMessageWrapper(result);
     }
-    */   
+    */
 }

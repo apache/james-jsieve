@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-15"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements. See the NOTICE file
@@ -17,7 +17,8 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -30,7 +31,7 @@
     <version>0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Apache James JSieve</name>
+    <name>Apache James :: JSieve</name>
     <description>Apache James JSieve</description>
     <url>http://james.apache.org/jsieve/</url>
     <inceptionYear>2008</inceptionYear>
@@ -61,44 +62,29 @@
     </distributionManagement>
 
     <properties>
-        <!-- Override the source descriptor -->
-        <sourceReleaseAssemblyDescriptor>src</sourceReleaseAssemblyDescriptor>
-        <!--
-            The website is committed to subversion. This property can be overriden
-            to upload the site to a local staging location.
-            For example, adding the following to ~/.m2/settings.xml will upload
-            to localhost:
-
-            <profiles>
-            <profile>
-            <id>main</id>
-            <activation>
-            <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-            <james.www>scp://localhost/www</james.www>
-            <james.www.id>localhost</james.www.id>
-            ...
-        -->
+        <sourceReleaseAssemblyDescriptor>project</sourceReleaseAssemblyDescriptor>
         <!-- General location for site stage -->
         <james.www>scpexe://people.apache.org/www/james.apache.org/</james.www>
         <!-- Project specific location, allowing specific override -->
         <james.jsieve.www>${james.www}/jsieve/</james.jsieve.www>
         <!-- Overridding this value allows single set of loopback settings to be maintained -->
         <james.www.id>jsieve-website</james.www.id>
-        <target.jdk>1.5</target.jdk>
-        <mime4j.version>0.7.2</mime4j.version>
 
         <javax.mail.groupId>org.apache.geronimo.javamail</javax.mail.groupId>
         <javax.mail.artifactId>geronimo-javamail_1.4_mail</javax.mail.artifactId>
         <javax.activation.groupId>org.apache.geronimo.specs</javax.activation.groupId>
-        <javax.activation.artifactId>geronimo-activation_1.1_spec</javax.activation.artifactId> 
-        <!--
-        <javax.activation.groupId>javax.activation</javax.activation.groupId>
-        <javax.activation.artifactId>activation</javax.activation.artifactId>
-        <javax.mail.groupId>javax.mail</javax.mail.groupId>
-        <javax.mail.artifactId>mail</javax.mail.artifactId>
-          -->
+        <javax.activation.artifactId>geronimo-activation_1.1_spec</javax.activation.artifactId>
+
+        <target.jdk>1.6</target.jdk>
+        <mime4j.version>0.7.2</mime4j.version>
+        <apache-mailet.version>2.5.0-SNAPSHOT</apache-mailet.version>
+        <junit.version>3.8.2</junit.version>
+        <jmock.version>1.2.0</jmock.version>
+        <log4j.version>1.2.14</log4j.version>
+        <mail.version>1.4.4</mail.version>
+        <activation.version>1.1.1</activation.version>
+        <geronimo-activation.version>1.1</geronimo-activation.version>
+        <geronimo-javamail.version>1.8.3</geronimo-javamail.version>
     </properties>
 
     <dependencyManagement>
@@ -150,19 +136,19 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.james</groupId>
-                <artifactId>apache-mailet</artifactId>
-                <version>2.4</version>
+                <artifactId>apache-mailet-api</artifactId>
+                <version>${apache-mailet.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.mail</groupId>
                         <artifactId>mail</artifactId>
                     </exclusion>
-                </exclusions> 
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-mailet-base</artifactId>
-                <version>1.0</version>
+                <version>${apache-mailet.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.mail</groupId>
@@ -210,66 +196,47 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>3.8.1</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>jmock</groupId>
                 <artifactId>jmock</artifactId>
-                <version>1.1.0</version>
+                <version>${jmock.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
-                <version>1.2.14</version>
+                <version>${log4j.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
-                <version>1.4</version>
+                <version>${mail.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
-                <version>1.1</version>
+                <version>${activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
                 <artifactId>geronimo-activation_1.1_spec</artifactId>
-                <version>1.1</version>
+                <version>${geronimo-activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.javamail</groupId>
                 <artifactId>geronimo-javamail_1.4_mail</artifactId>
-                <version>1.8.3</version>
-            </dependency> 
+                <version>${geronimo-javamail.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <configuration>
-                        <archive>
-                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                            <manifestEntries>
-                                <Specification-Title>${project.name}</Specification-Title>
-                                <Specification-Version>${project.version}</Specification-Version>
-                                <Specification-Vendor>The Apache Software Foundation</Specification-Vendor>
-                                <Implementation-Title>${project.name}</Implementation-Title>
-                                <Implementation-Version>${project.version}</Implementation-Version>
-                                <Implementation-Vendor>The Apache Software Foundation</Implementation-Vendor>
-                                <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
-                                <url>${project.url}</url>
-                            </manifestEntries>
-                        </archive>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.rat</groupId>
                     <artifactId>apache-rat-plugin</artifactId>
@@ -295,51 +262,7 @@
                         </execution>
                     </executions>
                     <extensions>true</extensions>
-                    <configuration>
-                        <instructions>
-                            <Export-Package>org.apache.jsieve.*</Export-Package>
-                            <Embed-Dependency>*;scope=runtime</Embed-Dependency>
-                        </instructions>
-                    </configuration>
                 </plugin>
-                <!--
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-doap-plugin</artifactId>
-                    <inherited>true</inherited>
-                    <executions>
-                        <execution>
-                            <id>site</id>
-                            <phase>site</phase>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <doapOptions>
-                            <programmingLanguage>java</programmingLanguage>
-                            <category>mail</category>
-                            <download-page>http://james.apache.org/download.cgi</download-page>
-                            <shortdesc>${project.description}</shortdesc>
-                        </doapOptions>
-                        <asfExtOptions>
-                            <included>true</included>
-                            <pmc>http://james.apache.org</pmc>
-                            <name>Apache James</name>
-                            <standards>
-                                <standard>
-                                    <id>RFC3028</id>
-                                    <title>Sieve: A Mail Filtering Language</title>
-                                    <body>IEFT</body>
-                                    <url>http://www.ietf.org/rfc/rfc3028.txt</url>
-                                </standard>
-                            </standards>
-                            <charter></charter>
-                        </asfExtOptions>
-                    </configuration>
-                </plugin>
-                -->
                 <plugin>
                     <groupId>org.apache.james</groupId>
                     <artifactId>maven-mailetdocs-plugin</artifactId>
@@ -347,5 +270,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
     </build>
 </project>

@@ -1,28 +1,24 @@
-  <!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-  
-      http://www.apache.org/licenses/LICENSE-2.0
-  
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.    
-  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>apache-jsieve-manager</artifactId>
-	<packaging>pom</packaging>
-    <name>Apache James jSieve Manager</name>
-	
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <groupId>org.apache.james</groupId>
         <artifactId>apache-jsieve</artifactId>
@@ -30,13 +26,11 @@
         <relativePath>..</relativePath>
     </parent>
 
-	<modules>
-		<module>api</module>
-		<module>core</module>
-		<module>jsieve</module>
-		<module>mailet</module>
-		<module>mock</module>
-	</modules>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>apache-jsieve-manager</artifactId>
+    <packaging>pom</packaging>
+    <name>Apache James :: jSieve :: Manager</name>
+    <inceptionYear>2012</inceptionYear>
 
 	<dependencies>
 		<dependency>
@@ -47,28 +41,18 @@
 		</dependency>
 	</dependencies>
 
-	<inceptionYear>2012</inceptionYear>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<optimize>true</optimize>
-						<source>${target.jdk}</source>
-						<target>${target.jdk}</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    <modules>
+        <module>api</module>
+        <module>core</module>
+        <module>jsieve</module>
+        <module>mailet</module>
+        <module>mock</module>
+    </modules>
 
-	<properties>
-		<target.jdk>1.6</target.jdk>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<commons-io.version>2.1</commons-io.version>
-		<mailet.version>2.4</mailet.version>
-		<mailet-base.version>1.0</mailet-base.version>
-	</properties>
+    <properties>
+        <target.jdk>1.6</target.jdk>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <commons-io.version>2.1</commons-io.version>
+        <apache-mailet.version>2.5.0-SNAPSHOT</apache-mailet.version>
+    </properties>
 </project>

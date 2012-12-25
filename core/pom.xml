@@ -17,7 +17,8 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -28,15 +29,15 @@
     </parent>
 
     <artifactId>apache-jsieve-core</artifactId>
-    <packaging>jar</packaging>
-
-    <name>Apache James jSieve Core</name>
-    <description>
-    Apache jSieve is a server side mail filtering system 
-    implementing RFC3028. Apache jSieve is developed by the 
-    James project.
-    </description>
+    <packaging>bundle</packaging>
     <inceptionYear>2004</inceptionYear>
+
+    <name>Apache James :: jSieve :: Core</name>
+    <description>
+        Apache jSieve is a server side mail filtering system
+        implementing RFC3028. Apache jSieve is developed by the
+        James project.
+    </description>
 
     <distributionManagement>
         <site>
@@ -75,17 +76,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <!-- enable central that is otherwise disabled by the parent pom. -->
-        <repository>
-            <id>central</id>
-            <url>http://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>
@@ -140,7 +130,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <!--
             Switches between generating the documentation site (without using this profile) and

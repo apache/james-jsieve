@@ -27,8 +27,8 @@
 	</parent>
 
 	<artifactId>apache-jsieve-manager-jsieve</artifactId>
-	<packaging>jar</packaging>
-    <name>Apache James jSieve Manager jSieve</name>
+	<packaging>bundle</packaging>
+    <name>Apache James :: jSieve :: Manager jSieve</name>
 
 	<dependencies>
 		<dependency>

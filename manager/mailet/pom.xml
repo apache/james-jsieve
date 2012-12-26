@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
   <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -31,21 +32,16 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.apache.james</groupId>
 			<artifactId>apache-jsieve-manager-core</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.apache.james</groupId>
 			<artifactId>apache-mailet-api</artifactId>
-			<version>${apache-mailet.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.james</groupId>
 			<artifactId>apache-mailet-base</artifactId>
-			<version>${apache-mailet.version}</version>
 		</dependency>
         <dependency>
             <groupId>${javax.mail.groupId}</groupId>
@@ -56,10 +52,8 @@
             <artifactId>${javax.activation.artifactId}</artifactId>
         </dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.apache.james</groupId>
 			<artifactId>apache-jsieve-manager-mock</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

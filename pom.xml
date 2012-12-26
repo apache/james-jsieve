@@ -76,6 +76,8 @@
         <javax.activation.artifactId>geronimo-activation_1.1_spec</javax.activation.artifactId>
 
         <target.jdk>1.6</target.jdk>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <mime4j.version>0.7.2</mime4j.version>
         <apache-mailet.version>2.5.0-SNAPSHOT</apache-mailet.version>
         <junit.version>4.10</junit.version>
@@ -85,6 +87,7 @@
         <activation.version>1.1.1</activation.version>
         <geronimo-activation.version>1.1</geronimo-activation.version>
         <geronimo-javamail.version>1.8.3</geronimo-javamail.version>
+        <commons-io.version>2.1</commons-io.version>
     </properties>
 
     <dependencyManagement>
@@ -233,6 +236,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>

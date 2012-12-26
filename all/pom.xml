@@ -87,7 +87,6 @@
                     <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
-                        <!-- append to the packaging phase. -->
                         <goals>
                             <goal>attached</goal>
                         </goals>

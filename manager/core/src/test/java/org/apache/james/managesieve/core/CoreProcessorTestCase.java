@@ -22,10 +22,10 @@ package org.apache.james.managesieve.core;
 
 import org.apache.james.managesieve.api.*;
 import org.apache.james.managesieve.api.commands.Capability.Capabilities;
-import org.apache.james.managesieve.api.commands.CoreCommands;
 import org.apache.james.managesieve.mock.MockSession;
 import org.apache.james.managesieve.mock.MockSieveParser;
 import org.apache.james.managesieve.mock.MockSieveRepository;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -39,18 +39,21 @@ import static org.junit.Assert.*;
  */
 public class CoreProcessorTestCase {
 
-    @Test
-    public final void testCoreProcessor() {
-        CoreProcessor core = new CoreProcessor(new MockSession(), new MockSieveRepository(), new MockSieveParser());
-        assertTrue(core instanceof CoreCommands);
+    private MockSession session;
+    private MockSieveParser parser;
+    private MockSieveRepository repository;
+    private CoreProcessor core;
+
+    @Before
+    public void setUp() throws Exception {
+        session = new MockSession();
+        parser = new MockSieveParser();
+        repository = new MockSieveRepository();
+        core = new CoreProcessor(session, repository, parser);
     }
 
     @Test
     public final void testCapability() {
-        MockSession session = new MockSession();
-        MockSieveParser parser = new MockSieveParser();
-        CoreProcessor core = new CoreProcessor(session, new MockSieveRepository(), parser);
-
         // Unauthenticated
         session.setAuthentication(false);
         parser.setExtensions(Arrays.asList("a", "b", "c"));
@@ -75,9 +78,6 @@ public class CoreProcessorTestCase {
 
     @Test
     public final void testCheckScript() throws AuthenticationRequiredException, SyntaxException {
-        MockSession session = new MockSession();
-        CoreProcessor core = new CoreProcessor(session, new MockSieveRepository(), new MockSieveParser());
-
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -109,11 +109,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testDeleteScript() throws ScriptNotFoundException, IsActiveException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testDeleteScript() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -164,10 +160,6 @@ public class CoreProcessorTestCase {
 
     @Test
     public final void testGetScript() throws ScriptNotFoundException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -197,11 +189,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testHaveSpace() throws QuotaExceededException, AuthenticationRequiredException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testHaveSpace() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -219,11 +207,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testListScripts() throws AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testListScripts() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -250,11 +234,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testPutScript() throws SyntaxException, QuotaExceededException, AuthenticationRequiredException, UserNotFoundException, ScriptNotFoundException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testPutScript() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -285,11 +265,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testRenameScript() throws ScriptNotFoundException, IsActiveException, DuplicateException, AuthenticationRequiredException, SyntaxException, QuotaExceededException, UserNotFoundException, StorageException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testRenameScript() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -310,11 +286,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testSetActive() throws ScriptNotFoundException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testSetActive() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -335,13 +307,7 @@ public class CoreProcessorTestCase {
     }
 
     @Test
-    public final void testGetActive() throws ScriptNotFoundException,
-            AuthenticationRequiredException, UserNotFoundException, StorageException,
-            QuotaExceededException {
-        MockSession session = new MockSession();
-        SieveRepository repository = new MockSieveRepository();
-        CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-
+    public final void testGetActive() throws Exception {
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);

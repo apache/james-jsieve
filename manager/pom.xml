@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one
   or more contributor license agreements.  See the NOTICE file
@@ -32,14 +33,6 @@
     <name>Apache James :: jSieve :: Manager</name>
     <inceptionYear>2012</inceptionYear>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
     <modules>
         <module>api</module>
         <module>core</module>
@@ -48,10 +41,4 @@
         <module>mock</module>
     </modules>
 
-    <properties>
-        <target.jdk>1.6</target.jdk>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <commons-io.version>2.1</commons-io.version>
-        <apache-mailet.version>2.5.0-SNAPSHOT</apache-mailet.version>
-    </properties>
 </project>

@@ -55,7 +55,7 @@ public class SizeTest {
         } catch (MessagingException e) {
         }
 
-        String script = "if size :over " + new Integer(size - 1).toString()
+        String script = "if size :over " + Integer.toString(size - 1)
                 + " {throwTestException;}";
         try {
 
@@ -88,7 +88,7 @@ public class SizeTest {
         } catch (MessagingException e) {
         }
 
-        String script = "if size :over " + new Integer(size).toString()
+        String script = "if size :over " + Integer.toString(size)
                 + " {throwTestException;}";
         try {
 
@@ -121,7 +121,7 @@ public class SizeTest {
         } catch (MessagingException e) {
         }
 
-        String script = "if size :under " + new Integer(size + 1).toString()
+        String script = "if size :under " + Integer.toString(size + 1)
                 + " {throwTestException;}";
         try {
 
@@ -154,7 +154,7 @@ public class SizeTest {
         } catch (MessagingException e) {
         }
 
-        String script = "if size :over " + new Integer(size).toString()
+        String script = "if size :over " + Integer.toString(size)
                 + " {throwTestException;}";
         try {
 

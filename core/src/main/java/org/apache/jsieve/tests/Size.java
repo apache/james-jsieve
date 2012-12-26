@@ -88,7 +88,7 @@ public class Size extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected argument(s)");
 
-        return test(mail, comparator, size.intValue());
+        return test(mail, comparator, size);
     }
 
     /**

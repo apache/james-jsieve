@@ -103,8 +103,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      *         modifiable copy
      */
     public List<Action> getExecutedActions() {
-        final ArrayList<Action> result = new ArrayList<Action>(executedActions);
-        return result;
+        return new ArrayList<Action>(executedActions);
     }
 
     /**
@@ -115,8 +114,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      *         unmodifiable
      */
     public List<Action> getActions() {
-        final List<Action> result = Collections.unmodifiableList(actions);
-        return result;
+        return Collections.unmodifiableList(actions);
     }
 
     /**
@@ -288,8 +286,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 }
             }
 
-            final Address[] results = builder.getAddresses();
-            return results;
+            return builder.getAddresses();
 
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);

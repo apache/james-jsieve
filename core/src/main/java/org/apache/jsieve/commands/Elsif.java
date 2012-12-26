@@ -43,15 +43,15 @@ public class Elsif extends AbstractConditionalCommand {
      * Conditionally eexecute a Block if an Elsif Condition is allowed and
      * runnable.
      * </p>
-     * <p>
+     * <p/>
      * Also,
-     * 
+     *
      * @see org.apache.jsieve.commands.AbstractCommand#executeBasic(MailAdapter,
      *      Arguments, Block, SieveContext)
      *      </p>
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
-            Block block, SieveContext context) throws SieveException {
+                                  Block block, SieveContext context) throws SieveException {
         // Check Syntax
         if (!context.getConditionManager().isElsifAllowed())
             throw context.getCoordinate().commandException(
@@ -66,12 +66,10 @@ public class Elsif extends AbstractConditionalCommand {
                 context);
 
         // If the tests answered TRUE, execute the Block
-        if (isTestPassed.booleanValue())
-            execute(mail, block, context);
+        if (isTestPassed) execute(mail, block, context);
 
         // Update the ConditionManager
-        context.getConditionManager().setElsifTestResult(
-                isTestPassed.booleanValue());
+        context.getConditionManager().setElsifTestResult(isTestPassed);
 
         // Return the result
         return isTestPassed;

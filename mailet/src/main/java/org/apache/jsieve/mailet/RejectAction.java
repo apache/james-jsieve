@@ -127,10 +127,9 @@ public class RejectAction implements MailAction {
         if (null != recipientAddresses)
         {
             Collection<MailAddress> recipients = new ArrayList<MailAddress>(recipientAddresses.length);
-            for (int i = 0; i < recipientAddresses.length; i++)
-            {
+            for (Address recipientAddress : recipientAddresses) {
                 recipients.add(new MailAddress(
-                        (InternetAddress) recipientAddresses[i]));
+                        (InternetAddress) recipientAddress));
             }
             context.post(null, recipients, reply);
         }

@@ -81,8 +81,7 @@ public class SieveAddressBuilder {
      * @return addresses, not null
      */
     public Address[] getAddresses() {
-        final Address[] results = (Address[]) addresses.toArray(EMPTY_ADDRESSES);
-        return results;
+        return addresses.toArray(EMPTY_ADDRESSES);
     }
 
     /**
@@ -128,7 +127,7 @@ public class SieveAddressBuilder {
         }
 
         private String contents(AddressNode node) {
-            StringBuffer buffer = new StringBuffer(32);
+            StringBuilder buffer = new StringBuilder(32);
             Token last = node.lastToken;
             Token next = node.firstToken;
             while (next != last) {

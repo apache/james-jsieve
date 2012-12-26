@@ -74,7 +74,7 @@ public class TestList implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        return new Boolean(allTestsPass(mail, context));
+        return allTestsPass(mail, context);
     }
 
     /**

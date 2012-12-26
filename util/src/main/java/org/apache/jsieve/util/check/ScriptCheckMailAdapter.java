@@ -19,17 +19,6 @@
 
 package org.apache.jsieve.util.check;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
@@ -38,6 +27,12 @@ import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
 import org.apache.jsieve.parser.generated.address.ParseException;
+
+import javax.mail.Header;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called
@@ -59,7 +54,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
 
     /**
      * Gets the wrapped email.
-     * 
+     *
      * @return <code>Message</code>, possibly null
      */
     public Message getMail() {
@@ -69,9 +64,8 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     /**
      * Sets the wrapped email and {@link #reset}s the adapter ready for another
      * execution.
-     * 
-     * @param mail
-     *                <code>Message</code>, possibly null
+     *
+     * @param mail <code>Message</code>, possibly null
      */
     public void setMail(Message mail) {
         this.mail = mail;
@@ -81,7 +75,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     /**
      * Method addAction adds an Action to the List of Actions to be performed by
      * the receiver.
-     * 
+     *
      * @param action
      */
     public void addAction(final Action action) {
@@ -99,25 +93,23 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     /**
      * Gets the actions accumulated when {@link #executedActions} was last
      * called.
-     * 
+     *
      * @return <code>List</code> of {@link Action}s, not null. This list is a
      *         modifiable copy
      */
     public List<Action> getExecutedActions() {
-        final ArrayList<Action> result = new ArrayList<Action>(executedActions);
-        return result;
+        return new ArrayList<Action>(executedActions);
     }
 
     /**
      * Method getActions answers the List of Actions accumulated by the
      * receiver. Implementations may elect to supply an unmodifiable collection.
-     * 
+     *
      * @return <code>List</code> of {@link Action}'s, not null, possibly
      *         unmodifiable
      */
     public List<Action> getActions() {
-        final List<Action> result = Collections.unmodifiableList(actions);
-        return result;
+        return Collections.unmodifiableList(actions);
     }
 
     /**
@@ -133,7 +125,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * Method getHeader answers a List of all of the headers in the receiver
      * whose name is equal to the passed name. If no headers are found an empty
      * List is returned.
-     * 
+     *
      * @param name
      * @return <code>List</code> not null, possibly empty
      * @throws SieveMailException
@@ -157,7 +149,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     /**
      * Method getHeaderNames answers a List of all of the headers in the
      * receiver. No duplicates are allowed.
-     * 
+     *
      * @return <code>List</code>, not null possible empty, possible
      *         unmodifiable
      * @throws SieveMailException
@@ -169,7 +161,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             try {
                 results = new ArrayList<String>();
                 for (final Enumeration en = mail.getAllHeaders(); en
-                        .hasMoreElements();) {
+                        .hasMoreElements(); ) {
                     final Header header = (Header) en.nextElement();
                     final String name = header.getName();
                     if (!results.contains(name)) {
@@ -189,14 +181,14 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * receiver with the passed name. If no headers are found an empty List is
      * returned.
      * </p>
-     * 
+     * <p/>
      * <p>
      * This method differs from getHeader(String) in that it ignores case and
      * the whitespace prefixes and suffixes of a header name when performing the
      * match, as required by RFC 3028. Thus "From", "from ", " From" and " from "
      * are considered equal.
      * </p>
-     * 
+     *
      * @param name
      * @return <code>List</code>, not null possibly empty
      * @throws SieveMailException
@@ -212,7 +204,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
 
     /**
      * Method getSize answers the receiver's message size in octets.
-     * 
+     *
      * @return int
      * @throws SieveMailException
      */
@@ -231,7 +223,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     /**
      * Method getContentType returns string/mime representation of the message
      * type.
-     * 
+     *
      * @return String
      * @throws SieveMailException
      */
@@ -254,20 +246,18 @@ public class ScriptCheckMailAdapter implements MailAdapter {
 
     /**
      * Parses the value from the given message into addresses.
-     * 
-     * @param headerName
-     *                header name, to be matched case insensitively
-     * @param message
-     *                <code>Message</code>, not null
+     *
+     * @param headerName header name, to be matched case insensitively
+     * @param message    <code>Message</code>, not null
      * @return <code>Address</code> array, not null possibly empty
      * @throws SieveMailException
      */
     public Address[] parseAddresses(final String headerName,
-            final Message message) throws SieveMailException {
+                                    final Message message) throws SieveMailException {
         try {
-           final SieveAddressBuilder builder = new SieveAddressBuilder();
+            final SieveAddressBuilder builder = new SieveAddressBuilder();
 
-            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
+            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements(); ) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
@@ -279,7 +269,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             return results;
 
         } catch (MessagingException ex) {
-           throw new SieveMailException(ex);
+            throw new SieveMailException(ex);
         } catch (ParseException ex) {
             throw new SieveMailException(ex);
         }
@@ -299,6 +289,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         return result;
     }
 
-    public void setContext(SieveContext context) {}
+    public void setContext(SieveContext context) {
+    }
 
 }

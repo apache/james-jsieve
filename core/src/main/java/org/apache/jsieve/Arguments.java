@@ -79,7 +79,7 @@ public class Arguments {
      * @return TestList
      */
     public TestList getTestList() {
-        TestList testList = null;
+        TestList testList;
         if (null == (testList = getTestListBasic())) {
             updateTestList();
             return getTestList();

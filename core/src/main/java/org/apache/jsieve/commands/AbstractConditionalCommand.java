@@ -57,8 +57,7 @@ public abstract class AbstractConditionalCommand extends AbstractControlCommand 
 
         try {
             // Execute the Block
-            Object result = block.execute(mail, context);
-            return result;
+            return block.execute(mail, context);
         } finally {
             // Always restore the old ConditionManager
             context.setConditionManager(oldManager);

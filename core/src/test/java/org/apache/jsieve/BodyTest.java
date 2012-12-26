@@ -43,8 +43,7 @@ public class BodyTest {
         return mail;
     }
 
-    protected SieveMailAdapter nonTextMail() throws MessagingException,
-            SieveException {
+    protected SieveMailAdapter nonTextMail() throws MessagingException {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         // FIXME: This doesn't work
         mail.getMessage().setContent(new MimeMultipart("image/png"));

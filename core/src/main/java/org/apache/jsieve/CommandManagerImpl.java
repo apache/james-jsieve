@@ -63,7 +63,7 @@ public class CommandManagerImpl implements CommandManager {
      * @throws LookupException
      */
     private Class lookup(String name) throws LookupException {
-        Class cmdClass = null;
+        Class cmdClass;
         try {
             cmdClass = getClass().getClassLoader()
                     .loadClass(getClassName(name));

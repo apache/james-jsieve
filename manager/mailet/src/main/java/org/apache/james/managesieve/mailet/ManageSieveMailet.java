@@ -99,10 +99,7 @@ public class ManageSieveMailet extends GenericMailet implements HelpProvider {
         }
 
         protected String getUser(MailAddress addr) {
-            return new StringBuilder(addr.getLocalPart())
-                .append('@')
-                .append(null == addr.getDomain() ? "localhost" : addr.getDomain())
-                .toString();
+            return addr.getLocalPart() + '@' + (null == addr.getDomain() ? "localhost" : addr.getDomain());
         }
 
     }
@@ -138,7 +135,6 @@ public class ManageSieveMailet extends GenericMailet implements HelpProvider {
      *
      * @param sieveRepository
      * @param sieveParser
-     * @param usersRepository
      */
     public ManageSieveMailet(SieveRepository sieveRepository, SieveParser sieveParser)
     {
@@ -249,8 +245,6 @@ public class ManageSieveMailet extends GenericMailet implements HelpProvider {
     }
 
     /**
-     * @param sieveRepository
-     *            the sieveRepository to set
      */
     @Resource(name = "sieverepository")
     public void setSieveRepository(SieveRepository repository) {

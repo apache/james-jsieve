@@ -128,7 +128,7 @@ public class SieveToXml {
      * @param elementLocalName to be returned for all names, not null
      * @return not null
      */
-    public static final NameMapper uniformMapper(final String elementLocalName) {
+    public static NameMapper uniformMapper(final String elementLocalName) {
         return new NameMapper() {
             public String toElementName(String name) {
                 return elementLocalName;
@@ -143,13 +143,13 @@ public class SieveToXml {
      * Sieve Email Filtering: Sieves and display directives in XML</blockquote>.  
      * @return not null
      */
-    public static final NameMapper sieveInXmlMapper() {
+    public static NameMapper sieveInXmlMapper() {
         return new NameMapper() {
 
             public String toElementName(String name) {
                 boolean isControlCommand = false;
-                for (int i=0;i< CONTROL_COMMANDS.length;i++) {
-                    if (CONTROL_COMMANDS[i].equalsIgnoreCase(name)) {
+                for (String CONTROL_COMMAND : CONTROL_COMMANDS) {
+                    if (CONTROL_COMMAND.equalsIgnoreCase(name)) {
                         isControlCommand = true;
                         break;
                     }
@@ -327,9 +327,8 @@ public class SieveToXml {
      * @return hanlder, not null
      */
     public SieveHandler build(final Out out) {
-        final Worker worker = new Worker(nameAttributeName, namespaceUri, namespacePrefix, stringElementName, 
+        return new Worker(nameAttributeName, namespaceUri, namespacePrefix, stringElementName,
                 tagElementName, numberElementName, listElementName, commandNameMapper, testNameMapper, out);
-        return worker;
     }
     
     /**

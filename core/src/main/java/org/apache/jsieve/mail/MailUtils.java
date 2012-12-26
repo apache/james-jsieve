@@ -53,7 +53,7 @@ public class MailUtils {
      * @throws SieveMailException
      */
     static public List<String> getMatchingHeader(MailAdapter mail, String name)
-            throws SieveMailException {;
+            throws SieveMailException {
         final List<String> matchedHeaderValues = new ArrayList<String>(32);
         for (String headerName: mail.getHeaderNames()) {
             if (headerName.trim().equalsIgnoreCase(name))

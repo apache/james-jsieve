@@ -261,8 +261,7 @@ public class SieveMailAdapter implements MailAdapter {
                 }
             }
 
-            final Address[] results = builder.getAddresses();
-            return results;
+            return builder.getAddresses();
 
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
@@ -273,7 +272,7 @@ public class SieveMailAdapter implements MailAdapter {
 
     public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
         try {
-            return contentAsText().indexOf(phraseCaseInsensitive.toLowerCase()) != -1;
+            return contentAsText().contains(phraseCaseInsensitive.toLowerCase());
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         } catch (IOException ex) {

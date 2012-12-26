@@ -15,19 +15,14 @@
  * KIND, either express or implied.  See the License for the    *
  * specific language governing permissions and limitations      *
  * under the License.                                           *
- */ 
+ */
 package org.apache.jsieve.util;
+
+import org.apache.jsieve.util.SieveToXml.Out;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-
-import org.apache.jsieve.util.SieveToXml.Out;
+import java.util.*;
 
 /**
  * <p>Lightweight {@link Out} implementation.</p>
@@ -43,9 +38,9 @@ public final class XmlOut implements SieveToXml.Out {
     private static final byte NAME_MASK = 1 << 2;
     private static final byte NAME_BODY_CHAR = NAME_MASK;
     private static final byte NAME_START_OR_BODY_CHAR = NAME_MASK | NAME_START_MASK;
-    
-    private final static boolean[] ALLOWED_CHARACTERS = new boolean[1 << 16]; 
-    
+
+    private final static boolean[] ALLOWED_CHARACTERS = new boolean[1 << 16];
+
     static {
         Arrays.fill(ALLOWED_CHARACTERS, false);
         ALLOWED_CHARACTERS[0x9] = true;
@@ -54,9 +49,9 @@ public final class XmlOut implements SieveToXml.Out {
         Arrays.fill(ALLOWED_CHARACTERS, 0x20, 0xD7FF, true);
         Arrays.fill(ALLOWED_CHARACTERS, 0xE000, 0xFFFD, true);
     }
-    
-    private final static byte[] CHARACTER_CODES = new byte[1 << 16]; 
-                              
+
+    private final static byte[] CHARACTER_CODES = new byte[1 << 16];
+
     static {
         // Name ::= (Letter | '_' | ':') (NameChar)*
         CHARACTER_CODES['_'] = NAME_START_OR_BODY_CHAR;
@@ -398,29 +393,29 @@ public final class XmlOut implements SieveToXml.Out {
         Arrays.fill(CHARACTER_CODES, 0x30FC, 0x30FE, NAME_BODY_CHAR);
 
     }
-    
+
     private final List<CharSequence> prefixesDefined;
     private final Writer writer;
     private final Stack<CharSequence> elementNames;
     private final Set<CharSequence> currentAttributes = new HashSet<CharSequence>();
-    
+
     boolean elementsWritten = false;
     boolean inElement = false;
     boolean prologWritten = false;
-    
+
     public XmlOut(final Writer writer) {
         this.writer = writer;
         this.elementNames = new Stack<CharSequence>();
         prefixesDefined = new ArrayList<CharSequence>();
     }
-    
+
     /**
      * Starts a document by writing a prolog.
      * Calling this method is optional.
      * When writing a document fragment, it should <em>not</em> be called.
-     * @throws OperationNotAllowedException 
-     * if called after the first element has been written
-     * or once a prolog has already been written
+     *
+     * @throws OperationNotAllowedException if called after the first element has been written
+     *                                      or once a prolog has already been written
      */
     public void startDocument() throws IOException {
         if (elementsWritten) {
@@ -432,14 +427,13 @@ public final class XmlOut implements SieveToXml.Out {
         writer.write("<?xml version='1.0'?>");
         prologWritten = true;
     }
-    
+
     /**
      * Writes the start of an element.
-     * 
+     *
      * @param elementName the name of the element, not null
-     * @throws InvalidXmlException if the name is not valid for an xml element
-     * @throws OperationNotAllowedException 
-     * if called after the first element has been closed
+     * @throws InvalidXmlException          if the name is not valid for an xml element
+     * @throws OperationNotAllowedException if called after the first element has been closed
      */
     public void openElement(final CharSequence elementName) throws IOException {
         if (elementsWritten && elementNames.isEmpty()) {
@@ -458,25 +452,25 @@ public final class XmlOut implements SieveToXml.Out {
         elementNames.push(elementName);
         currentAttributes.clear();
     }
-    
+
     /**
      * Writes an attribute of an element.
      * Note that this is only allowed directly after {@link #openElement(CharSequence)}
      * or {@link #attribute}.
-     * 
-     * @param name the attribute name, not null
+     *
+     * @param name  the attribute name, not null
      * @param value the attribute value, not null
-     * @throws InvalidXmlException if the name is not valid for an xml attribute 
-     * or if a value for the attribute has already been written
-     * @throws OperationNotAllowedException if called after {@link #content} 
-     * or {@link #closeElement()} or before any call to {@link #openElement}
+     * @throws InvalidXmlException          if the name is not valid for an xml attribute
+     *                                      or if a value for the attribute has already been written
+     * @throws OperationNotAllowedException if called after {@link #content}
+     *                                      or {@link #closeElement()} or before any call to {@link #openElement}
      */
     public void attribute(CharSequence name, CharSequence value) throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
             } else {
-                throw new OperationNotAllowedException("Close called before an element has been opened.");            
+                throw new OperationNotAllowedException("Close called before an element has been opened.");
             }
         }
         if (!isValidName(name)) {
@@ -496,27 +490,26 @@ public final class XmlOut implements SieveToXml.Out {
         writer.write('\'');
         currentAttributes.add(name);
     }
-    
+
     private void writeAttributeContent(CharSequence content) throws IOException {
         writeEscaped(content, true);
     }
 
     /**
      * Writes content.
-     * Calling this method will automatically 
+     * Calling this method will automatically
      * Note that this method does not use CDATA.
-     * 
+     *
      * @param content the content to write
-     * @throws OperationNotAllowedException 
-     * if called before any call to {@link #openElement} 
-     * or after the first element has been closed
+     * @throws OperationNotAllowedException if called before any call to {@link #openElement}
+     *                                      or after the first element has been closed
      */
     public void content(CharSequence content) throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
             } else {
-                throw new OperationNotAllowedException("An element must be opened before content can be written.");            
+                throw new OperationNotAllowedException("An element must be opened before content can be written.");
             }
         }
         if (inElement) {
@@ -525,14 +518,14 @@ public final class XmlOut implements SieveToXml.Out {
         writeBodyContent(content);
         inElement = false;
     }
-    
+
     private void writeBodyContent(final CharSequence content) throws IOException {
         writeEscaped(content, false);
     }
 
     private void writeEscaped(final CharSequence content, boolean isAttributeContent) throws IOException {
         final int length = content.length();
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             char character = content.charAt(i);
             if (character == '&') {
                 writer.write("&amp;");
@@ -551,28 +544,26 @@ public final class XmlOut implements SieveToXml.Out {
             }
         }
     }
-    
+
     private boolean isOutOfRange(final char character) {
-        final boolean result = !ALLOWED_CHARACTERS[character];
-        return result;
+        return !ALLOWED_CHARACTERS[character];
     }
 
     /**
      * Closes the last element written.
-     * 
-     * @throws OperationNotAllowedException 
-     * if called before any call to {@link #openElement} 
-     * or after the first element has been closed
+     *
+     * @throws OperationNotAllowedException if called before any call to {@link #openElement}
+     *                                      or after the first element has been closed
      */
     public void closeElement() throws IOException {
         if (elementNames.isEmpty()) {
             if (elementsWritten) {
                 throw new OperationNotAllowedException("Root element has already been closed.");
             } else {
-                throw new OperationNotAllowedException("Close called before an element has been opened.");            
+                throw new OperationNotAllowedException("Close called before an element has been opened.");
             }
         }
-        final CharSequence elementName = (CharSequence) elementNames.pop();
+        final CharSequence elementName = elementNames.pop();
         if (inElement) {
             writer.write('/');
             writer.write('>');
@@ -585,41 +576,41 @@ public final class XmlOut implements SieveToXml.Out {
         writer.flush();
         inElement = false;
     }
-                                                         
-    
+
+
     /**
      * Closes all pending elements.
      * When appropriate, resources are also flushed and closed.
      * No exception is raised when called upon a document whose
      * root element has already been closed.
-     * @throws OperationNotAllowedException 
-     * if called before any call to {@link #openElement} 
+     *
+     * @throws OperationNotAllowedException if called before any call to {@link #openElement}
      */
     public void closeDocument() throws IOException {
         if (elementNames.isEmpty()) {
             if (!elementsWritten) {
-                throw new OperationNotAllowedException("Close called before an element has been opened.");            
+                throw new OperationNotAllowedException("Close called before an element has been opened.");
             }
         }
-        while(!elementNames.isEmpty()) {
+        while (!elementNames.isEmpty()) {
             closeElement();
         }
         writer.flush();
     }
-    
+
     private void rawWrite(final CharSequence sequence) throws IOException {
-        for (int i=0;i<sequence.length();i++) {
+        for (int i = 0; i < sequence.length(); i++) {
             final char charAt = sequence.charAt(i);
             writer.write(charAt);
         }
     }
-    
+
     private boolean isValidName(final CharSequence sequence) {
         boolean result = true;
         final int length = sequence.length();
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             char character = sequence.charAt(i);
-            if (i==0) {
+            if (i == 0) {
                 if (!isValidNameStart(character)) {
                     result = false;
                     break;
@@ -633,24 +624,22 @@ public final class XmlOut implements SieveToXml.Out {
         }
         return result;
     }
-    
+
     private boolean isValidNameStart(final char character) {
         final byte code = CHARACTER_CODES[character];
-        final boolean result = (code & NAME_START_MASK) > 0;
-        return result;
+        return (code & NAME_START_MASK) > 0;
     }
-    
+
     private boolean isValidNameBody(final char character) {
         final byte code = CHARACTER_CODES[character];
-        final boolean result = (code & NAME_MASK) > 0;
-        return result;
+        return (code & NAME_MASK) > 0;
     }
 
     public void attribute(CharSequence localName, CharSequence uri, CharSequence prefix, CharSequence value) throws IOException {
         final CharSequence name = toName(localName, uri, prefix);
         attribute(name, value);
     }
-    
+
     private CharSequence toName(CharSequence localName, CharSequence uri, CharSequence prefix) {
         final CharSequence name;
         if (prefix == null || "".equals(prefix) || uri == null || "".equals(uri)) {

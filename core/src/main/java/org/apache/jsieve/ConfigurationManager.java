@@ -19,16 +19,16 @@
 
 package org.apache.jsieve;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 /**
  * <p>
@@ -50,10 +50,10 @@ import org.xml.sax.SAXException;
  * Each configuration manager instance may be safely accessed by concurrent threads.
  * </p>
  * <p>
- * The managers constructed by 
+ * The managers constructed by
  * </p>
  * <ul>
- * <li>{@link #getCommandManager()}</li> 
+ * <li>{@link #getCommandManager()}</li>
  * <li>{@link #getComparatorManager()}</li>
  * <li>{@link #getTestManager()}</li>
  * </ul>
@@ -91,7 +91,7 @@ public class ConfigurationManager {
      * A Map of the Comparator names and their associated class names.
      */
     private ConcurrentMap<String, String> fieldComparatorMap;
-    
+
     /**
      * The initial size for the {@link ConcurrentHashMap} concurrency level.
      */
@@ -100,10 +100,10 @@ public class ConfigurationManager {
     private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
 
     private Log log = LOG;
-    
+
     /**
      * Constructor for ConfigurationManager.
-     * 
+     *
      * @throws SieveConfigurationException
      */
     public ConfigurationManager() throws SieveConfigurationException {
@@ -123,6 +123,7 @@ public class ConfigurationManager {
 
     /**
      * Gets the current initial size for the {@link ConcurrentHashMap} concurrency level.
+     *
      * @return number of concurrent threads estimated for initial sizing
      */
     public int getInitialConcurrencyLevel() {
@@ -131,12 +132,12 @@ public class ConfigurationManager {
 
     /**
      * Sets the current initial size for the {@link ConcurrentHashMap} concurrency level.
+     *
      * @param initialConcurrencyLevel number of concurrent threads estimated for initial sizing
      */
     public void setInitialConcurrencyLevel(int initialConcurrencyLevel) {
         this.initialConcurrencyLevel = initialConcurrencyLevel;
     }
-
 
 
     /**
@@ -150,7 +151,7 @@ public class ConfigurationManager {
      * is found then this is returned. Otherwise, the classloader used to load
      * this class is searched for the resource.
      * </p>
-     * 
+     *
      * @return InputStream
      * @throws IOException
      */
@@ -178,7 +179,7 @@ public class ConfigurationManager {
     /**
      * Method getCommandMap answers a Map of Command names and their associated
      * class names, lazily initialized if required.
-     * 
+     *
      * @return Map not null
      */
     public ConcurrentMap<String, String> getCommandMap() {
@@ -191,7 +192,7 @@ public class ConfigurationManager {
     /**
      * Method getTestMap answers a Map of Test names and their associated class
      * names, lazily initialized if required.
-     * 
+     *
      * @return Map not null
      */
     public ConcurrentMap<String, String> getTestMap() {
@@ -204,7 +205,7 @@ public class ConfigurationManager {
     /**
      * Method getComparatorMap answers a Map of Comparator names and their
      * associated class names, lazily initialized if required.
-     * 
+     *
      * @return Map not null
      */
     public ConcurrentMap<String, String> getComparatorMap() {
@@ -217,7 +218,7 @@ public class ConfigurationManager {
     /**
      * Method parse uses the Digester to parse the XML statements in the Sieve
      * configuration file into Java objects.
-     * 
+     *
      * @throws SAXException
      * @throws IOException
      */
@@ -227,16 +228,16 @@ public class ConfigurationManager {
         setComparatorMap(loadConfiguration(COMPARATORSMAP_PROPERTIES));
     }
 
-    private ConcurrentMap<String,String> loadConfiguration(final String name) throws IOException {
+    private ConcurrentMap<String, String> loadConfiguration(final String name) throws IOException {
         final Properties properties = loadProperties(name);
-        final ConcurrentMap<String, String> result = 
-            new ConcurrentHashMap<String, String>(properties.size(), 1.0f, initialConcurrencyLevel);
-        for (final Map.Entry<Object, Object> entry: properties.entrySet()) {
+        final ConcurrentMap<String, String> result =
+                new ConcurrentHashMap<String, String>(properties.size(), 1.0f, initialConcurrencyLevel);
+        for (final Map.Entry<Object, Object> entry : properties.entrySet()) {
             result.put(entry.getKey().toString(), entry.getValue().toString());
         }
         return result;
     }
-    
+
     private Properties loadProperties(final String name) throws IOException {
         final InputStream is = getConfigStream(name);
         final Properties p = new Properties();
@@ -246,9 +247,8 @@ public class ConfigurationManager {
 
     /**
      * Sets the commandMap.
-     * 
-     * @param commandMap
-     *            The commandMap to set
+     *
+     * @param commandMap The commandMap to set
      */
     private void setCommandMap(ConcurrentMap<String, String> commandMap) {
         fieldCommandMap = commandMap;
@@ -256,9 +256,8 @@ public class ConfigurationManager {
 
     /**
      * Sets the testMap.
-     * 
-     * @param testMap
-     *            The testMap to set
+     *
+     * @param testMap The testMap to set
      */
     private void setTestMap(ConcurrentMap<String, String> testMap) {
         fieldTestMap = testMap;
@@ -266,9 +265,8 @@ public class ConfigurationManager {
 
     /**
      * Sets the comparatorMap.
-     * 
-     * @param comparatorMap
-     *            The comparatorMap to set
+     *
+     * @param comparatorMap The comparatorMap to set
      */
     private void setComparatorMap(ConcurrentMap<String, String> comparatorMap) {
         fieldComparatorMap = comparatorMap;
@@ -289,7 +287,7 @@ public class ConfigurationManager {
     public Log getLog() {
         return log;
     }
-    
+
     public void setLog(Log log) {
         this.log = log;
     }

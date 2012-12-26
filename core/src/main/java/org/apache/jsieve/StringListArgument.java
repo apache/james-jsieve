@@ -52,7 +52,7 @@ public class StringListArgument implements Argument {
      * @return List
      */
     public List<String> getList() {
-        List<String> list = null;
+        List<String> list;
         if (null == (list = getListBasic())) {
             updateList();
             return getList();

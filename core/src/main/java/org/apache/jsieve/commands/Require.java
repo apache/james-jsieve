@@ -136,7 +136,7 @@ public class Require extends AbstractPrologCommand {
         List<Argument> args = arguments.getArgumentList();
         if (args.size() != 1)
             throw context.getCoordinate().syntaxException(
-                    new StringBuilder("Exactly 1 argument permitted. Found ").append((int)args.size()));
+                    new StringBuilder("Exactly 1 argument permitted. Found ").append(args.size()));
 
         Argument argument = args.get(0);
         if (!(argument instanceof StringListArgument))

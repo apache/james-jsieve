@@ -147,8 +147,7 @@ public class NodeToSieveAdapter implements NodeHandler {
             if (integer == null) {
                 LOG.debug("Ignoring null numeric argument");
             } else {
-                final int number = integer.intValue();
-                handler.argument(number);
+                handler.argument(integer);
             }
         } else if (value instanceof TagArgument) {
             final TagArgument tagArgument = (TagArgument) value;

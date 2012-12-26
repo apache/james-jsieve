@@ -53,7 +53,7 @@ public class Exists extends AbstractTest {
         boolean found = true;
         for (final String arg:argumentList) {
             List<String> headers = mail.getMatchingHeader(arg);
-            found = found && !headers.isEmpty();
+            found = !headers.isEmpty();
             if (!found) {
                 break;
             }

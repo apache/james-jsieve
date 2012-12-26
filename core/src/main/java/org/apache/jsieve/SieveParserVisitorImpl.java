@@ -97,7 +97,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     @SuppressWarnings("unchecked")
     public Object visit(ASTargument node, Object data) throws SieveException {
         List<String> children = new ArrayList<String>(node.jjtGetNumChildren());
-        Argument argument = null;
+        Argument argument;
 
         if (null != node.getValue()) {
             argument = (Argument) node.getValue();

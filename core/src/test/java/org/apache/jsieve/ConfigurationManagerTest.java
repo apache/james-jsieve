@@ -59,9 +59,8 @@ public class ConfigurationManagerTest {
         try {
             Map commandMap = new ConfigurationManager().getCommandMap();
 
-            Iterator mapIter = map.entrySet().iterator();
-            while (mapIter.hasNext()) {
-                Map.Entry entry = (Map.Entry) mapIter.next();
+            for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
+                Map.Entry entry = (Map.Entry) stringStringEntry;
                 Assert.assertTrue("Key: " + entry.getKey(), commandMap
                         .containsKey(entry.getKey()));
                 Assert.assertTrue("Value: " + entry.getValue(), commandMap.get(
@@ -99,9 +98,8 @@ public class ConfigurationManagerTest {
         try {
             Map testMap = new ConfigurationManager().getTestMap();
 
-            Iterator mapIter = map.entrySet().iterator();
-            while (mapIter.hasNext()) {
-                Map.Entry entry = (Map.Entry) mapIter.next();
+            for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
+                Map.Entry entry = (Map.Entry) stringStringEntry;
                 Assert.assertTrue("Key: " + entry.getKey(), testMap.containsKey(entry
                         .getKey()));
                 Assert.assertTrue("Value: " + entry.getValue(), testMap.get(
@@ -131,9 +129,8 @@ public class ConfigurationManagerTest {
         try {
             Map comparatorMap = new ConfigurationManager().getComparatorMap();
 
-            Iterator mapIter = map.entrySet().iterator();
-            while (mapIter.hasNext()) {
-                Map.Entry entry = (Map.Entry) mapIter.next();
+            for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
+                Map.Entry entry = (Map.Entry) stringStringEntry;
                 Assert.assertTrue("Key: " + entry.getKey(), comparatorMap
                         .containsKey(entry.getKey()));
                 Assert.assertTrue("Value: " + entry.getValue(), comparatorMap.get(

@@ -83,7 +83,7 @@ public class ManageSieveMailetTestCase {
         Mail mail = new MockMail();
         mail.setMessage(message);
 
-        _parser.setExtensions(Arrays.asList(new String[]{"a", "b", "c"}));
+        _parser.setExtensions(Arrays.asList("a", "b", "c"));
 
         // Unauthorised
         _mailet.service(mail);
@@ -735,7 +735,7 @@ public class ManageSieveMailetTestCase {
     }
 
     @Test
-    public final void testListScripts() throws AddressException, MessagingException, DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, ScriptNotFoundException, IOException {
+    public final void testListScripts() throws MessagingException, DuplicateUserException, StorageException, UserNotFoundException, QuotaExceededException, ScriptNotFoundException, IOException {
         String scriptName1 = "scriptName1";
         String scriptName2 = "scriptName2";
         String scriptContent = "line1\r\nline2";

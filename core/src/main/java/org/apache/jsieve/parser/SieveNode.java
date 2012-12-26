@@ -140,9 +140,7 @@ public class SieveNode {
         final int lastList = lastToken.endLine;
         final int firstColumn = firstToken.beginColumn;
         final int firstLine = firstToken.beginLine;
-        final ScriptCoordinate scriptCoordinate = new ScriptCoordinate(
-                firstLine, firstColumn, lastList, lastColumn);
-        return scriptCoordinate;
+        return new ScriptCoordinate(firstLine, firstColumn, lastList, lastColumn);
     }
 
     /**

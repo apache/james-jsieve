@@ -112,8 +112,7 @@ public final class ScriptCoordinate {
             logDiagnosticsInfo(log);
         }
         final String fullMessage = addStartLineAndColumn(message);
-        final SyntaxException result = new SyntaxException(fullMessage);
-        return result;
+        return new SyntaxException(fullMessage);
     }
 
     /**
@@ -134,8 +133,7 @@ public final class ScriptCoordinate {
             logDiagnosticsInfo(log);
         }
         final String fullMessage = addStartLineAndColumn(message);
-        final CommandException result = new CommandException(fullMessage);
-        return result;
+        return new CommandException(fullMessage);
     }
 
     /**

@@ -52,7 +52,6 @@ public class JUnitUtils {
     /**
      * Method interpret parses a script and evaluates it against a MailAdapter.
      * 
-     * @param mail
      * @param script
      * @throws SieveException
      * @throws ParseException

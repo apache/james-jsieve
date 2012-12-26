@@ -80,7 +80,6 @@ public class MultipleToTest {
 
     private InputStream toStream(String in) throws Exception {
         byte[] bytes = in.getBytes("US-ASCII");
-        ByteArrayInputStream result = new ByteArrayInputStream(bytes);
-        return result;
+        return new ByteArrayInputStream(bytes);
     }
 }

@@ -317,7 +317,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         String recipient = null;
         Iterator recipientIter = getMail().getRecipients().iterator();
         if (recipientIter.hasNext())
-            recipient = (String) recipientIter.next().toString();
+            recipient = recipientIter.next().toString();
         return recipient;
     }
     

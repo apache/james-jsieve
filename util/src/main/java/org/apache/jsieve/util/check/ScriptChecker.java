@@ -65,8 +65,7 @@ public class ScriptChecker {
             throws IOException, MessagingException {
         final FileInputStream messageStream = new FileInputStream(message);
         final FileInputStream scriptStream = new FileInputStream(script);
-        final Results results = check(messageStream, scriptStream);
-        return results;
+        return check(messageStream, scriptStream);
     }
 
     /**
@@ -220,7 +219,7 @@ public class ScriptChecker {
          * Prints out details of results.
          */
         public String toString() {
-            StringBuffer buffer = new StringBuffer("Results: ");
+            StringBuilder buffer = new StringBuilder("Results: ");
             if (pass) {
                 buffer.append("PASS");
             } else {

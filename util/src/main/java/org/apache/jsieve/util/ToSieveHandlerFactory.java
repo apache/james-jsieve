@@ -81,7 +81,7 @@ public class ToSieveHandlerFactory {
             return append('{');
         }
         
-        /** @see SieveHandler#startCommand() */
+        /** */
         @Override
         public SieveHandler startCommand(String commandName) throws HaltTraversalException {
             commaRequiredBeforeNextTest = false;
@@ -92,7 +92,7 @@ public class ToSieveHandlerFactory {
             return append(commandName);
         }
         
-        /** @see SieveHandler#endCommand() */
+        /** */
         @Override
         public SieveHandler endCommand(String commandName) throws HaltTraversalException {
             if (!commandUsedBlock) {
@@ -185,7 +185,6 @@ public class ToSieveHandlerFactory {
 
         /**
          * Appends the given sequence.
-         * @param character to be appended
          * @return this
          * @throws HaltTraversalException when character cannot be written
          */

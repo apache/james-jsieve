@@ -23,25 +23,20 @@ package org.apache.jsieve.mailet.mdn;
 /**
  * Class <code>ActionModeAutomatic</code>
  */
-public class ActionModeAutomatic extends Object
-        implements
-            DispositionActionMode
-{
+public class ActionModeAutomatic implements DispositionActionMode {
 
     /**
      * Default Constructor
      */
-    public ActionModeAutomatic()
-    {
+    public ActionModeAutomatic() {
         super();
     }
-    
+
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
+    public String toString() {
         return "automatic-action";
-    }         
+    }
 
 }

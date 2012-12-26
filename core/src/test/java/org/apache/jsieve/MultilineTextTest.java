@@ -126,7 +126,6 @@ public class MultilineTextTest {
         assertTrue(mail.getActions().size() == 1);
         Object action = mail.getActions().get(0);
         assertTrue(action instanceof ActionReject);
-        ActionReject rejection = (ActionReject) action;
-        return rejection;
+        return (ActionReject) action;
     }
 }

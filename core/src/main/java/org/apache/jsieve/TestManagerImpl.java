@@ -64,7 +64,7 @@ public class TestManagerImpl implements TestManager {
      * @throws LookupException
      */
     public Class lookup(String name) throws LookupException {
-        Class testClass = null;
+        Class testClass;
 
         try {
             testClass = getClass().getClassLoader().loadClass(

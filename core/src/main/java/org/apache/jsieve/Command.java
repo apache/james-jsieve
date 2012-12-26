@@ -155,8 +155,6 @@ public class Command implements Executable {
         // so need to use the coordinate recorded from the parse
         context.setCoordinate(coordinate);
         final ExecutableCommand executable = context.getCommandManager().getCommand(getName());
-        final Object result = executable.execute(mail, getArguments(),
-                getBlock(), context);
-        return result;
+        return executable.execute(mail, getArguments(),getBlock(), context);
     }
 }

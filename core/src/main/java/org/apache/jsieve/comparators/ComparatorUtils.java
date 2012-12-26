@@ -104,7 +104,7 @@ public class ComparatorUtils {
      * @return boolean
      */
     static public boolean contains(String container, String contents) {
-        return container.indexOf(contents) > -1;
+        return container.contains(contents);
     }
 
     /**
@@ -143,7 +143,7 @@ public class ComparatorUtils {
      */
     public static String sieveToJavaRegex(String pattern) {
         int ch;
-        StringBuffer buffer = new StringBuffer(2 * pattern.length());
+        StringBuilder buffer = new StringBuilder(2 * pattern.length());
         boolean lastCharWasStar = false;
         for (ch = 0; ch < pattern.length(); ch++) {
             final char nextChar = pattern.charAt(ch);

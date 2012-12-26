@@ -133,11 +133,11 @@ public class MockMimeMessage extends MimeMessage {
             throws MessagingException {
         List recipientsList = getRecipientsList(recipientType);
         List recipientAddresses = new ArrayList();
-        for (Iterator iterator = recipientsList.iterator(); iterator.hasNext();) {
-            String recipient = (String) iterator.next();
+        for (Object aRecipientsList : recipientsList) {
+            String recipient = (String) aRecipientsList;
             recipientAddresses.add(new InternetAddress(recipient));
         }
-        return (Address[]) (recipientAddresses.toArray(new Address[] {}));
+        return (Address[]) (recipientAddresses.toArray(new Address[recipientAddresses.size()]));
     }
 
     private List getRecipientsList(Message.RecipientType recipientType) {
@@ -357,12 +357,12 @@ public class MockMimeMessage extends MimeMessage {
 
     public void writeTo(OutputStream outputStream) throws IOException,
             MessagingException {
-        ; // trivial implementation
+        // trivial implementation
     }
 
     public void writeTo(OutputStream outputStream, String[] strings)
             throws IOException, MessagingException {
-        ; // trivial implementation
+        // trivial implementation
     }
 
     public String[] getHeader(String name) throws MessagingException {
@@ -415,17 +415,16 @@ public class MockMimeMessage extends MimeMessage {
     public Enumeration getAllHeaders() throws MessagingException {
         final Collection results = new ArrayList();
         final Collection entries = m_contentHeaders.entrySet();
-        for (Iterator it = entries.iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
+        for (Object entry1 : entries) {
+            Map.Entry entry = (Map.Entry) entry1;
             String name = entry.getKey().toString();
             Object value = entry.getValue();
             if (value == null) {
                 // ignore
             } else if (value instanceof Collection) {
                 Collection values = (Collection) value;
-                for (Iterator iterValues = values.iterator(); iterValues
-                        .hasNext();) {
-                    String stringValue = (String) iterValues.next();
+                for (Object value1 : values) {
+                    String stringValue = (String) value1;
                     results.add(new Header(name, stringValue));
                 }
             } else {
@@ -438,8 +437,7 @@ public class MockMimeMessage extends MimeMessage {
     public Enumeration getMatchingHeaders(String[] names)
             throws MessagingException {
         ArrayList matchingHeaders = new ArrayList();
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             String value = getHeader(name, null);
             if (value == null)
                 continue;
@@ -454,9 +452,8 @@ public class MockMimeMessage extends MimeMessage {
 
         ArrayList nonMatchingHeaders = new ArrayList();
 
-        Iterator iterator = m_contentHeaders.keySet().iterator();
-        while (iterator.hasNext()) {
-            String name = (String) iterator.next();
+        for (Object o : m_contentHeaders.keySet()) {
+            String name = (String) o;
             if (existingHeaders.contains(name))
                 continue;
             String value = getHeader(name, null);
@@ -483,9 +480,8 @@ public class MockMimeMessage extends MimeMessage {
 
     private ArrayList getHeadersAsStrings(HashMap contentHeaders) {
         ArrayList headerLines = new ArrayList();
-        Iterator iterator = contentHeaders.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = (String) iterator.next();
+        for (Object o : contentHeaders.keySet()) {
+            String key = (String) o;
             String value = (String) contentHeaders.get(key);
             headerLines.add(key + ":" + value);
         }
@@ -495,8 +491,7 @@ public class MockMimeMessage extends MimeMessage {
     public Enumeration getMatchingHeaderLines(String[] names)
             throws MessagingException {
         ArrayList matchingHeaders = new ArrayList();
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             String value = getHeader(name, null);
             if (value == null)
                 continue;
@@ -511,9 +506,8 @@ public class MockMimeMessage extends MimeMessage {
 
         ArrayList nonMatchingHeaders = new ArrayList();
 
-        Iterator iterator = m_contentHeaders.keySet().iterator();
-        while (iterator.hasNext()) {
-            String name = (String) iterator.next();
+        for (Object o : m_contentHeaders.keySet()) {
+            String name = (String) o;
             if (existingHeaders != null && existingHeaders.contains(name))
                 continue;
             String value = getHeader(name, null);
@@ -542,11 +536,11 @@ public class MockMimeMessage extends MimeMessage {
     }
 
     public void saveChanges() throws MessagingException {
-        ; // trivial implementation
+        // trivial implementation
     }
 
     protected void updateHeaders() throws MessagingException {
-        ; // trivial implementation
+        // trivial implementation
     }
 
     protected InternetHeaders createInternetHeaders(InputStream inputStream)

@@ -445,13 +445,8 @@ public class SieveMailboxMailet extends GenericMailet {
         MimeMultipart multipart = new MimeMultipart();
         
         MimeBodyPart noticePart = new MimeBodyPart();
-        noticePart.setText(new StringBuilder()
-            .append("An error was encountered while processing this mail with the active sieve script for user \"")
-            .append(user)
-            .append("\". The error encountered was:\r\n")
-            .append(ex.getLocalizedMessage())
-            .append("\r\n")
-            .toString());      
+        noticePart.setText("An error was encountered while processing this mail with the active sieve script for user \""
+                + user + "\". The error encountered was:\r\n" + ex.getLocalizedMessage() + "\r\n");
         multipart.addBodyPart(noticePart);
         
         MimeBodyPart originalPart = new MimeBodyPart();

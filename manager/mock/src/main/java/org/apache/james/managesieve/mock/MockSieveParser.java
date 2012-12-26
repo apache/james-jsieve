@@ -49,7 +49,7 @@ public class MockSieveParser implements SieveParser {
         {
             throw new SyntaxException("Ouch!");
         }
-        return Arrays.asList(new String[]{"warning1", "warning2"});
+        return Arrays.asList("warning1", "warning2");
     }
 
 }

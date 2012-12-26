@@ -19,9 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
-import java.math.BigInteger;
-
 import org.apache.jsieve.exception.FeatureException;
+
+import java.math.BigInteger;
 
 /**
  * Class AsciiNumeric implements the EQUALITY operation of the i;ascii-numeric
@@ -42,11 +42,7 @@ public class AsciiNumeric implements Comparator {
     public boolean equals(String string1, String string2) {
         final boolean result;
         if (isPositiveInfinity(string1)) {
-            if (isPositiveInfinity(string2)) {
-                result = true;
-            } else {
-                result = false;
-            }
+            result = isPositiveInfinity(string2);
         } else {
             if (isPositiveInfinity(string2)) {
                 result = false;
@@ -58,46 +54,46 @@ public class AsciiNumeric implements Comparator {
         }
         return result;
     }
-    
+
     private BigInteger toInteger(final String value) {
         int i;
-        for (i=0;i<value.length();i++) {
+        for (i = 0; i < value.length(); i++) {
             final char next = value.charAt(i);
             if (!isDigit(next)) {
                 break;
             }
         }
-        final BigInteger result = new BigInteger(value.substring(0,i));
-        return result;
+        return new BigInteger(value.substring(0, i));
     }
-    
+
     /**
      * Does the given string to be handled as positive infinity?
      * See <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a>
+     *
      * @param value not null
      * @return true when the value should represent positive infinity,
-     * false otherwise
+     *         false otherwise
      */
     private boolean isPositiveInfinity(final String value) {
-       final char initialCharacter = value.charAt(0);
-       final boolean result = !isDigit(initialCharacter);
-       return result;
+        final char initialCharacter = value.charAt(0);
+        return !isDigit(initialCharacter);
     }
 
     /**
      * Is the given character an ASCII digit?
+     *
      * @param character character to be tested
      * @return true when the given character is an ASCII digit,
-     * false otherwise 
+     *         false otherwise
      */
     private boolean isDigit(final char character) {
-        return character>=0x30 && character<=0x39;
+        return character >= 0x30 && character <= 0x39;
     }
 
     /**
      * Method getCompareString answers a <code>String</code> in which all
      * non-digit characters are translated to the character 0xff.
-     * 
+     *
      * @param string
      * @return String
      */
@@ -112,8 +108,10 @@ public class AsciiNumeric implements Comparator {
 
     /**
      * Unsupported, see <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a>.
+     *
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
+    @Override
     public boolean contains(String container, String content) throws FeatureException {
         // TODO: Consider using finer grained exception
         throw new FeatureException("Substring match unsupported by ascii-numeric");
@@ -122,11 +120,13 @@ public class AsciiNumeric implements Comparator {
     /**
      * Unsupported operation.
      * <a href='http://tools.ietf.org/html/rfc5228#section-2.7.1'>RFC5228</a> limits
-     * support to comparators that support <code>:contains</code>. 
+     * support to comparators that support <code>:contains</code>.
      * <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a> states
      * that substring matches are not supported.
+     *
      * @see org.apache.jsieve.comparators.Matches#matches(String, String)
      */
+    @Override
     public boolean matches(String string, String glob)
             throws FeatureException {
         // TODO: Consider using finer grained exception

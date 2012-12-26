@@ -19,18 +19,17 @@
 
 package org.apache.jsieve;
 
-import java.util.List;
-
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
+
+import java.util.List;
 
 /**
  * <p>
  * A parsed representation of the RFC3028 BNF...
  * </p>
- * 
+ * <p/>
  * <code>commands = *command</code>
- * 
  */
 public class Commands implements Executable {
     /**
@@ -47,7 +46,7 @@ public class Commands implements Executable {
 
     /**
      * Constructor for Commands.
-     * 
+     *
      * @param commands
      */
     public Commands(List<Command> commands) {
@@ -57,7 +56,7 @@ public class Commands implements Executable {
 
     /**
      * Returns the commands.
-     * 
+     *
      * @return List
      */
     public List<Command> getChildren() {
@@ -66,9 +65,8 @@ public class Commands implements Executable {
 
     /**
      * Sets the commands.
-     * 
-     * @param commands
-     *            The commands to set
+     *
+     * @param commands The commands to set
      */
     protected void setChildren(List<Command> commands) {
         fieldChildren = commands;
@@ -79,9 +77,9 @@ public class Commands implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        for (Command command:fieldChildren) {
+        for (Command command : fieldChildren) {
             command.execute(mail, context);
-        };
+        }
         return null;
     }
 

@@ -104,9 +104,9 @@ public class NumberArgument implements Argument {
             endIndex--;
         }
 
-        setValue(new Integer(Integer.parseInt(aToken.image.substring(0,
+        setValue(Integer.parseInt(aToken.image.substring(0,
                 endIndex))
-                * magnitude));
+                * magnitude);
     }
 
     /**

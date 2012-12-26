@@ -52,7 +52,6 @@ public class Parser implements SieveParser {
     /**
      * Creates a new instance of Parser.
      *
-     * @param sieveFactory
      */
     public Parser(ConfigurationManager manager) {
         this();

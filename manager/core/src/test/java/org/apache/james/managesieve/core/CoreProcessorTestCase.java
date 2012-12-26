@@ -20,68 +20,31 @@
 
 package org.apache.james.managesieve.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.apache.james.managesieve.api.*;
+import org.apache.james.managesieve.api.commands.Capability.Capabilities;
+import org.apache.james.managesieve.api.commands.CoreCommands;
+import org.apache.james.managesieve.mock.MockSession;
+import org.apache.james.managesieve.mock.MockSieveParser;
+import org.apache.james.managesieve.mock.MockSieveRepository;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.IsActiveException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.ScriptSummary;
-import org.apache.james.managesieve.api.SieveRepository;
-import org.apache.james.managesieve.api.StorageException;
-import org.apache.james.managesieve.api.SyntaxException;
-import org.apache.james.managesieve.api.UserNotFoundException;
-import org.apache.james.managesieve.api.commands.CoreCommands;
-import org.apache.james.managesieve.api.commands.Capability.Capabilities;
-import org.apache.james.managesieve.mock.MockSession;
-import org.apache.james.managesieve.mock.MockSieveParser;
-import org.apache.james.managesieve.mock.MockSieveRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * <code>CoreProcessorTestCase</code>
  */
 public class CoreProcessorTestCase {
 
-    /**
-     * setUp.
-     *
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    /**
-     * tearDown.
-     *
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#CoreProcessor(org.apache.james.managesieve.api.Session, org.apache.james.managesieve.api.SieveRepository, org.apache.james.managesieve.api.SieveParser)}.
-     */
     @Test
     public final void testCoreProcessor() {
         CoreProcessor core = new CoreProcessor(new MockSession(), new MockSieveRepository(), new MockSieveParser());
         assertTrue(core instanceof CoreCommands);
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#capability()}.
-     */
     @Test
     public final void testCapability() {
         MockSession session = new MockSession();
@@ -90,31 +53,26 @@ public class CoreProcessorTestCase {
 
         // Unauthenticated
         session.setAuthentication(false);
-        parser.setExtensions(Arrays.asList(new String[]{"a","b","c"}));
+        parser.setExtensions(Arrays.asList("a", "b", "c"));
         Map<Capabilities, String> capabilities = core.capability();
         assertEquals(CoreProcessor.IMPLEMENTATION_DESCRIPTION, capabilities.get(Capabilities.IMPLEMENTATION));
         assertEquals(CoreProcessor.MANAGE_SIEVE_VERSION, capabilities.get(Capabilities.VERSION));
         assertEquals("a b c", capabilities.get(Capabilities.SIEVE));
         assertFalse(capabilities.containsKey(Capabilities.OWNER));
         assertTrue(capabilities.containsKey(Capabilities.GETACTIVE));
-        
+
         // Authenticated
         session.setAuthentication(true);
-        parser.setExtensions(Arrays.asList(new String[]{"a","b","c"}));
+        parser.setExtensions(Arrays.asList("a", "b", "c"));
         session.setUser("test");
         capabilities = core.capability();
         assertEquals(CoreProcessor.IMPLEMENTATION_DESCRIPTION, capabilities.get(Capabilities.IMPLEMENTATION));
         assertEquals(CoreProcessor.MANAGE_SIEVE_VERSION, capabilities.get(Capabilities.VERSION));
         assertEquals("a b c", capabilities.get(Capabilities.SIEVE));
         assertEquals("test", capabilities.get(Capabilities.OWNER));
-        assertTrue(capabilities.containsKey(Capabilities.GETACTIVE));        
+        assertTrue(capabilities.containsKey(Capabilities.GETACTIVE));
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#checkScript(java.lang.String)}.
-     * @throws SyntaxException 
-     * @throws AuthenticationRequiredException 
-     */
     @Test
     public final void testCheckScript() throws AuthenticationRequiredException, SyntaxException {
         MockSession session = new MockSession();
@@ -150,15 +108,6 @@ public class CoreProcessorTestCase {
         assertTrue("Expected SyntaxException", success);
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#deleteScript(java.lang.String)}.
-     * @throws IsActiveException 
-     * @throws ScriptNotFoundException 
-     * @throws AuthenticationRequiredException 
-     * @throws QuotaExceededException 
-     * @throws StorageException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testDeleteScript() throws ScriptNotFoundException, IsActiveException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
         MockSession session = new MockSession();
@@ -185,7 +134,7 @@ public class CoreProcessorTestCase {
             success = true;
         }
         assertTrue("Expected ScriptNotFoundException", success);
-        
+
         // Authorised - existent script
         session.setAuthentication(true);
         session.setUser("test");
@@ -198,7 +147,7 @@ public class CoreProcessorTestCase {
             success = true;
         }
         assertTrue("Expected ScriptNotFoundException", success);
-        
+
         // Authorised - active script
         success = false;
         session.setAuthentication(true);
@@ -213,14 +162,6 @@ public class CoreProcessorTestCase {
         assertTrue("Expected IsActiveException", success);
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#getScript(java.lang.String)}.
-     * @throws ScriptNotFoundException 
-     * @throws AuthenticationRequiredException 
-     * @throws QuotaExceededException 
-     * @throws StorageException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testGetScript() throws ScriptNotFoundException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
         MockSession session = new MockSession();
@@ -247,7 +188,7 @@ public class CoreProcessorTestCase {
             success = true;
         }
         assertTrue("Expected ScriptNotFoundException", success);
-        
+
         // Authorised - existent script
         session.setAuthentication(true);
         session.setUser("test");
@@ -255,17 +196,12 @@ public class CoreProcessorTestCase {
         core.getScript("script");
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#haveSpace(java.lang.String, long)}.
-     * @throws QuotaExceededException 
-     * @throws AuthenticationRequiredException 
-     */
     @Test
     public final void testHaveSpace() throws QuotaExceededException, AuthenticationRequiredException {
         MockSession session = new MockSession();
         SieveRepository repository = new MockSieveRepository();
         CoreProcessor core = new CoreProcessor(session, repository, new MockSieveParser());
-        
+
         // Unauthorised
         boolean success = false;
         session.setAuthentication(false);
@@ -275,20 +211,13 @@ public class CoreProcessorTestCase {
             success = true;
         }
         assertTrue("Expected AuthenticationRequiredException", success);
-        
+
         // Authorised - existent script
         session.setAuthentication(true);
         session.setUser("test");
         core.haveSpace("script", Long.MAX_VALUE);
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#listScripts()}.
-     * @throws AuthenticationRequiredException 
-     * @throws QuotaExceededException 
-     * @throws StorageException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testListScripts() throws AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
         MockSession session = new MockSession();
@@ -311,7 +240,7 @@ public class CoreProcessorTestCase {
         session.setUser("test");
         List<ScriptSummary> summaries = core.listScripts();
         assertTrue(summaries.isEmpty());
-        
+
         // Authorised - existent script
         session.setAuthentication(true);
         session.setUser("test");
@@ -320,14 +249,6 @@ public class CoreProcessorTestCase {
         assertEquals(1, summaries.size());
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#putScript(java.lang.String, java.lang.String)}.
-     * @throws QuotaExceededException 
-     * @throws SyntaxException 
-     * @throws AuthenticationRequiredException 
-     * @throws ScriptNotFoundException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testPutScript() throws SyntaxException, QuotaExceededException, AuthenticationRequiredException, UserNotFoundException, ScriptNotFoundException {
         MockSession session = new MockSession();
@@ -350,7 +271,7 @@ public class CoreProcessorTestCase {
         session.setUser("test");
         core.putScript("script", "content");
         assertEquals("content", repository.getScript("test", "script"));
-        
+
         // Syntax
         success = false;
         session.setAuthentication(true);
@@ -363,17 +284,6 @@ public class CoreProcessorTestCase {
         assertTrue("Expected SyntaxException", success);
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#renameScript(java.lang.String, java.lang.String)}.
-     * @throws DuplicateException 
-     * @throws IsActiveException 
-     * @throws ScriptNotFoundException 
-     * @throws QuotaExceededException 
-     * @throws SyntaxException 
-     * @throws AuthenticationRequiredException 
-     * @throws StorageException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testRenameScript() throws ScriptNotFoundException, IsActiveException, DuplicateException, AuthenticationRequiredException, SyntaxException, QuotaExceededException, UserNotFoundException, StorageException {
         MockSession session = new MockSession();
@@ -399,14 +309,6 @@ public class CoreProcessorTestCase {
         assertEquals("content", repository.getScript("test", "oldName"));
     }
 
-    /**
-     * Test method for {@link org.apache.james.managesieve.core.CoreProcessor#setActive(java.lang.String)}.
-     * @throws ScriptNotFoundException 
-     * @throws AuthenticationRequiredException 
-     * @throws QuotaExceededException 
-     * @throws StorageException 
-     * @throws UserNotFoundException 
-     */
     @Test
     public final void testSetActive() throws ScriptNotFoundException, AuthenticationRequiredException, UserNotFoundException, StorageException, QuotaExceededException {
         MockSession session = new MockSession();
@@ -431,16 +333,7 @@ public class CoreProcessorTestCase {
         core.setActive("script");
         assertEquals("content", repository.getActive("test"));
     }
-    
-    /**
-     * testGetActive.
-     *
-     * @throws ScriptNotFoundException
-     * @throws AuthenticationRequiredException
-     * @throws UserNotFoundException
-     * @throws StorageException
-     * @throws QuotaExceededException
-     */
+
     @Test
     public final void testGetActive() throws ScriptNotFoundException,
             AuthenticationRequiredException, UserNotFoundException, StorageException,
@@ -487,5 +380,4 @@ public class CoreProcessorTestCase {
         repository.setActive("test", "script");
         core.getActive();
     }
-
 }

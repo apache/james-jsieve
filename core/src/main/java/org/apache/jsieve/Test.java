@@ -45,7 +45,7 @@ public class Test implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        return new Boolean(isTestPassed(mail, context));
+        return isTestPassed(mail, context);
     }
 
     /**
@@ -56,7 +56,7 @@ public class Test implements Executable {
      * @throws LookupException
      * @throws SieveException
      */
-    public boolean isTestPassed(MailAdapter mail, SieveContext context) throws LookupException, SieveException {
+    public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
         Log log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());

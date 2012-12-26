@@ -99,7 +99,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * @throws LookupException
      */
     public Class lookup(String name) throws LookupException {
-        Class comparatorClass = null;
+        Class comparatorClass;
         try {
             comparatorClass = getClass().getClassLoader().loadClass(
                     getClassName(name));

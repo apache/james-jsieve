@@ -19,38 +19,32 @@
 
 package org.apache.jsieve.mailet;
 
+import org.apache.jsieve.mail.*;
+import org.apache.mailet.Mail;
+
+import javax.mail.MessagingException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.mail.MessagingException;
-
-import org.apache.jsieve.mail.Action;
-import org.apache.jsieve.mail.ActionFileInto;
-import org.apache.jsieve.mail.ActionKeep;
-import org.apache.jsieve.mail.ActionRedirect;
-import org.apache.jsieve.mail.ActionReject;
-import org.apache.mailet.Mail;
-
 /**
- * Dynamically dispatches an Action depending on the type of Action received at runtime. 
+ * Dynamically dispatches an Action depending on the type of Action received at runtime.
  * <h4>Thread Safety</h4>
  * <p>An instance maybe safe accessed concurrently by multiple threads.</p>
  */
-public class ActionDispatcher
-{   
+public class ActionDispatcher {
     /**
-     * A Map keyed by the type of Action. The values are the methods to invoke to 
+     * A Map keyed by the type of Action. The values are the methods to invoke to
      * handle the Action.
      * <Action, MailAction>
-     */ 
+     */
     private ConcurrentMap<Class, MailAction> fieldMailActionMap;
 
     /**
      * Constructor for ActionDispatcher.
-     * @throws NoSuchMethodException 
+     *
+     * @throws NoSuchMethodException
      */
-    public ActionDispatcher() throws MessagingException
-    {
+    public ActionDispatcher() {
         super();
         setMethodMap(defaultMethodMap());
     }
@@ -58,46 +52,46 @@ public class ActionDispatcher
     /**
      * Method execute executes the passed Action by invoking the method mapped by the
      * receiver with a parameter of the EXACT type of Action.
+     *
      * @param anAction not null
-     * @param aMail not null
-     * @param context not null
+     * @param aMail    not null
+     * @param context  not null
      * @throws MessagingException
      */
-    public void execute(final Action anAction, final Mail aMail, final ActionContext context) throws MessagingException
-    {
+    public void execute(final Action anAction, final Mail aMail, final ActionContext context) throws MessagingException {
         final MailAction mailAction = getMethodMap().get(anAction.getClass());
         mailAction.execute(anAction, aMail, context);
     }
 
     /**
      * Returns the methodMap.
+     *
      * @return Map
      */
-    public ConcurrentMap<Class, MailAction> getMethodMap()
-    {
+    public ConcurrentMap<Class, MailAction> getMethodMap() {
         return fieldMailActionMap;
-    }    
+    }
 
     /**
      * Returns a new methodMap.
+     *
      * @return Map
      */
-    private ConcurrentMap<Class, MailAction> defaultMethodMap()
-    {
+    private ConcurrentMap<Class, MailAction> defaultMethodMap() {
         final ConcurrentMap<Class, MailAction> actionMap = new ConcurrentHashMap<Class, MailAction>(4);
         actionMap.put(ActionFileInto.class, new FileIntoAction());
         actionMap.put(ActionKeep.class, new KeepAction());
         actionMap.put(ActionRedirect.class, new RedirectAction());
         actionMap.put(ActionReject.class, new RejectAction());
         return actionMap;
-    }    
+    }
 
     /**
      * Sets the mail action mail.
+     *
      * @param mailActionMap <Action, MailAction> not null
      */
-    protected void setMethodMap(ConcurrentMap<Class, MailAction>  mailActionMap)
-    {
+    protected void setMethodMap(ConcurrentMap<Class, MailAction> mailActionMap) {
         fieldMailActionMap = mailActionMap;
     }
 }

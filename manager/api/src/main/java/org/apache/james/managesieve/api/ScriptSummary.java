@@ -20,7 +20,40 @@
 
 package org.apache.james.managesieve.api;
 
-public interface ScriptSummary {
-    abstract public String getName();
-    abstract public boolean isActive();
+public class ScriptSummary {
+
+    private final String name;
+    private final boolean activeFile;
+
+    public ScriptSummary(String name, boolean activeFile) {
+        this.name = name;
+        this.activeFile = activeFile;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isActive() {
+        return activeFile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ScriptSummary)) return false;
+
+        ScriptSummary that = (ScriptSummary) o;
+
+        if (activeFile != that.activeFile) return false;
+        return !(name != null ? !name.equals(that.name) : that.name != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (activeFile ? 1 : 0);
+        return result;
+    }
 }

@@ -69,6 +69,10 @@ public class MessageToCoreToMessage {
                             && (fileName.endsWith(".siv") || fileName.endsWith(".sieve"));
                 }
                 if (found) {
+                    Object content = part.getContent();
+                    if (content instanceof String) {
+                        return (String) part.getContent();
+                    }
                     InputStream is = (InputStream) part.getContent();
                     Scanner scanner = null;
                     try {

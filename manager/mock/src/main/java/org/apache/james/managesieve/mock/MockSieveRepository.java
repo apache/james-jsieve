@@ -254,17 +254,8 @@ public class MockSieveRepository implements SieveRepository {
         }
         Set<Entry<String, SieveScript>> scripts = _repository.get(user).entrySet();
         List<ScriptSummary> summaries = new ArrayList<ScriptSummary>(scripts.size());
-        for (final Entry<String, SieveScript> entry : scripts)
-        {
-            summaries.add(new ScriptSummary(){
-
-                public String getName() {
-                    return entry.getKey();
-                }
-
-                public boolean isActive() {
-                    return entry.getValue().isActive();
-                }});
+        for (final Entry<String, SieveScript> entry : scripts) {
+            summaries.add(new ScriptSummary(entry.getKey(), entry.getValue().isActive()));
         }
         return summaries;
     }

@@ -21,7 +21,8 @@
 package org.apache.james.managesieve.api.commands;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.StorageException;
 
 /**
  * <code>GetScript</code> is an extension to the commands defined by RFC 5804. It provides a means
@@ -31,6 +32,6 @@ import org.apache.james.managesieve.api.ScriptNotFoundException;
  */
 public interface GetActive {
     
-    abstract public String getActive() throws AuthenticationRequiredException, ScriptNotFoundException;
+    abstract public String getActive() throws AuthenticationRequiredException, ScriptNotFoundException, StorageException;
 
 }

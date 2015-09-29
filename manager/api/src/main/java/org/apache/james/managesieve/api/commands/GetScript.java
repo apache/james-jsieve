@@ -21,7 +21,8 @@
 package org.apache.james.managesieve.api.commands;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.StorageException;
 
 /**
  * <code>GetScript</code>
@@ -30,6 +31,6 @@ import org.apache.james.managesieve.api.ScriptNotFoundException;
  */
 public interface GetScript {
     
-    abstract public String getScript(String name) throws AuthenticationRequiredException, ScriptNotFoundException;
+    abstract public String getScript(String name) throws AuthenticationRequiredException, ScriptNotFoundException, StorageException;
 
 }

@@ -20,11 +20,18 @@
 
 package org.apache.james.managesieve.core;
 
-import org.apache.james.managesieve.api.*;
+import org.apache.james.managesieve.api.AuthenticationRequiredException;
+import org.apache.james.managesieve.api.SyntaxException;
 import org.apache.james.managesieve.api.commands.Capability.Capabilities;
 import org.apache.james.managesieve.mock.MockSession;
 import org.apache.james.managesieve.mock.MockSieveParser;
 import org.apache.james.managesieve.mock.MockSieveRepository;
+import org.apache.james.sieverepository.api.exception.IsActiveException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.ScriptSummary;
+import org.apache.james.sieverepository.api.exception.StorageException;
+import org.apache.james.sieverepository.api.exception.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -175,9 +182,17 @@ public class CoreProcessorTestCase {
         session.setAuthentication(true);
         session.setUser("test");
         try {
+            System.out.println("hello");
             core.getScript("script");
+            System.out.println("yop yop");
         } catch (ScriptNotFoundException ex) {
+            System.out.println("toto");
             success = true;
+            ex.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Euh ... ");
+            e.printStackTrace();
+            System.out.println("Yolo");
         }
         assertTrue("Expected ScriptNotFoundException", success);
 

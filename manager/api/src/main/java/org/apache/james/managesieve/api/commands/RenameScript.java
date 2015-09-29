@@ -21,8 +21,8 @@
 package org.apache.james.managesieve.api.commands;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.DuplicateException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
 
 /**
  * <code>RenameScript</code>

@@ -21,7 +21,7 @@
 package org.apache.james.managesieve.api.commands;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
 
 /**
  * <code>GetScript</code>

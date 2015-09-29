@@ -23,8 +23,8 @@ package org.apache.james.managesieve.api.commands;
 import java.util.List;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.QuotaExceededException;
 import org.apache.james.managesieve.api.SyntaxException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
 
 /**
  * <code>PutScript</code>

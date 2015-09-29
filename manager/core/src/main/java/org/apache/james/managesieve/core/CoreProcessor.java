@@ -25,21 +25,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.DuplicateUserException;
-import org.apache.james.managesieve.api.IsActiveException;
 import org.apache.james.managesieve.api.ManageSieveRuntimeException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.ScriptSummary;
 import org.apache.james.managesieve.api.Session;
 import org.apache.james.managesieve.api.SieveParser;
-import org.apache.james.managesieve.api.SieveRepository;
-import org.apache.james.managesieve.api.StorageException;
 import org.apache.james.managesieve.api.SyntaxException;
-import org.apache.james.managesieve.api.UserNotFoundException;
 import org.apache.james.managesieve.api.Session.UserListener;
 import org.apache.james.managesieve.api.commands.CoreCommands;
+import org.apache.james.sieverepository.api.exception.DuplicateException;
+import org.apache.james.sieverepository.api.exception.DuplicateUserException;
+import org.apache.james.sieverepository.api.exception.IsActiveException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.ScriptSummary;
+import org.apache.james.sieverepository.api.SieveRepository;
+import org.apache.james.sieverepository.api.exception.SieveRepositoryException;
+import org.apache.james.sieverepository.api.exception.StorageException;
+import org.apache.james.sieverepository.api.exception.UserNotFoundException;
 
 /**
  * <code>CoreProcessor</code>
@@ -139,7 +140,7 @@ public class CoreProcessor implements CoreCommands {
         String script = null;
         try {
             script = _repository.getScript(getUser(), name);
-        } catch (UserNotFoundException ex) {
+        } catch (SieveRepositoryException ex) {
             // Should not happen as the UserListener should ensure the session user is defined in the repository
             throw new ManageSieveRuntimeException(ex);
         }
@@ -154,7 +155,7 @@ public class CoreProcessor implements CoreCommands {
         authenticationCheck();
         try {
             _repository.haveSpace(getUser(), name, size);
-        } catch (UserNotFoundException ex) {
+        } catch (SieveRepositoryException ex) {
             // Should not happen as the UserListener should ensure the session user is defined in the repository
             throw new ManageSieveRuntimeException(ex);
         }
@@ -168,7 +169,7 @@ public class CoreProcessor implements CoreCommands {
         List<ScriptSummary> summaries = null;
         try {
             summaries = _repository.listScripts(getUser());
-        } catch (UserNotFoundException ex) {
+        } catch (SieveRepositoryException ex) {
             // Should not happen as the UserListener should ensure the session user is defined in the repository
             throw new ManageSieveRuntimeException(ex);
         }
@@ -231,18 +232,13 @@ public class CoreProcessor implements CoreCommands {
         return _session.getUser();
     }
     
-    protected void ensureUser(String user)
-    {
-        if (!_repository.hasUser(user))
-        {
-            try {
+    protected void ensureUser(String user) {
+        try {
+            if (!_repository.hasUser(user)) {
                 _repository.addUser(user);
-            } catch (DuplicateUserException ex) {
-                // Should never happen as we checked first!
-                throw new ManageSieveRuntimeException(ex);
-            } catch (StorageException ex) {
-                throw new ManageSieveRuntimeException(ex);
             }
+        } catch (SieveRepositoryException ex) {
+            throw new ManageSieveRuntimeException(ex);
         }
     }
     
@@ -268,7 +264,7 @@ public class CoreProcessor implements CoreCommands {
         String script = null;
         try {
             script = _repository.getActive(getUser());
-        } catch (UserNotFoundException ex) {
+        } catch (SieveRepositoryException ex) {
             // Should not happen as the UserListener should ensure the session
             // user is defined in the repository
             throw new ManageSieveRuntimeException(ex);

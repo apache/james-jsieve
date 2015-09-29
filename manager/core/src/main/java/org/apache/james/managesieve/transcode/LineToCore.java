@@ -28,15 +28,15 @@ import java.util.Scanner;
 
 import org.apache.james.managesieve.api.ArgumentException;
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.IsActiveException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.ScriptSummary;
 import org.apache.james.managesieve.api.SyntaxException;
 import org.apache.james.managesieve.api.commands.CoreCommands;
 import org.apache.james.managesieve.api.commands.Capability.Capabilities;
 import org.apache.james.managesieve.util.ParserUtils;
+import org.apache.james.sieverepository.api.exception.DuplicateException;
+import org.apache.james.sieverepository.api.exception.IsActiveException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.ScriptSummary;
 
 /**
  * <code>LineToCore</code>

@@ -20,14 +20,14 @@
 
 package org.apache.james.managesieve.mailet;
 
-import org.apache.james.managesieve.api.DuplicateUserException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.SieveRepository;
-import org.apache.james.managesieve.api.StorageException;
-import org.apache.james.managesieve.api.UserNotFoundException;
 import org.apache.james.managesieve.mock.MockSieveParser;
 import org.apache.james.managesieve.mock.MockSieveRepository;
+import org.apache.james.sieverepository.api.exception.DuplicateUserException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.SieveRepository;
+import org.apache.james.sieverepository.api.exception.StorageException;
+import org.apache.james.sieverepository.api.exception.UserNotFoundException;
 import org.apache.mailet.Mail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -155,7 +155,7 @@ public class ManageSieveMailetTestCase {
     }
 
     @Test
-    public final void testPutScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException {
+    public final void testPutScript() throws MessagingException, IOException, UserNotFoundException, ScriptNotFoundException, StorageException {
         MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties()));
         String scriptName = "scriptName";
         String scriptContent = "scriptContent";

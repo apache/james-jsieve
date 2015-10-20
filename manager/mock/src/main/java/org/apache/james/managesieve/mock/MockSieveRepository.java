@@ -20,6 +20,17 @@
 
 package org.apache.james.managesieve.mock;
 
+import org.apache.james.sieverepository.api.exception.DuplicateException;
+import org.apache.james.sieverepository.api.exception.DuplicateUserException;
+import org.apache.james.sieverepository.api.exception.IsActiveException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.QuotaNotFoundException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.ScriptSummary;
+import org.apache.james.sieverepository.api.SieveRepository;
+import org.apache.james.sieverepository.api.exception.StorageException;
+import org.apache.james.sieverepository.api.exception.UserNotFoundException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +38,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.DuplicateUserException;
-import org.apache.james.managesieve.api.IsActiveException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.QuotaNotFoundException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.ScriptSummary;
-import org.apache.james.managesieve.api.SieveRepository;
-import org.apache.james.managesieve.api.StorageException;
-import org.apache.james.managesieve.api.UserNotFoundException;
 
 /**
  * <code>MockSieveRepository</code>
@@ -121,7 +122,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#addUser(java.lang.String)
+     * @see SieveRepository#addUser(java.lang.String)
      */
     public void addUser(String user) throws DuplicateUserException, StorageException {
         if (_repository.containsKey(user))
@@ -132,7 +133,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#deleteScript(java.lang.String, java.lang.String)
+     * @see SieveRepository#deleteScript(java.lang.String, java.lang.String)
      */
     public void deleteScript(String user, String name) throws UserNotFoundException,
             ScriptNotFoundException, IsActiveException, StorageException {
@@ -153,7 +154,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#getActive(java.lang.String)
+     * @see SieveRepository#getActive(java.lang.String)
      */
     public String getActive(String user) throws UserNotFoundException, ScriptNotFoundException {
         if (!_repository.containsKey(user))
@@ -178,7 +179,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#getQuota()
+     * @see SieveRepository#getQuota()
      */
     public long getQuota() throws QuotaNotFoundException {
         // TODO Auto-generated method stub
@@ -186,7 +187,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#getQuota(java.lang.String)
+     * @see SieveRepository#getQuota(java.lang.String)
      */
     public long getQuota(String user) throws UserNotFoundException, QuotaNotFoundException {
         // TODO Auto-generated method stub
@@ -194,7 +195,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#getScript(java.lang.String, java.lang.String)
+     * @see SieveRepository#getScript(java.lang.String, java.lang.String)
      */
     public String getScript(String user, String name) throws UserNotFoundException,
             ScriptNotFoundException {
@@ -211,7 +212,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#hasQuota()
+     * @see SieveRepository#hasQuota()
      */
     public boolean hasQuota() {
         // TODO Auto-generated method stub
@@ -219,7 +220,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#hasQuota(java.lang.String)
+     * @see SieveRepository#hasQuota(java.lang.String)
      */
     public boolean hasQuota(String user) throws UserNotFoundException {
         // TODO Auto-generated method stub
@@ -227,14 +228,14 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#hasUser(java.lang.String)
+     * @see SieveRepository#hasUser(java.lang.String)
      */
     public boolean hasUser(String user) {
         return _repository.containsKey(user);
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#haveSpace(java.lang.String, java.lang.String, long)
+     * @see SieveRepository#haveSpace(java.lang.String, java.lang.String, long)
      */
     public void haveSpace(String user, String name, long size) throws UserNotFoundException,
             QuotaExceededException {
@@ -245,7 +246,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#listScripts(java.lang.String)
+     * @see SieveRepository#listScripts(java.lang.String)
      */
     public List<ScriptSummary> listScripts(String user) throws UserNotFoundException {
         if (!_repository.containsKey(user))
@@ -261,7 +262,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#putScript(java.lang.String, java.lang.String, java.lang.String)
+     * @see SieveRepository#putScript(java.lang.String, java.lang.String, java.lang.String)
      */
     public void putScript(String user, String name, String content) throws UserNotFoundException,
             StorageException, QuotaExceededException {
@@ -274,7 +275,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#removeQuota()
+     * @see SieveRepository#removeQuota()
      */
     public void removeQuota() throws QuotaNotFoundException, StorageException {
         // TODO Auto-generated method stub
@@ -282,7 +283,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#removeQuota(java.lang.String)
+     * @see SieveRepository#removeQuota(java.lang.String)
      */
     public void removeQuota(String user) throws UserNotFoundException, QuotaNotFoundException,
             StorageException {
@@ -291,7 +292,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#removeUser(java.lang.String)
+     * @see SieveRepository#removeUser(java.lang.String)
      */
     public void removeUser(String user) throws UserNotFoundException, StorageException {
         // TODO Auto-generated method stub
@@ -299,7 +300,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#renameScript(java.lang.String, java.lang.String, java.lang.String)
+     * @see SieveRepository#renameScript(java.lang.String, java.lang.String, java.lang.String)
      */
     public void renameScript(String user, String oldName, String newName)
             throws UserNotFoundException, ScriptNotFoundException,
@@ -309,7 +310,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#setActive(java.lang.String, java.lang.String)
+     * @see SieveRepository#setActive(java.lang.String, java.lang.String)
      */
     public void setActive(String user, String name) throws UserNotFoundException,
             ScriptNotFoundException, StorageException {
@@ -350,7 +351,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#setQuota(long)
+     * @see SieveRepository#setQuota(long)
      */
     public void setQuota(long quota) throws StorageException {
         // TODO Auto-generated method stub
@@ -358,7 +359,7 @@ public class MockSieveRepository implements SieveRepository {
     }
 
     /**
-     * @see org.apache.james.managesieve.api.SieveRepository#setQuota(java.lang.String, long)
+     * @see SieveRepository#setQuota(java.lang.String, long)
      */
     public void setQuota(String user, long quota) throws UserNotFoundException, StorageException {
         // TODO Auto-generated method stub

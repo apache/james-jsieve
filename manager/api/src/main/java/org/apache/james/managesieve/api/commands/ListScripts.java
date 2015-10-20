@@ -23,7 +23,7 @@ package org.apache.james.managesieve.api.commands;
 import java.util.List;
 
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.ScriptSummary;
+import org.apache.james.sieverepository.api.ScriptSummary;
 
 /**
  * <code>ListScripts</code>

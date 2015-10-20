@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 
 import org.apache.james.managesieve.api.SieveParser;
@@ -246,7 +246,7 @@ public class ManageSieveMailet extends GenericMailet implements HelpProvider {
 
     /**
      */
-    @Resource(name = "sieverepository")
+    @Inject
     public void setSieveRepository(SieveRepository repository) {
         _sieveRepository = repository;
     }
@@ -255,7 +255,7 @@ public class ManageSieveMailet extends GenericMailet implements HelpProvider {
      * @param sieveParser
      *            the sieveParser to set
      */
-    @Resource(name = "sieveparser")
+    @Inject
     public void setSieveParser(SieveParser sieveParser) {
         _sieveParser = sieveParser;
     }

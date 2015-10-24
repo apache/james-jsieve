@@ -28,15 +28,16 @@ import java.util.Scanner;
 
 import org.apache.james.managesieve.api.ArgumentException;
 import org.apache.james.managesieve.api.AuthenticationRequiredException;
-import org.apache.james.managesieve.api.DuplicateException;
-import org.apache.james.managesieve.api.IsActiveException;
-import org.apache.james.managesieve.api.QuotaExceededException;
-import org.apache.james.managesieve.api.ScriptNotFoundException;
-import org.apache.james.managesieve.api.ScriptSummary;
 import org.apache.james.managesieve.api.SyntaxException;
 import org.apache.james.managesieve.api.commands.CoreCommands;
 import org.apache.james.managesieve.api.commands.Capability.Capabilities;
 import org.apache.james.managesieve.util.ParserUtils;
+import org.apache.james.sieverepository.api.exception.DuplicateException;
+import org.apache.james.sieverepository.api.exception.IsActiveException;
+import org.apache.james.sieverepository.api.exception.QuotaExceededException;
+import org.apache.james.sieverepository.api.exception.ScriptNotFoundException;
+import org.apache.james.sieverepository.api.ScriptSummary;
+import org.apache.james.sieverepository.api.exception.StorageException;
 
 /**
  * <code>LineToCore</code>
@@ -88,8 +89,7 @@ public class LineToCore{
         _core.deleteScript(ParserUtils.unquote(scriptName));
     }    
     
-    public String getScript(String args) throws AuthenticationRequiredException, ScriptNotFoundException, ArgumentException
-    {
+    public String getScript(String args) throws AuthenticationRequiredException, ScriptNotFoundException, ArgumentException, StorageException {
         String scriptName = ParserUtils.getScriptName(args);
         if (null == scriptName || scriptName.isEmpty())
         {
@@ -200,8 +200,7 @@ public class LineToCore{
         _core.setActive(ParserUtils.unquote(scriptName));
     } 
     
-    public String getActive(String args) throws AuthenticationRequiredException, ScriptNotFoundException, ArgumentException
-    {
+    public String getActive(String args) throws AuthenticationRequiredException, ScriptNotFoundException, ArgumentException, StorageException {
         Scanner scanner = new Scanner(args.trim()).useDelimiter("\\A");
         if (scanner.hasNext())
         {

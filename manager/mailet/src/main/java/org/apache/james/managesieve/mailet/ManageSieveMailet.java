@@ -30,13 +30,13 @@ import javax.inject.Inject;
 import javax.mail.MessagingException;
 
 import org.apache.james.managesieve.api.SieveParser;
-import org.apache.james.managesieve.api.SieveRepository;
 import org.apache.james.managesieve.core.CoreProcessor;
 import org.apache.james.managesieve.mailet.transcode.MessageToCoreToMessage;
 import org.apache.james.managesieve.mailet.transcode.MessageToCoreToMessage.HelpProvider;
 import org.apache.james.managesieve.transcode.LineToCore;
 import org.apache.james.managesieve.transcode.LineToCoreToLine;
 import org.apache.james.managesieve.util.SettableSession;
+import org.apache.james.sieverepository.api.SieveRepository;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.base.GenericMailet;

@@ -71,10 +71,18 @@
             <groupId>org.apache.james</groupId>
             <artifactId>apache-mime4j-dom</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-mime4j-james-utils</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
         <dependency>

@@ -89,6 +89,7 @@
         <commons-io.version>2.1</commons-io.version>
         <mockito-core.version>1.9.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
+        <guava.version>16.0</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -148,6 +149,16 @@
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-mime4j-dom</artifactId>
                 <version>${mime4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.james</groupId>
+                <artifactId>apache-mime4j-james-utils</artifactId>
+                <version>${mime4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>

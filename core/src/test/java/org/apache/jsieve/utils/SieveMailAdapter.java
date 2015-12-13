@@ -270,14 +270,30 @@ public class SieveMailAdapter implements MailAdapter {
         }
     }
 
-    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
+    @Override
+    public boolean isInBodyText(List<String> phrasesCaseInsensitive) throws SieveMailException {
         try {
-            return contentAsText().contains(phraseCaseInsensitive.toLowerCase());
+            for (String phrase : phrasesCaseInsensitive) {
+                if (contentAsText().contains(phrase.toLowerCase())) {
+                    return true;
+                }
+            }
+            return false;
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         } catch (IOException ex) {
             throw new SieveMailException(ex);
         }
+    }
+
+    @Override
+    public boolean isInBodyRaw(List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
+    @Override
+    public boolean isInBodyContent(List<String> contentTypes, List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
     }
 
     private String contentAsText() throws IOException, MessagingException {

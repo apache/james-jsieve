@@ -275,18 +275,16 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         }
     }
 
-    public boolean isInBodyText(String phraseCaseInsensitive) throws SieveMailException {
-        boolean result = false;
-        if (mail != null) {
-            try {
-                result = mail.getContent().toString().toLowerCase().contains(phraseCaseInsensitive);
-            } catch (MessagingException e) {
-                throw new SieveMailException(e);
-            } catch (IOException e) {
-                throw new SieveMailException(e);
-            }
-        }
-        return result;
+    public boolean isInBodyText(List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
+    public boolean isInBodyRaw(List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
+    public boolean isInBodyContent(List<String> contentTypes, List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
     }
 
     public void setContext(SieveContext context) {

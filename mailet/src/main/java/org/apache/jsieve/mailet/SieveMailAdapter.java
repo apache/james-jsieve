@@ -17,21 +17,6 @@
  * under the License.                                           *
  ****************************************************************/
 package org.apache.jsieve.mailet;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.mail.Header;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,6 +37,20 @@ import org.apache.jsieve.mail.optional.EnvelopeAccessors;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
+
+import javax.mail.Header;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 /**
  * <p>
  * Class <code>SieveMailAdapter</code> implements a <code>MailAdapter</code>
@@ -314,11 +313,13 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      */
     public String getEnvelopeTo()
     {
-        String recipient = null;
-        Iterator recipientIter = getMail().getRecipients().iterator();
-        if (recipientIter.hasNext())
-            recipient = recipientIter.next().toString();
-        return recipient;
+        for (MailAddress mailAddress : getMail().getRecipients()) {
+            String recipient = mailAddress.toInternetAddress().getAddress();
+            if (recipient != null) {
+                return recipient;
+            }
+        }
+        return null;
     }
     
     /**

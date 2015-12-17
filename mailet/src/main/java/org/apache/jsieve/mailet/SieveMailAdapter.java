@@ -241,7 +241,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     {
         try
         {
-            return getMessage().getSize();
+            return (int) getMail().getMessageSize();
         }
         catch (MessagingException ex)
         {

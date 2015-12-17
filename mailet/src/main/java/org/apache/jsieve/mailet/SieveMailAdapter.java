@@ -393,14 +393,23 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     
     public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException {
         try {
-            final MailboxList list = new AddressList(DefaultAddressParser.DEFAULT.parseAddressList(arg), true).flatten();
-            final int size = list.size();
-            final Address[] results = new Address[size];
-            for (int i=0;i<size;i++) {
-                final Mailbox mailbox = list.get(i);
-                results[i] = new AddressImpl(mailbox.getLocalPart(), mailbox.getDomain());
+            List<String> headerValues = getHeader(arg);
+            List<MailboxList> mailboxes = new ArrayList<MailboxList>();
+            int size = 0;
+            for(String headerValue : headerValues) {
+                MailboxList mailboxList = new AddressList(DefaultAddressParser.DEFAULT.parseAddressList(headerValue), true).flatten();
+                size += mailboxList.size();
+                mailboxes.add(mailboxList);
             }
-            return null;
+            int i = 0;
+            final Address[] results = new Address[size];
+            for(MailboxList mailboxList : mailboxes) {
+                for(Mailbox mailbox : mailboxList) {
+                    results[i] = new AddressImpl(mailbox.getLocalPart(), mailbox.getDomain());
+                    i++;
+                }
+            }
+            return results;
         } catch (ParseException e) {
             throw new InternetAddressException(e);
         }

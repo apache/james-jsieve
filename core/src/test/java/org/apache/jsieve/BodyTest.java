@@ -19,117 +19,309 @@
 
 package org.apache.jsieve;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMultipart;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import junit.framework.TestCase;
-
-import org.apache.jsieve.commands.ThrowTestException;
-import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.parser.generated.ParseException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
-import org.junit.*;
+import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Class BodyTest
- */
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class BodyTest {
 
-    protected SieveMailAdapter textMail() throws MessagingException {
-        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-        mail.getMessage().setContent("Wibble\n\n" + "Wibble\n", "text/plain");
-        return mail;
+    private SieveMailAdapter sieveMailAdapter;
+
+    @Before
+    public void setUp() {
+        sieveMailAdapter = mock(SieveMailAdapter.class);
     }
 
-    protected SieveMailAdapter nonTextMail() throws MessagingException {
-        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-        // FIXME: This doesn't work
-        mail.getMessage().setContent(new MimeMultipart("image/png"));
-        return mail;
+    @Test(expected = SyntaxException.class)
+    public void NoArgumentsShouldThrow() throws Exception {
+        String script = "if body {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    /**
-     * Test for Test 'header'
-     */
-    @org.junit.Test
-    public void testBasic() {
-        boolean isTestPassed = false;
-        String script = "if body :contains [\"Wibble\"] {throwTestException;}";
-        try {
-            JUnitUtils.interpret(textMail(), script);
-        } catch (MessagingException e) {
-        } catch (ThrowTestException.TestException e) {
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
+    @Test(expected = SyntaxException.class)
+    public void invalidTransformationShouldThrow() throws Exception {
+        String script = "if body :invalid :contains \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    /**
-     * Test for Test 'body'
-     */
+    @Test(expected = SyntaxException.class)
+    public void rawShouldThrowWithoutMatcher() throws Exception {
+        String script = "if body :raw \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void rawShouldThrowWithoutMatcherContains() throws Exception {
+        String script = "if body :raw :is \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void rawShouldThrowWithoutValuesToMatch() throws Exception {
+        String script = "if body :raw :contains {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void rawShouldThrowWithInvalidValuesToMatch() throws Exception {
+        String script = "if body :raw :contains :fake {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void rawShouldThrowWithExtraArguments() throws Exception {
+        String script = "if body :raw :contains \"Wibble\" :hello {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
     @Test
-    public void testBodyCaseInsensitivity() {
-        boolean isTestPassed = false;
-        String script = "if body :contains [\"wibble\"] {throwTestException;}";
-        try {
-            JUnitUtils.interpret(textMail(), script);
-        } catch (MessagingException e) {
-        } catch (ThrowTestException.TestException e) {
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
+    public void rawShouldWork() throws Exception {
+        String script = "if body :raw :contains \"Wibble\" {throwTestException;}";
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyRaw(containedText);
     }
 
-    /**
-     * Test for Test 'body'
-     */
     @Test
-    public void testBodyNoContains() {
-        boolean isTestPassed = false;
-        String script = "if body [\"wibble\"] {throwTestException;}";
-        try {
-            JUnitUtils.interpret(textMail(), script);
-        } catch (MessagingException e) {
-        } catch (ThrowTestException.TestException e) {
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-            isTestPassed = true;
-        }
-        Assert.assertTrue(isTestPassed);
+    public void rawShouldWorkWithMultipleValues() throws Exception {
+        String script = "if body :raw :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        List<String> containedText = Arrays.asList("Wibble", "other");
+        when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyRaw(containedText);
     }
 
-    /**
-     * Test for Test 'body'
-     */
-    // FIXME: I can't find a method of forcing the mime type, so this test
-    // always fails ...
-    // public void testBodyNonText()
-    // {
-    // boolean isTestPassed = false;
-    // String script = "if body :contains [\"wibble\"] {throwTestException;}";
-    // try
-    // {
-    // JUnitUtils.interpret(nonTextMail(), script);
-    // }
-    // catch (MessagingException e)
-    // {
-    // }
-    // catch (ThrowTestException.TestException e)
-    // {
-    // }
-    // catch (ParseException e)
-    // {
-    // }
-    // catch (SieveException e)
-    // {
-    // isTestPassed = true;
-    // }
-    // assertTrue(isTestPassed);
-    // }
+    @Test(expected = SyntaxException.class)
+    public void textShouldThrowWithoutMatcher() throws Exception {
+        String script = "if body :text \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void textShouldThrowWithoutMatcherContains() throws Exception {
+        String script = "if body :text :is \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void textShouldThrowWithoutValuesToMatch() throws Exception {
+        String script = "if body :text :contains {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void textShouldThrowWithInvalidValuesToMatch() throws Exception {
+        String script = "if body :text :contains :fake {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void textShouldThrowWithExtraArguments() throws Exception {
+        String script = "if body :text :contains \"Wibble\" :hello {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test
+    public void textShouldWork() throws Exception {
+        String script = "if body :text :contains \"Wibble\" {throwTestException;}";
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyText(containedText);
+    }
+
+    @Test
+    public void textShouldWorkWithMultipleValues() throws Exception {
+        String script = "if body :text :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        List<String> containedText = Arrays.asList("Wibble", "other");
+        when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyText(containedText);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithoutContentTypes() throws Exception {
+        String script = "if body :content {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithInvalidContentTypes() throws Exception {
+        String script = "if body :content :fake {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithoutMatcher() throws Exception {
+        String script = "if body :content \"any\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithInvalidMatcher() throws Exception {
+        String script = "if body :content \"text/plain\" \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithoutMatcherContains() throws Exception {
+        String script = "if body :content \"text/plain\" :is \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithoutValuesToMatch() throws Exception {
+        String script = "if body :content \"text/plain\" :contains {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithInvalidValuesToMatch() throws Exception {
+        String script = "if body :content \"text/plain\" :contains :fake {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void contentShouldThrowWithExtraArguments() throws Exception {
+        String script = "if body :content \"text/plain\" :contains \"Wibble\" :hello {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test
+    public void contentShouldWork() throws Exception {
+        String script = "if body :content \"text/plain\" :contains \"Wibble\" {throwTestException;}";
+        List<String> contentTypes = Collections.singletonList("text/plain");
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
+    }
+
+    @Test
+    public void contentShouldWorkWithMultipleValues() throws Exception {
+        String script = "if body :content \"text/plain\" :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        List<String> containedText = Arrays.asList("Wibble", "other");
+        List<String> contentTypes = Collections.singletonList("text/plain");
+        when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
+    }
+
+    @Test
+    public void contentShouldWorkWithMultipleContentTypes() throws Exception {
+        String script = "if body :content [\"text/plain\",\"text/html\"] :contains \"Wibble\" {throwTestException;}";
+        List<String> contentTypes = Arrays.asList("text/plain", "text/html");
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
+    }
+
+    @Test
+    public void contentShouldWorkWithMultipleValuesAndMultipleContentTypes() throws Exception {
+        String script = "if body :content [\"text/plain\",\"text/html\"] :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        List<String> containedText = Arrays.asList("Wibble", "other");
+        List<String> contentTypes = Arrays.asList("text/plain", "text/html");
+        when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void defaultShouldThrowWithoutMatcher() throws Exception {
+        String script = "if body \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void defaultShouldThrowWithoutValuesToMatch() throws Exception {
+        String script = "if body :contains {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void defaultShouldThrowWithInvalidValuesToMatch() throws Exception {
+        String script = "if body :contains :fake {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void defaultShouldThrowWithExtraArguments() throws Exception {
+        String script = "if body :contains \"Wibble\" :hello {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test
+    public void defaultShouldWork() throws Exception {
+        String script = "if body :contains \"Wibble\" {throwTestException;}";
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyText(containedText);
+    }
+
+    @Test
+    public void defaultShouldWorkWithMultipleValues() throws Exception {
+        String script = "if body :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        List<String> containedText = Arrays.asList("Wibble", "other");
+        when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyText(containedText);
+    }
+
 }

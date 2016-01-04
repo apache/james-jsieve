@@ -170,12 +170,35 @@ public interface MailAdapter {
     /**
      * Is the given phrase found in the body text of this mail?
      * This search should be case insensitive.
-     * @param phraseCaseInsensitive the phrase to search
+     * @param phrasesCaseInsensitive the phrases to search
      * @return true when the mail has a textual body and contains the phrase
      * (case insensitive), false otherwise
      * @throws SieveMailException when the search cannot be completed
      */
-    public boolean isInBodyText(final String phraseCaseInsensitive) throws SieveMailException;
+    public boolean isInBodyText(final List<String> phrasesCaseInsensitive) throws SieveMailException;
+
+
+    /**
+     * Is the given phrase found in the body raw of this mail?
+     * This search should be case insensitive and the mail should not be decoded.
+     * @param phrasesCaseInsensitive the phrases to search
+     * @return true when the mail has a textual body and contains the phrase
+     * (case insensitive), false otherwise
+     * @throws SieveMailException when the search cannot be completed
+     */
+    public boolean isInBodyRaw(final List<String> phrasesCaseInsensitive) throws SieveMailException;
+
+
+    /**
+     * Is the given phrase found in the body contents of the specified content types of this mail?
+     * This search should be case insensitive.
+     * @param contentTypes Content types of the body parts we should search into.
+     * @param phrasesCaseInsensitive the phrases to search
+     * @return true when the mail has a textual body and contains the phrase
+     * (case insensitive), false otherwise
+     * @throws SieveMailException when the search cannot be completed
+     */
+    public boolean isInBodyContent(final List<String> contentTypes, final List<String> phrasesCaseInsensitive) throws SieveMailException;
     
     /**
      * <p>

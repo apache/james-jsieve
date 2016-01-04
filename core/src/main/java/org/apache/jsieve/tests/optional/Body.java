@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.tests.optional;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jsieve.Argument;
@@ -29,7 +30,7 @@ import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.jsieve.mail.SieveMailException;
+import org.apache.jsieve.parser.generated.Token;
 import org.apache.jsieve.tests.AbstractTest;
 
 /**
@@ -37,60 +38,120 @@ import org.apache.jsieve.tests.AbstractTest;
  * <a href='http://tools.ietf.org/html/rfc5173'>RFC5173</a>.
  */
 public class Body extends AbstractTest {
-    private StringListArgument strings;
 
-    public Body() {
-        super();
-        strings = null;
+    public static final String TEXT = ":text";
+    public static final String RAW = ":raw";
+    public static final String CONTENT = ":content";
+    private TagArgument transformation;
+    private StringListArgument contentTypes;
+    private TagArgument matcher;
+    private StringListArgument valuesToBeMatched;
+
+    protected void validateArguments(Arguments args, SieveContext ctx) throws SieveException {
+        Iterator<Argument> matchingSpecifications = retrieveTransformationAndMatchingSpecificationIterator(args.getArgumentList());
+
+        if (transformation.getTag().equals(TEXT)) {
+            parseDefaultArguments(matchingSpecifications);
+        } else if (transformation.getTag().equals(RAW)) {
+            parseDefaultArguments(matchingSpecifications);
+        } else if (transformation.getTag().equals(CONTENT)) {
+            parseContentArguments(matchingSpecifications);
+        } else {
+            throw new SyntaxException("Unknown transformation " + transformation.getTag() + ". See RFC-5173 section 5.");
+        }
     }
 
-    // TODO: Check how complete this is of the body specification
-    // Validate (sorta); we're only implementing part of the spec
-    protected void validateArguments(Arguments args, SieveContext ctx)
-            throws SieveException {
+    private void parseContentArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        retrieveContentTypes(matchingSpecifications);
+        retrieveMatcher(matchingSpecifications);
+        retrieveMatchValues(matchingSpecifications);
+        assureNoMoreArguments(matchingSpecifications);
+    }
 
-        final List<Argument> arglist = args.getArgumentList();
-        if (arglist.size() != 2) {
-            throw new SyntaxException(
-                    "Currently body-test can only two arguments");
+    private void parseDefaultArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        retrieveMatcher(matchingSpecifications);
+        retrieveMatchValues(matchingSpecifications);
+        assureNoMoreArguments(matchingSpecifications);
+    }
+
+    private Iterator<Argument> retrieveTransformationAndMatchingSpecificationIterator(List<Argument> arglist) throws SyntaxException {
+        if (arglist.size() < 1 ) {
+            throw new SyntaxException("Transformations should be specified. See RFC-5173 section 5.");
         }
-
-        // TODO: FIXME: As this is a limited implementation force the use of
-        // ':contains'.
         Argument arg = arglist.get(0);
         if (!(arg instanceof TagArgument)) {
-            throw new SyntaxException("Body expects a :contains tag");
-        }
-
-        if (!((TagArgument) arg).getTag().equals(":contains")) {
-            throw new SyntaxException("Body expects a :contains tag");
-        }
-
-        // Get list of strings to search for
-        arg = arglist.get(1);
-        if (!(arg instanceof StringListArgument)) {
-            throw new SyntaxException("Body expects a list of strings");
-        }
-        strings = (StringListArgument) args.getArgumentList().get(1);
-    }
-
-    // This implement body tests of the form
-    // "body :contains ['string' 'string' ....]"
-    protected boolean executeBasic(MailAdapter mail, Arguments args,
-            SieveContext ctx) throws SieveException {
-        // Attempt to fetch content as a string. If we can't do this it's
-        // not a message we can handle.
-        if (mail.getContentType().indexOf("text/") != 0) {
-            throw new SieveMailException("Message is not of type 'text'");
-        }
-
-        // Compare each test string with body, ignoring case
-        for (final String phrase:strings.getList()) {
-            if (mail.isInBodyText(phrase)) {
-                return true;
+            // by default transformation should be :text
+            transformation = new TagArgument(new Token(0, TEXT));
+            return arglist.iterator();
+        } else {
+            TagArgument transformationCandidate = (TagArgument) arg;
+            if (transformationCandidate.getTag().equals(TEXT) ||
+                    transformationCandidate.getTag().equals(RAW) ||
+                    transformationCandidate.getTag().equals(CONTENT) ) {
+                transformation = (TagArgument) arg;
+                Iterator<Argument> matchingSpecifications = arglist.iterator();
+                matchingSpecifications.next();
+                return matchingSpecifications;
+            } else {
+                // by default transformation should be :text
+                transformation = new TagArgument(new Token(0, TEXT));
+                return arglist.iterator();
             }
         }
-        return false;
+    }
+
+    protected boolean executeBasic(MailAdapter mail, Arguments args, SieveContext ctx) throws SieveException {
+        if (transformation.getTag().equals(RAW)) {
+            return mail.isInBodyRaw(valuesToBeMatched.getList());
+        } else if (transformation.getTag().equals(CONTENT)) {
+            return mail.isInBodyContent(contentTypes.getList(), valuesToBeMatched.getList());
+        } else if (transformation.getTag().equals(TEXT)) {
+            return mail.isInBodyText(valuesToBeMatched.getList());
+        } else {
+            throw new RuntimeException("Invalid transformation caught. Is your argument parsing buggy ?");
+        }
+    }
+
+    private void retrieveContentTypes(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        if (!matchingSpecifications.hasNext()) {
+            throw new SyntaxException("Expecting the list of content types following :content");
+        }
+        Argument contentTypesArgument = matchingSpecifications.next();
+        if (! (contentTypesArgument instanceof StringListArgument)) {
+            throw new SyntaxException("Expecting a String list to specify content types and not a" + contentTypesArgument.getClass());
+        }
+        contentTypes = (StringListArgument) contentTypesArgument;
+    }
+
+    private void retrieveMatcher(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        if (!matchingSpecifications.hasNext()) {
+            throw new SyntaxException("Expecting a matcher :contains");
+        }
+        Argument matcherArgument = matchingSpecifications.next();
+        if (! (matcherArgument instanceof TagArgument)) {
+            throw new SyntaxException("Expecting a matcher :contains and not a" + matcherArgument.getClass());
+        }
+        if (!((TagArgument)matcherArgument).getTag().equals(":contains")) {
+            throw new SyntaxException("Expecting a matcher :contains. Matcher " + ((TagArgument) matcherArgument).getTag() + " is currently not supported.");
+        }
+        matcher = (TagArgument) matcherArgument;
+    }
+
+    private void retrieveMatchValues(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        if (!matchingSpecifications.hasNext()) {
+            throw new SyntaxException("Matcher :contains should be followed by a StringList");
+        }
+        Argument matchValues = matchingSpecifications.next();
+        if (! (matchValues instanceof StringListArgument)) {
+            throw new SyntaxException("Matcher :contains should be followed by a StringList and not a " + matchValues.getClass());
+        }
+        valuesToBeMatched = (StringListArgument) matchValues;
+    }
+
+    private void assureNoMoreArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+        if (matchingSpecifications.hasNext()) {
+            throw new SyntaxException("Too many arguments for Body test");
+        }
     }
 
 }

@@ -445,5 +445,17 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         }
     }
 
+    public boolean isInBodyText(List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
+    public boolean isInBodyRaw(List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
+    public boolean isInBodyContent(List<String> contentTypes, List<String> phrasesCaseInsensitive) throws SieveMailException {
+        throw new SieveMailException("Not yet implemented");
+    }
+
     public void setContext(SieveContext context) {}
 }

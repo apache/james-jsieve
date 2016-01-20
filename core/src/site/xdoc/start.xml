@@ -114,8 +114,8 @@
             </subsection>
             <subsection name='Building jSieve'>
                 <p>
-                    jSieve uses <a href='http://ant.apache.org'>Ant</a>. <code>ant -projecthelp</code>
-                    describes appropriate targets. <code>ant</code> runs the default target.
+                    jSieve uses <a href='http://maven.apache.org'>maven</a>. <code>mvn clean install</code>
+                    compiles the jSieve project and install it.
                 </p>
             </subsection>
         </section>

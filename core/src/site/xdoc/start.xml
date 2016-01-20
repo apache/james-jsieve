@@ -45,9 +45,19 @@
                 </subsection>
                 <subsection name='In JAMES'>
                     <p>
-                        The <code>SieveToMultiMailbox</code> mailet is included in JAMES.
-                        It is integrated with the message delivery spool and provides per-user
-                        Sieve scripting using jSieve.
+                        The <code>SieveMailboxMailet</code> mailet is part of the jsieve/mailet project. It provides
+                        mailet that applies SIEVE actions defined by a user SIEVE script to incoming e-mails. Integration
+                        is done in the JAMES code base using a SieveMailet in project server/mailet/mailets. This project :
+                        <ul>
+                            <li>Propose a SieveLocator based on your SieveRepository for locating your user Sieve script</li>
+                            <li>Communicate via URLs with the classes introduced in server/mailet/mailets, allowing to
+                                use it independantly from the API defined in James Mailbox. All you need to use
+                                SieveMailboxMailet is a mailet environment</li>
+                        </ul>
+                    </p>
+                    <p>
+                        Note that some integration tests in James server on Mail delivery behaves as integration tests for
+                        JSIEVE in JAMES. Have a look to <code>org.apache.james.transport.mailets.delivery.SieveMailetTest</code>
                     </p>
                 </subsection>
             </subsection>
@@ -63,26 +73,44 @@
                 script and for executing them once the parsing is complete.
             </p><p>
                 See the
-                <a href='apidocs/index.html'>javadocs</a> for more details and this
-                <a href='xref/org/apache/jsieve/samples/james/SieveMailAdapter.html'>sample</a>.
+                <a href='apidocs/index.html'>javadocs</a> for more details and the
+                <a href='xref/org/apache/jsieve/samples/james/SieveMailAdapter.html'>SieveMailAdapter implementation</a>
+                for the mailets environment.
             </p>
             </subsection>
-            <subsection name='Creating A Custom Extension Command'>
+            <subsection name='Implementing Extension Command'>
                 <p>
+                    A parser is already implemented using jjTree. So the Sieve entities you will implement will already be
+                    called with parsed arguments. You will have to validate such arguments (SIEVE Syntax check), handle
+                    parsing state modification (such as saying an action was taken, see SieveContext.getCommandStateManager()
+                    for a deeper insight), and implement the behavior you want regarding these arguments.
+                </p>
+                <p>
+                    You can implement additional extension commands.
                     <a href='xref/org/apache/jsieve/commands/extensions/Log.html'>
                         <code>org.apache.jsieve.commands.extensions.Log</code></a> is an example
-                    of a custom extension command. It is recommended that custom commands
+                    of an extension command. It is recommended that extension commands
                     extend <a href='xref/org/apache/jsieve/commands/AbstractCommand.html'>
                     <code>AbstractCommand</code></a>. See the
                     <a href='apidocs/index.html'>javadocs</a> for more details.
-                </p><p>
-                Custom commands need to be registered with
-                <a href='xref/org/apache/jsieve/ConfigurationManager.html'>
-                    <code>ConfigurationManager</code></a> before they can be used. This
-                may be done programmatically but the recommended method is by altering
-                the <code>org/apache/jsieve/commandsmap.properties</code>, <code>org/apache/jsieve/testsmap.properties</code>
-                and <code>org/apache/jsieve/comparatorsmap.properties</code> resource files.
-            </p>
+                </p>
+                <p>
+                    Commands need to be registered with
+                    <a href='xref/org/apache/jsieve/ConfigurationManager.html'>
+                        <code>ConfigurationManager</code></a> before they can be used. This
+                    may be done programmatically but the recommended method is by altering
+                    the <code>org/apache/jsieve/commandsmap.properties</code>, <code>org/apache/jsieve/testsmap.properties</code>
+                    and <code>org/apache/jsieve/comparatorsmap.properties</code> resource files.
+                </p>
+                <p>
+                    Commands generates actions that get transferred by commands to the MailAdapter. If you introduce new actions,
+                    you will have to extend the MailAdapter API if you need more information or actions from the mail server.
+                </p>
+                <p>
+                    Writing new tests can be done in a similar way : extends <code>AbstractTest</code> to implement your test.
+                    Adding capabilities to the MailAdapter might be required. You also need to register it to
+                    <code>org/apache/jsieve/testsmap.properties</code>.
+                </p>
             </subsection>
             <subsection name='Building jSieve'>
                 <p>

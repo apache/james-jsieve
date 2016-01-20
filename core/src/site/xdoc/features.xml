@@ -24,98 +24,115 @@
   <author email="jsieve-dev@jakarta.apache.org">jSieve Project</author>
  </properties>
 
-<body>
-<section name='jSieve Features'>
-<subsection name='Sieve Features Supported By jSieve'>
-<p>
-jSieve is limited only by the platform on which it runs.
-</p>
-<table>
-<tr><th>Limits</th><th/></tr>
-<tr><td>Maximum Number Of Actions</td><td>No intrinsic limit</td></tr>
-<tr><td>Maximum Number Of Nested Blocks</td><td>No intrinsic limit</td></tr>
-<tr><td>Maximum Number Of Nested Test Lists</td><td>No intrinsic limit</td></tr>
-</table>
-<p>
-jSieve supports the standard control commands specified in RFC 3028.
-</p>
-<table>
-<tr>
-<th>Control Command</th><th>Specification</th><th>Supported</th>
-</tr>
-<tr>
-<td>If</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr>
-<td>Require</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-<tr>
-<td>Stop</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr>
-</table>
-<p>
-jSieve supports all action commands (both required and optional) 
-specified in RFC 3028. 
-</p><p>
-<strong>Note</strong> that jSieve uses a pluggable 
-<code>MailAdapter</code> as an interface to the mail server.
-Not all implementations may fully support all actions.
-</p>  
-<table>
-<tr>
-<th>Action Command</th><th>Specification</th><th>Supported</th>
-</tr><tr>
-<td>reject</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
-</tr><tr>
-<td>fileinto</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
-</tr><tr>
-<td>redirect</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr>
-</table>
-<p>
-jSieve supports all tests commands specified in RFC 3028.
-</p>
-<table>
-<tr>
-<th>Test Command</th><th>Specification</th><th>Supported</th>
-</tr><tr>
-<td>address</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>allof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>anyof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>envelope</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
-</tr><tr>
-<td>exists</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>false</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>header</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>not</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
-</tr><tr>
-<td>body</td><td><a href='http://tools.ietf.org/html/draft-ietf-sieve-body-00'>SIEVE body extension</a></td><td>partial</td>
-</tr>
-</table>
-</subsection>
-<subsection name='jSieve Extension Commands'>
-<p>
-jSieve allows extension commands to be developed
-and plugged in at run time.
-The following extension commands ship with jSieve:
-</p>
-<table>
-<tr><th>Name</th><th>Function</th></tr>
-<tr><td>Log</td><td>Logs messages</td></tr>
-</table>
-</subsection>
-</section>
-</body>
+ <body>
+  <section name='jSieve Features'>
+   <subsection name='Sieve Features Supported By jSieve'>
+    <p>
+     jSieve is limited only by the platform on which it runs.
+    </p>
+    <table>
+     <tr><th>Limits</th><th/></tr>
+     <tr><td>Maximum Number Of Actions</td><td>No intrinsic limit</td></tr>
+     <tr><td>Maximum Number Of Nested Blocks</td><td>No intrinsic limit</td></tr>
+     <tr><td>Maximum Number Of Nested Test Lists</td><td>No intrinsic limit</td></tr>
+    </table>
+    <p>
+     jSieve supports the standard control commands specified in RFC 3028.
+    </p>
+    <table>
+     <tr>
+      <th>Control Command</th><th>Specification</th><th>Supported</th>
+     </tr>
+     <tr>
+      <td>If</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <td>Require</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     <tr>
+      <td>Stop</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+    </table>
+    <p>
+     jSieve supports all action commands (both required and optional)
+     specified in RFC 3028.
+    </p>
+    <p>
+     <strong>Note</strong> that jSieve uses a pluggable
+     <code>MailAdapter</code> as an interface to the mail server.
+     Not all implementations may fully support all actions.
+    </p>
+    <table>
+     <tr>
+      <th>Action Command</th><th>Specification</th><th>Supported</th>
+     </tr>
+     <tr>
+      <td>reject</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>fileinto</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>redirect</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+    </table>
+    <p>
+     jSieve supports all tests commands specified in RFC 3028.
+    </p>
+    <table>
+     <tr>
+      <th>Test Command</th><th>Specification</th><th>Supported</th>
+     </tr>
+     <tr>
+      <td>address</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>allof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>anyof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>envelope</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>exists</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>false</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>header</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>not</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>body</td><td><a href='http://tools.ietf.org/html/draft-ietf-sieve-body-00'>SIEVE body extension</a></td><td>partial</td>
+     </tr>
+    </table>
+   </subsection>
+   <subsection name='jSieve Extension Commands'>
+    <p>
+     jSieve allows extension commands to be developed
+     and plugged in at run time.
+     The following extension commands ship with jSieve:
+    </p>
+    <table>
+     <tr><th>Name</th><th>Function</th></tr>
+     <tr><td>Log</td><td>Logs messages</td></tr>
+    </table>
+   </subsection>
+  </section>
+ </body>
 </document>

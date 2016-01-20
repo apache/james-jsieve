@@ -19,18 +19,35 @@
 package org.apache.jsieve.mailet;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.mailet.MailAddress;
+import org.joda.time.DateTime;
 
 /**
  * Provides context for action execution.
  */
 public interface ActionContext {
-    
+
+    /**
+     * @return Date the script was activated
+     */
+    DateTime getScriptActivationDate();
+
+    /**
+     * @return Date the script is currently interpreted
+     */
+    DateTime getScriptInterpretationDate();
+
+    /**
+     * @return Recipient receiving the given eMail
+     */
+    MailAddress getRecipient();
+
     /**
      * Gets the log.
      * @return not null

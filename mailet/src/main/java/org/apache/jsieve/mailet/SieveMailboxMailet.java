@@ -19,25 +19,18 @@
 
 package org.apache.jsieve.mailet;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.Vector;
 
-import javax.activation.DataHandler;
 import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.jsieve.ConfigurationManager;
@@ -345,8 +338,8 @@ public class SieveMailboxMailet extends GenericMailet {
     protected void sieveMessage(MailAddress recipient, Mail aMail) throws MessagingException {
         String username = getUsername(recipient);
         try {
-            final InputStream ins = locator.get(getScriptUri(recipient));
-            sieveMessageEvaluate(recipient, aMail, ins);
+            final ResourceLocator.UserSieveInformation userSieveInformation = locator.get(getScriptUri(recipient));
+            sieveMessageEvaluate(recipient, aMail, userSieveInformation);
         } catch (Exception ex) {
             // SIEVE is a mail filtering protocol.
             // Rejecting the mail because it cannot be filtered
@@ -359,17 +352,18 @@ public class SieveMailboxMailet extends GenericMailet {
         }
     }
     
-    private void sieveMessageEvaluate(MailAddress recipient, Mail aMail, InputStream ins) throws MessagingException, IOException {    
+    private void sieveMessageEvaluate(MailAddress recipient, Mail aMail, ResourceLocator.UserSieveInformation userSieveInformation) throws MessagingException, IOException {
             try {
                 SieveMailAdapter aMailAdapter = new SieveMailAdapter(aMail,
-                        getMailetContext(), actionDispatcher, poster);
+                    getMailetContext(), actionDispatcher, poster, userSieveInformation.getScriptActivationDate(),
+                    userSieveInformation.getScriptInterpretationDate(), recipient);
                 aMailAdapter.setLog(log);
                 // This logging operation is potentially costly
                 if (verbose) {
                     log("Evaluating " + aMailAdapter.toString() + "against \""
                             + getScriptUri(recipient) + "\"");
                 }
-                factory.evaluate(aMailAdapter, factory.parse(ins));
+                factory.evaluate(aMailAdapter, factory.parse(userSieveInformation.getScriptContent()));
             } catch (SieveException ex) {
                 handleFailure(recipient, aMail, ex);
             }

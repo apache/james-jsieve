@@ -57,7 +57,18 @@
                     </p>
                     <p>
                         Note that some integration tests in James server on Mail delivery behaves as integration tests for
-                        JSIEVE in JAMES. Have a look to <code>org.apache.james.transport.mailets.delivery.SieveMailetTest</code>
+                        JSIEVE in JAMES. Have a look to <code>org.apache.james.transport.mailets.delivery.SieveMailetTest</code>.
+                    </p>
+                    <p>
+                        In James server, Sieve scripts are stored by <code>SieveRepository</code>(ies).
+                        Note that you can manage your SIEVE scripts as a user on James using 3 mechanisms, depending of
+                        your installation :
+                        <ul>
+                            <li>With SieveDefaultRepository one need to interact with the file system to custmize her
+                                scripts (legacy reasons)</li>
+                            <li>If enabled by the administrator, you can use a ManageSieve server, as specified in RFC-5804</li>
+                            <li>Or you can rely on the <code>ManageSieveMailet</code> to handle ManageSieve over SMTP</li>
+                        </ul>
                     </p>
                 </subsection>
             </subsection>

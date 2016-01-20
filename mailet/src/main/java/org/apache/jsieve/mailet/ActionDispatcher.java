@@ -20,6 +20,7 @@
 package org.apache.jsieve.mailet;
 
 import org.apache.jsieve.mail.*;
+import org.apache.jsieve.mail.optional.ActionVacation;
 import org.apache.mailet.Mail;
 
 import javax.mail.MessagingException;
@@ -83,6 +84,7 @@ public class ActionDispatcher {
         actionMap.put(ActionKeep.class, new KeepAction());
         actionMap.put(ActionRedirect.class, new RedirectAction());
         actionMap.put(ActionReject.class, new RejectAction());
+        actionMap.put(ActionVacation.class, new VacationAction());
         return actionMap;
     }
 

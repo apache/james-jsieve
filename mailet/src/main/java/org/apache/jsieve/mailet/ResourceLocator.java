@@ -19,6 +19,7 @@
 package org.apache.jsieve.mailet;
 
 import java.io.InputStream;
+import java.util.Date;
 
 /**
  * <p>Experimental API locates resources. 
@@ -54,12 +55,37 @@ import java.io.InputStream;
  * </p>
  */
 public interface ResourceLocator {
-    
+
+    class UserSieveInformation {
+        private Date scriptCreationDate;
+        private Date scriptInterpretationDate;
+        private InputStream scriptContent;
+
+        public UserSieveInformation(Date scriptCreationDate, Date scriptInterpretationDate, InputStream scriptContent) {
+            this.scriptCreationDate = scriptCreationDate;
+            this.scriptInterpretationDate = scriptInterpretationDate;
+            this.scriptContent = scriptContent;
+        }
+
+        public Date getScriptCreationDate() {
+            return scriptCreationDate;
+        }
+
+        public Date getScriptInterpretationDate() {
+            return scriptInterpretationDate;
+        }
+
+        public InputStream getScriptContent() {
+            return scriptContent;
+        }
+    }
+
     /**
      * GET verb locates and loads a resource. 
      * @param uri identifies the Sieve script 
      * @return not null
      * @throws Exception when the resource cannot be located
      */
-    InputStream get(String uri) throws Exception;
+    UserSieveInformation get(String uri) throws Exception;
+
 }

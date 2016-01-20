@@ -345,8 +345,8 @@ public class SieveMailboxMailet extends GenericMailet {
     protected void sieveMessage(MailAddress recipient, Mail aMail) throws MessagingException {
         String username = getUsername(recipient);
         try {
-            final InputStream ins = locator.get(getScriptUri(recipient));
-            sieveMessageEvaluate(recipient, aMail, ins);
+            final ResourceLocator.UserSieveInformation userSieveInformation = locator.get(getScriptUri(recipient));
+            sieveMessageEvaluate(recipient, aMail, userSieveInformation);
         } catch (Exception ex) {
             // SIEVE is a mail filtering protocol.
             // Rejecting the mail because it cannot be filtered
@@ -359,17 +359,18 @@ public class SieveMailboxMailet extends GenericMailet {
         }
     }
     
-    private void sieveMessageEvaluate(MailAddress recipient, Mail aMail, InputStream ins) throws MessagingException, IOException {    
+    private void sieveMessageEvaluate(MailAddress recipient, Mail aMail, ResourceLocator.UserSieveInformation userSieveInformation) throws MessagingException, IOException {
             try {
                 SieveMailAdapter aMailAdapter = new SieveMailAdapter(aMail,
-                        getMailetContext(), actionDispatcher, poster);
+                    getMailetContext(), actionDispatcher, poster, userSieveInformation.getScriptCreationDate(),
+                    userSieveInformation.getScriptInterpretationDate(), recipient);
                 aMailAdapter.setLog(log);
                 // This logging operation is potentially costly
                 if (verbose) {
                     log("Evaluating " + aMailAdapter.toString() + "against \""
                             + getScriptUri(recipient) + "\"");
                 }
-                factory.evaluate(aMailAdapter, factory.parse(ins));
+                factory.evaluate(aMailAdapter, factory.parse(userSieveInformation.getScriptContent()));
             } catch (SieveException ex) {
                 handleFailure(recipient, aMail, ex);
             }

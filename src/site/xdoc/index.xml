@@ -29,7 +29,7 @@
       <p>
         jSieve is a Java implementation of the Sieve mail filtering
         language defined by
-        <a href='http://www.rfc-editor.org/rfc/rfc3028.txt'>RFC 3028</a>
+        <a href='https://tools.ietf.org/html/rfc5228'>RFC 5228</a>
         . jSieve is implemented as a language processor that can be
         plugged into any internet mail application to add Sieve support.
       </p>

@@ -46,6 +46,11 @@ public class CommandStateManager {
     private boolean fieldHasActions = false;
 
     /**
+     * Did vacation instruction already executed for this script ?
+     */
+    private boolean vacationProcessed = false;
+
+    /**
      * Constructor for CommandStateManager.
      */
     public CommandStateManager() {
@@ -139,4 +144,20 @@ public class CommandStateManager {
         fieldImplicitKeep = implicitKeep;
     }
 
+    /**
+     * Returns whether a vacation command was processed.
+     *
+     * RFC 5230 section 4.7 : Vacation can only be executed once per script.  A script MUST fail
+     * with an appropriate error if it attempts to execute two or more
+     * vacation actions.
+     *
+     * @return false if no vacation command was executed before in this script, false otherwise
+     */
+    public boolean getVacationProcessed() {
+        return vacationProcessed;
+    }
+
+    public void setVacationProcessed(boolean vacationProcessed) {
+        this.vacationProcessed = vacationProcessed;
+    }
 }

@@ -37,23 +37,23 @@
      <tr><td>Maximum Number Of Nested Test Lists</td><td>No intrinsic limit</td></tr>
     </table>
     <p>
-     jSieve supports the standard control commands specified in RFC 3028.
+     jSieve supports the standard control commands specified in RFC 5228.
     </p>
     <table>
      <tr>
       <th>Control Command</th><th>Specification</th><th>Supported</th>
      </tr>
      <tr>
-      <td>If</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>If</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
-     <td>Require</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+     <td>Require</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      <tr>
-      <td>Stop</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>Stop</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
     </table>
     <p>
      jSieve supports all action commands (both required and optional)
-     specified in RFC 3028.
+     specified in RFC 5228.
     </p>
     <p>
      <strong>Note</strong> that jSieve uses a pluggable
@@ -65,60 +65,63 @@
       <th>Action Command</th><th>Specification</th><th>Supported</th>
      </tr>
      <tr>
-      <td>reject</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+      <td>fileinto</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>fileinto</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+      <td>redirect</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>redirect</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>keep</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>discard</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>reject</td><td>RFC 5429</td><td>yes</td>
+     </tr>
+     <tr>
+      <td>ereject</td><td>RFC 5429</td><td>no</td>
      </tr>
     </table>
     <p>
-     jSieve supports all tests commands specified in RFC 3028.
+     jSieve supports all tests commands specified in RFC 5228.
     </p>
     <table>
      <tr>
       <th>Test Command</th><th>Specification</th><th>Supported</th>
      </tr>
      <tr>
-      <td>address</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>address</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>allof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>allof</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>anyof</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>anyof</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>envelope</td><td>RFC 3028 (OPTIONAL)</td><td>yes</td>
+      <td>envelope</td><td>RFC 5228 (OPTIONAL)</td><td>yes</td>
      </tr>
      <tr>
-      <td>exists</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>exists</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>false</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>false</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>header</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>header</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>not</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>not</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>size</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>size</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>true</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+      <td>true</td><td>RFC 5228 (REQUIRED)</td><td>yes</td>
      </tr>
      <tr>
-      <td>body</td><td><a href='http://tools.ietf.org/html/draft-ietf-sieve-body-00'>SIEVE body extension</a></td><td>partial</td>
+      <td>body</td><td>RFC 5173</td><td>yes</td>
      </tr>
     </table>
    </subsection>

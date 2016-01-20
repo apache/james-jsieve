@@ -19,6 +19,7 @@
 package org.apache.jsieve.mailet;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,7 +31,22 @@ import org.apache.mailet.MailAddress;
  * Provides context for action execution.
  */
 public interface ActionContext {
-    
+
+    /**
+     * @return Date the script was first stored
+     */
+    Date getScriptStorageDate();
+
+    /**
+     * @return Date the script is currently interpreted
+     */
+    Date getScriptInterpretationDate();
+
+    /**
+     * @return Recipient receiving the given eMail
+     */
+    MailAddress getRecipient();
+
     /**
      * Gets the log.
      * @return not null

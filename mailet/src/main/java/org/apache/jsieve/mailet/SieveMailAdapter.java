@@ -47,6 +47,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,6 +82,9 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     private final ActionDispatcher dispatcher;
     
     private final Poster poster;
+    private final Date scriptStorageDate;
+    private final Date scriptInterpretationDate;
+    private final MailAddress recipient;
 
     /**
      * Constructor for SieveMailAdapter.
@@ -88,15 +92,30 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * @param aMail
      * @param aMailetContext
      */
-    public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher, final Poster poster)
+    public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher, final Poster poster,
+                            Date scriptStorageDate, Date scriptInterpretationDate, MailAddress recipient)
     {
         this.poster = poster;
         this.dispatcher = dispatcher;
+        this.scriptInterpretationDate = scriptInterpretationDate;
+        this.scriptStorageDate = scriptStorageDate;
+        this.recipient = recipient;
         setMail(aMail);
         setMailetContext(aMailetContext);
     }
-    
-  
+
+    public Date getScriptStorageDate() {
+        return scriptStorageDate;
+    }
+
+    public Date getScriptInterpretationDate() {
+        return scriptInterpretationDate;
+    }
+
+    public MailAddress getRecipient() {
+        return recipient;
+    }
+
     public void setLog(Log log) {
         this.log = log;
     }

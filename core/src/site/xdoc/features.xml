@@ -71,7 +71,9 @@ Not all implementations may fully support all actions.
 </tr><tr>
 <td>keep</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
 </tr><tr>
-<td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+ <td>discard</td><td>RFC 3028 (REQUIRED)</td><td>yes</td>
+</tr><tr>
+ <td>vacation</td><td>RFC 5230</td><td>yes</td>
 </tr>
 </table>
 <p>

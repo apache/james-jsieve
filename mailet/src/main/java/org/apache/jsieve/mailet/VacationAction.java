@@ -29,6 +29,7 @@ import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
 import javax.activation.DataHandler;
+import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.AddressException;
@@ -38,6 +39,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +52,9 @@ public class VacationAction implements MailAction {
         long dayDifference = getDayDifference(context.getScriptInterpretationDate(), context.getScriptStorageDate());
         if (isStillInVacation(actionVacation, dayDifference)) {
             if (isValidForReply(mail, actionVacation, context)) {
-                sendVacationNotification(mail, actionVacation, context);
+                if (!isMailingList(mail)) {
+                    sendVacationNotification(mail, actionVacation, context);
+                }
             }
         }
     }
@@ -142,6 +146,21 @@ public class VacationAction implements MailAction {
         reasonPart.setDisposition(MimeBodyPart.INLINE);
         multipart.addBodyPart(reasonPart);
         return multipart;
+    }
+
+    private boolean isMailingList(Mail mail) throws MessagingException {
+        if (mail.getSender().getDomain().startsWith("lists.") ||
+            mail.getSender().getDomain().startsWith("listes.")) {
+            return true;
+        }
+        Enumeration enumeration = mail.getMessage().getAllHeaderLines();
+        while (enumeration.hasMoreElements()) {
+            String headerName = ((Header) enumeration.nextElement()).getName();
+            if (headerName.startsWith("List-")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public long getDayDifference(Date date1, Date date2) {

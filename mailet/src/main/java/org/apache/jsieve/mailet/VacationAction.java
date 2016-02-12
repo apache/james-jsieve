@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.mailet;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.optional.ActionVacation;
@@ -29,7 +32,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -62,13 +64,15 @@ public class VacationAction implements MailAction {
     }
 
     private boolean isValidForReply(final Mail mail, ActionVacation actionVacation, final ActionContext context) {
-        Set<MailAddress> currentMailAddresses = Sets.newHashSet(mail.getRecipients());
-        Set<MailAddress> allowedMailAddresses = Sets.newHashSet();
-        allowedMailAddresses.add(context.getRecipient());
-        List<String> validMailAddressFoMailReceiverAsString = actionVacation.getAddresses();
-        for(String address : validMailAddressFoMailReceiverAsString) {
-            allowedMailAddresses.add(retrieveAddressFromString(address, context));
-        }
+        Set<MailAddress> currentMailAddresses = ImmutableSet.copyOf(mail.getRecipients());
+        Set<MailAddress> allowedMailAddresses = ImmutableSet.<MailAddress>builder().addAll(
+            Lists.transform(actionVacation.getAddresses(), new Function<String, MailAddress>() {
+                public MailAddress apply(String s) {
+                    return retrieveAddressFromString(s, context);
+                }
+            }))
+            .add(context.getRecipient())
+            .build();
         return !Sets.intersection(currentMailAddresses, allowedMailAddresses).isEmpty();
     }
 

@@ -146,28 +146,44 @@ public class ActionVacation implements Action {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())  {
+            return false;
+        }
 
         ActionVacation that = (ActionVacation) o;
 
-        if (duration != that.duration) return false;
-        if (subject != null ? !subject.equals(that.subject) : that.subject != null) return false;
-        if (from != null ? !from.equals(that.from) : that.from != null) return false;
-        if (handle != null ? !handle.equals(that.handle) : that.handle != null) return false;
-        if (reason != null ? !reason.equals(that.reason) : that.reason != null) return false;
-        return mime != null ? mime.equals(that.mime) : that.mime == null;
+        return duration == that.duration
+            && equalsNullProtected(this.subject, subject)
+            && equalsNullProtected(this.from, from)
+            && equalsNullProtected(this.handle, handle)
+            && equalsNullProtected(this.reason, reason)
+            && equalsNullProtected(this.mime, mime);
+    }
 
+    private boolean equalsNullProtected(Object object1, Object object2) {
+        if (object1 == null) {
+            return object2 == null;
+        }
+        return object1.equals(object2);
     }
 
     @Override
     public int hashCode() {
-        int result = subject != null ? subject.hashCode() : 0;
-        result = 31 * result + (from != null ? from.hashCode() : 0);
-        result = 31 * result + (handle != null ? handle.hashCode() : 0);
-        result = 31 * result + (reason != null ? reason.hashCode() : 0);
-        result = 31 * result + (mime != null ? mime.hashCode() : 0);
+        int result = hashCodeNullProtected(subject);
+        result = 31 * result + hashCodeNullProtected(from);
+        result = 31 * result + hashCodeNullProtected(handle);
+        result = 31 * result + hashCodeNullProtected(reason);
+        result = 31 * result + hashCodeNullProtected(mime);
+        result = 31 * result + hashCodeNullProtected(subject);
         result = 31 * result + duration;
         return result;
     }
+
+    public int hashCodeNullProtected(Object object) {
+        if (object == null) {
+            return 0;
+        }
+        return object.hashCode();
+    }
+
 }

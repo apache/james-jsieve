@@ -19,25 +19,14 @@
 
 package org.apache.jsieve.mailet;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.optional.ActionVacation;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
-import javax.activation.DataHandler;
-import javax.mail.Header;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -60,15 +49,12 @@ public class VacationAction implements MailAction {
     }
 
     private void sendVacationNotification(Mail mail, ActionVacation actionVacation, ActionContext context) throws MessagingException {
-        MimeMessage reply = (MimeMessage) mail.getMessage().reply(false);
-        reply.setSubject(generateNotificationSubject(actionVacation, context));
-        try {
-            reply.setContent(generateNotificationContent(actionVacation));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ActionUtils.detectAndHandleLocalLooping(mail, context, "vacation");
-        context.post(generateNotificationFromHeaderField(actionVacation, context), Lists.newArrayList(mail.getSender()), reply);
+            new VacationReplyBuilder(mail, context)
+                .from(actionVacation.getFrom())
+                .mime(actionVacation.getMime())
+                .reason(actionVacation.getReason())
+                .subject(actionVacation.getSubject())
+                .build();
     }
 
     private boolean isStillInVacation(ActionVacation actionVacation, long dayDifference) {
@@ -86,19 +72,6 @@ public class VacationAction implements MailAction {
         return !Sets.intersection(currentMailAddresses, allowedMailAddresses).isEmpty();
     }
 
-    private String generateNotificationSubject(ActionVacation actionVacation, ActionContext context) {
-        return Optional.fromNullable(actionVacation.getSubject())
-            .or(context.getRecipient() + " is currently in vacation");
-    }
-
-    private MailAddress generateNotificationFromHeaderField(ActionVacation actionVacation, final ActionContext context) throws AddressException {
-        return Optional.fromNullable(actionVacation.getFrom()).transform(new Function<String, MailAddress>() {
-            public MailAddress apply(String address) {
-                return retrieveAddressFromString(address, context);
-            }
-        }).or(context.getRecipient());
-    }
-
     private MailAddress retrieveAddressFromString(String address, ActionContext context) {
         try {
             return new MailAddress(address);
@@ -108,54 +81,10 @@ public class VacationAction implements MailAction {
         }
     }
 
-    private Multipart generateNotificationContent(ActionVacation actionVacation) throws MessagingException, IOException {
-        if (actionVacation.getReason() != null) {
-            return generateNotificationContentFromReasonString(actionVacation);
-        } else {
-            return generateNotificationContentFromMime(actionVacation);
-        }
-    }
-
-    private Multipart generateNotificationContentFromMime(ActionVacation actionVacation) throws MessagingException, IOException {
-        Multipart multipart = new MimeMultipart(new ByteArrayDataSource(actionVacation.getMime(), "mixed"));
-        MimeBodyPart reasonPart = new MimeBodyPart();
-        try {
-            reasonPart.setDataHandler(
-                new DataHandler(
-                    new ByteArrayDataSource(
-                        actionVacation.getReason(),
-                        "text/plain; charset=UTF-8")
-                ));
-        } catch (IOException e) {
-            throw new MessagingException("Exception while executing data handler", e);
-        }
-        reasonPart.setDisposition(MimeBodyPart.INLINE);
-        multipart.addBodyPart(reasonPart);
-        return multipart;
-    }
-
-    private Multipart generateNotificationContentFromReasonString(ActionVacation actionVacation) throws MessagingException, IOException {
-        Multipart multipart = new MimeMultipart("mixed");
-        MimeBodyPart reasonPart = new MimeBodyPart();
-        reasonPart.setDataHandler(
-            new DataHandler(
-                new ByteArrayDataSource(
-                    actionVacation.getReason(),
-                    "text/plain; charset=UTF-8")
-            ));
-        reasonPart.setDisposition(MimeBodyPart.INLINE);
-        multipart.addBodyPart(reasonPart);
-        return multipart;
-    }
-
     private boolean isMailingList(Mail mail) throws MessagingException {
-        if (mail.getSender().getDomain().startsWith("lists.") ||
-            mail.getSender().getDomain().startsWith("listes.")) {
-            return true;
-        }
         Enumeration enumeration = mail.getMessage().getAllHeaderLines();
         while (enumeration.hasMoreElements()) {
-            String headerName = ((Header) enumeration.nextElement()).getName();
+            String headerName = (String) enumeration.nextElement();
             if (headerName.startsWith("List-")) {
                 return true;
             }

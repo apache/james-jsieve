@@ -34,9 +34,9 @@ import org.joda.time.DateTime;
 public interface ActionContext {
 
     /**
-     * @return Date the script was first stored
+     * @return Date the script was activated
      */
-    DateTime getScriptStorageDate();
+    DateTime getScriptActivationDate();
 
     /**
      * @return Date the script is currently interpreted

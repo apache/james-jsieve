@@ -48,7 +48,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,7 +82,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     private final ActionDispatcher dispatcher;
     
     private final Poster poster;
-    private final DateTime scriptStorageDate;
+    private final DateTime scriptActivationDate;
     private final DateTime scriptInterpretationDate;
     private final MailAddress recipient;
 
@@ -94,19 +93,19 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * @param aMailetContext
      */
     public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher, final Poster poster,
-                            DateTime scriptStorageDate, DateTime scriptInterpretationDate, MailAddress recipient)
+                            DateTime scriptActivationDate, DateTime scriptInterpretationDate, MailAddress recipient)
     {
         this.poster = poster;
         this.dispatcher = dispatcher;
         this.scriptInterpretationDate = scriptInterpretationDate;
-        this.scriptStorageDate = scriptStorageDate;
+        this.scriptActivationDate = scriptActivationDate;
         this.recipient = recipient;
         setMail(aMail);
         setMailetContext(aMailetContext);
     }
 
-    public DateTime getScriptStorageDate() {
-        return scriptStorageDate;
+    public DateTime getScriptActivationDate() {
+        return scriptActivationDate;
     }
 
     public DateTime getScriptInterpretationDate() {

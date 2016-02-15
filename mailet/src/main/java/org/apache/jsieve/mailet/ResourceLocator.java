@@ -21,7 +21,6 @@ package org.apache.jsieve.mailet;
 import org.joda.time.DateTime;
 
 import java.io.InputStream;
-import java.util.Date;
 
 /**
  * <p>Experimental API locates resources. 
@@ -59,18 +58,18 @@ import java.util.Date;
 public interface ResourceLocator {
 
     class UserSieveInformation {
-        private DateTime scriptCreationDate;
+        private DateTime scriptActivationDate;
         private DateTime scriptInterpretationDate;
         private InputStream scriptContent;
 
-        public UserSieveInformation(DateTime scriptCreationDate, DateTime scriptInterpretationDate, InputStream scriptContent) {
-            this.scriptCreationDate = scriptCreationDate;
+        public UserSieveInformation(DateTime scriptActivationDate, DateTime scriptInterpretationDate, InputStream scriptContent) {
+            this.scriptActivationDate = scriptActivationDate;
             this.scriptInterpretationDate = scriptInterpretationDate;
             this.scriptContent = scriptContent;
         }
 
-        public DateTime getScriptCreationDate() {
-            return scriptCreationDate;
+        public DateTime getScriptActivationDate() {
+            return scriptActivationDate;
         }
 
         public DateTime getScriptInterpretationDate() {

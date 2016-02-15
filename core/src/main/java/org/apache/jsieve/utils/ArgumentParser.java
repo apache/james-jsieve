@@ -1,0 +1,164 @@
+/****************************************************************
+ * Licensed to the Apache Software Foundation (ASF) under one   *
+ * or more contributor license agreements.  See the NOTICE file *
+ * distributed with this work for additional information        *
+ * regarding copyright ownership.  The ASF licenses this file   *
+ * to you under the Apache License, Version 2.0 (the            *
+ * "License"); you may not use this file except in compliance   *
+ * with the License.  You may obtain a copy of the License at   *
+ *                                                              *
+ *   http://www.apache.org/licenses/LICENSE-2.0                 *
+ *                                                              *
+ * Unless required by applicable law or agreed to in writing,   *
+ * software distributed under the License is distributed on an  *
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       *
+ * KIND, either express or implied.  See the License for the    *
+ * specific language governing permissions and limitations      *
+ * under the License.                                           *
+ ****************************************************************/
+
+package org.apache.jsieve.utils;
+
+import org.apache.jsieve.Argument;
+import org.apache.jsieve.NumberArgument;
+import org.apache.jsieve.StringListArgument;
+import org.apache.jsieve.TagArgument;
+import org.apache.jsieve.exception.SyntaxException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class ArgumentParser {
+
+    private List<Argument> remainingArguments;
+    private List<String> singleTags;
+    private Map<String, Argument> tagsWithValues;
+
+    public ArgumentParser(List<Argument> arguments) {
+        this.remainingArguments = new ArrayList<Argument>();
+        this.singleTags = new ArrayList<String>();
+        this.tagsWithValues = new HashMap<String, Argument>();
+        initialize(arguments);
+    }
+
+    public void initialize(List<Argument> arguments) {
+        TagArgument lastSeenTagArgument = null;
+        for (Argument argument : arguments) {
+            if (argument instanceof TagArgument) {
+                if (lastSeenTagArgument == null) {
+                    lastSeenTagArgument = (TagArgument) argument;
+                } else {
+                    singleTags.add(lastSeenTagArgument.getTag());
+                    lastSeenTagArgument = null;
+                }
+            } else {
+                if (lastSeenTagArgument == null) {
+                    remainingArguments.add(argument);
+                } else {
+                    tagsWithValues.put(lastSeenTagArgument.getTag(), argument);
+                    lastSeenTagArgument = null;
+                }
+            }
+        }
+        if (lastSeenTagArgument != null) {
+            singleTags.add(lastSeenTagArgument.getTag());
+        }
+    }
+
+    public String getStringValueForTag(String tag, String exceptionMessage) throws SyntaxException {
+        Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
+        if (argument == null) return null;
+        return retrieveSingleStringValue(argument, exceptionMessage);
+    }
+
+    public Integer getNumericValueForTag(String tag, String exceptionMessage) throws SyntaxException {
+        Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
+        if (argument == null) return null;
+        return retrieveNumericValue(argument, exceptionMessage);
+    }
+
+    public List<String> getStringListForTag(String tag, String exceptionMessage) throws SyntaxException {
+        Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
+        if (argument == null) return null;
+        return retrieveStringValues(argument, exceptionMessage);
+    }
+
+    public String getRemainingStringValue(String exceptionMessage) throws SyntaxException {
+        if (remainingArguments.size() > 1) {
+            throw new SyntaxException(exceptionMessage);
+        }
+        if (remainingArguments.size() == 0) {
+            return null;
+        }
+        return retrieveSingleStringValue(remainingArguments.get(0), exceptionMessage);
+    }
+
+    public void validateSingleTags(String... validTags) throws SyntaxException {
+        validateTagCollectionWithExpactations(singleTags, validTags);
+    }
+
+    public void validateTagsWithValue(String... validTags) throws SyntaxException {
+        validateTagCollectionWithExpactations(tagsWithValues.keySet(), validTags);
+    }
+
+    private void validateTagCollectionWithExpactations(Collection<String> seenTags, String[] expectations) throws SyntaxException {
+        List<String> validTagList = getListFromStringArray(expectations);
+        for (String seenTag : seenTags) {
+            if (!validTagList.contains(seenTag)) {
+                throw new SyntaxException("Unexpected tag " + seenTag);
+            }
+        }
+    }
+
+    private List<String> getListFromStringArray(String[] validTags) {
+        List<String> validTagList = new ArrayList<String>();
+        for(String validTag : validTags) {
+            validTagList.add(validTag);
+        }
+        return validTagList;
+    }
+
+    private Argument retrieveArgumentIfExists(String tag, String exceptionMessage) throws SyntaxException {
+        Argument argument = tagsWithValues.get(tag);
+        if (argument == null) {
+            if (singleTags.contains(tag)) {
+                throw new SyntaxException(exceptionMessage);
+            } else {
+                return null;
+            }
+        }
+        return argument;
+    }
+
+    private List<String> retrieveStringValues(Argument argument, String exceptionMessage) throws SyntaxException {
+        if (! (argument instanceof StringListArgument)) {
+            throw new SyntaxException(exceptionMessage);
+        }
+        StringListArgument stringListArgument = (StringListArgument) argument;
+        return stringListArgument.getList();
+    }
+
+    private String retrieveSingleStringValue(Argument argument, String exceptionMessage) throws SyntaxException {
+        List<String> stringsValue = retrieveStringValues(argument, exceptionMessage);
+        if (stringsValue.size() != 1) {
+            throw new SyntaxException(exceptionMessage);
+        }
+        return stringsValue.get(0);
+    }
+
+
+
+    private Integer retrieveNumericValue(Argument argument, String exceptionMessage) throws SyntaxException {
+        if (! (argument instanceof NumberArgument)) {
+            throw new SyntaxException(exceptionMessage);
+        }
+        NumberArgument numberArgument = (NumberArgument) argument;
+        return numberArgument.getInteger();
+    }
+
+}

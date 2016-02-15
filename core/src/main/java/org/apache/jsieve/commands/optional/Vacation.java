@@ -19,21 +19,15 @@
 
 package org.apache.jsieve.commands.optional;
 
-import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
-import org.apache.jsieve.NumberArgument;
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.StringListArgument;
-import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.commands.AbstractActionCommand;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.optional.ActionVacation;
-
-import java.util.Iterator;
+import org.apache.jsieve.utils.ArgumentParser;
 
 /**
  * See https://tools.ietf.org/html/rfc5230
@@ -84,88 +78,24 @@ public class Vacation extends AbstractActionCommand {
     }
 
     private ActionVacation retrieveAction(Arguments arguments) throws SieveException {
-        Iterator<Argument> argumentIterator = arguments.getArgumentList().iterator();
+        ArgumentParser argumentParser = new ArgumentParser(arguments.getArgumentList());
         ActionVacation.ActionVacationBuilder actionVacationBuilder = ActionVacation.builder();
 
-        while (argumentIterator.hasNext()) {
-            parseNextArguments(argumentIterator, actionVacationBuilder);
-        }
+        argumentParser.validateSingleTags();
+        argumentParser.validateTagsWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
+
+        System.out.println(argumentParser);
+        System.out.println(actionVacationBuilder);
+
+        actionVacationBuilder.addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE));
+        actionVacationBuilder.duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE));
+        actionVacationBuilder.handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE));
+        actionVacationBuilder.mime(argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE));
+        actionVacationBuilder.subject(argumentParser.getStringValueForTag(SUBJECT, SUBJECT_EXCEPTION_MESSAGE));
+        actionVacationBuilder.from(argumentParser.getStringValueForTag(FROM, FROM_EXCEPTION_MESSAGE));
+        actionVacationBuilder.reason(argumentParser.getRemainingStringValue("Expecting a single String value as a reason"));
 
         return actionVacationBuilder.build();
     }
 
-    private void parseNextArguments(Iterator<Argument> argumentIterator, ActionVacation.ActionVacationBuilder actionVacationBuilder) throws SieveException {
-        Argument argument = argumentIterator.next();
-        if (!(argument instanceof TagArgument) && !(argument instanceof StringListArgument)) {
-            throw new SyntaxException("Expecting one of these tags : :days :subject :from :mime :handle or the reason string");
-        }
-        if (argument instanceof StringListArgument) {
-            handleReasonString(actionVacationBuilder, (StringListArgument) argument);
-        }
-        if (argument instanceof TagArgument) {
-            handleTagArgument(argumentIterator, actionVacationBuilder, (TagArgument) argument);
-        }
-    }
-
-    private void handleReasonString(ActionVacation.ActionVacationBuilder actionVacationBuilder, StringListArgument argument) throws SieveException {
-        if (argument.getList().size() != 1) {
-            throw new SyntaxException("Expecting only one reason for the vacation extension");
-        }
-        actionVacationBuilder.reason(argument.getList().get(0));
-    }
-
-    private void handleTagArgument(Iterator<Argument> argumentIterator, ActionVacation.ActionVacationBuilder actionVacationBuilder, TagArgument tagArgument) throws SieveException {
-        if (tagArgument.is(DAYS)) {
-            ensureHasTagParameter(argumentIterator, DAYS_EXCEPTION_MESSAGE);
-            actionVacationBuilder.duration(retrieveNumberArgument(argumentIterator, DAYS_EXCEPTION_MESSAGE).getInteger());
-        } else if (tagArgument.is(SUBJECT)) {
-            ensureHasTagParameter(argumentIterator, SUBJECT_EXCEPTION_MESSAGE);
-            String exceptionMessage = SUBJECT_EXCEPTION_MESSAGE;
-            actionVacationBuilder.subject(retrieveStringArgument(argumentIterator, exceptionMessage));
-        } else if (tagArgument.is(FROM)) {
-            ensureHasTagParameter(argumentIterator, FROM_EXCEPTION_MESSAGE);
-            actionVacationBuilder.from(retrieveStringArgument(argumentIterator, FROM_EXCEPTION_MESSAGE));
-        } else if (tagArgument.is(ADDRESSES)) {
-            ensureHasTagParameter(argumentIterator, ADDRESSES_EXCEPTION_MESSAGE);
-            actionVacationBuilder.addresses(retrievingStringListArgument(argumentIterator, ADDRESSES_EXCEPTION_MESSAGE).getList());
-        } else if (tagArgument.is(MIME)) {
-            ensureHasTagParameter(argumentIterator, MIME_EXCEPTION_MESSAGE);
-            actionVacationBuilder.mime(retrieveStringArgument(argumentIterator, MIME_EXCEPTION_MESSAGE));
-        } else if (tagArgument.is(HANDLE)) {
-            ensureHasTagParameter(argumentIterator, HANDLE_EXCEPTION_MESSAGE);
-            actionVacationBuilder.handle(retrieveStringArgument(argumentIterator, HANDLE_EXCEPTION_MESSAGE));
-        } else {
-            throw new SyntaxException("Unextected tag " + tagArgument.getTag());
-        }
-    }
-
-    private String retrieveStringArgument(Iterator<Argument> argumentIterator, String exceptionMessage) throws SieveException {
-        StringListArgument stringListArgument = retrievingStringListArgument(argumentIterator, exceptionMessage);
-        if (stringListArgument.getList().size() != 1) {
-            throw new SyntaxException(exceptionMessage);
-        }
-        return stringListArgument.getList().get(0);
-    }
-
-    private StringListArgument retrievingStringListArgument(Iterator<Argument> argumentIterator, String exceptionMessage) throws SieveException {
-        Argument subjectArgument = argumentIterator.next();
-        if (!(subjectArgument instanceof StringListArgument)) {
-            throw new SyntaxException(exceptionMessage);
-        }
-        return (StringListArgument) subjectArgument;
-    }
-
-    private NumberArgument retrieveNumberArgument(Iterator<Argument> argumentIterator, String exceptionMessage) throws SieveException {
-        Argument daysArgument = argumentIterator.next();
-        if (!(daysArgument instanceof NumberArgument)) {
-            throw new SyntaxException(exceptionMessage);
-        }
-        return (NumberArgument) daysArgument;
-    }
-
-    private void ensureHasTagParameter(Iterator<Argument> argumentIterator, String message) throws SieveException {
-        if (!argumentIterator.hasNext()) {
-            throw new SyntaxException(message);
-        }
-    }
 }

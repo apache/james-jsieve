@@ -20,6 +20,7 @@
 package org.apache.jsieve.mail.optional;
 
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.Action;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ActionVacation implements Action {
         private String handle;
         private String reason;
         private String mime;
-        private int duration;
+        private Integer duration;
 
         public ActionVacationBuilder() {
             duration = SITE_DEFINED_DEFAULT_VACATION_DURATION;
@@ -59,7 +60,9 @@ public class ActionVacation implements Action {
         }
 
         public ActionVacationBuilder addresses(List<String> addresses) {
-            this.addresses = addresses;
+            if (addresses != null) {
+                this.addresses = addresses;
+            }
             return this;
         }
 
@@ -78,19 +81,22 @@ public class ActionVacation implements Action {
             return this;
         }
 
-        public ActionVacationBuilder duration(int duration) {
+        public ActionVacationBuilder duration(Integer duration) {
             this.duration = duration;
             return this;
         }
 
-        public ActionVacation build() throws SieveException {
+        public ActionVacation build() throws SyntaxException {
             if (!hasOnlyOneReasonOrMime()) {
-                throw new SieveException("vacation need you to set you either the reason string or a MIME message after tag :mime");
+                throw new SyntaxException("vacation need you to set you either the reason string or a MIME message after tag :mime");
             }
             return new ActionVacation(subject, from, addresses, reason, computeDuration(duration), handle, mime);
         }
 
-        private int computeDuration(int duration) {
+        private int computeDuration(Integer duration) {
+            if (duration == null) {
+                return SITE_DEFINED_DEFAULT_VACATION_DURATION;
+            }
             if (duration < MINIMUM_VACATION_DURATION) {
                 return MINIMUM_VACATION_DURATION;
             } else {

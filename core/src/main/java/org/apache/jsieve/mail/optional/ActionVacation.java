@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.mail.optional;
 
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ import java.util.List;
 public class ActionVacation implements Action {
 
     public static class ActionVacationBuilder {
+
+        private static final int SITE_DEFINED_DEFAULT_VACATION_DURATION = 7;
+        private static final int MINIMUM_VACATION_DURATION = 1;
+
         private String subject;
         private String from;
         private List<String> addresses = new ArrayList<String>();
@@ -74,21 +79,29 @@ public class ActionVacation implements Action {
         }
 
         public ActionVacationBuilder duration(int duration) {
-            if (duration < INTMINIMUM_VACATION_DURATION) {
-                this.duration = INTMINIMUM_VACATION_DURATION;
-            } else {
-                this.duration = duration;
-            }
+            this.duration = duration;
             return this;
         }
 
-        public ActionVacation build() {
-            return new ActionVacation(subject, from, addresses, reason, duration, handle, mime);
+        public ActionVacation build() throws SieveException {
+            if (!hasOnlyOneReasonOrMime()) {
+                throw new SieveException("vacation need you to set you either the reason string or a MIME message after tag :mime");
+            }
+            return new ActionVacation(subject, from, addresses, reason, computeDuration(duration), handle, mime);
+        }
+
+        private int computeDuration(int duration) {
+            if (duration < MINIMUM_VACATION_DURATION) {
+                return MINIMUM_VACATION_DURATION;
+            } else {
+                return duration;
+            }
+        }
+
+        private boolean hasOnlyOneReasonOrMime() {
+            return (reason == null) != (mime == null);
         }
     }
-
-    private static final int SITE_DEFINED_DEFAULT_VACATION_DURATION = 7;
-    private static final int INTMINIMUM_VACATION_DURATION = 1;
 
     public static ActionVacationBuilder builder() {
         return new ActionVacationBuilder();

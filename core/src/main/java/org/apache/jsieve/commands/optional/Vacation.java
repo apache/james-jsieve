@@ -91,15 +91,7 @@ public class Vacation extends AbstractActionCommand {
             parseNextArguments(argumentIterator, actionVacationBuilder);
         }
 
-        return getActionVacation(actionVacationBuilder);
-    }
-
-    private ActionVacation getActionVacation(ActionVacation.ActionVacationBuilder actionVacationBuilder) throws SieveException {
-        ActionVacation actionVacation = actionVacationBuilder.build();
-        if ((actionVacation.getReason() == null) == (actionVacation.getMime() == null)) {
-            throw new SyntaxException("vacation need you to set you either the reason string or a MIME message after tag :mime");
-        }
-        return actionVacation;
+        return actionVacationBuilder.build();
     }
 
     private void parseNextArguments(Iterator<Argument> argumentIterator, ActionVacation.ActionVacationBuilder actionVacationBuilder) throws SieveException {

@@ -40,6 +40,7 @@ import org.apache.jsieve.mail.optional.EnvelopeAccessors;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
+import org.joda.time.DateTime;
 
 import javax.mail.Header;
 import javax.mail.MessagingException;
@@ -82,8 +83,8 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
     private final ActionDispatcher dispatcher;
     
     private final Poster poster;
-    private final Date scriptStorageDate;
-    private final Date scriptInterpretationDate;
+    private final DateTime scriptStorageDate;
+    private final DateTime scriptInterpretationDate;
     private final MailAddress recipient;
 
     /**
@@ -93,7 +94,7 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
      * @param aMailetContext
      */
     public SieveMailAdapter(final Mail aMail, final MailetContext aMailetContext, final ActionDispatcher dispatcher, final Poster poster,
-                            Date scriptStorageDate, Date scriptInterpretationDate, MailAddress recipient)
+                            DateTime scriptStorageDate, DateTime scriptInterpretationDate, MailAddress recipient)
     {
         this.poster = poster;
         this.dispatcher = dispatcher;
@@ -104,11 +105,11 @@ public class SieveMailAdapter implements MailAdapter, EnvelopeAccessors, ActionC
         setMailetContext(aMailetContext);
     }
 
-    public Date getScriptStorageDate() {
+    public DateTime getScriptStorageDate() {
         return scriptStorageDate;
     }
 
-    public Date getScriptInterpretationDate() {
+    public DateTime getScriptInterpretationDate() {
         return scriptInterpretationDate;
     }
 

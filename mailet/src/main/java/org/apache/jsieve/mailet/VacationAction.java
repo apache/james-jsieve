@@ -27,6 +27,7 @@ import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.optional.ActionVacation;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
+import org.joda.time.Days;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -40,7 +41,7 @@ public class VacationAction implements MailAction {
     @Override
     public void execute(Action action, Mail mail, ActionContext context) throws MessagingException {
         ActionVacation actionVacation = (ActionVacation) action;
-        long dayDifference = getDayDifference(context.getScriptInterpretationDate(), context.getScriptStorageDate());
+        long dayDifference = Days.daysBetween(context.getScriptStorageDate(), context.getScriptInterpretationDate()).getDays();
         if (isStillInVacation(actionVacation, dayDifference)) {
             if (isValidForReply(mail, actionVacation, context)) {
                 if (!isMailingList(mail)) {
@@ -51,12 +52,12 @@ public class VacationAction implements MailAction {
     }
 
     private void sendVacationNotification(Mail mail, ActionVacation actionVacation, ActionContext context) throws MessagingException {
-            new VacationReplyBuilder(mail, context)
-                .from(actionVacation.getFrom())
-                .mime(actionVacation.getMime())
-                .reason(actionVacation.getReason())
-                .subject(actionVacation.getSubject())
-                .build();
+        new VacationReplyBuilder(mail, context)
+            .from(actionVacation.getFrom())
+            .mime(actionVacation.getMime())
+            .reason(actionVacation.getReason())
+            .subject(actionVacation.getSubject())
+            .build();
     }
 
     private boolean isStillInVacation(ActionVacation actionVacation, long dayDifference) {

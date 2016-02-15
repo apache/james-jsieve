@@ -26,6 +26,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.mailet.MailAddress;
+import org.joda.time.DateTime;
 
 /**
  * Provides context for action execution.
@@ -35,12 +36,12 @@ public interface ActionContext {
     /**
      * @return Date the script was first stored
      */
-    Date getScriptStorageDate();
+    DateTime getScriptStorageDate();
 
     /**
      * @return Date the script is currently interpreted
      */
-    Date getScriptInterpretationDate();
+    DateTime getScriptInterpretationDate();
 
     /**
      * @return Recipient receiving the given eMail

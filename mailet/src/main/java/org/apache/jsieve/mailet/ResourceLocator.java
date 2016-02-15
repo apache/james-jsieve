@@ -18,6 +18,8 @@
  ****************************************************************/
 package org.apache.jsieve.mailet;
 
+import org.joda.time.DateTime;
+
 import java.io.InputStream;
 import java.util.Date;
 
@@ -57,21 +59,21 @@ import java.util.Date;
 public interface ResourceLocator {
 
     class UserSieveInformation {
-        private Date scriptCreationDate;
-        private Date scriptInterpretationDate;
+        private DateTime scriptCreationDate;
+        private DateTime scriptInterpretationDate;
         private InputStream scriptContent;
 
-        public UserSieveInformation(Date scriptCreationDate, Date scriptInterpretationDate, InputStream scriptContent) {
+        public UserSieveInformation(DateTime scriptCreationDate, DateTime scriptInterpretationDate, InputStream scriptContent) {
             this.scriptCreationDate = scriptCreationDate;
             this.scriptInterpretationDate = scriptInterpretationDate;
             this.scriptContent = scriptContent;
         }
 
-        public Date getScriptCreationDate() {
+        public DateTime getScriptCreationDate() {
             return scriptCreationDate;
         }
 
-        public Date getScriptInterpretationDate() {
+        public DateTime getScriptInterpretationDate() {
             return scriptInterpretationDate;
         }
 

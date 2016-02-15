@@ -27,8 +27,6 @@ import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

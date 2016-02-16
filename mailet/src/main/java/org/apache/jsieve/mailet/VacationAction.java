@@ -52,12 +52,13 @@ public class VacationAction implements MailAction {
     }
 
     private void sendVacationNotification(Mail mail, ActionVacation actionVacation, ActionContext context) throws MessagingException {
-        new VacationReplyBuilder(mail, context)
+        VacationReply vacationReply = VacationReply.builder(mail, context)
             .from(actionVacation.getFrom())
             .mime(actionVacation.getMime())
             .reason(actionVacation.getReason())
             .subject(actionVacation.getSubject())
             .build();
+        context.post(vacationReply.getSender(), vacationReply.getRecipients(), vacationReply.getMimeMessage());
     }
 
     private boolean isStillInVacation(ActionVacation actionVacation, long dayDifference) {

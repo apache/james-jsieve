@@ -19,7 +19,6 @@
 
 package org.apache.jsieve.mail.optional;
 
-import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.Action;
 
@@ -87,7 +86,7 @@ public class ActionVacation implements Action {
         }
 
         public ActionVacation build() throws SyntaxException {
-            if (!hasOnlyOneReasonOrMime()) {
+            if (!eitherReasonOrMime()) {
                 throw new SyntaxException("vacation need you to set you either the reason string or a MIME message after tag :mime");
             }
             return new ActionVacation(subject, from, addresses, reason, computeDuration(duration), handle, mime);
@@ -104,8 +103,8 @@ public class ActionVacation implements Action {
             }
         }
 
-        private boolean hasOnlyOneReasonOrMime() {
-            return (reason == null) != (mime == null);
+        private boolean eitherReasonOrMime() {
+            return (reason == null) ^ (mime == null);
         }
     }
 

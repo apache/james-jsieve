@@ -41,7 +41,7 @@ public class VacationAction implements MailAction {
     @Override
     public void execute(Action action, Mail mail, ActionContext context) throws MessagingException {
         ActionVacation actionVacation = (ActionVacation) action;
-        long dayDifference = Days.daysBetween(context.getScriptActivationDate(), context.getScriptInterpretationDate()).getDays();
+        int dayDifference = Days.daysBetween(context.getScriptActivationDate(), context.getScriptInterpretationDate()).getDays();
         if (isStillInVacation(actionVacation, dayDifference)) {
             if (isValidForReply(mail, actionVacation, context)) {
                 if (!isMailingList(mail)) {
@@ -61,7 +61,7 @@ public class VacationAction implements MailAction {
         context.post(vacationReply.getSender(), vacationReply.getRecipients(), vacationReply.getMimeMessage());
     }
 
-    private boolean isStillInVacation(ActionVacation actionVacation, long dayDifference) {
+    private boolean isStillInVacation(ActionVacation actionVacation, int dayDifference) {
         return dayDifference >= 0 && dayDifference <= actionVacation.getDuration();
     }
 

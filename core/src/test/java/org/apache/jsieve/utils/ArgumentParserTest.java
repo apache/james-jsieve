@@ -239,4 +239,10 @@ public class ArgumentParserTest {
         assertThat(argumentParser.getRemainingStringValue(EXCEPTION_MESSAGE)).isEqualTo(STRING_VALUE);
     }
 
+    @Test
+    public void argumentParserShouldHandleMultipleSingleTagArguments() throws Exception {
+        ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(ANY_TAG_ARGUMENT, OTHER_TAG_ARGUMENT));
+        assertThat(argumentParser.getSingleTags()).containsExactly(ANY_TAG, OTHER_TAG);
+    }
+
 }

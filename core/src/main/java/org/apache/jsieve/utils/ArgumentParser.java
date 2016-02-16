@@ -26,7 +26,6 @@ import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.exception.SyntaxException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,12 +35,12 @@ import java.util.Set;
 public class ArgumentParser {
 
     private List<Argument> remainingArguments;
-    private List<String> singleTags;
+    private Set<String> singleTags;
     private Map<String, Argument> tagsWithValues;
 
     public ArgumentParser(List<Argument> arguments) {
         this.remainingArguments = new ArrayList<Argument>();
-        this.singleTags = new ArrayList<String>();
+        this.singleTags = new HashSet<String>();
         this.tagsWithValues = new HashMap<String, Argument>();
         initialize(arguments);
     }
@@ -50,19 +49,12 @@ public class ArgumentParser {
         TagArgument lastSeenTagArgument = null;
         for (Argument argument : arguments) {
             if (argument instanceof TagArgument) {
-                if (lastSeenTagArgument == null) {
-                    lastSeenTagArgument = (TagArgument) argument;
-                } else {
-                    singleTags.add(lastSeenTagArgument.getTag());
-                    lastSeenTagArgument = null;
-                }
+                TagArgument tagArgument = (TagArgument) argument;
+                handleLastTagArgument(lastSeenTagArgument);
+                lastSeenTagArgument = tagArgument;
             } else {
-                if (lastSeenTagArgument == null) {
-                    remainingArguments.add(argument);
-                } else {
-                    tagsWithValues.put(lastSeenTagArgument.getTag(), argument);
-                    lastSeenTagArgument = null;
-                }
+                handleOtherArguments(lastSeenTagArgument, argument);
+                lastSeenTagArgument = null;
             }
         }
         if (lastSeenTagArgument != null) {
@@ -70,22 +62,46 @@ public class ArgumentParser {
         }
     }
 
+    private void handleLastTagArgument(TagArgument lastSeenTagArgument) {
+        if (lastSeenTagArgument != null) {
+            singleTags.add(lastSeenTagArgument.getTag());
+        }
+    }
+
+    private void handleOtherArguments(TagArgument lastSeenTagArgument, Argument argument) {
+        if (lastSeenTagArgument == null) {
+            remainingArguments.add(argument);
+        } else {
+            tagsWithValues.put(lastSeenTagArgument.getTag(), argument);
+        }
+    }
+
     public String getStringValueForTag(String tag, String exceptionMessage) throws SyntaxException {
         Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
-        if (argument == null) return null;
+        if (argument == null) {
+            return null;
+        }
         return retrieveSingleStringValue(argument, exceptionMessage);
     }
 
     public Integer getNumericValueForTag(String tag, String exceptionMessage) throws SyntaxException {
         Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
-        if (argument == null) return null;
+        if (argument == null) {
+            return null;
+        }
         return retrieveNumericValue(argument, exceptionMessage);
     }
 
     public List<String> getStringListForTag(String tag, String exceptionMessage) throws SyntaxException {
         Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
-        if (argument == null) return null;
+        if (argument == null) {
+            return null;
+        }
         return retrieveStringValues(argument, exceptionMessage);
+    }
+
+    public Set<String> getSingleTags() {
+        return new HashSet<String>(singleTags);
     }
 
     public String getRemainingStringValue(String exceptionMessage) throws SyntaxException {
@@ -99,28 +115,43 @@ public class ArgumentParser {
     }
 
     public void validateSingleTags(String... validTags) throws SyntaxException {
-        validateTagCollectionWithExpactations(singleTags, validTags);
+        validateTagCollectionWithExpectations(singleTags, validTags);
     }
 
     public void validateTagsWithValue(String... validTags) throws SyntaxException {
-        validateTagCollectionWithExpactations(tagsWithValues.keySet(), validTags);
+        validateTagCollectionWithExpectations(tagsWithValues.keySet(), validTags);
     }
 
-    private void validateTagCollectionWithExpactations(Collection<String> seenTags, String[] expectations) throws SyntaxException {
-        List<String> validTagList = getListFromStringArray(expectations);
-        for (String seenTag : seenTags) {
-            if (!validTagList.contains(seenTag)) {
-                throw new SyntaxException("Unexpected tag " + seenTag);
-            }
+    private void validateTagCollectionWithExpectations(Set<String> seenTags, String[] expectations) throws SyntaxException {
+        Set<String> validTagList = getSetFromStringArray(expectations);
+        if (!validTagList.containsAll(seenTags)) {
+            throw new SyntaxException(buildUnwantedTagsErrorMessage(retrieveUnwatedTags(seenTags, validTagList)));
         }
     }
 
-    private List<String> getListFromStringArray(String[] validTags) {
-        List<String> validTagList = new ArrayList<String>();
+    private Set<String> getSetFromStringArray(String[] validTags) {
+        Set<String> validTagList = new HashSet<String>();
         for(String validTag : validTags) {
             validTagList.add(validTag);
         }
         return validTagList;
+    }
+
+    private Set<String> retrieveUnwatedTags(Set<String> seenTags, Set<String> validTagList) {
+        Set<String> unwantedTags = new HashSet<String>(seenTags);
+        unwantedTags.removeAll(validTagList);
+        return unwantedTags;
+    }
+
+    private String buildUnwantedTagsErrorMessage(Set<String> unwantedTags) {
+        String errorMessage;
+        StringBuilder errorMessageBuilder = new StringBuilder().append("Unexpected tags : [");
+        for (String unwantedTag : unwantedTags) {
+            errorMessageBuilder.append("\"").append(unwantedTag).append("\"");
+        }
+        errorMessageBuilder.append("]");
+        errorMessage = errorMessageBuilder.toString();
+        return errorMessage;
     }
 
     private Argument retrieveArgumentIfExists(String tag, String exceptionMessage) throws SyntaxException {
@@ -150,8 +181,6 @@ public class ArgumentParser {
         }
         return stringsValue.get(0);
     }
-
-
 
     private Integer retrieveNumericValue(Argument argument, String exceptionMessage) throws SyntaxException {
         if (! (argument instanceof NumberArgument)) {

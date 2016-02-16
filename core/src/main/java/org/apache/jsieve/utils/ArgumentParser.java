@@ -46,25 +46,25 @@ public class ArgumentParser {
     }
 
     public void initialize(List<Argument> arguments) {
-        TagArgument lastSeenTagArgument = null;
+        TagArgument previousSeenTagArgument = null;
         for (Argument argument : arguments) {
             if (argument instanceof TagArgument) {
                 TagArgument tagArgument = (TagArgument) argument;
-                handleLastTagArgument(lastSeenTagArgument);
-                lastSeenTagArgument = tagArgument;
+                handlePreviousTagArgument(previousSeenTagArgument);
+                previousSeenTagArgument = tagArgument;
             } else {
-                handleOtherArguments(lastSeenTagArgument, argument);
-                lastSeenTagArgument = null;
+                handleOtherArguments(previousSeenTagArgument, argument);
+                previousSeenTagArgument = null;
             }
         }
-        if (lastSeenTagArgument != null) {
-            singleTags.add(lastSeenTagArgument.getTag());
+        if (previousSeenTagArgument != null) {
+            singleTags.add(previousSeenTagArgument.getTag());
         }
     }
 
-    private void handleLastTagArgument(TagArgument lastSeenTagArgument) {
-        if (lastSeenTagArgument != null) {
-            singleTags.add(lastSeenTagArgument.getTag());
+    private void handlePreviousTagArgument(TagArgument previousSeenTagArgument) {
+        if (previousSeenTagArgument != null) {
+            singleTags.add(previousSeenTagArgument.getTag());
         }
     }
 
@@ -125,7 +125,7 @@ public class ArgumentParser {
     private void validateTagCollectionWithExpectations(Set<String> seenTags, String[] expectations) throws SyntaxException {
         Set<String> validTagList = getSetFromStringArray(expectations);
         if (!validTagList.containsAll(seenTags)) {
-            throw new SyntaxException(buildUnwantedTagsErrorMessage(retrieveUnwatedTags(seenTags, validTagList)));
+            throw new SyntaxException(buildUnwantedTagsErrorMessage(retrieveUnwantedTags(seenTags, validTagList)));
         }
     }
 
@@ -137,7 +137,7 @@ public class ArgumentParser {
         return validTagList;
     }
 
-    private Set<String> retrieveUnwatedTags(Set<String> seenTags, Set<String> validTagList) {
+    private Set<String> retrieveUnwantedTags(Set<String> seenTags, Set<String> validTagList) {
         Set<String> unwantedTags = new HashSet<String>(seenTags);
         unwantedTags.removeAll(validTagList);
         return unwantedTags;

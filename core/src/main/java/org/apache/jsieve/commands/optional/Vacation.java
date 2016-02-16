@@ -84,9 +84,6 @@ public class Vacation extends AbstractActionCommand {
         argumentParser.validateSingleTags();
         argumentParser.validateTagsWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
 
-        System.out.println(argumentParser);
-        System.out.println(actionVacationBuilder);
-
         actionVacationBuilder.addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE));
         actionVacationBuilder.duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE));
         actionVacationBuilder.handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE));

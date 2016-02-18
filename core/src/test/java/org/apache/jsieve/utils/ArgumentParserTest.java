@@ -57,9 +57,9 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void getStringListForTagShouldReturnNullByDefault() throws Exception {
+    public void getStringListForTagShouldReturnEmptyByDefault() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList());
-        assertThat(argumentParser.getStringListForTag(ANY_TAG, EXCEPTION_MESSAGE)).isNull();
+        assertThat(argumentParser.getStringListForTag(ANY_TAG, EXCEPTION_MESSAGE)).isEmpty();
     }
 
 
@@ -72,61 +72,61 @@ public class ArgumentParserTest {
     @Test
     public void validateSingleTagsShouldNotThrowByDefault() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList());
-        argumentParser.validateSingleTags();
+        argumentParser.throwOnUnvalidSeenSingleTag();
     }
 
     @Test
     public void validateTagsWithValueShouldNotThrowByDefault() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList());
-        argumentParser.validateTagsWithValue();
+        argumentParser.throwOnUnvalidSeenTagWithValue();
     }
 
     @Test
     public void validateSingleTagsShouldNotThrowWhenAllowedValuesAreNotPresent() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList());
-        argumentParser.validateSingleTags(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenSingleTag(ANY_TAG);
     }
 
     @Test
     public void validateTagsWithValueShouldNotThrowWhenAllowedValuesAreNotPresent() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList());
-        argumentParser.validateTagsWithValue(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenTagWithValue(ANY_TAG);
     }
 
     @Test(expected = SyntaxException.class)
     public void validateSingleTagsShouldThrowOnUnexpectedSingleTag() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(ANY_TAG_ARGUMENT));
-        argumentParser.validateSingleTags();
+        argumentParser.throwOnUnvalidSeenSingleTag();
     }
 
     @Test
     public void validateTagsWithValueShouldNotThrowOnSingleTag() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(ANY_TAG_ARGUMENT));
-        argumentParser.validateTagsWithValue();
+        argumentParser.throwOnUnvalidSeenTagWithValue();
     }
 
     @Test
     public void validateSingleTagsShouldNotThrowOnExpectedSingleTag() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(ANY_TAG_ARGUMENT));
-        argumentParser.validateSingleTags(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenSingleTag(ANY_TAG);
     }
 
     @Test
     public void validateSingleTagsShouldNotThrowOnTagWithValue() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.newArrayList(OTHER_TAG_ARGUMENT, NUMBER_ARGUMENT));
-        argumentParser.validateSingleTags(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenSingleTag(ANY_TAG);
     }
 
     @Test(expected = SyntaxException.class)
     public void validateTagsWithValueShouldThrowOnUnexpectedTagWithValue() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.newArrayList(OTHER_TAG_ARGUMENT, NUMBER_ARGUMENT));
-        argumentParser.validateTagsWithValue(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenTagWithValue(ANY_TAG);
     }
 
     @Test(expected = SyntaxException.class)
     public void validateSingleTagsShouldThrowOnUnexpectedValue() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(OTHER_TAG_ARGUMENT));
-        argumentParser.validateSingleTags(ANY_TAG);
+        argumentParser.throwOnUnvalidSeenSingleTag(ANY_TAG);
     }
 
     @Test(expected = SyntaxException.class)
@@ -216,7 +216,7 @@ public class ArgumentParserTest {
     @Test
     public void getStringListForTagShouldReturnNullWhenUsedOnAnOtherTag() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.newArrayList(OTHER_TAG_ARGUMENT, STRING_LIST_ARGUMENT));
-        assertThat(argumentParser.getStringListForTag(ANY_TAG, EXCEPTION_MESSAGE)).isNull();
+        assertThat(argumentParser.getStringListForTag(ANY_TAG, EXCEPTION_MESSAGE)).isEmpty();
     }
 
     @Test

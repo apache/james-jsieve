@@ -95,7 +95,7 @@ public class ArgumentParser {
     public List<String> getStringListForTag(String tag, String exceptionMessage) throws SyntaxException {
         Argument argument = retrieveArgumentIfExists(tag, exceptionMessage);
         if (argument == null) {
-            return null;
+            return new ArrayList<String>();
         }
         return retrieveStringValues(argument, exceptionMessage);
     }
@@ -114,11 +114,11 @@ public class ArgumentParser {
         return retrieveSingleStringValue(remainingArguments.get(0), exceptionMessage);
     }
 
-    public void validateSingleTags(String... validTags) throws SyntaxException {
+    public void throwOnUnvalidSeenSingleTag(String... validTags) throws SyntaxException {
         validateTagCollectionWithExpectations(singleTags, validTags);
     }
 
-    public void validateTagsWithValue(String... validTags) throws SyntaxException {
+    public void throwOnUnvalidSeenTagWithValue(String... validTags) throws SyntaxException {
         validateTagCollectionWithExpectations(tagsWithValues.keySet(), validTags);
     }
 

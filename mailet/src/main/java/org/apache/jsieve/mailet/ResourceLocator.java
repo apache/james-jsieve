@@ -18,6 +18,8 @@
  ****************************************************************/
 package org.apache.jsieve.mailet;
 
+import org.joda.time.DateTime;
+
 import java.io.InputStream;
 
 /**
@@ -54,12 +56,37 @@ import java.io.InputStream;
  * </p>
  */
 public interface ResourceLocator {
-    
+
+    class UserSieveInformation {
+        private DateTime scriptActivationDate;
+        private DateTime scriptInterpretationDate;
+        private InputStream scriptContent;
+
+        public UserSieveInformation(DateTime scriptActivationDate, DateTime scriptInterpretationDate, InputStream scriptContent) {
+            this.scriptActivationDate = scriptActivationDate;
+            this.scriptInterpretationDate = scriptInterpretationDate;
+            this.scriptContent = scriptContent;
+        }
+
+        public DateTime getScriptActivationDate() {
+            return scriptActivationDate;
+        }
+
+        public DateTime getScriptInterpretationDate() {
+            return scriptInterpretationDate;
+        }
+
+        public InputStream getScriptContent() {
+            return scriptContent;
+        }
+    }
+
     /**
      * GET verb locates and loads a resource. 
      * @param uri identifies the Sieve script 
      * @return not null
      * @throws Exception when the resource cannot be located
      */
-    InputStream get(String uri) throws Exception;
+    UserSieveInformation get(String uri) throws Exception;
+
 }

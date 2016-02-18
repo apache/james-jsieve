@@ -97,9 +97,4 @@ public class VacationAction implements MailAction {
         }
         return false;
     }
-
-    public long getDayDifference(Date date1, Date date2) {
-        long msDifference = date1.getTime() - date2.getTime();
-        return TimeUnit.DAYS.convert(msDifference, TimeUnit.MILLISECONDS);
-    }
 }

@@ -23,6 +23,7 @@ import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.Action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,9 +60,7 @@ public class ActionVacation implements Action {
         }
 
         public ActionVacationBuilder addresses(List<String> addresses) {
-            if (addresses != null) {
-                this.addresses = addresses;
-            }
+            this.addresses = addresses;
             return this;
         }
 
@@ -123,7 +122,7 @@ public class ActionVacation implements Action {
     private ActionVacation(String subject, String from, List<String> addresses, String reason, int duration, String handle, String mime) {
         this.subject = subject;
         this.from = from;
-        this.addresses = addresses;
+        this.addresses = Collections.unmodifiableList(addresses);
         this.reason = reason;
         this.duration = duration;
         this.handle = handle;

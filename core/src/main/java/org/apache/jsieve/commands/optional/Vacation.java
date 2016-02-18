@@ -79,20 +79,18 @@ public class Vacation extends AbstractActionCommand {
 
     private ActionVacation retrieveAction(Arguments arguments) throws SieveException {
         ArgumentParser argumentParser = new ArgumentParser(arguments.getArgumentList());
-        ActionVacation.ActionVacationBuilder actionVacationBuilder = ActionVacation.builder();
+        argumentParser.throwOnUnvalidSeenSingleTag();
+        argumentParser.throwOnUnvalidSeenTagWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
 
-        argumentParser.validateSingleTags();
-        argumentParser.validateTagsWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
-
-        actionVacationBuilder.addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE));
-        actionVacationBuilder.duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE));
-        actionVacationBuilder.handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE));
-        actionVacationBuilder.mime(argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE));
-        actionVacationBuilder.subject(argumentParser.getStringValueForTag(SUBJECT, SUBJECT_EXCEPTION_MESSAGE));
-        actionVacationBuilder.from(argumentParser.getStringValueForTag(FROM, FROM_EXCEPTION_MESSAGE));
-        actionVacationBuilder.reason(argumentParser.getRemainingStringValue("Expecting a single String value as a reason"));
-
-        return actionVacationBuilder.build();
+        return ActionVacation.builder()
+            .addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE))
+            .duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE))
+            .handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE))
+            .mime(argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE))
+            .subject(argumentParser.getStringValueForTag(SUBJECT, SUBJECT_EXCEPTION_MESSAGE))
+            .from(argumentParser.getStringValueForTag(FROM, FROM_EXCEPTION_MESSAGE))
+            .reason(argumentParser.getRemainingStringValue("Expecting a single String value as a reason"))
+            .build();
     }
 
 }

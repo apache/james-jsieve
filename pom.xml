@@ -89,7 +89,7 @@
         <commons-io.version>2.1</commons-io.version>
         <mockito-core.version>1.9.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
-        <guava.version>16.0</guava.version>
+        <guava.version>18.0</guava.version>
     </properties>
 
     <dependencyManagement>

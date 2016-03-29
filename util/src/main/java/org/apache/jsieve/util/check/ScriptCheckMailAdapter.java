@@ -33,6 +33,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
+import javax.mail.internet.MimeUtility;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called
@@ -137,7 +138,10 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             try {
                 String[] values = mail.getHeader(name);
                 if (values != null) {
-                    result = Arrays.asList(values);
+                    //We need to do unfold headers here
+                    result = new LinkedList<String>();
+                    for (String value: values)
+                        result.add(MimeUtility.unfold(value));
                 }
             } catch (MessagingException e) {
                 throw new SieveMailException(e);

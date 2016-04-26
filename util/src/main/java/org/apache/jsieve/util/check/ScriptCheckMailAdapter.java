@@ -265,7 +265,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(header.getValue());
+                    builder.addAddresses(MimeUtility.unfold(header.getValue()));
                 }
             }
 

@@ -34,6 +34,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
 import javax.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called
@@ -141,9 +142,11 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                     //We need to do unfold headers here
                     result = new LinkedList<String>();
                     for (String value: values)
-                        result.add(MimeUtility.unfold(value));
+                        result.add(MimeUtility.decodeText(MimeUtility.unfold(value)));
                 }
             } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            } catch (UnsupportedEncodingException e) {
                 throw new SieveMailException(e);
             }
         }
@@ -265,7 +268,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(MimeUtility.unfold(header.getValue()));
+                    builder.addAddresses(MimeUtility.decodeText(MimeUtility.unfold(header.getValue())));
                 }
             }
 
@@ -273,6 +276,8 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             return results;
 
         } catch (MessagingException ex) {
+            throw new SieveMailException(ex);
+        } catch (UnsupportedEncodingException ex) {
             throw new SieveMailException(ex);
         } catch (ParseException ex) {
             throw new SieveMailException(ex);

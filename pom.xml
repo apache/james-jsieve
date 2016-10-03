@@ -78,8 +78,8 @@
         <target.jdk>1.6</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <mime4j.version>0.8.0-SNAPSHOT</mime4j.version>
-        <apache-mailet.version>2.5.1-SNAPSHOT</apache-mailet.version>
+        <mime4j.version>0.8.0</mime4j.version>
+        <apache-mailet.version>2.5.2</apache-mailet.version>
         <junit.version>4.10</junit.version>
         <jmock.version>1.2.0</jmock.version>
         <log4j.version>1.2.14</log4j.version>

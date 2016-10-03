@@ -41,18 +41,11 @@
         <a href='mail-lists.html'>mailing lists</a>
         .
       </p>
-      <p>jSieve consists of three products:</p>
+      <p>jSieve consists of two products:</p>
       <ol>
         <li>
           <a href='core/index.html'>Apache JSieve</a>
           is a Sieve library coded in Java.
-        </li>
-        <li>
-          <a href='mailet/index.html'>Apache JSieve Mailet</a>
-          is a
-          <a href='http://james.apache.org/mailet'>Mailet</a>
-          which builds on the JSieve library to create a comprehensive
-          server side Sieve filtering system.
         </li>
         <li>
           <a href='util/index.html'>Apache JSieve Utilities</a>

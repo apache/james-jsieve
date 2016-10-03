@@ -40,7 +40,6 @@
     <modules>
         <module>all</module>
         <module>core</module>
-        <module>mailet</module>
         <module>util</module>
     </modules>
 
@@ -79,7 +78,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <mime4j.version>0.8.0</mime4j.version>
-        <apache-mailet.version>2.5.2</apache-mailet.version>
         <junit.version>4.10</junit.version>
         <jmock.version>1.2.0</jmock.version>
         <log4j.version>1.2.14</log4j.version>
@@ -114,32 +112,6 @@
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve-util</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.james</groupId>
-                <artifactId>apache-mailet-api</artifactId>
-                <version>${apache-mailet.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.mail</groupId>
-                        <artifactId>mail</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.james</groupId>
-                <artifactId>apache-mailet-base</artifactId>
-                <version>${apache-mailet.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.mail</groupId>
-                        <artifactId>mail</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.activation</groupId>
-                        <artifactId>activation</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.james</groupId>
@@ -245,15 +217,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.james</groupId>
-                    <artifactId>maven-mailetdocs-plugin</artifactId>
-                    <version>0.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>

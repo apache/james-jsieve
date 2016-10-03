@@ -29,7 +29,6 @@
   <body>
     <menu name="jSieve">
       <item name="Core" href="http://james.apache.org/jsieve/core/index.html" />
-      <item name="Mailet" href="http://james.apache.org/jsieve/mailet/index.html" />
       <item name="Util" href="http://james.apache.org/jsieve/util/index.html" />
       <item name="Changes" href="http://james.apache.org/jsieve/jira-report.html" />
       <item name="Release Notes" href="http://james.apache.org/jsieve/release-notes.html" />

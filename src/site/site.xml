@@ -19,6 +19,12 @@
 -->
 <project name="jSieve">
 
+    <skin>
+        <groupId>org.apache.james</groupId>
+        <artifactId>james-skin</artifactId>
+        <version>${james-skin.version}</version>
+    </skin>
+
   <bannerLeft>
     <name>JAMES jSieve</name>
     <src>images/james-logo.png</src>

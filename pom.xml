@@ -62,6 +62,8 @@
     </distributionManagement>
 
     <properties>
+        <james-skin.version>1.8</james-skin.version>
+
         <sourceReleaseAssemblyDescriptor>project</sourceReleaseAssemblyDescriptor>
         <!-- General location for site stage -->
         <james.www>scpexe://people.apache.org/www/james.apache.org/</james.www>

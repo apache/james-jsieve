@@ -21,9 +21,9 @@
 
     <bannerLeft>
       <name>JAMES jSieve</name>
-      <src>images/james-jsieve-logo.gif</src>
+      <src>images/james-logo.png</src>
       <href>http://james.apache.org/</href>
-      <alt>james-jsieve-logo.gif</alt>
+      <alt>james-logo.png</alt>
     </bannerLeft>
 
     <body>

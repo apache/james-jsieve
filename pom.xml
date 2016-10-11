@@ -78,7 +78,6 @@
         <target.jdk>1.6</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <mime4j.version>0.8.0</mime4j.version>
         <junit.version>4.10</junit.version>
         <jmock.version>1.2.0</jmock.version>
         <log4j.version>1.2.14</log4j.version>
@@ -113,21 +112,6 @@
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve-util</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.james</groupId>
-                <artifactId>apache-mime4j-core</artifactId>
-                <version>${mime4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.james</groupId>
-                <artifactId>apache-mime4j-dom</artifactId>
-                <version>${mime4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.james</groupId>
-                <artifactId>apache-mime4j-james-utils</artifactId>
-                <version>${mime4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

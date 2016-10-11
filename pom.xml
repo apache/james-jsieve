@@ -45,9 +45,9 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/james/jsieve/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/james/jsieve/trunk</developerConnection>
-        <url>http://svn.apache.org/viewcvs.cgi/james/jsieve/trunk/?root=Apache-SVN</url>
+        <connection>scm:git:http://git-wip-us.apache.org/repos/asf/james-jsieve.git</connection>
+        <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/james-jsieve.git</developerConnection>
+        <url>https://git-wip-us.apache.org/repos/asf/james-jsieve.git</url>
     </scm>
     <issueManagement>
         <system>JIRA</system>

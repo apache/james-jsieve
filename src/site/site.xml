@@ -64,46 +64,22 @@
                 href="http://james.apache.org/hupa/index.html" />
         </links>
     <menu name="jSieve">
-      <item name="Core" href="http://james.apache.org/jsieve/core/index.html" />
-      <item name="Util" href="http://james.apache.org/jsieve/util/index.html" />
-      <item name="Changes" href="http://james.apache.org/jsieve/jira-report.html" />
-      <item name="Release Notes" href="http://james.apache.org/jsieve/release-notes.html" />
-      <item name="JavaDocs" href="http://james.apache.org/jsieve/apidocs/index.html" />
-      <item
-        name="Technical Reports"
-        href="https://builds.apache.org/hudson/view/G-L/view/James/job/jsieve-trunk/site/index.html" />
-    </menu>
-
-    <menu name='Specifications' inherit='bottom'>
-      <item name="RFC 2234 ABNF"
-        href="http://www.ietf.org/rfc/rfc2234.txt" />
-      <item name="RFC 2244 ACAP"
-        href="http://www.ietf.org/rfc/rfc2244.txt" />
-      <item name="RFC 2298 MDN"
-        href="http://www.ietf.org/rfc/rfc2298.txt" />
-      <item name="RFC 5228 Sieve"
-        href="http://tools.ietf.org/html/rfc5228" />
-      <item name='RFC 4790 IAPCR'
-        href='http://tools.ietf.org/html/rfc4790'/>
-      <item name='RFC 5173 Body Extension'
-        href='http://tools.ietf.org/html/rfc5173'/>
-    </menu>
-
-    <menu name="About James" inherit="bottom">
       <item name="Overview" href="/index.html" />
-      <item name="News" href="/newsarchive.html" />
-      <item name="Mailing Lists" href="/mail.html" />
-      <item name="Contributing" href="/contribute.html" />
-      <item name="Guidelines" href="/guidelines.html" />
-      <item name="Wiki" href="http://wiki.apache.org/james" />
-      <item name="Who We Are" href="/team-list.html" />
-      <item name="License" href="/license.html" />
-      <item name="Thanks" href="/thanks.html" />
-      <item name="Professional support" href="/support.html" />
-    </menu>
-
-    <menu name="Download" inherit="bottom">
-      <item name="Releases" href="http://james.apache.org/download.cgi" />
+      <item name="Core" href="/core/index.html" />
+      <item name="Util" href="/util/index.html" />
+      <item name="Changes" href="/jira-report.html" />
+      <item name="Release Notes" href="/release-notes.html" />
+      <item name="JavaDocs" href="/apidocs/index.html" />
+      <item name="Issue Tracker" href="https://issues.apache.org/jira/browse/JSIEVE" />
+      <item name="Specification" collapse="false">
+        <item name="RFC 2234 ABNF" href="http://www.ietf.org/rfc/rfc2234.txt" />
+        <item name="RFC 2244 ACAP" href="http://www.ietf.org/rfc/rfc2244.txt" />
+        <item name="RFC 2298 MDN" href="http://www.ietf.org/rfc/rfc2298.txt" />
+        <item name="RFC 5228 Sieve" href="http://tools.ietf.org/html/rfc5228" />
+        <item name='RFC 4790 IAPCR' href='http://tools.ietf.org/html/rfc4790'/>
+        <item name='RFC 5173 Body Extension' href='http://tools.ietf.org/html/rfc5173'/>
+      </item>
+      <item name="Download Releases" href="http://james.apache.org/download.cgi#Apache_JSieve" />
     </menu>
   </body>
 </project>

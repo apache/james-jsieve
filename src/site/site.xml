@@ -65,7 +65,6 @@
         </links>
     <menu name="jSieve">
       <item name="Overview" href="/index.html" />
-      <item name="Core" href="/core/index.html" />
       <item name="Util" href="/util/index.html" />
       <item name="Changes" href="/jira-report.html" />
       <item name="Release Notes" href="/release-notes.html" />

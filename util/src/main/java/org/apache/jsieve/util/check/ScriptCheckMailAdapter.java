@@ -28,12 +28,12 @@ import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
 import org.apache.jsieve.parser.generated.address.ParseException;
 
+import javax.mail.internet.MimeUtility;
 import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
-import javax.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -139,10 +139,11 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             try {
                 String[] values = mail.getHeader(name);
                 if (values != null) {
-                    //We need to do unfold headers here
+                    // We need to do unfold headers + decoding here
                     result = new LinkedList<String>();
-                    for (String value: values)
+                    for (String value: values) {
                         result.add(MimeUtility.decodeText(MimeUtility.unfold(value)));
+                    }
                 }
             } catch (MessagingException e) {
                 throw new SieveMailException(e);

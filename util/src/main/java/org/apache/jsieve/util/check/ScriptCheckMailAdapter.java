@@ -19,6 +19,18 @@
 
 package org.apache.jsieve.util.check;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.mail.Header;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeUtility;
+
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
@@ -27,14 +39,6 @@ import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
 import org.apache.jsieve.parser.generated.address.ParseException;
-
-import javax.mail.internet.MimeUtility;
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import java.io.IOException;
-import java.util.*;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called
@@ -168,7 +172,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         if (mail != null) {
             try {
                 results = new ArrayList<String>();
-                for (final Enumeration en = mail.getAllHeaders(); en
+                for (final Enumeration<?> en = mail.getAllHeaders(); en
                         .hasMoreElements(); ) {
                     final Header header = (Header) en.nextElement();
                     final String name = header.getName();
@@ -265,7 +269,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         try {
             final SieveAddressBuilder builder = new SieveAddressBuilder();
 
-            for (Enumeration en = message.getAllHeaders(); en.hasMoreElements(); ) {
+            for (Enumeration<?> en = message.getAllHeaders(); en.hasMoreElements(); ) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {

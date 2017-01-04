@@ -1,0 +1,35 @@
+Return-Path: <depetrini@libero.it>
+Received: from libero.it (10.248.25.145) by cpms5.iol.local (8.6.145)
+        id 573CB16204A5554D for depetrini@libero.it; Wed, 4 Jan 2017 17:17:38 +0100
+Received: from [10.0.2.15] ([2.233.76.134])
+	by smtp-17.iol.local with SMTP
+	id OoFucrRAR4PYNOoFucLlcR; Wed, 04 Jan 2017 17:17:38 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2014;
+	t=1483546658; bh=3i4UmafHd35a6hS/1SXIZlapveu4D3wW6pVwIcNbhC4=;
+	h=To:From:Subject:Date;
+	b=DKEtlURZR5P0VW1Cw39Gxn38ID67WAmp7U6HJvpPwoDSHZP8uRex/r+vHF+Lt0HIH
+	 jKAmrbc3P2KQWchdFliFWy3+zTcXgbiznD6EHGLcOLDhckjf8ndCR8VRJuyCSYv0LR
+	 uu1ocMlNKs/HZfmCAfDO/Q+e4hQOw9MKdNBtE9cv5a6dmRnkYaAq/c1wp8p5/l3eXp
+	 ZWIQTptRt8PGzeLiURQKyKSYA6rU8Tkc3k/wBupPChZ3CDB5Lk3LfVFXVHmAqO3xB1
+	 kQ1znbMhzqyr6jQUM+VAsjUIEQtgA3HKt3LGI//sjLFjUx5PFh9w8qq+xhSPiCI0j5
+	 Loppx+rqjqyIg==
+X-CNFS-Analysis: v=2.2 cv=T7n8d7CQ c=1 sm=1 tr=0
+ a=G9QXGcRg7K4cpRF729+Nrw==:117 a=G9QXGcRg7K4cpRF729+Nrw==:17
+ a=Q9fys5e9bTEA:10 a=ib5foG0-psVtnUUdY2IA:9 a=PUjeQqilurYA:10
+To: Daniele Depetrini <depetrini@libero.it>
+From: Daniele Depetrini <depetrini@libero.it>
+Subject: Test with long long long long long long long long long long long long
+ long long long long long long long long very very long folded subject email
+Message-ID: <4cb56dec-b7a4-8476-0327-6a1b52963414@libero.it>
+Date: Wed, 4 Jan 2017 17:17:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.5.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfB4u3A7IiWTsTzhiabOaYYCLyYIzI3nH7FIzGINMBCkWn6tKtl17w9idyqbRrL2uU+XegioppOyxJFqa/qJq0VardrD5AiOO3s80f1oIc5FEoUksHmBc
+ D4lXmVUmRN8PafAWARdYg1W9+6m/kQDMCIQGb9hauyYJSf6SXah7sCMM
+
+asdfasdfa
+

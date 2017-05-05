@@ -37,7 +37,7 @@ public class HeaderTest {
     /**
      * Test for Test 'header'
      */
-    @org.junit.Test
+    @Test
     public void testHeaderIsTrue() {
         boolean isTestPassed = false;
         String script = "if header :is \"X-Caffeine\" \"C8H10N4O2\" {throwTestException;}";
@@ -52,6 +52,21 @@ public class HeaderTest {
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
+    }
+
+    /**
+     * Test for Test 'header'
+     */
+    @Test(expected = ThrowTestException.TestException.class)
+    public void testFoldedEncodedHeader() throws Exception {
+        String script = "if header :is \"To\" \"Benoît TELLIER <tellier@linagora.com>\" {throwTestException;}";
+
+
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("To", "=?UTF-8?Q?Beno=c3=aet_TELLIER?=\r\n" +
+            " <tellier@linagora.com>");
+
+        JUnitUtils.interpret(mail, script);
     }
 
     /**

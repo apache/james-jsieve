@@ -30,6 +30,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.james.mime4j.codec.DecodeMonitor;
+import org.apache.james.mime4j.codec.DecoderUtil;
+import org.apache.james.mime4j.util.MimeUtil;
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
@@ -199,10 +202,10 @@ public class Header extends AbstractTest {
             }
         // Iterate over the header values looking for a match
         boolean isMatched = false;
-        Iterator headerValuesIter = headerValues.iterator();
+        Iterator<String> headerValuesIter = headerValues.iterator();
         while (!isMatched && headerValuesIter.hasNext()) {
-            isMatched = match(comparator, matchType, (String) headerValuesIter
-                    .next(), keys, context);
+            String headerValue = MimeUtil.unscrambleHeaderValue(headerValuesIter.next());
+            isMatched = match(comparator, matchType, headerValue, keys, context);
         }
         return isMatched;
     }

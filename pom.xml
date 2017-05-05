@@ -91,10 +91,16 @@
         <mockito-core.version>1.9.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
         <guava.version>18.0</guava.version>
+        <mime4j.version>0.8.1-SNAPSHOT</mime4j.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.james</groupId>
+                <artifactId>apache-mime4j-core</artifactId>
+                <version>${mime4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.james</groupId>
                 <artifactId>apache-jsieve</artifactId>

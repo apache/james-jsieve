@@ -46,6 +46,11 @@
     </distributionManagement>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-mime4j-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>

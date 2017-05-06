@@ -19,72 +19,49 @@
 
 package org.apache.jsieve;
 
-import org.apache.jsieve.exception.SieveException;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.apache.jsieve.exception.SyntaxException;
+import org.apache.jsieve.mail.Action;
+import org.apache.jsieve.mail.ActionDiscard;
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
-import org.junit.Assert;
+import org.assertj.core.api.Condition;
 import org.junit.Test;
 
-/**
- * Class DiscardTest
- */
 public class DiscardTest {
 
-    /**
-     * Test for Command 'discard' with invalid arguments
-     */
-    @org.junit.Test
-    public void testInvalidArguments() {
-        boolean isTestPassed = false;
+    private static final Condition<Action> INSTANCE_OF_ACTION_DISCARDED = new Condition<Action>() {
+        @Override
+        public boolean matches(Action action) {
+            return action instanceof ActionDiscard;
+        }
+    };
+
+    @Test(expected = SyntaxException.class)
+    public void discardShouldThrowOnInvalidArguments() throws Exception {
         String script = "discard 1 ;";
 
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    /**
-     * Test for Command 'discard' with an invalid block
-     */
-    @Test
-    public void testInvalidBlock() {
-        boolean isTestPassed = false;
-        String script = "discard 1 {throwTestException;}";
+    @Test(expected = SyntaxException.class)
+    public void discardShouldThrowOnInvalidFollowingBlock() throws Exception {
+        String script = "discard {throwTestException;}";
 
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    /*
-     * Test for Command 'discard'
-     */
     @Test
-    public void testDiscard() {
-        boolean isTestPassed = false;
+    public void discardShouldAddOnlyActionDiscard() throws Exception {
         String script = "discard;";
 
-        try {
-            MailAdapter mail = JUnitUtils.createMail();
-            JUnitUtils.interpret(mail, script);
-            Assert.assertTrue(mail.getActions().isEmpty());
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
+        MailAdapter mail = JUnitUtils.createMail();
+        JUnitUtils.interpret(mail, script);
+
+        assertThat(mail.getActions())
+            .hasSize(1)
+            .are(INSTANCE_OF_ACTION_DISCARDED);
     }
 
 }

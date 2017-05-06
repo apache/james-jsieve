@@ -23,6 +23,7 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.mail.ActionDiscard;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -54,6 +55,9 @@ public class Discard extends AbstractActionCommand {
         // Just cancels the implicit keep
         // See http://tools.ietf.org/html/rfc5228#section-4.4
         context.getCommandStateManager().setImplicitKeep(false);
+
+        mail.addAction(new ActionDiscard());
+
         return null;
     }
 

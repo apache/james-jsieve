@@ -28,11 +28,13 @@ import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
 import org.apache.jsieve.parser.generated.address.ParseException;
 
+import javax.mail.internet.MimeUtility;
 import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Checks script execution for an email. The wrapped email is set by called
@@ -137,9 +139,15 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             try {
                 String[] values = mail.getHeader(name);
                 if (values != null) {
-                    result = Arrays.asList(values);
+                    // We need to do unfold headers + decoding here
+                    result = new LinkedList<String>();
+                    for (String value: values) {
+                        result.add(MimeUtility.decodeText(MimeUtility.unfold(value)));
+                    }
                 }
             } catch (MessagingException e) {
+                throw new SieveMailException(e);
+            } catch (UnsupportedEncodingException e) {
                 throw new SieveMailException(e);
             }
         }
@@ -261,7 +269,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(header.getValue());
+                    builder.addAddresses(MimeUtility.decodeText(MimeUtility.unfold(header.getValue())));
                 }
             }
 
@@ -269,6 +277,8 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             return results;
 
         } catch (MessagingException ex) {
+            throw new SieveMailException(ex);
+        } catch (UnsupportedEncodingException ex) {
             throw new SieveMailException(ex);
         } catch (ParseException ex) {
             throw new SieveMailException(ex);

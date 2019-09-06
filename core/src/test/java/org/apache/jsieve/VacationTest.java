@@ -19,6 +19,12 @@
 
 package org.apache.jsieve;
 
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.optional.ActionVacation;
@@ -26,12 +32,6 @@ import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class VacationTest {
 
@@ -111,9 +111,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -124,9 +125,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").duration(3).build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -137,9 +139,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").subject("any").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -150,9 +153,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").from("benwa@apache.org").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -164,9 +168,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -177,9 +182,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().mime("reason").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -190,9 +196,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").handle("plop").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }
@@ -225,9 +232,10 @@ public class VacationTest {
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
-        verify(sieveMailAdapter, times(2)).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(any(SieveContext.class));
+        verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
         verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").build());
-        verify(sieveMailAdapter, times(2)).addAction(any(ActionKeep.class));
+        verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);
     }

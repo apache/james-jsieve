@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
-        <version>18</version>
+        <version>21</version>
         <relativePath />
     </parent>
 
@@ -73,26 +73,19 @@
         <!-- Overridding this value allows single set of loopback settings to be maintained -->
         <james.www.id>jsieve-website</james.www.id>
 
-        <javax.mail.groupId>org.apache.geronimo.javamail</javax.mail.groupId>
-        <javax.mail.artifactId>geronimo-javamail_1.4_mail</javax.mail.artifactId>
-        <javax.activation.groupId>org.apache.geronimo.specs</javax.activation.groupId>
-        <javax.activation.artifactId>geronimo-activation_1.1_spec</javax.activation.artifactId>
-
         <target.jdk>1.6</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <junit.version>4.10</junit.version>
+        <junit.version>4.12</junit.version>
         <jmock.version>1.2.0</jmock.version>
-        <log4j.version>1.2.14</log4j.version>
-        <mail.version>1.4.4</mail.version>
+        <log4j.version>2.12.1</log4j.version>
+        <mail.version>1.4.7</mail.version>
         <activation.version>1.1.1</activation.version>
-        <geronimo-activation.version>1.1</geronimo-activation.version>
-        <geronimo-javamail.version>1.8.3</geronimo-javamail.version>
         <commons-io.version>2.1</commons-io.version>
-        <mockito-core.version>1.9.0</mockito-core.version>
+        <mockito-core.version>3.0.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
-        <guava.version>18.0</guava.version>
-        <mime4j.version>0.8.1</mime4j.version>
+        <guava.version>25.1-jre</guava.version>
+        <mime4j.version>0.8.3</mime4j.version>
     </properties>
 
     <dependencyManagement>
@@ -130,7 +123,7 @@
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>1.1.1</version>
+                <version>1.2</version>
                 <exclusions>
                     <exclusion>
                         <groupId>avalon-framework</groupId>
@@ -141,8 +134,8 @@
                         <artifactId>logkit</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-core</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>javax.servlet</groupId>
@@ -163,8 +156,8 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -182,16 +175,6 @@
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-activation_1.1_spec</artifactId>
-                <version>${geronimo-activation.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.javamail</groupId>
-                <artifactId>geronimo-javamail_1.4_mail</artifactId>
-                <version>${geronimo-javamail.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -215,12 +198,13 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
+                <version>4.2.1</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
+                <version>0.13</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*help.txt</exclude>
@@ -230,7 +214,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <optimize>true</optimize>
                     <source>${target.jdk}</source>

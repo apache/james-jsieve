@@ -83,7 +83,7 @@
 
         <junit.version>4.12</junit.version>
         <jmock.version>1.2.0</jmock.version>
-        <log4j.version>1.2.14</log4j.version>
+        <log4j.version>2.12.1</log4j.version>
         <mail.version>1.4.4</mail.version>
         <activation.version>1.1.1</activation.version>
         <geronimo-activation.version>1.1</geronimo-activation.version>
@@ -141,8 +141,8 @@
                         <artifactId>logkit</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-core</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>javax.servlet</groupId>
@@ -163,8 +163,8 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
                 <scope>test</scope>
             </dependency>

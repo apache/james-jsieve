@@ -73,11 +73,6 @@
         <!-- Overridding this value allows single set of loopback settings to be maintained -->
         <james.www.id>jsieve-website</james.www.id>
 
-        <javax.mail.groupId>org.apache.geronimo.javamail</javax.mail.groupId>
-        <javax.mail.artifactId>geronimo-javamail_1.4_mail</javax.mail.artifactId>
-        <javax.activation.groupId>org.apache.geronimo.specs</javax.activation.groupId>
-        <javax.activation.artifactId>geronimo-activation_1.1_spec</javax.activation.artifactId>
-
         <target.jdk>1.6</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -86,8 +81,6 @@
         <log4j.version>2.12.1</log4j.version>
         <mail.version>1.4.4</mail.version>
         <activation.version>1.1.1</activation.version>
-        <geronimo-activation.version>1.1</geronimo-activation.version>
-        <geronimo-javamail.version>1.8.3</geronimo-javamail.version>
         <commons-io.version>2.1</commons-io.version>
         <mockito-core.version>1.9.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
@@ -182,16 +175,6 @@
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-activation_1.1_spec</artifactId>
-                <version>${geronimo-activation.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.javamail</groupId>
-                <artifactId>geronimo-javamail_1.4_mail</artifactId>
-                <version>${geronimo-javamail.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>

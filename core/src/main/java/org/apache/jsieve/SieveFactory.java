@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.StopException;
 import org.apache.jsieve.mail.ActionKeep;
@@ -33,6 +32,7 @@ import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.parser.generated.SieveParser;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
 import org.apache.jsieve.parser.generated.SimpleNode;
+import org.slf4j.Logger;
 
 /**
  * <p>
@@ -72,14 +72,14 @@ public class SieveFactory {
 
     private final TestManager testManager;
 
-    private final Log log;
+    private final Logger log;
 
     /**
      * Constructor for SieveFactory.
      */
     public SieveFactory(final CommandManager commandManager,
             final ComparatorManager comparatorManager,
-            final TestManager testManager, final Log log) {
+            final TestManager testManager, final Logger log) {
         super();
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;

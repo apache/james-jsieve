@@ -19,13 +19,14 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.jsieve.utils.JUnitUtils;
-import org.apache.jsieve.utils.SieveMailAdapter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.apache.jsieve.utils.JUnitUtils;
+import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 public class AddressParseTest {
 
@@ -43,10 +44,10 @@ public class AddressParseTest {
     public void setUp() throws Exception {
         ConfigurationManager configurationManager = new ConfigurationManager();
         context = new BaseSieveContext(
-                configurationManager.getCommandManager(), configurationManager
-                .getComparatorManager(), configurationManager
-                .getTestManager(), LogFactory
-                .getLog(AddressParseTest.class));
+            configurationManager.getCommandManager(),
+            configurationManager.getComparatorManager(),
+            configurationManager.getTestManager(),
+            LoggerFactory.getLogger(AddressParseTest.class));
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }

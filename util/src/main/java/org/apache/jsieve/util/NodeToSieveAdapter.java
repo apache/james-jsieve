@@ -18,8 +18,6 @@
  ****************************************************************/
 package org.apache.jsieve.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.NumberArgument;
 import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.parser.generated.ASTargument;
@@ -33,6 +31,8 @@ import org.apache.jsieve.parser.generated.ASTstring_list;
 import org.apache.jsieve.parser.generated.ASTtest;
 import org.apache.jsieve.parser.generated.ASTtest_list;
 import org.apache.jsieve.parser.generated.SimpleNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Adapters low level {@link NodeHandler} output into a
@@ -40,7 +40,7 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  */
 public class NodeToSieveAdapter implements NodeHandler {
 
-    private static final Log LOG = LogFactory.getLog(NodeToSieveAdapter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NodeToSieveAdapter.class);
     
     private final SieveHandler handler;
     

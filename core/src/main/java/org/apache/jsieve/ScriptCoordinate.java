@@ -19,9 +19,9 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SyntaxException;
+import org.slf4j.Logger;
 
 /**
  * Specifies the positional extent of an element within the script being
@@ -38,7 +38,7 @@ public final class ScriptCoordinate {
 
     private final int endColumnNumber;
 
-    private Log log;
+    private Logger log;
 
     public ScriptCoordinate(final int startLineNumber,
             final int startColumnNumber, final int endLineNumber,
@@ -50,11 +50,11 @@ public final class ScriptCoordinate {
         this.endColumnNumber = endColumnNumber;
     }
 
-    public Log getLog() {
+    public Logger getLog() {
         return log;
     }
 
-    public void setLog(Log logger) {
+    public void setLog(Logger logger) {
         this.log = logger;
     }
 
@@ -99,12 +99,12 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *            <code>CharSequence</code> containing the base message, not
+     *            <code>String</code> containing the base message, not
      *            null
      * @return <code>SyntaxException</code> with details of the script
      *         position appended to the message, not null
      */
-    public SyntaxException syntaxException(CharSequence message) {
+    public SyntaxException syntaxException(String message) {
         if (log != null) {
             if (log.isWarnEnabled()) {
                 log.warn(message);
@@ -120,12 +120,12 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *            <code>CharSequence</code> containing the base message, not
+     *            <code>String</code> containing the base message, not
      *            null
      * @return <code>CommandException</code> with details of the script
      *         position appended to the message, not null
      */
-    public CommandException commandException(CharSequence message) {
+    public CommandException commandException(String message) {
         if (log != null) {
             if (log.isWarnEnabled()) {
                 log.warn(message);
@@ -166,7 +166,7 @@ public final class ScriptCoordinate {
      * @param logger
      *            <code>Log</code>, not null
      */
-    public void logDiagnosticsInfo(Log logger) {
+    public void logDiagnosticsInfo(Logger logger) {
         if (logger.isInfoEnabled()) {
             logger.info("Expression starts line " + startLineNumber
                     + " column " + startColumnNumber);
@@ -181,7 +181,7 @@ public final class ScriptCoordinate {
      * @param logger
      *            <code>Log</code>, not null
      */
-    public void debugDiagnostics(Log logger) {
+    public void debugDiagnostics(Logger logger) {
         if (logger.isDebugEnabled()) {
             logger.debug("Expression starts line " + startLineNumber
                     + " column " + startColumnNumber);

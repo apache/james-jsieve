@@ -19,7 +19,7 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 
 /**
  * Bean based implementation of context.
@@ -38,11 +38,11 @@ public class BaseSieveContext extends SieveContext {
 
     private final TestManager testManager;
 
-    private final Log log;
+    private final Logger log;
 
     public BaseSieveContext(final CommandManager commandManager,
                             final ComparatorManager comparatorManager,
-                            final TestManager testManager, final Log log) {
+                            final TestManager testManager, final Logger log) {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
@@ -102,7 +102,7 @@ public class BaseSieveContext extends SieveContext {
      * @see SieveContext#getLog()
      */
     @Override
-    public Log getLog() {
+    public Logger getLog() {
         return log;
     }
 

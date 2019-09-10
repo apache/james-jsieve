@@ -19,9 +19,9 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
+import org.slf4j.Logger;
 
 /**
  * <p>
@@ -145,7 +145,7 @@ public class Command implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        Log log = context.getLog();
+        Logger log = context.getLog();
         if (log.isDebugEnabled()) {
             log.debug(toString());
             coordinate.debugDiagnostics(log);

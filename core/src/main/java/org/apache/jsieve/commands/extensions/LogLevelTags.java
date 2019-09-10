@@ -28,8 +28,6 @@ public interface LogLevelTags {
 
     public static final String ERROR_TAG = ":error";
 
-    public static final String FATAL_TAG = ":fatal";
-
     public static final String INFO_TAG = ":info";
 
     public static final String TRACE_TAG = ":trace";

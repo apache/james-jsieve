@@ -32,8 +32,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
@@ -41,6 +39,8 @@ import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.MailUtils;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.address.SieveAddressBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -54,7 +54,7 @@ import org.apache.jsieve.parser.address.SieveAddressBuilder;
  * to create an implementation of a MailAdapter.
  */
 public class SieveMailAdapter implements MailAdapter {
-    private Log log = LogFactory.getLog(SieveMailAdapter.class);
+    private Logger log = LoggerFactory.getLogger(SieveMailAdapter.class);
 
     /**
      * The message being adapted.

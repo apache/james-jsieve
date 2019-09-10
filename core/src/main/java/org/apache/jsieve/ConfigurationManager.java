@@ -19,16 +19,16 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 /**
  * <p>
@@ -97,9 +97,9 @@ public class ConfigurationManager {
      */
     private int initialConcurrencyLevel = DEFAULT_INITIAL_CONCURRENCY_LEVEL;
 
-    private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
+    private static final Logger LOGGER = LoggerFactory.getLogger("org.apache.jsieve");
 
-    private Log log = LOG;
+    private Logger log = LOGGER;
 
     /**
      * Constructor for ConfigurationManager.
@@ -284,11 +284,11 @@ public class ConfigurationManager {
         return new TestManagerImpl(fieldTestMap);
     }
 
-    public Log getLog() {
+    public Logger getLog() {
         return log;
     }
 
-    public void setLog(Log log) {
+    public void setLog(Logger log) {
         this.log = log;
     }
 

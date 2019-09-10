@@ -19,7 +19,7 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 
 /**
  * Context for sieve operations.
@@ -82,5 +82,5 @@ public abstract class SieveContext {
      * Gets the log.
      * @return log, not null
      */
-    public abstract Log getLog();
+    public abstract Logger getLog();
 }

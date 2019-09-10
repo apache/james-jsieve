@@ -19,16 +19,15 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.LogFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.jsieve.parser.generated.ASTstring;
 import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SieveParserVisitorImplQuoteTest {
 
@@ -42,11 +41,11 @@ public class SieveParserVisitorImplQuoteTest {
     @Before
     public void setUp() throws Exception {
         final ConfigurationManager configurationManager = new ConfigurationManager();
-        visitor = new SieveParserVisitorImpl(new BaseSieveContext(
-                configurationManager.getCommandManager(), configurationManager
-                .getComparatorManager(), configurationManager
-                .getTestManager(), LogFactory
-                .getLog(SieveParserVisitorImplQuoteTest.class)));
+        visitor = new SieveParserVisitorImpl(
+            new BaseSieveContext(
+                configurationManager.getCommandManager(),
+                configurationManager.getComparatorManager(),
+                configurationManager.getTestManager()));
         data = new ArrayList();
 
     }

@@ -68,23 +68,6 @@ public class LogTest {
      * Test for Command 'log'.
      */
     @Test
-    public void testLogFatal() {
-        boolean isTestPassed = false;
-        String script = "log :fatal \"Log a fatal message.\";";
-
-        try {
-            JUnitUtils.interpret(JUnitUtils.createMail(), script);
-            isTestPassed = true;
-        } catch (ParseException e) {
-        } catch (SieveException e) {
-        }
-        Assert.assertTrue(isTestPassed);
-    }
-
-    /**
-     * Test for Command 'log'.
-     */
-    @Test
     public void testLogInfo() {
         boolean isTestPassed = false;
         String script = "log :info \"Log an info message.\";";

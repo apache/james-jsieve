@@ -19,8 +19,6 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
-
 /**
  * Context for sieve operations.
  * 
@@ -77,10 +75,4 @@ public abstract class SieveContext {
      * @return test manager, not null
      */
     public abstract TestManager getTestManager();
-
-    /**
-     * Gets the log.
-     * @return log, not null
-     */
-    public abstract Log getLog();
 }

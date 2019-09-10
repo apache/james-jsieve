@@ -19,16 +19,16 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 /**
  * <p>
@@ -97,9 +97,7 @@ public class ConfigurationManager {
      */
     private int initialConcurrencyLevel = DEFAULT_INITIAL_CONCURRENCY_LEVEL;
 
-    private static final Log LOG = LogFactory.getLog("org.apache.jsieve");
-
-    private Log log = LOG;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationManager.class);
 
     /**
      * Constructor for ConfigurationManager.
@@ -111,12 +109,10 @@ public class ConfigurationManager {
         try {
             parse();
         } catch (SAXException e) {
-            if (log.isErrorEnabled())
-                log.error("Exception processing Configuration: ", e);
+            LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         } catch (IOException e) {
-            if (log.isErrorEnabled())
-                log.error("Exception processing Configuration: ", e);
+            LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         }
     }
@@ -284,16 +280,8 @@ public class ConfigurationManager {
         return new TestManagerImpl(fieldTestMap);
     }
 
-    public Log getLog() {
-        return log;
-    }
-
-    public void setLog(Log log) {
-        this.log = log;
-    }
-
     public SieveFactory build() {
         return new SieveFactory(getCommandManager(), getComparatorManager(),
-                getTestManager(), getLog());
+                getTestManager());
     }
 }

@@ -19,9 +19,10 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SyntaxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Specifies the positional extent of an element within the script being
@@ -29,6 +30,7 @@ import org.apache.jsieve.exception.SyntaxException;
  * starts and at which it ends.
  */
 public final class ScriptCoordinate {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptCoordinate.class);
 
     private final int startLineNumber;
 
@@ -38,8 +40,6 @@ public final class ScriptCoordinate {
 
     private final int endColumnNumber;
 
-    private Log log;
-
     public ScriptCoordinate(final int startLineNumber,
             final int startColumnNumber, final int endLineNumber,
             final int endColumnNumber) {
@@ -48,14 +48,6 @@ public final class ScriptCoordinate {
         this.startColumnNumber = startColumnNumber;
         this.endLineNumber = endLineNumber;
         this.endColumnNumber = endColumnNumber;
-    }
-
-    public Log getLog() {
-        return log;
-    }
-
-    public void setLog(Log logger) {
-        this.log = logger;
     }
 
     /**
@@ -99,18 +91,14 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *            <code>CharSequence</code> containing the base message, not
+     *            <code>String</code> containing the base message, not
      *            null
      * @return <code>SyntaxException</code> with details of the script
      *         position appended to the message, not null
      */
-    public SyntaxException syntaxException(CharSequence message) {
-        if (log != null) {
-            if (log.isWarnEnabled()) {
-                log.warn(message);
-            }
-            logDiagnosticsInfo(log);
-        }
+    public SyntaxException syntaxException(String message) {
+        LOGGER.warn(message);
+        logDiagnosticsInfo();
         final String fullMessage = addStartLineAndColumn(message);
         return new SyntaxException(fullMessage);
     }
@@ -120,18 +108,14 @@ public final class ScriptCoordinate {
      * of the script position. The message should end with a full stop.
      * 
      * @param message
-     *            <code>CharSequence</code> containing the base message, not
+     *            <code>String</code> containing the base message, not
      *            null
      * @return <code>CommandException</code> with details of the script
      *         position appended to the message, not null
      */
-    public CommandException commandException(CharSequence message) {
-        if (log != null) {
-            if (log.isWarnEnabled()) {
-                log.warn(message);
-            }
-            logDiagnosticsInfo(log);
-        }
+    public CommandException commandException(String message) {
+        LOGGER.warn(message);
+        logDiagnosticsInfo();
         final String fullMessage = addStartLineAndColumn(message);
         return new CommandException(fullMessage);
     }
@@ -162,31 +146,17 @@ public final class ScriptCoordinate {
 
     /**
      * Logs diagnotic information about the script coordinate.
-     * 
-     * @param logger
-     *            <code>Log</code>, not null
      */
-    public void logDiagnosticsInfo(Log logger) {
-        if (logger.isInfoEnabled()) {
-            logger.info("Expression starts line " + startLineNumber
-                    + " column " + startColumnNumber);
-            logger.info("Expression ends line " + endLineNumber + " column "
-                    + endColumnNumber);
-        }
+    public void logDiagnosticsInfo() {
+        LOGGER.info("Expression starts line {} column {}", startLineNumber, startColumnNumber);
+        LOGGER.info("Expression ends line {} column {}", endLineNumber, endColumnNumber);
     }
 
     /**
      * Logs diagnotic information about the script coordinate.
-     * 
-     * @param logger
-     *            <code>Log</code>, not null
      */
-    public void debugDiagnostics(Log logger) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Expression starts line " + startLineNumber
-                    + " column " + startColumnNumber);
-            logger.debug("Expression ends line " + endLineNumber + " column "
-                    + endColumnNumber);
-        }
+    public void debugDiagnostics() {
+        LOGGER.debug("Expression starts line {} column {}", startLineNumber, startColumnNumber);
+        LOGGER.debug("Expression ends line {} column {}", endLineNumber, endColumnNumber);
     }
 }

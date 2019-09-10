@@ -21,7 +21,6 @@ package org.apache.jsieve.commands.extensions;
 
 import static org.apache.jsieve.commands.extensions.LogLevelTags.DEBUG_TAG;
 import static org.apache.jsieve.commands.extensions.LogLevelTags.ERROR_TAG;
-import static org.apache.jsieve.commands.extensions.LogLevelTags.FATAL_TAG;
 import static org.apache.jsieve.commands.extensions.LogLevelTags.INFO_TAG;
 import static org.apache.jsieve.commands.extensions.LogLevelTags.TRACE_TAG;
 import static org.apache.jsieve.commands.extensions.LogLevelTags.WARN_TAG;
@@ -39,6 +38,8 @@ import org.apache.jsieve.commands.AbstractCommand;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -51,6 +52,8 @@ import org.apache.jsieve.mail.MailAdapter;
  * </p>
  */
 public class Log extends AbstractCommand {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
+
     /**
      * Constructor for Log.
      */
@@ -81,10 +84,9 @@ public class Log extends AbstractCommand {
 
                 // LogLevel?
                 if (null == logLevel
-                        && (tag.equals(FATAL_TAG) || tag.equals(ERROR_TAG)
-                                || tag.equals(WARN_TAG) || tag.equals(INFO_TAG)
-                                || tag.equals(DEBUG_TAG) || tag
-                                .equals(TRACE_TAG)))
+                        && (tag.equals(ERROR_TAG)
+                            || tag.equals(WARN_TAG) || tag.equals(INFO_TAG)
+                            || tag.equals(DEBUG_TAG) || tag.equals(TRACE_TAG)))
                     logLevel = tag;
                 else
                     throw context.getCoordinate().syntaxException(
@@ -128,92 +130,63 @@ public class Log extends AbstractCommand {
     protected void log(String logLevel, String message, SieveContext context)
             throws SyntaxException {
         if (logLevel.equals(INFO_TAG))
-            logInfo(message, context);
+            logInfo(message);
         else if (logLevel.equals(ERROR_TAG))
-            logError(message, context);
+            logError(message);
         else if (logLevel.equals(WARN_TAG))
-            logWarn(message, context);
+            logWarn(message);
         else if (logLevel.equals(DEBUG_TAG))
-            logDebug(message, context);
-        else if (logLevel.equals(FATAL_TAG))
-            logFatal(message, context);
+            logDebug(message);
         else if (logLevel.equals(TRACE_TAG))
-            logTrace(message, context);
+            logTrace(message);
         else
             throw context.getCoordinate().syntaxException(
-                    new StringBuilder("Unsupported logging level: ").append (logLevel));
-    }
-
-    /**
-     * Method logFatal.
-     * 
-     * @param message not null
-     * @param sieveContext not null
-     */
-    protected void logFatal(String message, SieveContext sieveContext) {
-        org.apache.commons.logging.Log log = sieveContext.getLog();
-        if (log.isFatalEnabled())
-            log.fatal(message);
+                    new StringBuilder("Unsupported logging level: ").append(logLevel).toString());
     }
 
     /**
      * Method logWarn.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logWarn(String message, SieveContext context) {
-        org.apache.commons.logging.Log log = context.getLog();
-        if (log.isWarnEnabled())
-            log.warn(message);
+    protected void logWarn(String message) {
+        LOGGER.warn(message);
     }
 
     /**
      * Method logInfo.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logInfo(String message, SieveContext context) {
-        org.apache.commons.logging.Log log = context.getLog();
-        if (log.isInfoEnabled())
-            log.info(message);
+    protected void logInfo(String message) {
+        LOGGER.info(message);
     }
 
     /**
      * Method logDebug.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logDebug(String message, SieveContext context) {
-        org.apache.commons.logging.Log log = context.getLog();
-        if (log.isDebugEnabled())
-            log.debug(message);
+    protected void logDebug(String message) {
+        LOGGER.debug(message);
     }
 
     /**
      * Method logTrace.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logTrace(String message, SieveContext context) {
-        org.apache.commons.logging.Log log = context.getLog();
-        if (log.isTraceEnabled())
-            log.trace(message);
+    protected void logTrace(String message) {
+        LOGGER.trace(message);
     }
 
     /**
      * Method logError.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logError(String message, SieveContext context) {
-        org.apache.commons.logging.Log log = context.getLog();
-        if (log.isErrorEnabled())
-            log.error(message);
+    protected void logError(String message) {
+        LOGGER.error(message);
     }
 
     /**

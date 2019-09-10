@@ -19,9 +19,10 @@
 
 package org.apache.jsieve;
 
-import org.apache.commons.logging.Log;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ import org.apache.jsieve.mail.MailAdapter;
  * <code>command = identifier arguments ( ";" / block )</code>
  */
 public class Command implements Executable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Command.class);
 
     /** The name of this Command */
     private String fieldName;
@@ -143,13 +145,9 @@ public class Command implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context)
-            throws SieveException {
-        Log log = context.getLog();
-        if (log.isDebugEnabled()) {
-            log.debug(toString());
-            coordinate.debugDiagnostics(log);
-        }
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+        LOGGER.debug(toString());
+        coordinate.debugDiagnostics();
         // commands are executed after the parsing phase
         // recursively from the top level block
         // so need to use the coordinate recorded from the parse

@@ -18,7 +18,10 @@
  ****************************************************************/
 package org.apache.jsieve.commands.optional;
 
-import org.apache.commons.logging.LogFactory;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.BaseSieveContext;
@@ -32,10 +35,6 @@ import org.apache.jsieve.util.check.ScriptCheckMailAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class FileIntoTest {
 
@@ -55,10 +54,9 @@ public class FileIntoTest {
         dummyArguments = new Arguments(argumentList, new TestList(Collections.EMPTY_LIST));
         ConfigurationManager configurationManager = new ConfigurationManager();
         dummyContext = new BaseSieveContext(
-                configurationManager.getCommandManager(), configurationManager
-                .getComparatorManager(), configurationManager
-                .getTestManager(), LogFactory
-                .getLog(this.getClass()));
+            configurationManager.getCommandManager(),
+            configurationManager.getComparatorManager(),
+            configurationManager.getTestManager());
         dummyContext.setCoordinate(new ScriptCoordinate(0, 0, 0, 0));
         subject = new FileInto();
     }

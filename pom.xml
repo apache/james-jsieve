@@ -82,7 +82,7 @@
         <mail.version>1.4.7</mail.version>
         <activation.version>1.1.1</activation.version>
         <commons-io.version>2.1</commons-io.version>
-        <mockito-core.version>1.9.0</mockito-core.version>
+        <mockito-core.version>3.0.0</mockito-core.version>
         <assertj.version>1.7.1</assertj.version>
         <guava.version>18.0</guava.version>
         <mime4j.version>0.8.3</mime4j.version>

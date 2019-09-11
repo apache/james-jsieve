@@ -59,9 +59,7 @@ public class Test implements Executable {
      * @throws SieveException
      */
     public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(toString());
-        }
+        LOGGER.debug(toString());
         final String name = getName();
         final ExecutableTest test = context.getTestManager().getTest(name);
         return test.execute(mail, getArguments(), context);

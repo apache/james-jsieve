@@ -88,9 +88,7 @@ public abstract class AbstractTest implements ExecutableTest {
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
         if (!arguments.getArgumentList().isEmpty()) {
-            if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn("Unexpected arguments for " + getClass().getName());
-            }
+            LOGGER.warn("Unexpected arguments for {}", getClass().getName());
             context.getCoordinate().logDiagnosticsInfo();
             LOGGER.debug(arguments.toString());
             final String message = context.getCoordinate()

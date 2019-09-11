@@ -130,73 +130,63 @@ public class Log extends AbstractCommand {
     protected void log(String logLevel, String message, SieveContext context)
             throws SyntaxException {
         if (logLevel.equals(INFO_TAG))
-            logInfo(message, context);
+            logInfo(message);
         else if (logLevel.equals(ERROR_TAG))
-            logError(message, context);
+            logError(message);
         else if (logLevel.equals(WARN_TAG))
-            logWarn(message, context);
+            logWarn(message);
         else if (logLevel.equals(DEBUG_TAG))
-            logDebug(message, context);
+            logDebug(message);
         else if (logLevel.equals(TRACE_TAG))
-            logTrace(message, context);
+            logTrace(message);
         else
             throw context.getCoordinate().syntaxException(
-                    new StringBuilder("Unsupported logging level: ").append (logLevel).toString());
+                    new StringBuilder("Unsupported logging level: ").append(logLevel).toString());
     }
 
     /**
      * Method logWarn.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logWarn(String message, SieveContext context) {
-        if (LOGGER.isWarnEnabled())
-            LOGGER.warn(message);
+    protected void logWarn(String message) {
+        LOGGER.warn(message);
     }
 
     /**
      * Method logInfo.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logInfo(String message, SieveContext context) {
-        if (LOGGER.isInfoEnabled())
-            LOGGER.info(message);
+    protected void logInfo(String message) {
+        LOGGER.info(message);
     }
 
     /**
      * Method logDebug.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logDebug(String message, SieveContext context) {
-        if (LOGGER.isDebugEnabled())
-            LOGGER.debug(message);
+    protected void logDebug(String message) {
+        LOGGER.debug(message);
     }
 
     /**
      * Method logTrace.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logTrace(String message, SieveContext context) {
-        if (LOGGER.isTraceEnabled())
-            LOGGER.trace(message);
+    protected void logTrace(String message) {
+        LOGGER.trace(message);
     }
 
     /**
      * Method logError.
      * 
      * @param message not null
-     * @param context not null
      */
-    protected void logError(String message, SieveContext context) {
-        if (LOGGER.isErrorEnabled())
-            LOGGER.error(message);
+    protected void logError(String message) {
+        LOGGER.error(message);
     }
 
     /**

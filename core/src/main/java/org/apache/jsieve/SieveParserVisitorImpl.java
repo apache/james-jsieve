@@ -135,7 +135,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
             else if (next instanceof Argument) {
                 argList.add((Argument)next);
             } else {
-                LOGGER.error("Expected an 'Argument' but was " + next);
+                LOGGER.error("Expected an 'Argument' but was {}", next);
             }
         }
 

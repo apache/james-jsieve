@@ -97,9 +97,7 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public SyntaxException syntaxException(String message) {
-        if (LOGGER.isWarnEnabled()) {
-            LOGGER.warn(message);
-        }
+        LOGGER.warn(message);
         logDiagnosticsInfo();
         final String fullMessage = addStartLineAndColumn(message);
         return new SyntaxException(fullMessage);
@@ -116,12 +114,8 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public CommandException commandException(String message) {
-        if (LOGGER != null) {
-            if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn(message);
-            }
-            logDiagnosticsInfo();
-        }
+        LOGGER.warn(message);
+        logDiagnosticsInfo();
         final String fullMessage = addStartLineAndColumn(message);
         return new CommandException(fullMessage);
     }
@@ -154,23 +148,15 @@ public final class ScriptCoordinate {
      * Logs diagnotic information about the script coordinate.
      */
     public void logDiagnosticsInfo() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Expression starts line " + startLineNumber
-                    + " column " + startColumnNumber);
-            LOGGER.info("Expression ends line " + endLineNumber + " column "
-                    + endColumnNumber);
-        }
+        LOGGER.info("Expression starts line {} column {}", startLineNumber, startColumnNumber);
+        LOGGER.info("Expression ends line {} column {}", endLineNumber, endColumnNumber);
     }
 
     /**
      * Logs diagnotic information about the script coordinate.
      */
     public void debugDiagnostics() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Expression starts line " + startLineNumber
-                    + " column " + startColumnNumber);
-            LOGGER.debug("Expression ends line " + endLineNumber + " column "
-                    + endColumnNumber);
-        }
+        LOGGER.debug("Expression starts line {} column {}", startLineNumber, startColumnNumber);
+        LOGGER.debug("Expression ends line {} column {}", endLineNumber, endColumnNumber);
     }
 }

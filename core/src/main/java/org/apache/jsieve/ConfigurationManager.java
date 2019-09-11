@@ -109,12 +109,10 @@ public class ConfigurationManager {
         try {
             parse();
         } catch (SAXException e) {
-            if (LOGGER.isErrorEnabled())
-                LOGGER.error("Exception processing Configuration: ", e);
+            LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         } catch (IOException e) {
-            if (LOGGER.isErrorEnabled())
-                LOGGER.error("Exception processing Configuration: ", e);
+            LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         }
     }

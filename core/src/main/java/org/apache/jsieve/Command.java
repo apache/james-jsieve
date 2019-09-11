@@ -145,12 +145,9 @@ public class Command implements Executable {
     /**
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
-    public Object execute(MailAdapter mail, SieveContext context)
-            throws SieveException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(toString());
-            coordinate.debugDiagnostics();
-        }
+    public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
+        LOGGER.debug(toString());
+        coordinate.debugDiagnostics();
         // commands are executed after the parsing phase
         // recursively from the top level block
         // so need to use the coordinate recorded from the parse

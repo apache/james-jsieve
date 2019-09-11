@@ -152,10 +152,8 @@ public class SieveMailAdapter implements MailAdapter {
     public void executeActions() throws SieveException {
         final List<Action> actions = getActions();
         for (final Action action:actions) {
-            if (LOGGER.isDebugEnabled())
-                LOGGER.debug("Executing " + action.toString());
+            LOGGER.debug("Executing {}", action.toString());
         }
-
     }
 
     /**

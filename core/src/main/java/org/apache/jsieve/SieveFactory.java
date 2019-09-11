@@ -106,16 +106,10 @@ public class SieveFactory {
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
-            if (LOGGER.isErrorEnabled())
-                LOGGER.error("Parse failed. Reason: " + ex.getMessage());
-            if (LOGGER.isDebugEnabled())
-                LOGGER.debug("Parse failed.", ex);
+            LOGGER.error("Parse failed.", ex);
             throw ex;
         } catch (SieveException ex) {
-            if (LOGGER.isErrorEnabled())
-                LOGGER.error("Parse failed. Reason: " + ex.getMessage());
-            if (LOGGER.isDebugEnabled())
-                LOGGER.debug("Parse failed.", ex);
+            LOGGER.error("Parse failed.", ex);
             throw new ParseException(ex.getMessage());
         }
     }
@@ -156,10 +150,7 @@ public class SieveFactory {
             } catch (StopException ex) {
                 // Stop is OK
             } catch (SieveException ex) {
-                if (LOGGER.isErrorEnabled())
-                    LOGGER.error("Evaluation failed. Reason: " + ex.getMessage());
-                if (LOGGER.isDebugEnabled())
-                    LOGGER.debug("Evaluation failed.", ex);
+                LOGGER.error("Evaluation failed.", ex);
                 throw ex;
             }
     
@@ -173,10 +164,7 @@ public class SieveFactory {
             try {
                 mail.executeActions();
             } catch (SieveException ex) {
-                if (LOGGER.isErrorEnabled())
-                    LOGGER.error("Evaluation failed. Reason: " + ex.getMessage());
-                if (LOGGER.isDebugEnabled())
-                    LOGGER.debug("Evaluation failed.", ex);
+                LOGGER.error("Evaluation failed.", ex);
                 throw ex;
             }
         } finally {

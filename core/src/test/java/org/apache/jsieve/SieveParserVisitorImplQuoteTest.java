@@ -28,7 +28,6 @@ import org.apache.jsieve.utils.JUnitUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 public class SieveParserVisitorImplQuoteTest {
 
@@ -46,8 +45,7 @@ public class SieveParserVisitorImplQuoteTest {
             new BaseSieveContext(
                 configurationManager.getCommandManager(),
                 configurationManager.getComparatorManager(),
-                configurationManager.getTestManager(),
-                LoggerFactory.getLogger(SieveParserVisitorImplQuoteTest.class)));
+                configurationManager.getTestManager()));
         data = new ArrayList();
 
     }

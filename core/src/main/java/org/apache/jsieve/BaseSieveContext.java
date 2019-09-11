@@ -19,8 +19,6 @@
 
 package org.apache.jsieve;
 
-import org.slf4j.Logger;
-
 /**
  * Bean based implementation of context.
  */
@@ -38,17 +36,14 @@ public class BaseSieveContext extends SieveContext {
 
     private final TestManager testManager;
 
-    private final Logger log;
-
     public BaseSieveContext(final CommandManager commandManager,
                             final ComparatorManager comparatorManager,
-                            final TestManager testManager, final Logger log) {
+                            final TestManager testManager) {
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
-        this.log = log;
     }
 
     /**
@@ -69,9 +64,6 @@ public class BaseSieveContext extends SieveContext {
     @Override
     public void setCoordinate(ScriptCoordinate coordinate) {
         this.coordinate = coordinate;
-        if (coordinate != null) {
-            coordinate.setLog(getLog());
-        }
     }
 
     /**
@@ -96,14 +88,6 @@ public class BaseSieveContext extends SieveContext {
     @Override
     public void setConditionManager(ConditionManager conditionManager) {
         this.conditionManager = conditionManager;
-    }
-
-    /**
-     * @see SieveContext#getLog()
-     */
-    @Override
-    public Logger getLog() {
-        return log;
     }
 
     /**

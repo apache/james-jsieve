@@ -22,6 +22,7 @@ package org.apache.jsieve;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ import org.slf4j.Logger;
  * <code>command = identifier arguments ( ";" / block )</code>
  */
 public class Command implements Executable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Command.class);
 
     /** The name of this Command */
     private String fieldName;
@@ -145,10 +147,9 @@ public class Command implements Executable {
      */
     public Object execute(MailAdapter mail, SieveContext context)
             throws SieveException {
-        Logger log = context.getLog();
-        if (log.isDebugEnabled()) {
-            log.debug(toString());
-            coordinate.debugDiagnostics(log);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(toString());
+            coordinate.debugDiagnostics();
         }
         // commands are executed after the parsing phase
         // recursively from the top level block

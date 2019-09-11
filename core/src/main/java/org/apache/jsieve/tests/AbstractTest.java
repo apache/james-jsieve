@@ -25,12 +25,14 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class AbstractTest defines a framework of common behavior for Sieve
  * Tests.
  */
 public abstract class AbstractTest implements ExecutableTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTest.class);
 
     /**
      * Constructor for AbstractTest.
@@ -86,12 +88,11 @@ public abstract class AbstractTest implements ExecutableTest {
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
         if (!arguments.getArgumentList().isEmpty()) {
-            final Logger logger = context.getLog();
-            if (logger.isWarnEnabled()) {
-                logger.warn("Unexpected arguments for " + getClass().getName());
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn("Unexpected arguments for " + getClass().getName());
             }
-            context.getCoordinate().logDiagnosticsInfo(logger);
-            logger.debug(arguments.toString());
+            context.getCoordinate().logDiagnosticsInfo();
+            LOGGER.debug(arguments.toString());
             final String message = context.getCoordinate()
                     .addStartLineAndColumn("Found unexpected arguments.");
             throw new SyntaxException(message);

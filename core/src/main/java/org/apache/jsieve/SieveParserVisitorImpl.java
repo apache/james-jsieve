@@ -37,6 +37,8 @@ import org.apache.jsieve.parser.generated.ASTtest;
 import org.apache.jsieve.parser.generated.ASTtest_list;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
 import org.apache.jsieve.parser.generated.SimpleNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -63,6 +65,8 @@ import org.apache.jsieve.parser.generated.SimpleNode;
  * </p>
  */
 public class SieveParserVisitorImpl implements SieveParserVisitor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SieveParserVisitorImpl.class);
+
     private final SieveContext context;
 
     /**
@@ -131,7 +135,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
             else if (next instanceof Argument) {
                 argList.add((Argument)next);
             } else {
-                context.getLog().error("Expected an 'Argument' but was " + next);
+                LOGGER.error("Expected an 'Argument' but was " + next);
             }
         }
 

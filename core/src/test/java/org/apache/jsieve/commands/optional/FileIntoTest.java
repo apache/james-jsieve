@@ -35,7 +35,6 @@ import org.apache.jsieve.util.check.ScriptCheckMailAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 public class FileIntoTest {
 
@@ -57,8 +56,7 @@ public class FileIntoTest {
         dummyContext = new BaseSieveContext(
             configurationManager.getCommandManager(),
             configurationManager.getComparatorManager(),
-            configurationManager.getTestManager(),
-            LoggerFactory.getLogger(this.getClass()));
+            configurationManager.getTestManager());
         dummyContext.setCoordinate(new ScriptCoordinate(0, 0, 0, 0));
         subject = new FileInto();
     }

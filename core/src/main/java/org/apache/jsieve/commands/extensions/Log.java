@@ -39,6 +39,7 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -51,6 +52,8 @@ import org.slf4j.Logger;
  * </p>
  */
 public class Log extends AbstractCommand {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
+
     /**
      * Constructor for Log.
      */
@@ -148,9 +151,8 @@ public class Log extends AbstractCommand {
      * @param context not null
      */
     protected void logWarn(String message, SieveContext context) {
-        Logger log = context.getLog();
-        if (log.isWarnEnabled())
-            log.warn(message);
+        if (LOGGER.isWarnEnabled())
+            LOGGER.warn(message);
     }
 
     /**
@@ -160,9 +162,8 @@ public class Log extends AbstractCommand {
      * @param context not null
      */
     protected void logInfo(String message, SieveContext context) {
-        Logger log = context.getLog();
-        if (log.isInfoEnabled())
-            log.info(message);
+        if (LOGGER.isInfoEnabled())
+            LOGGER.info(message);
     }
 
     /**
@@ -172,9 +173,8 @@ public class Log extends AbstractCommand {
      * @param context not null
      */
     protected void logDebug(String message, SieveContext context) {
-        Logger log = context.getLog();
-        if (log.isDebugEnabled())
-            log.debug(message);
+        if (LOGGER.isDebugEnabled())
+            LOGGER.debug(message);
     }
 
     /**
@@ -184,9 +184,8 @@ public class Log extends AbstractCommand {
      * @param context not null
      */
     protected void logTrace(String message, SieveContext context) {
-        Logger log = context.getLog();
-        if (log.isTraceEnabled())
-            log.trace(message);
+        if (LOGGER.isTraceEnabled())
+            LOGGER.trace(message);
     }
 
     /**
@@ -196,9 +195,8 @@ public class Log extends AbstractCommand {
      * @param context not null
      */
     protected void logError(String message, SieveContext context) {
-        Logger log = context.getLog();
-        if (log.isErrorEnabled())
-            log.error(message);
+        if (LOGGER.isErrorEnabled())
+            LOGGER.error(message);
     }
 
     /**

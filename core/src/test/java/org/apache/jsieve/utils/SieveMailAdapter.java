@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
  * to create an implementation of a MailAdapter.
  */
 public class SieveMailAdapter implements MailAdapter {
-    private Logger log = LoggerFactory.getLogger(SieveMailAdapter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SieveMailAdapter.class);
 
     /**
      * The message being adapted.
@@ -150,11 +150,10 @@ public class SieveMailAdapter implements MailAdapter {
      * @see org.apache.jsieve.mail.MailAdapter#executeActions()
      */
     public void executeActions() throws SieveException {
-        boolean isDebugEnabled = log.isDebugEnabled();
         final List<Action> actions = getActions();
         for (final Action action:actions) {
-            if (isDebugEnabled)
-                log.debug("Executing " + action.toString());
+            if (LOGGER.isDebugEnabled())
+                LOGGER.debug("Executing " + action.toString());
         }
 
     }

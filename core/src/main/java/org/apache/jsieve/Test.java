@@ -24,6 +24,7 @@ import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.tests.ExecutableTest;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -33,6 +34,7 @@ import org.slf4j.Logger;
  * <code>test = identifier arguments</code>
  */
 public class Test implements Executable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 
     /** The name of this Test */
     private String fieldName;
@@ -57,9 +59,8 @@ public class Test implements Executable {
      * @throws SieveException
      */
     public boolean isTestPassed(MailAdapter mail, SieveContext context) throws SieveException {
-        Logger log = context.getLog();
-        if (log.isDebugEnabled()) {
-            log.debug(toString());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(toString());
         }
         final String name = getName();
         final ExecutableTest test = context.getTestManager().getTest(name);

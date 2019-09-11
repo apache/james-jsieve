@@ -22,6 +22,7 @@ package org.apache.jsieve;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Specifies the positional extent of an element within the script being
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
  * starts and at which it ends.
  */
 public final class ScriptCoordinate {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptCoordinate.class);
 
     private final int startLineNumber;
 
@@ -38,8 +40,6 @@ public final class ScriptCoordinate {
 
     private final int endColumnNumber;
 
-    private Logger log;
-
     public ScriptCoordinate(final int startLineNumber,
             final int startColumnNumber, final int endLineNumber,
             final int endColumnNumber) {
@@ -48,14 +48,6 @@ public final class ScriptCoordinate {
         this.startColumnNumber = startColumnNumber;
         this.endLineNumber = endLineNumber;
         this.endColumnNumber = endColumnNumber;
-    }
-
-    public Logger getLog() {
-        return log;
-    }
-
-    public void setLog(Logger logger) {
-        this.log = logger;
     }
 
     /**
@@ -105,12 +97,10 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public SyntaxException syntaxException(String message) {
-        if (log != null) {
-            if (log.isWarnEnabled()) {
-                log.warn(message);
-            }
-            logDiagnosticsInfo(log);
+        if (LOGGER.isWarnEnabled()) {
+            LOGGER.warn(message);
         }
+        logDiagnosticsInfo();
         final String fullMessage = addStartLineAndColumn(message);
         return new SyntaxException(fullMessage);
     }
@@ -126,11 +116,11 @@ public final class ScriptCoordinate {
      *         position appended to the message, not null
      */
     public CommandException commandException(String message) {
-        if (log != null) {
-            if (log.isWarnEnabled()) {
-                log.warn(message);
+        if (LOGGER != null) {
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn(message);
             }
-            logDiagnosticsInfo(log);
+            logDiagnosticsInfo();
         }
         final String fullMessage = addStartLineAndColumn(message);
         return new CommandException(fullMessage);
@@ -162,30 +152,24 @@ public final class ScriptCoordinate {
 
     /**
      * Logs diagnotic information about the script coordinate.
-     * 
-     * @param logger
-     *            <code>Log</code>, not null
      */
-    public void logDiagnosticsInfo(Logger logger) {
-        if (logger.isInfoEnabled()) {
-            logger.info("Expression starts line " + startLineNumber
+    public void logDiagnosticsInfo() {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Expression starts line " + startLineNumber
                     + " column " + startColumnNumber);
-            logger.info("Expression ends line " + endLineNumber + " column "
+            LOGGER.info("Expression ends line " + endLineNumber + " column "
                     + endColumnNumber);
         }
     }
 
     /**
      * Logs diagnotic information about the script coordinate.
-     * 
-     * @param logger
-     *            <code>Log</code>, not null
      */
-    public void debugDiagnostics(Logger logger) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Expression starts line " + startLineNumber
+    public void debugDiagnostics() {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Expression starts line " + startLineNumber
                     + " column " + startColumnNumber);
-            logger.debug("Expression ends line " + endLineNumber + " column "
+            LOGGER.debug("Expression ends line " + endLineNumber + " column "
                     + endColumnNumber);
         }
     }

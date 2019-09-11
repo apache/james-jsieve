@@ -39,8 +39,7 @@ import org.slf4j.LoggerFactory;
  * high level {@link SieveHandler}.
  */
 public class NodeToSieveAdapter implements NodeHandler {
-
-    private static final Logger LOG = LoggerFactory.getLogger(NodeToSieveAdapter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeToSieveAdapter.class);
     
     private final SieveHandler handler;
     
@@ -140,12 +139,12 @@ public class NodeToSieveAdapter implements NodeHandler {
     public void start(ASTargument node) throws HaltTraversalException {
         final Object value = node.getValue();
         if (value == null) {
-            LOG.debug("Ignoring null argument");
+            LOGGER.debug("Ignoring null argument");
         } else if (value instanceof NumberArgument) {
             final NumberArgument numberArgument = (NumberArgument) value;
             Integer integer = numberArgument.getInteger();
             if (integer == null) {
-                LOG.debug("Ignoring null numeric argument");
+                LOGGER.debug("Ignoring null numeric argument");
             } else {
                 handler.argument(integer);
             }

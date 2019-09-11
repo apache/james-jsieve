@@ -33,6 +33,7 @@ import org.apache.jsieve.parser.generated.SieveParser;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
 import org.apache.jsieve.parser.generated.SimpleNode;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -65,6 +66,7 @@ import org.slf4j.Logger;
  * </p>
  */
 public class SieveFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SieveFactory.class);
 
     private final CommandManager commandManager;
 
@@ -72,19 +74,16 @@ public class SieveFactory {
 
     private final TestManager testManager;
 
-    private final Logger log;
-
     /**
      * Constructor for SieveFactory.
      */
     public SieveFactory(final CommandManager commandManager,
             final ComparatorManager comparatorManager,
-            final TestManager testManager, final Logger log) {
+            final TestManager testManager) {
         super();
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
         this.testManager = testManager;
-        this.log = log;
     }
 
     /**
@@ -107,16 +106,16 @@ public class SieveFactory {
             node.jjtAccept(visitor, null);
             return node;
         } catch (ParseException ex) {
-            if (log.isErrorEnabled())
-                log.error("Parse failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Parse failed.", ex);
+            if (LOGGER.isErrorEnabled())
+                LOGGER.error("Parse failed. Reason: " + ex.getMessage());
+            if (LOGGER.isDebugEnabled())
+                LOGGER.debug("Parse failed.", ex);
             throw ex;
         } catch (SieveException ex) {
-            if (log.isErrorEnabled())
-                log.error("Parse failed. Reason: " + ex.getMessage());
-            if (log.isDebugEnabled())
-                log.debug("Parse failed.", ex);
+            if (LOGGER.isErrorEnabled())
+                LOGGER.error("Parse failed. Reason: " + ex.getMessage());
+            if (LOGGER.isDebugEnabled())
+                LOGGER.debug("Parse failed.", ex);
             throw new ParseException(ex.getMessage());
         }
     }
@@ -144,7 +143,7 @@ public class SieveFactory {
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
         final SieveContext context = new BaseSieveContext(commandManager,
-                comparatorManager, testManager, log);
+                comparatorManager, testManager);
         try {
             // Ensure that the context is set on the mail
             mail.setContext(context);
@@ -157,10 +156,10 @@ public class SieveFactory {
             } catch (StopException ex) {
                 // Stop is OK
             } catch (SieveException ex) {
-                if (log.isErrorEnabled())
-                    log.error("Evaluation failed. Reason: " + ex.getMessage());
-                if (log.isDebugEnabled())
-                    log.debug("Evaluation failed.", ex);
+                if (LOGGER.isErrorEnabled())
+                    LOGGER.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (LOGGER.isDebugEnabled())
+                    LOGGER.debug("Evaluation failed.", ex);
                 throw ex;
             }
     
@@ -174,10 +173,10 @@ public class SieveFactory {
             try {
                 mail.executeActions();
             } catch (SieveException ex) {
-                if (log.isErrorEnabled())
-                    log.error("Evaluation failed. Reason: " + ex.getMessage());
-                if (log.isDebugEnabled())
-                    log.debug("Evaluation failed.", ex);
+                if (LOGGER.isErrorEnabled())
+                    LOGGER.error("Evaluation failed. Reason: " + ex.getMessage());
+                if (LOGGER.isDebugEnabled())
+                    LOGGER.debug("Evaluation failed.", ex);
                 throw ex;
             }
         } finally {

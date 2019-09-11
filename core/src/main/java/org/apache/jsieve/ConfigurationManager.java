@@ -97,9 +97,7 @@ public class ConfigurationManager {
      */
     private int initialConcurrencyLevel = DEFAULT_INITIAL_CONCURRENCY_LEVEL;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("org.apache.jsieve");
-
-    private Logger log = LOGGER;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationManager.class);
 
     /**
      * Constructor for ConfigurationManager.
@@ -111,12 +109,12 @@ public class ConfigurationManager {
         try {
             parse();
         } catch (SAXException e) {
-            if (log.isErrorEnabled())
-                log.error("Exception processing Configuration: ", e);
+            if (LOGGER.isErrorEnabled())
+                LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         } catch (IOException e) {
-            if (log.isErrorEnabled())
-                log.error("Exception processing Configuration: ", e);
+            if (LOGGER.isErrorEnabled())
+                LOGGER.error("Exception processing Configuration: ", e);
             throw new SieveConfigurationException(e);
         }
     }
@@ -284,16 +282,8 @@ public class ConfigurationManager {
         return new TestManagerImpl(fieldTestMap);
     }
 
-    public Logger getLog() {
-        return log;
-    }
-
-    public void setLog(Logger log) {
-        this.log = log;
-    }
-
     public SieveFactory build() {
         return new SieveFactory(getCommandManager(), getComparatorManager(),
-                getTestManager(), getLog());
+                getTestManager());
     }
 }

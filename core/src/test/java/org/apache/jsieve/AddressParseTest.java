@@ -26,7 +26,6 @@ import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 public class AddressParseTest {
 
@@ -46,8 +45,7 @@ public class AddressParseTest {
         context = new BaseSieveContext(
             configurationManager.getCommandManager(),
             configurationManager.getComparatorManager(),
-            configurationManager.getTestManager(),
-            LoggerFactory.getLogger(AddressParseTest.class));
+            configurationManager.getTestManager());
         mail = (SieveMailAdapter) JUnitUtils.createMail();
         address = new OpenedAddress();
     }

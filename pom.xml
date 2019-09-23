@@ -73,7 +73,7 @@
         <!-- Overridding this value allows single set of loopback settings to be maintained -->
         <james.www.id>jsieve-website</james.www.id>
 
-        <target.jdk>1.6</target.jdk>
+        <target.jdk>1.8</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <junit.version>4.12</junit.version>

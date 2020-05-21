@@ -1,0 +1,10 @@
+= Apache jSieve User Information
+:navtitle: User Information
+
+A user of jSieve is the owner of a xref:::[Mailbox] who wishes to filter
+incoming or outgoing email. In most cases, jSieve functionality will be
+provided by an xref:jsieve:integration:index.adoc[integrator]. You should
+contact your integrator for additional information.
+
+General information about how to use Sieve is available on the
+http://sieve.info/[sieve.info website].

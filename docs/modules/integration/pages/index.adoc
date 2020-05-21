@@ -1,0 +1,9 @@
+= Apache jSieve Integration Guide
+:navtitle: Integration Guide
+
+An integrator is someone who integrates jSieve into an email system
+for the purpose of making Sieve functionality available to 
+xref:jsieve:user:index.adoc[users].
+
+Integrators grab an instance of org.apache.jsieve.SieveFactory in order
+to get an instance of a Sieve parser.

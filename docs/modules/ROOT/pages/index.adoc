@@ -1,0 +1,30 @@
+= Apache JSieve
+
+jSieve is a Java implementation of the Sieve mail filtering language as specified by https://tools.ietf.org/html/rfc5228[RFC 5228]. 
+It is implemented as a language processor that can be plugged into any internet mail application to add Sieve support.
+
+jSieve is a subproject of https://james.apache.org/[Apache James]
+
+== Sieve
+
+Sieve is an extensible mail filtering language. It's limited expressiveness (it contains no 
+loops or variables, and no tests with side effects) allows user created scripts to be run 
+safely on email servers. Sieve is targeted at the final delivery phase (where an 
+incoming email is transferred to a user's mailbox).
+
+Sieve scripts are composed of commands. Control commands manage the execution of the script. 
+Test commands define side-effect free criteria. Action commands are mail operations to be performed.
+
+
+=== Supported Extensions
+
+
+
+== Documentation
+
+Reference documentation:
+
+* xref:jsieve:user:index.adoc[User Information]
+* xref:jsieve:integration:index.adoc[Integration Guide]
+
+Please note that this documentation is a **living document**. It is subject to change. You are currently reading version {page-version}. If you find anything that is unclear, unfinished, or confusing, please do not hestiate to xref:main:doc:index.adoc[lend us a hand].

@@ -1,0 +1,4 @@
+name: jsieve
+title: Apache James jSieve
+version: '0.8-SNAPSHOT'
+prerelease: true

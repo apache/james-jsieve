@@ -59,9 +59,6 @@
             <item
                 name="jDKIM"
                 href="https://james.apache.org/jdkim/index.html" />
-            <item
-                name="Hupa"
-                href="https://james.apache.org/hupa/index.html" />
         </links>
     <menu name="jSieve">
       <item name="Overview" href="/index.html" />

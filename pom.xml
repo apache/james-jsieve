@@ -76,17 +76,16 @@
         <target.jdk>1.8</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.2</junit.version>
         <jmock.version>1.2.0</jmock.version>
-        <logback.version>1.2.3</logback.version>
-        <mail.version>1.4.7</mail.version>
+        <logback.version>1.4.4</logback.version>
+        <mail.version>1.6.2</mail.version>
         <activation.version>1.1.1</activation.version>
-        <commons-io.version>2.1</commons-io.version>
         <mockito-core.version>3.0.0</mockito-core.version>
-        <assertj.version>3.12.2</assertj.version>
-        <guava.version>25.1-jre</guava.version>
-        <mime4j.version>0.8.3</mime4j.version>
-        <slf4j.version>1.7.27</slf4j.version>
+        <assertj.version>3.23.1</assertj.version>
+        <guava.version>31.1-jre</guava.version>
+        <mime4j.version>0.8.7</mime4j.version>
+        <slf4j.version>2.0.3</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -145,9 +144,15 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
                 <version>${mail.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>

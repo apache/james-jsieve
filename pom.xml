@@ -29,7 +29,7 @@
 
     <groupId>org.apache.james</groupId>
     <artifactId>apache-jsieve</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <version>0.8</version>
     <packaging>pom</packaging>
 
     <name>Apache James :: JSieve</name>
@@ -47,7 +47,7 @@
         <connection>scm:git:http://git-wip-us.apache.org/repos/asf/james-jsieve.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/apache/james-jsieve.git</developerConnection>
         <url>https://git-wip-us.apache.org/repos/asf/james-jsieve.git</url>
-      <tag>HEAD</tag>
+      <tag>apache-jsieve-0.8</tag>
   </scm>
     
     <issueManagement>

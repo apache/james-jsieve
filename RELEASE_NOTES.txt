@@ -20,8 +20,56 @@ Licensing and legal issues
 For legal and licensing issues, please look in the legal section of
 the documentation or read the LICENSE and NOTICE files.
 
+Version 0.8
+-----------
+
+Changes
+---------
+
+Fixes:
+ - JSIEVE-107 Decode headers before returning back
+ - JSIEVE-107 Unfold headers for address matching
+ - JSIEVE-107 Always do unfold headers to fix long header test match
+
+Changes:
+ - Multiple dependencies upgrades
+ - JSIEVE-113 Use JDK 8 as a target JDK
+
+Version 0.7
+-----------
+
+Changes
+---------
+
+Changes:
+
+ - Upgrading mime4j to released version 0.8.1
+
+Version 0.6
+-----------
+
+Changes
+---------
+
+Changes:
+
+ - JSIEVE-106 JSIEVE do not depend anymore on Mime4J
+ - JSIEVE-106 JSIEVE should be compiled with JDK 1.6
+ - JSIEVE-106 jsieve/mailet should be located in server/mailet/.../jsieve
+ - MAILBOX-266 Update GUAVA to 18.0
+ - JSIEVE-103 Add vacation command to supported commands
+ - JAMES-1615 Allow ResourceLocator to throw Exception - contibuted by Erwan Guyomarc'h
+
+Fixes:
+
+ - JSIEVE-73 Body test argument parsing should be RFC-5173 compliant
+ - JAMES-1620 getEnvelopeTo should return first not null address
+ - JAMES-1620 Addresses should be well retrieved from headers
+ - JAMES-1620 Mail size should be used rather than message size
+ - JSIEVE-92 Code analisys improvements
+
 Version 0.5
------------ 
+-----------
 
 Changes
 ---------

@@ -1,0 +1,74 @@
+= jSieve Features
+
+== Sieve Features Supported By jSieve
+
+jSieve is limited only by the platform on which it runs.
+
+[cols="1,1"]
+|===
+|Limits |
+
+|Maximum Number Of Actions |No intrinsic limit
+|Maximum Number Of Nested Blocks |No intrinsic limit
+|Maximum Number Of Nested Test Lists |No intrinsic limit
+|===
+
+jSieve supports the standard control commands specified in RFC 5228.
+
+[cols="1,1,1"]
+|===
+|Control Command |Specification |Supported
+
+|If |RFC 5228 (REQUIRED) |yes
+|Require |RFC 5228 (REQUIRED) |yes
+|Stop |RFC 5228 (REQUIRED) |yes
+|===
+
+jSieve supports all action commands (both required and optional) specified in RFC 5228.
+
+NOTE: jSieve uses a pluggable `MailAdapter` as an interface to the mail server.
+Not all implementations may fully support all actions.
+
+[cols="1,1,1"]
+|===
+|Action Command |Specification |Supported
+
+|fileinto |RFC 5228 (REQUIRED) |yes
+|redirect |RFC 5228 (REQUIRED) |yes
+|keep |RFC 5228 (REQUIRED) |yes
+|discard |RFC 5228 (REQUIRED) |yes
+|reject |RFC 5429 |yes
+|ereject |RFC 5429 |no
+|===
+
+jSieve supports all tests commands specified in RFC 5228.
+
+[cols="1,1,1"]
+|===
+|Test Command |Specification |Supported
+
+|address |RFC 5228 (REQUIRED) |yes
+|allof |RFC 5228 (REQUIRED) |yes
+|anyof |RFC 5228 (REQUIRED) |yes
+|envelope |RFC 5228 (OPTIONAL) |yes
+|exists |RFC 5228 (REQUIRED) |yes
+|false |RFC 5228 (REQUIRED) |yes
+|header |RFC 5228 (REQUIRED) |yes
+|not |RFC 5228 (REQUIRED) |yes
+|size |RFC 5228 (REQUIRED) |yes
+|true |RFC 5228 (REQUIRED) |yes
+|body |RFC 5173 |yes
+|vacation |RFC 5230 |yes
+|===
+
+== jSieve Extension Commands
+
+jSieve allows extension commands to be developed and plugged in at run time.
+The following extension commands ship with jSieve:
+
+[cols="1,1"]
+|===
+|Name |Function
+
+|Log |Logs messages
+|===

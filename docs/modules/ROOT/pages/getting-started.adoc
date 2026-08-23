@@ -1,0 +1,99 @@
+= Getting Started
+
+Until these pages are fleshed out, the best way to understand jSieve is to read the
+javadocs and look at the source code. The jUnit tests illustrate many aspects of the
+implementation.
+
+== Using jSieve
+
+=== Standalone
+
+`org.apache.jsieve.SieveFactory` is the primary invocation point for all Sieve operations.
+The API is clean and simple. See the javadocs for more details.
+
+=== In JAMES
+
+The `SieveMailboxMailet` mailet is part of the jsieve/mailet project. It provides a mailet
+that applies SIEVE actions defined by a user SIEVE script to incoming e-mails. Integration
+is done in the JAMES code base using a `SieveMailet` in project server/mailet/mailets.
+This project:
+
+* Proposes a `SieveLocator` based on your `SieveRepository` for locating your user Sieve script
+* Communicates via URLs with the classes introduced in server/mailet/mailets, allowing it to be
+used independently from the API defined in James Mailbox. All you need to use
+`SieveMailboxMailet` is a mailet environment
+
+Note that some integration tests in James server on mail delivery behave as integration tests
+for JSIEVE in JAMES. Have a look at `org.apache.james.transport.mailets.delivery.SieveMailetTest`.
+
+In James server, Sieve scripts are stored by ``SieveRepository``(ies). Note that you can manage
+your SIEVE scripts as a user on James using 3 mechanisms, depending on your installation:
+
+* With `SieveDefaultRepository` one needs to interact with the file system to customize their
+scripts (legacy reasons)
+* If enabled by the administrator, you can use a ManageSieve server, as specified in RFC-5804
+* Or you can rely on the `ManageSieveMailet` to handle ManageSieve over SMTP
+
+== Implementing A Mail Adapter
+
+`org.apache.jsieve.mail.MailAdapter` is the interface API used by jSieve to interact with a
+mail server.
+
+The mail adapter wraps an email and supplies information (required by the script) about the
+email. It is responsible for accumulating ``Action``s during the parsing of a script and for
+executing them once the parsing is complete.
+
+See the javadocs for more details and the `SieveMailAdapter` implementation
+(`org.apache.jsieve.samples.james.SieveMailAdapter`) for the mailets environment.
+
+== Implementing Extension Commands
+
+A parser is already implemented using jjTree. So the Sieve entities you will implement will
+already be called with parsed arguments. You will have to validate such arguments (SIEVE syntax
+check), handle parsing state modification (such as saying an action was taken, see
+`SieveContext.getCommandStateManager()` for a deeper insight), and implement the behavior you
+want regarding these arguments.
+
+You can implement additional extension commands.
+`org.apache.jsieve.commands.extensions.Log` is an example of an extension command. It is
+recommended that extension commands extend `AbstractCommand`
+(`org.apache.jsieve.commands.AbstractCommand`). See the javadocs for more details.
+
+Commands need to be registered with `org.apache.jsieve.ConfigurationManager` before they can be
+used. This may be done programmatically but the recommended method is by altering the
+`org/apache/jsieve/commandsmap.properties`, `org/apache/jsieve/testsmap.properties` and
+`org/apache/jsieve/comparatorsmap.properties` resource files.
+
+Commands generate actions that get transferred by commands to the `MailAdapter`. If you
+introduce new actions, you will have to extend the `MailAdapter` API if you need more
+information or actions from the mail server.
+
+Writing new tests can be done in a similar way: extend `AbstractTest` to implement your test.
+Adding capabilities to the `MailAdapter` might be required. You also need to register it in
+`org/apache/jsieve/testsmap.properties`.
+
+== Building jSieve
+
+jSieve uses https://maven.apache.org[Maven]. `mvn clean install` compiles the jSieve project
+and installs it.
+
+== Comments, Questions and Issues
+
+jSieve is a sub-project of Apache James. Please direct your comments and questions to the
+relevant https://james.apache.org/mail.html[James list].
+
+To report issues, such as bugs, go to the
+https://issues.apache.org/jira/browse/JSIEVE[jSieve Issue Tracker]. As jSieve comes with a
+fairly extensive suite of jUnit tests, it would be most helpful for bug reports to be
+accompanied by an illustrative jUnit test case.
+
+=== Frequently Asked Questions
+
+==== Why Do Tests Using Non-ASCII Characters Fail?
+
+`SIEVE` specifies that https://tools.ietf.org/html/rfc2278[UTF-8] encoding is used for scripts.
+This format is an international standard and has wide support but not all platforms use this
+encoding by default.
+
+By default, jSieve expects that scripts are encoded using `UTF-8`. Either set the encoding
+programmatically or ensure that the script is encoded using `UTF-8`.

@@ -1,0 +1,13 @@
+= Specifications
+
+The specifications jSieve implements or relies upon:
+
+* https://tools.ietf.org/html/rfc2234[RFC 2234] - Augmented BNF for Syntax Specifications (ABNF)
+* https://tools.ietf.org/html/rfc2244[RFC 2244] - Application Configuration Access Protocol (ACAP)
+* https://tools.ietf.org/html/rfc2298[RFC 2298] - Message Disposition Notification (MDN)
+* https://tools.ietf.org/html/rfc4790[RFC 4790] - Internet Application Protocol Collation Registry (IAPCR)
+* https://tools.ietf.org/html/rfc5173[RFC 5173] - Sieve Email Filtering: Body Extension
+* https://tools.ietf.org/html/rfc5228[RFC 5228] - Sieve: An Email Filtering Language
+* https://tools.ietf.org/html/rfc5230[RFC 5230] - Sieve Email Filtering: Vacation Extension
+* https://tools.ietf.org/html/rfc5429[RFC 5429] - Sieve Email Filtering: Reject and Extended Reject Extensions
+* https://tools.ietf.org/html/rfc5804[RFC 5804] - A Protocol for Remotely Managing Sieve Scripts (ManageSieve)

@@ -4,3 +4,7 @@ version: '0.9-SNAPSHOT'
 prerelease: true
 nav:
   - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    # Latest released version, as published on Maven central. Bump on release.
+    jsieve-version: '0.8@'

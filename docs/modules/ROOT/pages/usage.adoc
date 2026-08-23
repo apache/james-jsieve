@@ -1,0 +1,192 @@
+= Usage
+
+This page walks through the day to day use of the jSieve library: adding it to a project,
+running a script against a message, and reading back the resulting actions.
+
+For the design rationale behind the extension points touched on here, see
+xref:getting-started.adoc[Getting Started].
+
+== Adding jSieve to your project
+
+The parsing and evaluation engine lives in `apache-jsieve-core`:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>org.apache.james</groupId>
+    <artifactId>apache-jsieve-core</artifactId>
+    <version>{jsieve-version}</version>
+</dependency>
+----
+
+The optional helpers described in xref:utils.adoc[jSieve Utilities] are shipped separately:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>org.apache.james</groupId>
+    <artifactId>apache-jsieve-util</artifactId>
+    <version>{jsieve-version}</version>
+</dependency>
+----
+
+== Building a SieveFactory
+
+`org.apache.jsieve.SieveFactory` is the entry point for every Sieve operation. You do not
+instantiate it directly: `ConfigurationManager` reads the command, test and comparator maps
+from the classpath and builds a configured factory for you.
+
+[source,java]
+----
+ConfigurationManager configurationManager = new ConfigurationManager();
+SieveFactory sieveFactory = configurationManager.build();
+----
+
+Both the `ConfigurationManager` and the `SieveFactory` it builds are thread safe, provided the
+managers they wrap are. Build the factory once and share it.
+
+To discover which extensions the current configuration supports:
+
+[source,java]
+----
+List<String> extensions = sieveFactory.getExtensions();
+----
+
+== Running a script
+
+`SieveFactory` exposes three operations.
+
+`parse(InputStream)`:: Parses a script into a hierarchy of nodes and validates it against the
+configured commands, tests and comparators. It returns the start `Node`, which is reusable and
+should be cached for subsequent evaluations of the same script. A `ParseException` signals an
+invalid script.
+`evaluate(MailAdapter, Node)`:: Evaluates a message, wrapped in a `MailAdapter`, against a
+previously parsed start node.
+`interpret(MailAdapter, InputStream)`:: A convenience concatenation of the two. Handy for tests,
+but prefer parsing once and evaluating many times in production.
+
+Scripts are read as `UTF-8`, as mandated by RFC 5228.
+
+The typical production shape is parse once, evaluate per message:
+
+[source,java]
+----
+// At script registration time
+Node startNode = sieveFactory.parse(new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)));
+
+// For every incoming message
+MailAdapter mail = new MyMailAdapter(message);
+sieveFactory.evaluate(mail, startNode);
+----
+
+Or, in one step:
+
+[source,java]
+----
+sieveFactory.interpret(mail, new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)));
+----
+
+== Reading back the actions
+
+Evaluation does not modify the message. It accumulates ``Action``s on the `MailAdapter`, then
+calls `MailAdapter.executeActions()` once evaluation completes — it is your adapter that decides
+what an action actually does.
+
+An `implicitKeep` state is set at the start of evaluation. Unless a command cancels it, an
+`ActionKeep` is appended to the list before the actions are executed. This is why a script that
+matches nothing still delivers the mail.
+
+The actions jSieve can produce:
+
+[cols="1,1"]
+|===
+|Action |Meaning
+
+|`ActionKeep` |Deliver to the default mailbox
+|`ActionFileInto` |Deliver to `getDestination()`
+|`ActionRedirect` |Forward to `getAddress()`
+|`ActionDiscard` |Drop the message silently
+|`ActionReject` |Refuse the message with `getMessage()`
+|`ActionVacation` |Send an auto-reply (RFC 5230)
+|===
+
+After evaluation, `getActions()` returns what the script decided:
+
+[source,java]
+----
+for (Action action : mail.getActions()) {
+    if (action instanceof ActionFileInto) {
+        String destination = ((ActionFileInto) action).getDestination();
+        // ...
+    }
+}
+----
+
+== Wrapping your messages in a MailAdapter
+
+`org.apache.jsieve.mail.MailAdapter` is the interface through which jSieve reaches your mail
+server. It wraps one message and exposes what scripts need to test:
+
+* Header access — `getHeader(String)`, `getMatchingHeader(String)` (case and whitespace
+insensitive, as RFC 5228 requires) and `getHeaderNames()`
+* Message properties — `getSize()`, `getContentType()`
+* Body searches backing the `body` test — `isInBodyText`, `isInBodyRaw`, `isInBodyContent`
+* Address parsing — `parseAddresses(String)`, returning ``MailAdapter.Address``es
+* Action handling — `addAction(Action)`, `getActions()` and `executeActions()`
+
+Implement `getEnvelopeFrom()` and `getEnvelopeTo()` from
+`org.apache.jsieve.mail.optional.EnvelopeAccessors` to support the optional `envelope` test.
+
+Two points deserve attention when implementing one:
+
+`setContext` and thread safety:: The engine sets the context before the run and clears it
+(passing `null`) at the end, including on failure. An adapter shared between threads must scope
+that context per thread — for example in a `ThreadLocal` — and all calls for a given script
+execution must happen on the same thread.
+`parseAddresses`:: https://james.apache.org/mime4j[Apache Mime4J] parses an address header into
+mailboxes with little effort; wrap its `ParseException` into an `InternetAddressException`.
+
+Existing implementations to read: `ScriptCheckMailAdapter` in the utilities module (a
+non-destructive one, backed by a `javax.mail.Message`), and `SieveMailboxMailet` in the
+James server code base.
+
+== Checking a script without a mail server
+
+The utilities module ships a `ScriptChecker` that runs a script against a message and reports
+the actions it would have executed — useful for tests, or for validating a script a user just
+submitted:
+
+[source,java]
+----
+ScriptChecker.Results results = new ScriptChecker().check(messageFile, scriptFile);
+
+if (results.isPass()) {
+    List actions = results.getActionsExecuted();
+} else {
+    Exception failure = results.getException();
+}
+----
+
+`Results` also offers shorthands such as `isActionFileInto(destination, n)` to assert on the
+n-th executed action.
+
+== Registering an extension command
+
+Commands, tests and comparators are looked up by name in three properties files loaded from the
+classpath:
+
+* `org/apache/jsieve/commandsmap.properties`
+* `org/apache/jsieve/testsmap.properties`
+* `org/apache/jsieve/comparatorsmap.properties`
+
+Each entry maps the name used in scripts to an implementation class:
+
+[source,properties]
+----
+log=org.apache.jsieve.commands.extensions.Log
+----
+
+Registering programmatically is possible through `ConfigurationManager.getCommandMap()` and its
+siblings, but overriding these resource files is the recommended route. See
+xref:getting-started.adoc#_implementing_extension_commands[Implementing Extension Commands] for
+how to write the implementation itself.

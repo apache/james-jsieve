@@ -1,6 +1,7 @@
 * xref:index.adoc[Overview]
 * xref:features.adoc[Sieve Features]
 * xref:getting-started.adoc[Getting Started]
+* xref:usage.adoc[Usage]
 * xref:utils.adoc[jSieve Utilities]
 * xref:specifications.adoc[Specifications]
 * xref:release-notes.adoc[Release Notes]

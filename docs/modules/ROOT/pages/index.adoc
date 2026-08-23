@@ -14,8 +14,8 @@ https://james.apache.org/mail.html[mailing lists].
 
 jSieve consists of two products:
 
-* *Apache JSieve* is a Sieve library coded in Java. See xref:getting-started.adoc[Getting Started]
-and xref:features.adoc[Sieve Features].
+* *Apache JSieve* is a Sieve library coded in Java. See xref:getting-started.adoc[Getting Started],
+xref:usage.adoc[Usage] and xref:features.adoc[Sieve Features].
 * xref:utils.adoc[*Apache JSieve Utilities*] contains utility classes helpful when using Sieve
 but not considered sufficiently core to be included in the main library.
 

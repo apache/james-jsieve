@@ -1,4 +1,6 @@
 name: jsieve
 title: Apache James jSieve
-version: '0.8-SNAPSHOT'
+version: '0.9-SNAPSHOT'
 prerelease: true
+nav:
+  - modules/ROOT/nav.adoc

@@ -1,0 +1,26 @@
+= Apache jSieve Utilities
+
+== Introduction
+
+jSieve Utilities collects lightweight frameworks and utilities useful when working with Sieve
+(in general) and xref:index.adoc[jSieve] (in particular).
+
+They are shipped as the `org.apache.james:apache-jsieve-util` artifact.
+
+== Highlights
+
+=== Script Checker
+
+Checks Sieve scripts. Includes monitoring controlled execution of a script against a message.
+
+[[sieve-in-xml]]
+=== Sieve In Xml
+
+https://tools.ietf.org/html/draft-freed-sieve-in-xml-04[Sieve-in-xml] is an Internet Draft.
+It describes a method to convert Sieve scripts to and from an XML format suitable for editing
+by a UI. A typical use case is as the payload for a web based editor backed by web services.
+
+`OutputUtils` contains an experimental preview of a subset of this draft. It allows a jSieve
+node tree to be output as sieve-in-xml. Full support is planned but feedback is encouraged,
+through the https://james.apache.org/mail.html[mailing lists] or the
+https://issues.apache.org/jira/browse/JSIEVE[issue tracker].

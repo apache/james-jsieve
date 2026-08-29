@@ -40,6 +40,8 @@ public class AsciiCasemap implements Comparator {
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
     public boolean equals(String string1, String string2) {
+	if (string1 == null && string2 == null) return true;
+        if (string1 == null || string2 == null) return false;
         return ComparatorUtils.equals(string1.toUpperCase(), string2
                 .toUpperCase());
     }

@@ -355,12 +355,14 @@ public class HeaderTest {
     }
 
     /**
-     * Test for special char escaping: \\? is a ? and \\* is an *
+     * Test for special char escaping: \\? is a ? and \\* is an *. A literal
+     * backslash is matched by \\\\ in the script, the glob itself then holding
+     * \\ (RFC 5228 section 2.7.1)
      */
     @Test
     public void testSpecialCharsEscapingInMatch() {
         boolean isTestPassed = false;
-        String script = "if header :matches \"X-Caffeine\" \"my,\\\\,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
+        String script = "if header :matches \"X-Caffeine\" \"my,\\\\\\\\,?,\\\\?,*,\\\\*,pattern\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
             mail.getMessage().addHeader("X-Caffeine",
@@ -373,6 +375,24 @@ public class HeaderTest {
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
+    }
+
+    /**
+     * An undefined escape stands for the escaped character (RFC 5228 section
+     * 2.4.2): the script string "my\\,pattern" is the glob my\,pattern, which
+     * matches my,pattern
+     */
+    @Test
+    public void testUndefinedEscapeInMatch() throws Exception {
+        String script = "if header :matches \"X-Caffeine\" \"my\\\\,pattern\" {throwTestException;}";
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Caffeine", "my,pattern");
+        try {
+            JUnitUtils.interpret(mail, script);
+            Assert.fail("my\\,pattern should match my,pattern");
+        } catch (ThrowTestException.TestException e) {
+            // expected
+        }
     }
 
     /**
@@ -396,4 +416,39 @@ public class HeaderTest {
         Assert.assertTrue(isTestPassed);
     }
 
+
+    @Test(timeout = 2000)
+    public void multiStarGlobOnLongHeaderShouldBeEvaluatedInBoundedTime() throws Exception {
+        String script = "if header :matches \"Subject\" \"*2*^*a*a*e*a*a*a*a*a*\\\\\\\\a?*\" {throwTestException;}";
+        StringBuilder subject = new StringBuilder("2^");
+        for (int i = 0; i < 5000; i++) {
+            subject.append(i % 7 == 0 ? 'e' : 'a');
+        }
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().setSubject(subject.toString());
+        // No backslash in the subject: no match, and no endless backtracking
+        JUnitUtils.interpret(mail, script);
+    }
+
+    @Test
+    public void matchesShouldSpanFoldedHeaderLines() throws Exception {
+        String script = "if header :matches \"X-Caffeine\" \"first*second*\" {throwTestException;}";
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Caffeine", "first line\r\n second line");
+        try {
+            JUnitUtils.interpret(mail, script);
+            Assert.fail("first*second* should match a folded header");
+        } catch (ThrowTestException.TestException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void defaultComparatorShouldOnlyFoldAsciiCase() throws Exception {
+        String script = "if header :matches \"X-Caffeine\" \"*CAF\u00c9*\" {throwTestException;}";
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Caffeine", "un caf\u00e9");
+        // i;ascii-casemap folds c, a and f, but not \u00e9 (RFC 4790 section 9.2)
+        JUnitUtils.interpret(mail, script);
+    }
 }

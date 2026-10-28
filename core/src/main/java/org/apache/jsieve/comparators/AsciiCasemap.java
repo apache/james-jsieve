@@ -40,16 +40,16 @@ public class AsciiCasemap implements Comparator {
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
     public boolean equals(String string1, String string2) {
-        return ComparatorUtils.equals(string1.toUpperCase(), string2
-                .toUpperCase());
+        return ComparatorUtils.equals(toAsciiUpperCase(string1),
+                toAsciiUpperCase(string2));
     }
 
     /**
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
     public boolean contains(String container, String content) {
-        return ComparatorUtils.contains(container.toUpperCase(), content
-                .toUpperCase());
+        return ComparatorUtils.contains(toAsciiUpperCase(container),
+                toAsciiUpperCase(content));
     }
 
     /**
@@ -57,8 +57,24 @@ public class AsciiCasemap implements Comparator {
      */
     public boolean matches(String string, String glob)
             throws SievePatternException {
-        return ComparatorUtils
-                .matches(string.toUpperCase(), glob.toUpperCase());
+        return ComparatorUtils.matches(toAsciiUpperCase(string),
+                toAsciiUpperCase(glob));
+    }
+
+    /**
+     * Maps a-z onto A-Z and leaves every other character untouched, as
+     * defined by RFC 4790 section 9.2. Unlike {@link String#toUpperCase()},
+     * this neither depends on the default locale nor changes the length of
+     * the string.
+     */
+    static String toAsciiUpperCase(String string) {
+        final char[] chars = string.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= 'a' && chars[i] <= 'z') {
+                chars[i] = (char) (chars[i] - ('a' - 'A'));
+            }
+        }
+        return new String(chars);
     }
 
 }

@@ -19,9 +19,7 @@
 
 package org.apache.jsieve.comparators;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.Arrays;
 
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.LookupException;
@@ -75,6 +73,14 @@ public class ComparatorUtils {
      * Method <code>matches</code> answers a boolean indicating if the
      * parameter <code>string</code> matches the glob pattern described by
      * parameter <code>glob</code>.
+     * </p>
+     * <p>
+     * The glob is matched by a dedicated iterative matcher rather than being
+     * translated to a backtracking regular expression: worst case is
+     * O(string length * glob length) whatever the number of <code>*</code>.
+     * As mandated by RFC 5228 section 2.7.1, <code>*</code> and
+     * <code>?</code> match any character, line terminators included.
+     * </p>
      * 
      * @param string
      * @param glob
@@ -83,13 +89,68 @@ public class ComparatorUtils {
      */
     static public boolean matches(String string, String glob)
             throws SievePatternException {
-        try {
-            String regex = sieveToJavaRegex(glob);
-            final Matcher matcher = Pattern.compile(regex).matcher(string);
-            return matcher.matches();
-        } catch (PatternSyntaxException e) {
-            throw new SievePatternException(e.getMessage());
+        final int[] pattern = compileGlob(glob);
+        final int[] target = string.codePoints().toArray();
+
+        int t = 0;
+        int p = 0;
+        // Position in the pattern right after the last star seen, -1 if none
+        int afterStar = -1;
+        // Position in the target the last star is currently matched up to
+        int starMatchEnd = 0;
+        while (t < target.length) {
+            if (p < pattern.length && pattern[p] == GLOB_STAR) {
+                afterStar = ++p;
+                starMatchEnd = t;
+            } else if (p < pattern.length
+                    && (pattern[p] == GLOB_ANY || pattern[p] == target[t])) {
+                p++;
+                t++;
+            } else if (afterStar >= 0) {
+                // Mismatch: let the last star swallow one more character.
+                // Earlier stars never need revisiting.
+                p = afterStar;
+                t = ++starMatchEnd;
+            } else {
+                return false;
+            }
         }
+        while (p < pattern.length && pattern[p] == GLOB_STAR) {
+            p++;
+        }
+        return p == pattern.length;
+    }
+
+    private static final int GLOB_STAR = -1;
+
+    private static final int GLOB_ANY = -2;
+
+    /**
+     * Compiles a Sieve glob into code points, wildcards being replaced by
+     * {@link #GLOB_STAR} and {@link #GLOB_ANY}. As per RFC 5228 sections
+     * 2.7.1 and 2.4.2, a backslash makes the following character literal,
+     * an undefined escape such as <code>\a</code> standing for <code>a</code>.
+     * A trailing backslash stands for itself. Consecutive stars are merged.
+     */
+    private static int[] compileGlob(String glob) {
+        final int[] codePoints = glob.codePoints().toArray();
+        final int[] result = new int[codePoints.length];
+        int length = 0;
+        for (int i = 0; i < codePoints.length; i++) {
+            final int c = codePoints[i];
+            if (c == '*') {
+                if (length == 0 || result[length - 1] != GLOB_STAR) {
+                    result[length++] = GLOB_STAR;
+                }
+            } else if (c == '?') {
+                result[length++] = GLOB_ANY;
+            } else if (c == '\\' && i + 1 < codePoints.length) {
+                result[length++] = codePoints[++i];
+            } else {
+                result[length++] = c;
+            }
+        }
+        return Arrays.copyOf(result, length);
     }
 
     /**
@@ -139,8 +200,13 @@ public class ComparatorUtils {
     }
 
     /**
-     * Converts a Sieve pattern in a java regex pattern
+     * Converts a Sieve pattern in a java regex pattern.
+     *
+     * @deprecated no longer used for matching: the resulting regex
+     *             backtracks catastrophically on globs with several stars.
+     *             Use {@link #matches(String, String)}.
      */
+    @Deprecated
     public static String sieveToJavaRegex(String pattern) {
         int ch;
         StringBuilder buffer = new StringBuilder(2 * pattern.length());
@@ -165,8 +231,14 @@ public class ComparatorUtils {
                     buffer.append('\\');
                 else if (isSieveMatcherSpecialChar(pattern.charAt(ch + 1)))
                     buffer.append(pattern.charAt(++ch));
-                else
-                    buffer.append('\\');
+                else {
+                    // Undefined escape: the next character stands for itself
+                    buffer.setLength(buffer.length() - 1);
+                    final char escaped = pattern.charAt(++ch);
+                    if (isRegexSpecialChar(escaped))
+                        buffer.append('\\');
+                    buffer.append(escaped);
+                }
                 break;
             default:
                 if (isRegexSpecialChar(nextChar))

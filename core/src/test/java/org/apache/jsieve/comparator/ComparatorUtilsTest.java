@@ -21,7 +21,9 @@ package org.apache.jsieve.comparator;
 
 import java.util.Random;
 
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.ComparatorUtils;
+import org.apache.jsieve.comparators.Octet;
 import org.apache.jsieve.exception.SievePatternException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,23 +60,6 @@ public class ComparatorUtilsTest {
                 .matches("[test] a\\x?foo\\bar*", sievematch));
     }
 
-    /**
-     * The ":matches" version specifies a wildcard match using the characters
-     * "*" and "?". "*" matches zero or more characters, and "?" matches a
-     * single character. "?" and "*" may be escaped as "\\?" and "\\*" in
-     * strings to match against themselves. The first backslash escapes the
-     * second backslash; together, they escape the "*". This is awkward, but it
-     * is commonplace in several programming languages that use globs and
-     * regular expressions.
-     */
-    @Test
-    public void testSieveToJavaRegex() {
-        String sievematch = "[test] ?\\\\?\\?*\\\\*\\*\\";
-        String res = ComparatorUtils.sieveToJavaRegex(sievematch);
-        String expected = "\\[test\\] .\\\\.\\?.*\\\\.*\\*\\\\";
-        Assert.assertEquals(expected, res);
-    }
-
     @Test(timeout = 2000)
     public void multiStarGlobShouldMatchInLinearishTime() throws Exception {
         StringBuilder target = new StringBuilder();
@@ -92,6 +77,19 @@ public class ComparatorUtilsTest {
         }
         Assert.assertFalse(ComparatorUtils.matches(target.toString(),
                 "*2\u00e9*^\u00e9*a*a*e*a*a*a*a\u00df*a****\\\\a?*"));
+    }
+
+    /**
+     * Exact input found by the fuzzer (GHSA-pfrv-hjfq-x5wr): this glob made the former regex
+     * translation backtrack catastrophically on a 181-character target.
+     */
+    @Test(timeout = 2000)
+    public void fuzzerFoundGlobShouldMatchInBoundedTime() throws Exception {
+        String glob = "*2\ufffd*^\ufffd*a*a*e*a*a*a*a\u00df*a****\\\\\\a?*";
+        String target = "\\aA!a*a*a*\ufffd\u00df*a*a*a\u0018*a|*3\ufffd*^\ufffd*a*a*e*a\u059e\u0561*\u0018*a|*2\ufffd*^\ufffd*a*a*e*a*a*a*a\u00df*a*a*a\u0018*a\ufffd*a*a*a*a*a*a*a\u00df*a*a*a\u0018*a|\u0018*^^^^^*a*a*a\u00dfl\ufffd*a*a*aa**e*a\u00df*a*a*a\u0018*a|\u0018a\u0018*\ufffd*a*a|\ufffd*a*a*a\u0018*\u0018a\u0018*\ufffd*a|l\ufffd*\u0018a\u0018*\ufffd*a|\u0005l\ufffd*\u0005";
+        Assert.assertEquals(181, target.length());
+        Assert.assertFalse(new Octet().matches(target, glob));
+        Assert.assertFalse(new AsciiCasemap().matches(target, glob));
     }
 
     @Test
@@ -123,12 +121,6 @@ public class ComparatorUtilsTest {
     public void trailingBackslashShouldStandForItself() throws Exception {
         Assert.assertTrue(ComparatorUtils.matches("foo\\", "foo\\"));
         Assert.assertFalse(ComparatorUtils.matches("foo", "foo\\"));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void regexTranslationShouldHandleUndefinedEscapes() {
-        Assert.assertEquals("a\\.b", ComparatorUtils.sieveToJavaRegex("\\a\\.b"));
     }
 
     @Test

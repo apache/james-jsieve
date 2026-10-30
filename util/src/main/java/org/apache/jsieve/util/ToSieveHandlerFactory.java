@@ -20,6 +20,8 @@ package org.apache.jsieve.util;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * <p>Builds sieve handlers that convert nodes to a Sieve script.</p>
@@ -52,16 +54,28 @@ public class ToSieveHandlerFactory {
      * Thread safe worker.
      */
     private static final class ToSieveHandler extends SieveHandler.Base {
+        /** An open test list: the test depth it was opened at, and how many tests it holds yet */
+        private static final class TestList {
+            private final int depth;
+            private int tests;
+
+            private TestList(int depth) {
+                this.depth = depth;
+            }
+        }
+
         private final Writer writer;
+        private final Deque<TestList> testLists;
         
-        private boolean commaRequiredBeforeNextTest;
+        private int testDepth;
         private boolean firstTestInList;
         private boolean commandUsedBlock;
         private boolean commandAfterEndCommand;
      
         public ToSieveHandler(final Writer writer) {
             this.writer = writer;
-            commaRequiredBeforeNextTest = false;
+            testLists = new ArrayDeque<TestList>();
+            testDepth = 0;
             firstTestInList = false;
             commandUsedBlock = false;
             commandAfterEndCommand = false;
@@ -84,7 +98,6 @@ public class ToSieveHandlerFactory {
         /** */
         @Override
         public SieveHandler startCommand(String commandName) throws HaltTraversalException {
-            commaRequiredBeforeNextTest = false;
             if (commandAfterEndCommand) {
                 space();
                 commandAfterEndCommand = false;
@@ -165,29 +178,41 @@ public class ToSieveHandlerFactory {
         @Override
         public SieveHandler startTestList() throws HaltTraversalException {
             firstTestInList = true;
-            commaRequiredBeforeNextTest = false;
+            testLists.push(new TestList(testDepth));
             return append('(');
         }
         
         /** @see SieveHandler#endTestList() */
         @Override
         public SieveHandler endTestList() throws HaltTraversalException {
-            commaRequiredBeforeNextTest = false;
+            testLists.poll();
             return append(')');
         }
 
         /** @see SieveHandler#startTest(String) */
         @Override
         public SieveHandler startTest(String testName) throws HaltTraversalException {
-            if (commaRequiredBeforeNextTest) {
-                append(",");
+            // a comma only between the tests of a test list, not before the test argument of a test
+            final TestList testList = testLists.peek();
+            if (testList != null && testList.depth == testDepth) {
+                if (testList.tests > 0) {
+                    append(",");
+                }
+                testList.tests++;
             }
             if (!firstTestInList) {
                 space();
             }
-            commaRequiredBeforeNextTest = true;
             firstTestInList = false;
+            testDepth++;
             return append(testName);
+        }
+
+        /** @see SieveHandler#endTest(String) */
+        @Override
+        public SieveHandler endTest(String testName) throws HaltTraversalException {
+            testDepth--;
+            return this;
         }
 
         /**

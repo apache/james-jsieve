@@ -304,12 +304,13 @@ public class ToSieveHandlerFactoryTest extends TestCase {
         String secondIdentifier = "SecondIdentifier";
         
         // Exercise
+        handler.startTestList();
         handler.startTest(firstIdentifier);
         handler.endTest(firstIdentifier);
         handler.startTest(secondIdentifier);
         
         // Verify
-        assertEquals(" " +firstIdentifier + ", " + secondIdentifier, monitor.toString());
+        assertEquals("(" + firstIdentifier + ", " + secondIdentifier, monitor.toString());
     }
     
     public void testAfterEndTestListShouldNotNextPrefixTestWithComma() throws Exception {
@@ -327,6 +328,20 @@ public class ToSieveHandlerFactoryTest extends TestCase {
         
         // Verify
         assertEquals(" " + firstIdentifier + ")(" + secondIdentifier, monitor.toString());
+    }
+    
+    public void testNestedTestShouldNotBePrefixedWithComma() throws Exception {
+        // Setup
+        SieveHandler handler = factory.build(monitor);
+        
+        // Exercise
+        handler.startTest("not");
+        handler.startTest("exists");
+        handler.endTest("exists");
+        handler.endTest("not");
+        
+        // Verify
+        assertEquals(" not exists", monitor.toString());
     }
     
     public void testEndTestShouldBeIgnored() throws Exception {

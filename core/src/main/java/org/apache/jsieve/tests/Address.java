@@ -23,6 +23,7 @@ import static org.apache.jsieve.tests.AddressPartTags.DOMAIN_TAG;
 import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
 
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
@@ -73,13 +74,13 @@ public class Address extends AbstractComparatorTest {
             matchAddress = localPart + "@" + domain;
         else {
             matchAddress = (addressPart.equals(LOCALPART_TAG) ? localPart
-                    : domain.toLowerCase());
+                    : AsciiCasemap.toAsciiUpperCase(domain));
         }
 
         // domain matches MUST ignore case, others should not
         String matchKey = null;
         if (addressPart.equals(DOMAIN_TAG)) {
-            matchKey = key.toLowerCase();
+            matchKey = AsciiCasemap.toAsciiUpperCase(key);
         } else {
             matchKey = key;
         }

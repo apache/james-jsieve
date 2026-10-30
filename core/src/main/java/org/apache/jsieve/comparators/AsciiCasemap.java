@@ -67,7 +67,7 @@ public class AsciiCasemap implements Comparator {
      * this neither depends on the default locale nor changes the length of
      * the string.
      */
-    static String toAsciiUpperCase(String string) {
+    public static String toAsciiUpperCase(String string) {
         final char[] chars = string.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] >= 'a' && chars[i] <= 'z') {

@@ -321,7 +321,8 @@ void string() :
     if (null != quoted_string) {
       jjtThis.setValue(unescape(quoted_string.image.substring(1, quoted_string.image.length() - 1)));
     } else if (null != multi_line) {
-      jjtThis.setValue(unescape(multiLineValue(multi_line.image)));
+      // no backslash escape in a multi-line literal, only dot-stuffing
+      jjtThis.setValue(multiLineValue(multi_line.image));
     }
   }
 }

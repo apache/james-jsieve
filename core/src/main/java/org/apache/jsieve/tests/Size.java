@@ -56,7 +56,7 @@ public class Size extends AbstractTest {
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SyntaxException, SieveMailException {
         String comparator = null;
-        Integer size = null;
+        NumberArgument size = null;
         ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
 
         // First argument MUST be a tag of ":under" or ":over"
@@ -78,7 +78,7 @@ public class Size extends AbstractTest {
         if (argumentsIter.hasNext()) {
             final Argument argument = argumentsIter.next();
             if (argument instanceof NumberArgument)
-                size = ((NumberArgument) argument).getInteger();
+                size = (NumberArgument) argument;
         }
         if (null == size)
             throw context.getCoordinate().syntaxException("Expecting a Number");
@@ -88,7 +88,10 @@ public class Size extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected argument(s)");
 
-        return test(mail, comparator, size);
+        // held as Integer.MAX_VALUE, a larger number still exceeds every mail size, an int
+        if (size.isAboveIntegerRange())
+            return comparator.equals(":under");
+        return test(mail, comparator, size.getInteger());
     }
 
     /**

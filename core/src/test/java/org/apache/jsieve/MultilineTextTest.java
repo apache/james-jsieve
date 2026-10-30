@@ -150,6 +150,12 @@ public class MultilineTextTest {
         Assert.assertEquals("a\r.b", rejection.getMessage());
     }
 
+    @Test
+    public void backslashesShouldBeKept() throws Exception {
+        ActionReject rejection = runRejectScript("reject text:\r\nFiles are in C:\\dir\\\\sub\\\r\n.\r\n;");
+        Assert.assertEquals("Files are in C:\\dir\\\\sub\\", rejection.getMessage());
+    }
+
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
         JUnitUtils.interpret(mail, script);

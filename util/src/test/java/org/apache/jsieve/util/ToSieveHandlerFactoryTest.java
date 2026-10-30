@@ -211,6 +211,23 @@ public class ToSieveHandlerFactoryTest extends TestCase {
         assertEquals('"' + member + '"', monitor.toString());
     }
     
+    public void testListMembersShouldBeSeparatedByCommas() throws Exception {
+        // Setup
+        SieveHandler handler = factory.build(monitor);
+        
+        // Exercise
+        handler.startStringListArgument();
+        handler.listMember("a");
+        handler.listMember("b");
+        handler.endStringListArgument();
+        handler.startStringListArgument();
+        handler.listMember("c");
+        handler.endStringListArgument();
+        
+        // Verify
+        assertEquals(" [\"a\", \"b\"] [\"c\"]", monitor.toString());
+    }
+    
     public void testListMemberShouldEscapeDoubleQuote() throws Exception {
         // Setup
         SieveHandler handler = factory.build(monitor);

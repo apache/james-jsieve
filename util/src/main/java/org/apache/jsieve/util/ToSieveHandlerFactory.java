@@ -69,6 +69,7 @@ public class ToSieveHandlerFactory {
         
         private int testDepth;
         private boolean firstTestInList;
+        private boolean firstMemberInList;
         private boolean commandUsedBlock;
         private boolean commandAfterEndCommand;
      
@@ -77,6 +78,7 @@ public class ToSieveHandlerFactory {
             testLists = new ArrayDeque<TestList>();
             testDepth = 0;
             firstTestInList = false;
+            firstMemberInList = true;
             commandUsedBlock = false;
             commandAfterEndCommand = false;
         }
@@ -149,6 +151,7 @@ public class ToSieveHandlerFactory {
         /** @see SieveHandler#startStringListArgument() */
         @Override
         public SieveHandler startStringListArgument() throws HaltTraversalException {
+            firstMemberInList = true;
             space();
             return append('[');
         }
@@ -162,6 +165,10 @@ public class ToSieveHandlerFactory {
         /** @see SieveHandler#listMember(String) */
         @Override
         public SieveHandler listMember(String string) throws HaltTraversalException {
+            if (!firstMemberInList) {
+                append(", ");
+            }
+            firstMemberInList = false;
             append('"');
             for (int i=0;i<string.length();i++) {
                 char next = string.charAt(i);

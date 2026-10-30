@@ -80,6 +80,19 @@ public class SieveGenerationTest extends TestCase {
         assertShouldRoundtripScript("if header :contains [\"subject\", \"to\"] [\"a\", \"b\"] {fileinto [\"c\"];}");
     }
     
+    public void testShouldGenerateEscapedCarriageReturnAndFormFeedThatParseBack() throws Exception {
+        final String generated = toSieve("fileinto [\"a\rb\fc\\\"d\"];");
+        assertEquals("fileinto [\"a\\\rb\\\fc\\\"d\"];", generated);
+        assertEquals(generated, toSieve(generated));
+    }
+    
+    private String toSieve(final String script) throws Exception {
+        final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));
+        final StringWriter monitor = new StringWriter();
+        OutputUtils.toSieve(node, monitor);
+        return monitor.toString();
+    }
+    
     private void assertShouldRoundtripScript(final String script) throws Exception {
         // Set up
         final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));

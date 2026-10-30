@@ -106,6 +106,15 @@ public class SieveToXmlTest extends MockObjectTestCase {
         assertBuilderIsReturned(instance.argument(number));
     }
     
+    public void testNumericArgumentAboveIntegerRange() throws Exception {
+        long number = 2147483648L;
+        mockOut.expects(once()).method("openElement").with(eq(SieveToXml.DEFAULT_NAME_NUM), 
+                eq(SieveToXml.DEFAULT_NAMESPACE), eq(SieveToXml.DEFAULT_PREFIX)).id("1");
+        mockOut.expects(once()).method("content").with(eq(Long.toString(number))).after("1").id("2");
+        mockOut.expects(once()).method("closeElement").after("2");
+        assertBuilderIsReturned(instance.argument(number));
+    }
+    
     public void testTagArgument() throws Exception {
         String tag = "A Tag";
         mockOut.expects(once()).method("openElement").with(eq(SieveToXml.DEFAULT_NAME_TAG), 

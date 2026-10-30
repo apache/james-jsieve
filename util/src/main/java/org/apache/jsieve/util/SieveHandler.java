@@ -122,6 +122,18 @@ public interface SieveHandler {
      * @return this
      */
     public SieveHandler argument(int number) throws HaltTraversalException;
+
+    /**
+     * Handles a numeric argument above Integer.MAX_VALUE, which
+     * {@link #argument(int)} cannot carry: RFC 5228 section 2.4.1 allows
+     * numbers above 2^31 - 1. By default, handled as Integer.MAX_VALUE.
+     * @param number above Integer.MAX_VALUE
+     * @throws HaltTraversalException
+     * @return this
+     */
+    public default SieveHandler argument(long number) throws HaltTraversalException {
+        return argument((int) Math.min(number, Integer.MAX_VALUE));
+    }
     
     /**
      * Handles the start of an argument which is a list of strings.

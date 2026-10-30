@@ -419,6 +419,18 @@ public class SieveToXml {
         }
 
         @Override
+        public SieveHandler argument(long number) throws HaltTraversalException {
+            try {
+                out.openElement(numberElementName, namespaceUri, namespacePrefix);
+                out.content(Long.toString(number));
+                out.closeElement();
+                return this;
+            } catch (IOException e) {
+                throw new HaltTraversalException(e);
+            }
+        }
+
+        @Override
         public SieveHandler argument(String tag) throws HaltTraversalException {
             try {
                 out.openElement(tagElementName, namespaceUri, namespacePrefix);

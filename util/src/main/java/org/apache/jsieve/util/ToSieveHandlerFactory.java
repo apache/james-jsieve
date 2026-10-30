@@ -125,6 +125,13 @@ public class ToSieveHandlerFactory {
             space();
             return append(Integer.toString(number));
         }
+
+        /** @see SieveHandler#argument(long) */
+        @Override
+        public SieveHandler argument(long number) throws HaltTraversalException {
+            space();
+            return append(Long.toString(number));
+        }
         
         /** @see SieveHandler#startStringListArgument() */
         @Override

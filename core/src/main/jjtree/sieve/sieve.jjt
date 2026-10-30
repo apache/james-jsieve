@@ -24,7 +24,9 @@ options {
   NODE_PACKAGE="org.apache.jsieve.parser.generated";
   NODE_DEFAULT_VOID=false;
   STATIC = false;
-  JAVA_UNICODE_ESCAPE = true;  
+  // Sieve has no Java style unicode escape (RFC 5228 section 2.4.2): read the characters as they are
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = true;
   DEBUG_PARSER = false;
   OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated";
   NODE_EXTENDS="org.apache.jsieve.parser.SieveNode";

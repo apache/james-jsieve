@@ -21,6 +21,7 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveEnvelopeMailAdapter;
@@ -591,4 +592,10 @@ public class EnvelopeTest {
         Assert.assertTrue(isTestPassed);
     }
 
+    @Test(expected = SyntaxException.class)
+    public void numericKeyListShouldBeASyntaxException() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@domain");
+        JUnitUtils.interpret(mail, "require \"envelope\"; if envelope :localpart :is \"from\" 0 {keep;}");
+    }
 }

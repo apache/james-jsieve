@@ -19,6 +19,7 @@
 
 package org.apache.jsieve;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionKeep;
+import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.optional.ActionVacation;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
@@ -248,6 +250,29 @@ public class VacationTest {
     @Test(expected = SyntaxException.class)
     public void duplicatedTagOfAnotherTypeShouldThrow() throws Exception {
         JUnitUtils.interpret(sieveMailAdapter, "vacation :handle 2G :handle \"handle\" \"reason\";");
+    }
+
+    @Test
+    public void mimeFlagFollowedByAnotherTagShouldWork() throws Exception {
+        MailAdapter mail = JUnitUtils.createMail();
+        JUnitUtils.interpret(mail, "require \"vacation\"; vacation :mime :addresses [\"me@example.com\"]"
+            + " \"Content-Type: text/plain\r\n\r\nI am away.\";");
+
+        ActionVacation vacation = (ActionVacation) mail.getActions().get(0);
+        assertThat(vacation.getMime()).isEqualTo("Content-Type: text/plain\r\n\r\nI am away.");
+        assertThat(vacation.getReason()).isNull();
+        assertThat(vacation.getAddresses()).containsExactly("me@example.com");
+    }
+
+    @Test
+    public void mimeFollowedByTheReasonShouldStillWork() throws Exception {
+        MailAdapter mail = JUnitUtils.createMail();
+        JUnitUtils.interpret(mail, "require \"vacation\"; vacation :subject \"away\" :mime \"entity\";");
+
+        ActionVacation vacation = (ActionVacation) mail.getActions().get(0);
+        assertThat(vacation.getMime()).isEqualTo("entity");
+        assertThat(vacation.getReason()).isNull();
+        assertThat(vacation.getSubject()).isEqualTo("away");
     }
 
 }

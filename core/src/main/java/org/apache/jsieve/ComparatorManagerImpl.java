@@ -24,6 +24,7 @@ import static org.apache.jsieve.Constants.COMPARATOR_OCTET_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -146,7 +147,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * @throws LookupException
      */
     private String getClassName(String name) throws LookupException {
-        String className = classNameMap.get(name.toLowerCase());
+        String className = classNameMap.get(name.toLowerCase(Locale.ROOT));
         if (null == className)
             throw new LookupException("Comparator named '" + name
                     + "' not mapped.");

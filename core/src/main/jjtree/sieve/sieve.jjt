@@ -179,8 +179,9 @@ TOKEN : /* LITERALS */
       "\""
   >
 |
+// an undefined escape, such as \a, means the character itself (RFC 5228 section 2.4.2); NUL is no Sieve character
   <#ESCAPED_CHAR:
-      ("\\" ("\\"|"\""))
+      ("\\" ~["\u0000"])
   >
 |
 // multi-line = "text:" *(SP / HTAB) (hash-comment / CRLF)

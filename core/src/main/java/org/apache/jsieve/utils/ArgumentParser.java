@@ -37,11 +37,15 @@ public class ArgumentParser {
     private List<Argument> remainingArguments;
     private Set<String> singleTags;
     private Map<String, Argument> tagsWithValues;
+    private Set<String> parsedTags;
+    private Set<String> duplicatedTags;
 
     public ArgumentParser(List<Argument> arguments) {
         this.remainingArguments = new ArrayList<Argument>();
         this.singleTags = new HashSet<String>();
         this.tagsWithValues = new HashMap<String, Argument>();
+        this.parsedTags = new HashSet<String>();
+        this.duplicatedTags = new HashSet<String>();
         initialize(arguments);
     }
 
@@ -50,6 +54,11 @@ public class ArgumentParser {
         for (Argument argument : arguments) {
             if (argument instanceof TagArgument) {
                 TagArgument tagArgument = (TagArgument) argument;
+                // each tag at most once (RFC 5228 section 2.6.2), reported by the throwOnUnvalid* methods;
+                // a tag after the positional arguments is accepted for compatibility with existing scripts
+                if (!parsedTags.add(tagArgument.getTag())) {
+                    duplicatedTags.add(tagArgument.getTag());
+                }
                 handlePreviousTagArgument(previousSeenTagArgument);
                 previousSeenTagArgument = tagArgument;
             } else {
@@ -123,6 +132,9 @@ public class ArgumentParser {
     }
 
     private void validateTagCollectionWithExpectations(Set<String> seenTags, String[] expectations) throws SyntaxException {
+        if (!duplicatedTags.isEmpty()) {
+            throw new SyntaxException("Duplicated tags : " + duplicatedTags);
+        }
         Set<String> validTagList = getSetFromStringArray(expectations);
         if (!validTagList.containsAll(seenTags)) {
             throw new SyntaxException(buildUnwantedTagsErrorMessage(retrieveUnwantedTags(seenTags, validTagList)));

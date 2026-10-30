@@ -20,6 +20,7 @@
 package org.apache.jsieve.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.google.common.collect.Lists;
 import org.apache.jsieve.Argument;
@@ -243,6 +244,15 @@ public class ArgumentParserTest {
     public void argumentParserShouldHandleMultipleSingleTagArguments() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser(Lists.<Argument>newArrayList(ANY_TAG_ARGUMENT, OTHER_TAG_ARGUMENT));
         assertThat(argumentParser.getSingleTags()).containsExactly(ANY_TAG, OTHER_TAG);
+    }
+
+    @Test
+    public void duplicatedTagShouldBeReportedByTheValidation() throws Exception {
+        ArgumentParser argumentParser = new ArgumentParser(Lists.newArrayList(ANY_TAG_ARGUMENT, SINGLE_STRING_ARGUMENT, ANY_TAG_ARGUMENT, NUMBER_ARGUMENT));
+        assertThatThrownBy(() -> argumentParser.throwOnUnvalidSeenTagWithValue(ANY_TAG))
+            .isInstanceOf(SyntaxException.class);
+        assertThatThrownBy(() -> argumentParser.throwOnUnvalidSeenSingleTag())
+            .isInstanceOf(SyntaxException.class);
     }
 
 }

@@ -240,4 +240,14 @@ public class VacationTest {
         verifyNoMoreInteractions(sieveMailAdapter);
     }
 
+    @Test(expected = SyntaxException.class)
+    public void duplicatedTagShouldThrow() throws Exception {
+        JUnitUtils.interpret(sieveMailAdapter, "vacation :subject \"a\" :subject \"b\" \"reason\";");
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void duplicatedTagOfAnotherTypeShouldThrow() throws Exception {
+        JUnitUtils.interpret(sieveMailAdapter, "vacation :handle 2G :handle \"handle\" \"reason\";");
+    }
+
 }

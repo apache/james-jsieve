@@ -25,7 +25,6 @@ import static org.apache.jsieve.comparators.MatchTypeTags.IS_TAG;
 import static org.apache.jsieve.comparators.MatchTypeTags.MATCHES_TAG;
 import static org.apache.jsieve.tests.ComparatorTags.COMPARATOR_TAG;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -187,19 +186,7 @@ public class Header extends AbstractTest {
     protected boolean match(String comparator, String matchType,
             List<String> headerValues, List<String> keys, SieveContext context)
             throws SieveException {
-        // Special case for empty values
-        // If the matchType is :contains
-        // add the headerValue of a null string
-        // else
-        // not matched
-        if (headerValues.isEmpty())
-            if (matchType.equals(CONTAINS_TAG)) {
-                // header values may be immutable
-                headerValues = new ArrayList<String>(headerValues);
-                headerValues.add("");
-            } else {
-                return false;
-            }
+        // An absent header matches no key, not even "" (RFC 5228 section 5.7)
         // Iterate over the header values looking for a match
         boolean isMatched = false;
         Iterator<String> headerValuesIter = headerValues.iterator();

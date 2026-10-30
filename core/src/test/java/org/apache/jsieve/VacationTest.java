@@ -26,6 +26,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.util.Arrays;
+
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
@@ -172,7 +174,7 @@ public class VacationTest {
 
         verify(sieveMailAdapter).setContext(any(SieveContext.class));
         verify(sieveMailAdapter).setContext(isNull(SieveContext.class));
-        verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").build());
+        verify(sieveMailAdapter).addAction(ActionVacation.builder().reason("reason").addresses(Arrays.asList("benwa@apache.org")).build());
         verify(sieveMailAdapter).addAction(any(ActionKeep.class));
         verify(sieveMailAdapter).executeActions();
         verifyNoMoreInteractions(sieveMailAdapter);

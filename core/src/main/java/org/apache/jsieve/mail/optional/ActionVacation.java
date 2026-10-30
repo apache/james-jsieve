@@ -170,11 +170,12 @@ public class ActionVacation implements Action {
         ActionVacation that = (ActionVacation) o;
 
         return duration == that.duration
-            && equalsNullProtected(this.subject, subject)
-            && equalsNullProtected(this.from, from)
-            && equalsNullProtected(this.handle, handle)
-            && equalsNullProtected(this.reason, reason)
-            && equalsNullProtected(this.mime, mime);
+            && equalsNullProtected(this.subject, that.subject)
+            && equalsNullProtected(this.from, that.from)
+            && equalsNullProtected(this.addresses, that.addresses)
+            && equalsNullProtected(this.handle, that.handle)
+            && equalsNullProtected(this.reason, that.reason)
+            && equalsNullProtected(this.mime, that.mime);
     }
 
     private boolean equalsNullProtected(Object object1, Object object2) {
@@ -191,7 +192,7 @@ public class ActionVacation implements Action {
         result = 31 * result + hashCodeNullProtected(handle);
         result = 31 * result + hashCodeNullProtected(reason);
         result = 31 * result + hashCodeNullProtected(mime);
-        result = 31 * result + hashCodeNullProtected(subject);
+        result = 31 * result + hashCodeNullProtected(addresses);
         result = 31 * result + duration;
         return result;
     }

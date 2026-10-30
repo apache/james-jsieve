@@ -21,6 +21,7 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
@@ -28,12 +29,29 @@ import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import javax.mail.MessagingException;
 
 /**
  * Class SizeTest
  */
 public class SizeTest {
+
+    private static MailAdapter largestMail() throws Exception {
+        SieveMailAdapter mail = mock(SieveMailAdapter.class);
+        when(mail.getSize()).thenReturn(Integer.MAX_VALUE);
+        return mail;
+    }
+
+    private static MailAdapter smallMail() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().setText("Hi!");
+        mail.getMessage().saveChanges();
+        // copied so that JavaMail reports the size of the whole message
+        return JUnitUtils.copyMail(mail);
+    }
 
     /**
      * Test for Test 'size'
@@ -190,6 +208,31 @@ public class SizeTest {
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
+    }
+
+    @Test
+    public void sizeOverANumberAboveIntRangeShouldNotMatch() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :over 3024438529 {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void sizeUnderANumberAboveIntRangeShouldMatch() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :under 3024438529 {throwTestException;}");
+    }
+
+    @Test
+    public void numberOfManyDigitsShouldParse() throws Exception {
+        JUnitUtils.parse("if size :over 000000000000099999999999999999999999 {discard;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void theLargestMailShouldBeUnderANumberAboveIntRange() throws Exception {
+        JUnitUtils.interpret(largestMail(), "if size :under 2147483648 {throwTestException;}");
+    }
+
+    @Test
+    public void theLargestMailShouldNotBeOverANumberAboveIntRange() throws Exception {
+        JUnitUtils.interpret(largestMail(), "if size :over 2147483648 {throwTestException;}");
     }
 
 }

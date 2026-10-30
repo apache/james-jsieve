@@ -37,9 +37,30 @@ import org.apache.jsieve.parser.generated.Token;
 public class NumberArgument implements Argument {
 
     /**
+     * The value of the digits, Long.MAX_VALUE when beyond.
+     */
+    private static long parseSaturated(String digits) {
+        int start = 0;
+        while (start < digits.length() - 1 && digits.charAt(start) == '0') {
+            start++;
+        }
+        final String significant = digits.substring(start);
+        if (significant.length() > 18) {
+            return Long.MAX_VALUE;
+        }
+        return Long.parseLong(significant);
+    }
+
+    /**
      * The absolute value of the number after applying the quentifier.
      */
     private Integer fieldValue;
+
+    /**
+     * Whether the number exceeds Integer.MAX_VALUE, fieldValue then holding
+     * Integer.MAX_VALUE.
+     */
+    private boolean aboveIntegerRange;
 
     /**
      * Constructor for NumberArgument.
@@ -85,6 +106,17 @@ public class NumberArgument implements Argument {
     }
 
     /**
+     * RFC 5228 section 2.4.1 only requires numbers up to 2^31 - 1: a larger
+     * one is held as Integer.MAX_VALUE by {@link #getInteger()}. It still
+     * exceeds every mail size, an int.
+     * 
+     * @return whether the number exceeds Integer.MAX_VALUE
+     */
+    public boolean isAboveIntegerRange() {
+        return aboveIntegerRange;
+    }
+
+    /**
      * Sets the value of the receiver from a Token.
      * 
      * @param aToken
@@ -104,9 +136,9 @@ public class NumberArgument implements Argument {
             endIndex--;
         }
 
-        setValue(Integer.parseInt(aToken.image.substring(0,
-                endIndex))
-                * magnitude);
+        final long number = parseSaturated(aToken.image.substring(0, endIndex));
+        aboveIntegerRange = number > Integer.MAX_VALUE;
+        setValue((int) Math.min(number, Integer.MAX_VALUE) * magnitude);
     }
 
     /**

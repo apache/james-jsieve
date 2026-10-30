@@ -56,6 +56,18 @@ public class SieveGenerationTest extends TestCase {
         assertShouldRoundtripScript("fileinto [\"INBOX.test1\"]; fileinto [\"INBOX.test1\"];");
     }
     
+    public void testShouldGenerateNumbersAboveIntegerRangeInFull() throws Exception {
+        assertShouldRoundtripScript("if size :under 2147483648 {discard;}");
+        assertShouldRoundtripScript("if size :over 9223372036854775807 {discard;}");
+        assertShouldRoundtripScript("if size :over 1000000000000000000 {discard;}");
+        assertShouldRoundtripScript("if size :over 9223372036854775806 {discard;}");
+
+        final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream("if size :under 2G {discard;}".getBytes()));
+        final StringWriter monitor = new StringWriter();
+        OutputUtils.toSieve(node, monitor);
+        assertEquals("if size :under 2147483648 {discard;}", monitor.toString());
+    }
+    
     private void assertShouldRoundtripScript(final String script) throws Exception {
         // Set up
         final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));

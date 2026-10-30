@@ -58,4 +58,13 @@ public class XmlGenerationTest extends TestCase {
                 "<sieve:control sieve:name='stop'/>" +
                 "</sieve:control>", monitor.toString());
     }
+
+    public void testShouldGenerateNumbersAboveIntegerRangeInFull() throws Exception {
+        final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream("if size :under 2G {stop;}".getBytes()));
+        final StringWriter monitor = new StringWriter();
+
+        OutputUtils.toXml(node, monitor);
+
+        assertTrue(monitor.toString(), monitor.toString().contains("<sieve:num>2147483648</sieve:num>"));
+    }
 }

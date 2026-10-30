@@ -36,6 +36,8 @@ import org.apache.jsieve.parser.generated.Token;
  */
 public class NumberArgument implements Argument {
 
+    private static final String LONG_MAX_DIGITS = Long.toString(Long.MAX_VALUE);
+
     /**
      * The value of the digits, Long.MAX_VALUE when beyond.
      */
@@ -45,7 +47,10 @@ public class NumberArgument implements Argument {
             start++;
         }
         final String significant = digits.substring(start);
-        if (significant.length() > 18) {
+        // digit strings of the same length compare as their numbers
+        if (significant.length() > LONG_MAX_DIGITS.length()
+                || (significant.length() == LONG_MAX_DIGITS.length()
+                    && significant.compareTo(LONG_MAX_DIGITS) > 0)) {
             return Long.MAX_VALUE;
         }
         return Long.parseLong(significant);
@@ -57,10 +62,10 @@ public class NumberArgument implements Argument {
     private Integer fieldValue;
 
     /**
-     * Whether the number exceeds Integer.MAX_VALUE, fieldValue then holding
+     * The value in full, Long.MAX_VALUE when beyond: fieldValue holds at most
      * Integer.MAX_VALUE.
      */
-    private boolean aboveIntegerRange;
+    private long longValue;
 
     /**
      * Constructor for NumberArgument.
@@ -87,6 +92,7 @@ public class NumberArgument implements Argument {
      */
     protected void setValue(Integer number) {
         fieldValue = number;
+        longValue = number == null ? 0 : number;
     }
 
     /**
@@ -113,7 +119,17 @@ public class NumberArgument implements Argument {
      * @return whether the number exceeds Integer.MAX_VALUE
      */
     public boolean isAboveIntegerRange() {
-        return aboveIntegerRange;
+        return longValue > Integer.MAX_VALUE;
+    }
+
+    /**
+     * Method getLong answers the value of the receiver in full, even above
+     * Integer.MAX_VALUE, and Long.MAX_VALUE for a larger one.
+     * 
+     * @return long
+     */
+    public long getLong() {
+        return longValue;
     }
 
     /**
@@ -137,8 +153,9 @@ public class NumberArgument implements Argument {
         }
 
         final long number = parseSaturated(aToken.image.substring(0, endIndex));
-        aboveIntegerRange = number > Integer.MAX_VALUE;
-        setValue((int) Math.min(number, Integer.MAX_VALUE) * magnitude);
+        final long value = number > Long.MAX_VALUE / magnitude ? Long.MAX_VALUE : number * magnitude;
+        setValue((int) Math.min(value, Integer.MAX_VALUE));
+        longValue = value;
     }
 
     /**

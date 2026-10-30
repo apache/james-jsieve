@@ -221,6 +221,18 @@ public class SizeTest {
     }
 
     @Test
+    public void sizeOverAQuantityAboveIntRangeShouldNotMatch() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :over 2G {throwTestException;}");
+        JUnitUtils.interpret(smallMail(), "if size :over 2147483647M {throwTestException;}");
+        JUnitUtils.interpret(smallMail(), "if size :over 2097152K {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void sizeUnderAQuantityAboveIntRangeShouldMatch() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :under 3G {throwTestException;}");
+    }
+
+    @Test
     public void numberOfManyDigitsShouldParse() throws Exception {
         JUnitUtils.parse("if size :over 000000000000099999999999999999999999 {discard;}");
     }
@@ -228,6 +240,11 @@ public class SizeTest {
     @Test(expected = ThrowTestException.TestException.class)
     public void theLargestMailShouldBeUnderANumberAboveIntRange() throws Exception {
         JUnitUtils.interpret(largestMail(), "if size :under 2147483648 {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void theLargestMailShouldBeUnderAQuantityAboveIntRange() throws Exception {
+        JUnitUtils.interpret(largestMail(), "if size :under 2G {throwTestException;}");
     }
 
     @Test

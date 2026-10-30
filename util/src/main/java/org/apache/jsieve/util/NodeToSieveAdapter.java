@@ -145,6 +145,9 @@ public class NodeToSieveAdapter implements NodeHandler {
             Integer integer = numberArgument.getInteger();
             if (integer == null) {
                 LOGGER.debug("Ignoring null numeric argument");
+            } else if (numberArgument.isAboveIntegerRange()) {
+                // in full, so that it reads back above every mail size
+                handler.argument(numberArgument.getLong());
             } else {
                 handler.argument(integer);
             }

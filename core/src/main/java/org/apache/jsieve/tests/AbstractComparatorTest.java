@@ -133,8 +133,10 @@ public abstract class AbstractComparatorTest extends AbstractTest {
             Argument argument = argumentsIter.next();
             if (argument instanceof StringListArgument)
                 keys = ((StringListArgument) argument).getList();
-        } else throw context.getCoordinate().syntaxException(
-                "Expecting a StringList of keys");
+        }
+        if (null == keys)
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a StringList of keys");
 
         if (argumentsIter.hasNext())
             throw context.getCoordinate().syntaxException(

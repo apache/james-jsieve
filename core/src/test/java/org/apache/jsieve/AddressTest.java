@@ -21,6 +21,7 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
@@ -552,4 +553,13 @@ public class AddressTest {
         Assert.assertTrue(isTestPassed);
     }
 
+    @Test(expected = SyntaxException.class)
+    public void numericKeyListShouldBeASyntaxException() throws Exception {
+        JUnitUtils.interpret(JUnitUtils.createMail(), "if address :all :is \"From\" 0 {keep;}");
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void tagAsKeyListShouldBeASyntaxException() throws Exception {
+        JUnitUtils.interpret(JUnitUtils.createMail(), "if address \"From\" :is {keep;}");
+    }
 }

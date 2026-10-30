@@ -76,6 +76,10 @@ public class SieveGenerationTest extends TestCase {
         assertShouldRoundtripScript("if anyof(not exists [\"a\"], allof(true, false)) {stop;}");
     }
     
+    public void testShouldGenerateStringListsFromNode() throws Exception {
+        assertShouldRoundtripScript("if header :contains [\"subject\", \"to\"] [\"a\", \"b\"] {fileinto [\"c\"];}");
+    }
+    
     private void assertShouldRoundtripScript(final String script) throws Exception {
         // Set up
         final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));

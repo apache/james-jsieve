@@ -260,7 +260,7 @@ public class HeaderTest {
         String script = "if header :contains \"X-Caffeine\" \"\" {throwTestException;}";
         try {
             SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
-            mail.getMessage().addHeader("X-Caffeine", null);
+            mail.getMessage().addHeader("X-Caffeine", "");
             JUnitUtils.interpret(mail, script);
         } catch (MessagingException e) {
         } catch (ThrowTestException.TestException e) {
@@ -450,5 +450,17 @@ public class HeaderTest {
         mail.getMessage().addHeader("X-Caffeine", "un caf\u00e9");
         // i;ascii-casemap folds c, a and f, but not \u00e9 (RFC 4790 section 9.2)
         JUnitUtils.interpret(mail, script);
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void emptyKeyShouldBeContainedInAPresentHeader() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Caffeine", "C8H10N4O2");
+        JUnitUtils.interpret(mail, "if header :contains \"X-Caffeine\" \"\" {throwTestException;}");
+    }
+
+    @Test
+    public void emptyKeyShouldNotBeContainedInAnAbsentHeader() throws Exception {
+        JUnitUtils.interpret(JUnitUtils.createMail(), "if header :contains \"X-Caffeine\" \"\" {throwTestException;}");
     }
 }

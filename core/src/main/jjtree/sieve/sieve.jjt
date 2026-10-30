@@ -41,7 +41,59 @@ package org.apache.jsieve.parser.generated;
 import org.apache.jsieve.*;
 import org.apache.jsieve.parser.*;
 
-public class SieveParser { 
+public class SieveParser {
+
+  /**
+   * The value of a multi-line literal (RFC 5228 section 2.4.2): its lines
+   * after "text:" and the comment or CRLF ending it, without the terminating
+   * "." CRLF nor the line break of the last line, dot-stuffing removed. Lines
+   * may end with CRLF, LF or CR.
+   */
+  static String multiLineValue(String image) {
+    int start = "text:".length();
+    while (image.charAt(start) == ' ' || image.charAt(start) == '\t') {
+      start++;
+    }
+    if (image.charAt(start) == '#') {
+      while (image.charAt(start) != '\r' && image.charAt(start) != '\n') {
+        start++;
+      }
+    }
+    start += image.startsWith("\r\n", start) ? 2 : 1;
+    // without the terminating "." CRLF
+    int end = image.length() - 3;
+    if (end - start >= 2 && image.startsWith("\r\n", end - 2)) {
+      end -= 2;
+    } else if (end > start) {
+      end--;
+    }
+    final StringBuilder value = new StringBuilder(end - start);
+    boolean lineStart = true;
+    for (int i = start; i < end; i++) {
+      final char c = image.charAt(i);
+      if (!lineStart || c != '.' || i + 1 >= end || image.charAt(i + 1) != '.') {
+        value.append(c);
+      }
+      lineStart = c == '\n' || (c == '\r' && (i + 1 >= end || image.charAt(i + 1) != '\n'));
+    }
+    return value.toString();
+  }
+
+  /**
+   * Removes each backslash, keeping the character it precedes.
+   */
+  static String unescape(String string) {
+    final StringBuilder value = new StringBuilder(string.length());
+    for (int i = 0; i < string.length(); i++) {
+      final char c = string.charAt(i);
+      if (c != '\\') {
+        value.append(c);
+      } else if (++i < string.length()) {
+        value.append(string.charAt(i));
+      }
+    }
+    return value.toString();
+  }
 
   public void jjtreeOpenNodeScope(Node n) {
     ((SieveNode) n).setFirstToken(getToken(1));
@@ -266,43 +318,10 @@ void string() :
 {
   (quoted_string = <QUOTED_STRING> | multi_line = <MULTI_LINE>)
   {
-    final StringBuilder builder;
     if (null != quoted_string) {
-      builder=new StringBuilder(quoted_string.image);
-      // unquote
-      builder.deleteCharAt(builder.length() - 1);
+      jjtThis.setValue(unescape(quoted_string.image.substring(1, quoted_string.image.length() - 1)));
     } else if (null != multi_line) {
-      builder=new StringBuilder(multi_line.image);
-      // remove prefixing 'text' and whitespace
-      while (builder.length()>0 && builder.charAt(0) != '\n') {
-      	 builder.deleteCharAt(0);
-      }
-      // remove suffixing CRLF-dot-CRLF
-      builder.deleteCharAt(builder.length() - 1);
-      builder.deleteCharAt(builder.length() - 1);
-      builder.deleteCharAt(builder.length() - 1);
-      builder.deleteCharAt(builder.length() - 1);
-      builder.deleteCharAt(builder.length() - 1);
-      
-      int nextStuffedDot = builder.indexOf("\n..");
-      while (nextStuffedDot >= 0) {
-      	 builder.deleteCharAt(nextStuffedDot+1);
-      	 nextStuffedDot = builder.indexOf("\n..", nextStuffedDot + 2);
-      } 
-    } else {
-      builder=null;  
-    }
-    if (builder != null) {
-        // Unescape
-        builder.deleteCharAt(0);
-        int i = 0;
-        while (i < builder.length()) {
-            if ('\\' == builder.charAt(i)) {
-                builder.deleteCharAt(i);
-            }
-            i++;
-        }
-        jjtThis.setValue(builder.toString());
+      jjtThis.setValue(unescape(multiLineValue(multi_line.image)));
     }
   }
 }

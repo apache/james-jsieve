@@ -120,6 +120,36 @@ public class MultilineTextTest {
         Assert.assertEquals(lineOne + lineTwo + lineThree + lineFour + lineFive, rejection.getMessage());
     }
 
+    @Test
+    public void emptyMultilineMessageShouldBeEmpty() throws Exception {
+        ActionReject rejection = runRejectScript("reject text:\r\n.\r\n;");
+        Assert.assertEquals("", rejection.getMessage());
+    }
+
+    @Test
+    public void lastLineEndingWithLfShouldKeepItsCharacters() throws Exception {
+        ActionReject rejection = runRejectScript("reject text:\r\nabc\n.\r\n;");
+        Assert.assertEquals("abc", rejection.getMessage());
+    }
+
+    @Test
+    public void linesEndingWithCrShouldKeepTheirBreaks() throws Exception {
+        ActionReject rejection = runRejectScript("reject text:\r\n\r\r.\r\n;");
+        Assert.assertEquals("\r", rejection.getMessage());
+    }
+
+    @Test
+    public void hashCommentEndingWithCrShouldNotEatTheMessage() throws Exception {
+        ActionReject rejection = runRejectScript("reject text: # reason\rabc\r\n.\r\n;");
+        Assert.assertEquals("abc", rejection.getMessage());
+    }
+
+    @Test
+    public void stuffedDotShouldBeRemovedAfterACr() throws Exception {
+        ActionReject rejection = runRejectScript("reject text:\r\na\r..b\r\n.\r\n;");
+        Assert.assertEquals("a\r.b", rejection.getMessage());
+    }
+
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
         JUnitUtils.interpret(mail, script);

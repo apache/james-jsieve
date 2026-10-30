@@ -79,17 +79,21 @@ public class Vacation extends AbstractActionCommand {
 
     private ActionVacation retrieveAction(Arguments arguments) throws SieveException {
         ArgumentParser argumentParser = new ArgumentParser(arguments.getArgumentList());
-        argumentParser.throwOnUnvalidSeenSingleTag();
+        // RFC 5230 section 4: :mime is a flag, the reason then being a MIME entity. Followed by
+        // the reason, it is read as a tag with a value, which gives the same action.
+        argumentParser.throwOnUnvalidSeenSingleTag(MIME);
         argumentParser.throwOnUnvalidSeenTagWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
+        final boolean mimeFlag = argumentParser.getSingleTags().contains(MIME);
+        final String reason = argumentParser.getRemainingStringValue("Expecting a single String value as a reason");
 
         return ActionVacation.builder()
             .addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE))
             .duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE))
             .handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE))
-            .mime(argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE))
+            .mime(mimeFlag ? reason : argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE))
             .subject(argumentParser.getStringValueForTag(SUBJECT, SUBJECT_EXCEPTION_MESSAGE))
             .from(argumentParser.getStringValueForTag(FROM, FROM_EXCEPTION_MESSAGE))
-            .reason(argumentParser.getRemainingStringValue("Expecting a single String value as a reason"))
+            .reason(mimeFlag ? null : reason)
             .build();
     }
 

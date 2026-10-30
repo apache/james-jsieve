@@ -46,8 +46,9 @@ public final class XmlOut implements SieveToXml.Out {
         ALLOWED_CHARACTERS[0x9] = true;
         ALLOWED_CHARACTERS[0xA] = true;
         ALLOWED_CHARACTERS[0xD] = true;
-        Arrays.fill(ALLOWED_CHARACTERS, 0x20, 0xD7FF, true);
-        Arrays.fill(ALLOWED_CHARACTERS, 0xE000, 0xFFFD, true);
+        // XML 1.0 Char: [#x20-#xD7FF] | [#xE000-#xFFFD], the toIndex of fill being exclusive
+        Arrays.fill(ALLOWED_CHARACTERS, 0x20, 0xD800, true);
+        Arrays.fill(ALLOWED_CHARACTERS, 0xE000, 0xFFFE, true);
     }
 
     private final static byte[] CHARACTER_CODES = new byte[1 << 16];
@@ -537,6 +538,17 @@ public final class XmlOut implements SieveToXml.Out {
                 writer.write("&apos;");
             } else if (isAttributeContent && character == '\"') {
                 writer.write("&quot;");
+            } else if (character == '\r') {
+                // a raw CR is read back as LF (XML 1.0 section 2.11)
+                writer.write("&#13;");
+            } else if (isAttributeContent && (character == '\n' || character == '\t')) {
+                // a raw LF or TAB in an attribute is read back as a space (XML 1.0 section 3.3.3)
+                writer.write(character == '\n' ? "&#10;" : "&#9;");
+            } else if (Character.isHighSurrogate(character) && i + 1 < length
+                    && Character.isLowSurrogate(content.charAt(i + 1))) {
+                // a character above U+FFFF, allowed by XML 1.0
+                writer.write(character);
+                writer.write(content.charAt(++i));
             } else if (isOutOfRange(character)) {
                 writer.write('?');
             } else {

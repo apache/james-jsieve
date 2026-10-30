@@ -68,6 +68,14 @@ public class SieveGenerationTest extends TestCase {
         assertEquals("if size :under 2147483648 {discard;}", monitor.toString());
     }
     
+    public void testShouldGenerateNestedTestFromNode() throws Exception {
+        assertShouldRoundtripScript("if not exists [\"x\"] {stop;}");
+    }
+    
+    public void testShouldGenerateNestedTestsInTestListFromNode() throws Exception {
+        assertShouldRoundtripScript("if anyof(not exists [\"a\"], allof(true, false)) {stop;}");
+    }
+    
     private void assertShouldRoundtripScript(final String script) throws Exception {
         // Set up
         final Node node = new ConfigurationManager().build().parse(new ByteArrayInputStream(script.getBytes()));

@@ -26,6 +26,7 @@ import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
 import java.util.List;
 
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -93,8 +94,8 @@ public class Envelope extends AbstractComparatorTest {
         // domain matches MUST ignore case, others should not
         String matchKey = null;
         if (addressPart.equals(DOMAIN_TAG)) {
-            matchKey = key.toLowerCase();
-            matchAddress = matchAddress.toLowerCase();
+            matchKey = AsciiCasemap.toAsciiUpperCase(key);
+            matchAddress = AsciiCasemap.toAsciiUpperCase(matchAddress);
         } else
             matchKey = key;
 

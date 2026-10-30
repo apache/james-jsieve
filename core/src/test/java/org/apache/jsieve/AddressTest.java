@@ -562,4 +562,12 @@ public class AddressTest {
     public void tagAsKeyListShouldBeASyntaxException() throws Exception {
         JUnitUtils.interpret(JUnitUtils.createMail(), "if address \"From\" :is {keep;}");
     }
+
+    @Test
+    public void domainShouldNotFoldNonAsciiLetters() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "user@k.it");
+        // U+212A KELVIN SIGN lower cases to an ASCII k
+        JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"\u212A.IT\" {throwTestException;}");
+    }
 }

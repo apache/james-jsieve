@@ -20,6 +20,7 @@
 package org.apache.jsieve.utils;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -46,7 +47,7 @@ public class JUnitUtils {
     static public void interpret(MailAdapter mail, String script)
             throws SieveException, ParseException {
         new ConfigurationManager().build().interpret(mail,
-                new ByteArrayInputStream(script.getBytes()));
+                new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**
@@ -59,7 +60,7 @@ public class JUnitUtils {
     static public Node parse(String script) throws SieveException,
             ParseException {
         return new ConfigurationManager().build().parse(
-                new ByteArrayInputStream(script.getBytes()));
+                new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

@@ -598,4 +598,13 @@ public class EnvelopeTest {
         mail.setEnvelopeFrom("user@domain");
         JUnitUtils.interpret(mail, "require \"envelope\"; if envelope :localpart :is \"from\" 0 {keep;}");
     }
+
+    @Test
+    public void domainShouldNotFoldNonAsciiLetters() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@k.it");
+        // U+212A KELVIN SIGN lower cases to an ASCII k
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"\u212A.IT\" {throwTestException;}");
+    }
 }

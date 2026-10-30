@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.apache.jsieve.utils.SieveEnvelopeMailAdapter;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.After;
 import org.junit.Before;
@@ -53,6 +54,21 @@ public class LocaleIndependenceTest {
         mail.getMessage().addHeader("X-N", "1");
         JUnitUtils.interpret(mail, "require [\"comparator-I;ASCII-NUMERIC\"];"
             + " IF HEADER :comparator \"I;ASCII-NUMERIC\" :is \"X-N\" \"1\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void addressDomainShouldIgnoreCase() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "user@info.it");
+        JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"INFO.IT\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void envelopeDomainShouldIgnoreCase() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@info.it");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"INFO.IT\" {throwTestException;}");
     }
 
 }

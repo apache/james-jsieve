@@ -77,7 +77,8 @@ public class Envelope extends AbstractComparatorTest {
             int localEnd = 0;
             int domainStart = 0;
             int domainEnd = headerValue.length();
-            int splitIndex = headerValue.indexOf('@');
+            // A domain name holds no '@', a quoted local part may (RFC 5321 section 4.1.2)
+            int splitIndex = headerValue.lastIndexOf('@');
             // If there is no domain part (-1), treat it as an empty String
             if (splitIndex == -1) {
                 localEnd = domainEnd;

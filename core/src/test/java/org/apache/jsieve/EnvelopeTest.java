@@ -607,4 +607,20 @@ public class EnvelopeTest {
         JUnitUtils.interpret(mail, "require \"envelope\";"
             + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"\u212A.IT\" {throwTestException;}");
     }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldFollowTheLastAt() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("\"a@b\"@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void localPartShouldHoldTheAtOfAQuotedLocalPart() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("\"a@b\"@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :contains \"from\" \"a@b\" {throwTestException;}");
+    }
 }

@@ -22,6 +22,7 @@ package org.apache.jsieve;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
@@ -111,7 +112,7 @@ public class TestManagerImpl implements TestManager {
      * @throws LookupException
      */
     private String getClassName(String name) throws LookupException {
-        final String className = classNameMap.get(name.toLowerCase());
+        final String className = classNameMap.get(name.toLowerCase(Locale.ROOT));
         if (null == className)
             throw new LookupException("Test named '" + name + "' not mapped.");
         return className;

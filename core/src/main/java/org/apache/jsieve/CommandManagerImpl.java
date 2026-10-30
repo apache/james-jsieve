@@ -22,6 +22,7 @@ package org.apache.jsieve;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jsieve.exception.LookupException;
@@ -127,7 +128,7 @@ public class CommandManagerImpl implements CommandManager {
      * @throws LookupException
      */
     protected String getClassName(String name) throws LookupException {
-        final String className = classNameMap.get(name.toLowerCase());
+        final String className = classNameMap.get(name.toLowerCase(Locale.ROOT));
         if (null == className)
             throw new LookupException("Command named '" + name
                     + "' not mapped.");

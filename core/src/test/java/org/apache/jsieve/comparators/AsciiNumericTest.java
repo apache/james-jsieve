@@ -19,8 +19,10 @@
 package org.apache.jsieve.comparators;
 
 import org.apache.jsieve.exception.FeatureException;
+import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
+import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,6 +52,23 @@ public class AsciiNumericTest {
     public void testVerificationPassesWhenAsciiNumericIsRequired() throws Exception {
         String script = "require [\"comparator-i;ascii-numeric\"]; if header :is :comparator \"i;ascii-numeric\" \"Subject\" \"69\" {stop;}";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test
+    public void emptyValueShouldBePositiveInfinity() throws Exception {
+        Assert.assertFalse(subject.equals("", "1"));
+        Assert.assertFalse(subject.equals("1", ""));
+        Assert.assertTrue(subject.equals("", ""));
+        Assert.assertTrue(subject.equals("", "abc"));
+    }
+
+    @Test
+    public void emptyHeaderShouldNotStopTheEvaluation() throws Exception {
+        String script = "require [\"comparator-i;ascii-numeric\"]; if header :is :comparator \"i;ascii-numeric\" \"X-N\" \"1\" {discard;}";
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-N", "");
+        JUnitUtils.interpret(mail, script);
+        Assert.assertTrue(mail.getActions().get(0) instanceof ActionKeep);
     }
 
     @Test

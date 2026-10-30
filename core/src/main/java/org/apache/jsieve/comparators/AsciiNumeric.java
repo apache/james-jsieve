@@ -75,8 +75,7 @@ public class AsciiNumeric implements Comparator {
      *         false otherwise
      */
     private boolean isPositiveInfinity(final String value) {
-        final char initialCharacter = value.charAt(0);
-        return !isDigit(initialCharacter);
+        return value.isEmpty() || !isDigit(value.charAt(0));
     }
 
     /**

@@ -623,4 +623,52 @@ public class EnvelopeTest {
         JUnitUtils.interpret(mail, "require \"envelope\";"
             + " if envelope :localpart :contains \"from\" \"a@b\" {throwTestException;}");
     }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldDropTheAngleBrackets() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<user@example.com>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"user@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldDropTheSourceRoute() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<@relay1.org,@relay2.org:user@example.com>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"user@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldDropTheSourceRoute() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<@relay.org:user@example.com>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allOfTheNullReversePathShouldBeEmpty() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void localPartOfTheNullReversePathShouldBeEmpty() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainOfTheNullReversePathShouldBeEmpty() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"\" {throwTestException;}");
+    }
 }

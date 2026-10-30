@@ -41,6 +41,22 @@ import org.apache.jsieve.tests.AbstractComparatorTest;
 public class Envelope extends AbstractComparatorTest {
 
     /**
+     * The address of an envelope value without the angle brackets and the
+     * source route of an SMTP path (RFC 5321 section 4.1.2): RFC 5228 section
+     * 5.4 says that all tests against envelopes MUST drop source routes, and
+     * matches the null reverse-path as the empty string.
+     */
+    private static String address(String envelopeValue) {
+        String path = envelopeValue;
+        if (path.length() >= 2 && path.startsWith("<") && path.endsWith(">")) {
+            path = path.substring(1, path.length() - 1);
+        }
+        // A local part never starts with '@', a source route always does
+        final int routeEnd = path.startsWith("@") ? path.indexOf(':') : -1;
+        return path.substring(routeEnd + 1);
+    }
+
+    /**
      * Constructor for EnvelopeAccessors.
      */
     public Envelope() {
@@ -69,16 +85,17 @@ public class Envelope extends AbstractComparatorTest {
             SieveContext context) throws SieveException {
 
         // Extract the part of the address we are matching on
+        final String address = address(headerValue);
         String matchAddress = null;
         if (addressPart.equals(":all"))
-            matchAddress = headerValue;
+            matchAddress = address;
         else {
             int localStart = 0;
             int localEnd = 0;
             int domainStart = 0;
-            int domainEnd = headerValue.length();
+            int domainEnd = address.length();
             // A domain name holds no '@', a quoted local part may (RFC 5321 section 4.1.2)
-            int splitIndex = headerValue.lastIndexOf('@');
+            int splitIndex = address.lastIndexOf('@');
             // If there is no domain part (-1), treat it as an empty String
             if (splitIndex == -1) {
                 localEnd = domainEnd;
@@ -87,8 +104,8 @@ public class Envelope extends AbstractComparatorTest {
                 localEnd = splitIndex;
                 domainStart = splitIndex + 1;
             }
-            matchAddress = (addressPart.equals(LOCALPART_TAG) ? headerValue
-                    .substring(localStart, localEnd) : headerValue.substring(
+            matchAddress = (addressPart.equals(LOCALPART_TAG) ? address
+                    .substring(localStart, localEnd) : address.substring(
                     domainStart, domainEnd));
         }
 

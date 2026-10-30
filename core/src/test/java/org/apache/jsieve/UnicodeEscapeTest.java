@@ -57,4 +57,11 @@ public class UnicodeEscapeTest {
         JUnitUtils.interpret(mail, "if header :is \"X-Test\" \"\u65e5\u672c \ud83d\ude00\" {throwTestException;}");
     }
 
+    @Test
+    public void backslashAtTheLexerBufferBoundaryShouldNotThrowArrayIndexOutOfBounds() {
+        String script = "a".repeat(3000) + "/*" + "x".repeat(1093) + "\\u0041*/";
+        assertThatThrownBy(() -> JUnitUtils.parse(script))
+            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
+    }
+
 }

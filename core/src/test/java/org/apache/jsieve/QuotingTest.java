@@ -19,7 +19,11 @@
 
 package org.apache.jsieve;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.apache.jsieve.commands.ThrowTestException;
+import org.apache.jsieve.parser.generated.ParseException;
+import org.apache.jsieve.parser.generated.TokenMgrError;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Assert;
@@ -39,5 +43,18 @@ public class QuotingTest {
         } catch (ThrowTestException.TestException e) {
             // expected
         }
+    }
+
+    @org.junit.Test(expected = ThrowTestException.TestException.class)
+    public void undefinedEscapeShouldMeanTheCharacterItself() throws Exception {
+        final SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Test", "a.b\u001c");
+        JUnitUtils.interpret(mail, "if header :is \"X-Test\" \"\\a\\.b\\\u001c\" {throwTestException;}");
+    }
+
+    @org.junit.Test
+    public void escapedNulShouldBeRejected() {
+        assertThatThrownBy(() -> JUnitUtils.parse("require \"reject\"; reject \"\\\0\";"))
+            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
     }
 }

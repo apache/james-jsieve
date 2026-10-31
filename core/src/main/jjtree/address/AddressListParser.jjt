@@ -157,7 +157,12 @@ void phrase() :
 {
 (   <DOTATOM>
 |   <QUOTEDSTRING>
-)+
+)
+// obs-phrase: a "." may follow the first word (RFC 5322 section 4.1)
+(   <DOTATOM>
+|   <QUOTEDSTRING>
+|   "."
+)*
 }
 
 void addr_spec() :

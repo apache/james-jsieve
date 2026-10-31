@@ -107,4 +107,39 @@ public class SieveAddressBuilderTest {
         Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
         Assert.assertEquals(DOMAIN, addresses[0].getDomain());
     }
+
+    @Test
+    public void displayNameShouldAcceptASeparateDot() throws Exception {
+        builder.addAddresses("Wile . E . Coyote <" + COYOTE_ADDRESS + ">");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test
+    public void displayNameShouldAcceptADotAfterAQuotedWord() throws Exception {
+        builder.addAddresses("\"Wile\".E <" + COYOTE_ADDRESS + ">");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test
+    public void groupDisplayNameShouldAcceptASeparateDot() throws Exception {
+        builder.addAddresses("Acme .Inc: " + COYOTE_ADDRESS + ";, oj .a:;");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test(expected = ParseException.class)
+    public void displayNameShouldNotStartWithADot() throws Exception {
+        builder.addAddresses(". Wile <" + COYOTE_ADDRESS + ">");
+    }
 }

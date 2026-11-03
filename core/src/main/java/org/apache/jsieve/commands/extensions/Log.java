@@ -195,7 +195,10 @@ public class Log extends AbstractCommand {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        // Validation is performed in executeBasic()
+        // The arguments are validated in executeBasic()
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

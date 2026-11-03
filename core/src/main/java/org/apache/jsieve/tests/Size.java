@@ -145,7 +145,10 @@ public class Size extends AbstractTest {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        // All done in executeBasic()
+        // The arguments are validated in executeBasic()
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

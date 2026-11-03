@@ -142,6 +142,10 @@ public class Require extends AbstractPrologCommand {
         if (!(argument instanceof StringListArgument))
             throw context.getCoordinate().syntaxException(
                     "Expecting a string-list");
+
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

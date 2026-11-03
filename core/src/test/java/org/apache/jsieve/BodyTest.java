@@ -324,4 +324,52 @@ public class BodyTest {
         verify(sieveMailAdapter).isInBodyText(containedText);
     }
 
+    @Test
+    public void rawShouldWorkAfterTheMatcher() throws Exception {
+        String script = "if body :contains :raw \"Wibble\" {throwTestException;}";
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyRaw(containedText);
+    }
+
+    @Test
+    public void textShouldWorkAfterTheMatcher() throws Exception {
+        String script = "if body :contains :text \"Wibble\" {throwTestException;}";
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyText(containedText);
+    }
+
+    @Test
+    public void contentShouldWorkAfterTheMatcher() throws Exception {
+        String script = "if body :contains :content \"text/plain\" \"Wibble\" {throwTestException;}";
+        List<String> contentTypes = Collections.singletonList("text/plain");
+        List<String> containedText = Collections.singletonList("Wibble");
+        when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+
+        verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void twoTransformationsShouldThrow() throws Exception {
+        String script = "if body :raw :contains :text \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void twoMatchersShouldThrow() throws Exception {
+        String script = "if body :contains :raw :contains \"Wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
 }

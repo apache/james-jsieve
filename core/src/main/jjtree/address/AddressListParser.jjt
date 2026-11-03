@@ -226,7 +226,8 @@ TOKEN_MGR_DECLS :
     // This is because the outermost level must be treated
     // specially anyway, because the outermost ")" has a 
     // different token type than inner ")" instances.
-    static int commentNest;
+    // Not static: each parser counts its own comments.
+    int commentNest;
 }
 
 MORE :

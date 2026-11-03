@@ -20,7 +20,6 @@
 package org.apache.jsieve.tests.optional;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
@@ -48,56 +47,54 @@ public class Body extends AbstractTest {
     private StringListArgument valuesToBeMatched;
 
     protected void validateArguments(Arguments args, SieveContext ctx) throws SieveException {
-        Iterator<Argument> matchingSpecifications = retrieveTransformationAndMatchingSpecificationIterator(args.getArgumentList());
-
-        if (transformation.getTag().equals(TEXT)) {
-            parseDefaultArguments(matchingSpecifications);
-        } else if (transformation.getTag().equals(RAW)) {
-            parseDefaultArguments(matchingSpecifications);
-        } else if (transformation.getTag().equals(CONTENT)) {
-            parseContentArguments(matchingSpecifications);
-        } else {
-            throw new SyntaxException("Unknown transformation " + transformation.getTag() + ". See RFC-5173 section 5.");
-        }
-    }
-
-    private void parseContentArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {
-        retrieveContentTypes(matchingSpecifications);
-        retrieveMatcher(matchingSpecifications);
-        retrieveMatchValues(matchingSpecifications);
-        assureNoMoreArguments(matchingSpecifications);
-    }
-
-    private void parseDefaultArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {
-        retrieveMatcher(matchingSpecifications);
-        retrieveMatchValues(matchingSpecifications);
-        assureNoMoreArguments(matchingSpecifications);
-    }
-
-    private Iterator<Argument> retrieveTransformationAndMatchingSpecificationIterator(List<Argument> arglist) throws SyntaxException {
-        if (arglist.size() < 1 ) {
-            throw new SyntaxException("Transformations should be specified. See RFC-5173 section 5.");
-        }
-        Argument arg = arglist.get(0);
-        if (!(arg instanceof TagArgument)) {
-            // by default transformation should be :text
-            transformation = new TagArgument(new Token(0, TEXT));
-            return arglist.iterator();
-        } else {
-            TagArgument transformationCandidate = (TagArgument) arg;
-            if (transformationCandidate.getTag().equals(TEXT) ||
-                    transformationCandidate.getTag().equals(RAW) ||
-                    transformationCandidate.getTag().equals(CONTENT) ) {
-                transformation = (TagArgument) arg;
-                Iterator<Argument> matchingSpecifications = arglist.iterator();
-                matchingSpecifications.next();
-                return matchingSpecifications;
+        // Tagged arguments come in any order before the key list (RFC 5228 section 2.6.2, RFC 5173 section 5)
+        TagArgument transformationTag = null;
+        StringListArgument contentTypesArgument = null;
+        TagArgument matcherTag = null;
+        Iterator<Argument> arguments = args.getArgumentList().iterator();
+        Argument argument = nextArgument(arguments);
+        while (argument instanceof TagArgument) {
+            TagArgument tag = (TagArgument) argument;
+            if (isTransformation(tag)) {
+                if (transformationTag != null) {
+                    throw new SyntaxException("Only one transformation is allowed. See RFC-5173 section 5.");
+                }
+                transformationTag = tag;
+                if (tag.getTag().equals(CONTENT)) {
+                    contentTypesArgument = retrieveContentTypes(arguments);
+                }
             } else {
-                // by default transformation should be :text
-                transformation = new TagArgument(new Token(0, TEXT));
-                return arglist.iterator();
+                TagArgument matcherCandidate = retrieveMatcher(tag);
+                if (matcherTag != null) {
+                    throw new SyntaxException("Only one matcher is allowed. See RFC-5173 section 5.");
+                }
+                matcherTag = matcherCandidate;
             }
+            argument = nextArgument(arguments);
         }
+        if (matcherTag == null && argument != null) {
+            throw new SyntaxException("Expecting a matcher :contains and not a " + argument.getClass());
+        }
+        if (matcherTag == null) {
+            throw new SyntaxException("Expecting a matcher :contains");
+        }
+        valuesToBeMatched = retrieveMatchValues(argument);
+        assureNoMoreArguments(arguments);
+        // by default transformation should be :text
+        transformation = transformationTag != null ? transformationTag : new TagArgument(new Token(0, TEXT));
+        contentTypes = contentTypesArgument;
+        matcher = matcherTag;
+    }
+
+    private boolean isTransformation(TagArgument tag) {
+        return tag.getTag().equals(TEXT) || tag.getTag().equals(RAW) || tag.getTag().equals(CONTENT);
+    }
+
+    private Argument nextArgument(Iterator<Argument> arguments) {
+        if (arguments.hasNext()) {
+            return arguments.next();
+        }
+        return null;
     }
 
     protected boolean executeBasic(MailAdapter mail, Arguments args, SieveContext ctx) throws SieveException {
@@ -112,7 +109,7 @@ public class Body extends AbstractTest {
         }
     }
 
-    private void retrieveContentTypes(Iterator<Argument> matchingSpecifications) throws SyntaxException {
+    private StringListArgument retrieveContentTypes(Iterator<Argument> matchingSpecifications) throws SyntaxException {
         if (!matchingSpecifications.hasNext()) {
             throw new SyntaxException("Expecting the list of content types following :content");
         }
@@ -120,32 +117,24 @@ public class Body extends AbstractTest {
         if (! (contentTypesArgument instanceof StringListArgument)) {
             throw new SyntaxException("Expecting a String list to specify content types and not a" + contentTypesArgument.getClass());
         }
-        contentTypes = (StringListArgument) contentTypesArgument;
+        return (StringListArgument) contentTypesArgument;
     }
 
-    private void retrieveMatcher(Iterator<Argument> matchingSpecifications) throws SyntaxException {
-        if (!matchingSpecifications.hasNext()) {
-            throw new SyntaxException("Expecting a matcher :contains");
+    private TagArgument retrieveMatcher(TagArgument matcherArgument) throws SyntaxException {
+        if (!matcherArgument.getTag().equals(":contains")) {
+            throw new SyntaxException("Expecting a matcher :contains. Matcher " + matcherArgument.getTag() + " is currently not supported.");
         }
-        Argument matcherArgument = matchingSpecifications.next();
-        if (! (matcherArgument instanceof TagArgument)) {
-            throw new SyntaxException("Expecting a matcher :contains and not a" + matcherArgument.getClass());
-        }
-        if (!((TagArgument)matcherArgument).getTag().equals(":contains")) {
-            throw new SyntaxException("Expecting a matcher :contains. Matcher " + ((TagArgument) matcherArgument).getTag() + " is currently not supported.");
-        }
-        matcher = (TagArgument) matcherArgument;
+        return matcherArgument;
     }
 
-    private void retrieveMatchValues(Iterator<Argument> matchingSpecifications) throws SyntaxException {
-        if (!matchingSpecifications.hasNext()) {
+    private StringListArgument retrieveMatchValues(Argument matchValues) throws SyntaxException {
+        if (matchValues == null) {
             throw new SyntaxException("Matcher :contains should be followed by a StringList");
         }
-        Argument matchValues = matchingSpecifications.next();
         if (! (matchValues instanceof StringListArgument)) {
             throw new SyntaxException("Matcher :contains should be followed by a StringList and not a " + matchValues.getClass());
         }
-        valuesToBeMatched = (StringListArgument) matchValues;
+        return (StringListArgument) matchValues;
     }
 
     private void assureNoMoreArguments(Iterator<Argument> matchingSpecifications) throws SyntaxException {

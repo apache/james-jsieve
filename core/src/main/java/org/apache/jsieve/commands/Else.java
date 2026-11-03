@@ -56,8 +56,11 @@ public class Else extends AbstractConditionalCommand {
                     "Unexpected Command: \"else\".");
 
         // Check Runnable
-        if (!context.getConditionManager().isElseRunnable())
+        if (!context.getConditionManager().isElseRunnable()) {
+            // The chain ends here even when the block does not run
+            context.getConditionManager().setElseTestResult(true);
             return Boolean.FALSE;
+        }
 
         // Execute the Block
         execute(mail, block, context);

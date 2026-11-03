@@ -21,6 +21,7 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.ConditionManager;
 import org.apache.jsieve.ExecutableCommand;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.CommandException;
@@ -105,7 +106,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * Method execute executes a basic Sieve Command after first invoking
      * framework methods to validate that Sieve is in a legal state to invoke
      * the Command and that the Command arguments are legal. After invocation, a
-     * framework method is invoked to update the state.
+     * framework method is invoked to update the state. A Command that is not
+     * an <code>if</code>, <code>elsif</code> or <code>else</code> then ends the
+     * current <code>if</code> chain (RFC 5228 section 3.1).
      * </p>
      * 
      * <p>
@@ -121,6 +124,10 @@ public abstract class AbstractCommand implements ExecutableCommand {
         validateBlock(block, context);
         Object result = executeBasic(mail, arguments, block, context);
         updateState(context);
+        if (!(this instanceof AbstractConditionalCommand)) {
+            // Ends the if chain: an elsif or else must follow an if or elsif (RFC 5228 section 3.1)
+            context.setConditionManager(new ConditionManager());
+        }
         return result;
     }
 

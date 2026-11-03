@@ -104,6 +104,24 @@ public class ComparatorUtilsTest {
     }
 
     @Test
+    public void containsShouldNotMatchHalfOfASurrogatePair() throws Exception {
+        // U+1F620
+        String angryFace = "a\uD83D\uDE20b";
+
+        Assert.assertFalse(ComparatorUtils.contains(angryFace, "\uDE20"));
+        Assert.assertFalse(ComparatorUtils.contains(angryFace, "\uDE20b"));
+        Assert.assertFalse(ComparatorUtils.contains(angryFace, "a\uD83D"));
+        Assert.assertFalse(new AsciiCasemap().contains(angryFace, "\uDE20B"));
+    }
+
+    @Test
+    public void containsShouldMatchAWholeSurrogatePair() throws Exception {
+        Assert.assertTrue(ComparatorUtils.contains("a\uD83D\uDE20b", "\uD83D\uDE20"));
+        Assert.assertTrue(ComparatorUtils.contains("\uDE20\uD83D\uDE20", "\uDE20"));
+        Assert.assertTrue(ComparatorUtils.contains("\uD83D\uDE20\uDE20", "\uDE20"));
+    }
+
+    @Test
     public void supplementaryCharacterShouldNotBeAWildcard() throws Exception {
         // U+1002A must not be truncated into '*'
         Assert.assertFalse(ComparatorUtils.matches("x", "\uD800\uDC2A"));

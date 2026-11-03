@@ -159,13 +159,31 @@ public class ComparatorUtils {
      * parameter <code>container</code> contains the parameter
      * <code>contents</code>.
      * </p>
-     * 
+     * <p>
+     * Like <code>:matches</code>, it compares characters (RFC 5228 section
+     * 2.7.1): a match never starts or ends inside a surrogate pair.
+     * </p>
+     *
      * @param container
      * @param contents
      * @return boolean
      */
     static public boolean contains(String container, String contents) {
-        return container.contains(contents);
+        int index = container.indexOf(contents);
+        while (index >= 0) {
+            if (!splitsSurrogatePair(container, index)
+                    && !splitsSurrogatePair(container, index + contents.length())) {
+                return true;
+            }
+            index = container.indexOf(contents, index + 1);
+        }
+        return false;
+    }
+
+    private static boolean splitsSurrogatePair(String string, int index) {
+        return index > 0 && index < string.length()
+                && Character.isHighSurrogate(string.charAt(index - 1))
+                && Character.isLowSurrogate(string.charAt(index));
     }
 
     /**

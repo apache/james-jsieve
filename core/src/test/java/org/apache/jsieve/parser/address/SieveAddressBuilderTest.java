@@ -18,6 +18,13 @@
  ****************************************************************/
 package org.apache.jsieve.parser.address;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import org.apache.jsieve.mail.MailAdapter.Address;
 import org.apache.jsieve.parser.generated.address.ParseException;
 import org.junit.Assert;
@@ -42,6 +49,22 @@ public class SieveAddressBuilderTest {
 
     public static final String HEROS = ROADRUNNER_ADDRESS + " , "
             + BUGS_ADDRESS;
+
+    private static int failedParses(String addressList, int times) {
+        int failures = 0;
+        for (int i = 0; i < times; i++) {
+            try {
+                SieveAddressBuilder builder = new SieveAddressBuilder();
+                builder.addAddresses(addressList);
+                if (builder.getAddresses().length != 1) {
+                    failures++;
+                }
+            } catch (ParseException e) {
+                failures++;
+            }
+        }
+        return failures;
+    }
 
     SieveAddressBuilder builder;
 
@@ -141,5 +164,31 @@ public class SieveAddressBuilderTest {
     @Test(expected = ParseException.class)
     public void displayNameShouldNotStartWithADot() throws Exception {
         builder.addAddresses(". Wile <" + COYOTE_ADDRESS + ">");
+    }
+
+    @Test(timeout = 120000)
+    public void concurrentParsesShouldEachCountTheirOwnNestedComments() throws Exception {
+        int threads = 8;
+        CountDownLatch start = new CountDownLatch(1);
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        try {
+            List<Future<Integer>> failures = new ArrayList<>();
+            for (int i = 0; i < threads; i++) {
+                failures.add(executor.submit(() -> {
+                    start.await();
+                    return failedParses(COYOTE_ADDRESS + " (a (b (c (d))))", 5000);
+                }));
+            }
+
+            start.countDown();
+            int failed = 0;
+            for (Future<Integer> future : failures) {
+                failed += future.get();
+            }
+
+            Assert.assertEquals(0, failed);
+        } finally {
+            executor.shutdownNow();
+        }
     }
 }

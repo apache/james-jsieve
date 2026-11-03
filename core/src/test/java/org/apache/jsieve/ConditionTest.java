@@ -340,4 +340,39 @@ public class ConditionTest {
         Assert.assertTrue(isTestPassed);
     }
 
+    @Test(expected = CommandException.class)
+    public void elseAfterAnotherCommandShouldThrow() throws Exception {
+        String script = "if false {stop;} keep; else {throwTestException;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = CommandException.class)
+    public void elsifAfterAnotherCommandShouldThrow() throws Exception {
+        String script = "if false {stop;} keep; elsif true {throwTestException;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = CommandException.class)
+    public void elseAfterASkippedElseShouldThrow() throws Exception {
+        String script = "if true {keep;} else {stop;} else {stop;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = CommandException.class)
+    public void elsifAfterASkippedElseShouldThrow() throws Exception {
+        String script = "if true {keep;} else {stop;} elsif true {stop;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void commandInABlockShouldNotEndTheOuterChain() throws Exception {
+        String script = "if false {stop;} elsif true {if false {stop;} keep;} else {stop;} throwTestException;";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
 }

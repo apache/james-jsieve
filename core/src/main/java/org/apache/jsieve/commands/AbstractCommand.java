@@ -68,7 +68,7 @@ public abstract class AbstractCommand implements ExecutableCommand {
      * Framework method validateArguments is invoked before a Sieve Command is
      * executed to validate its arguments. Subclass methods are expected to
      * override or extend this method to perform their own validation as
-     * appropriate.
+     * appropriate. By default, a Command takes neither arguments nor tests.
      * 
      * @param arguments
      * @param context
@@ -81,6 +81,9 @@ public abstract class AbstractCommand implements ExecutableCommand {
         if (!arguments.getArgumentList().isEmpty())
             throw context.getCoordinate().syntaxException(
                     "Found unexpected arguments");
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
     /**

@@ -47,6 +47,9 @@ public class Body extends AbstractTest {
     private StringListArgument valuesToBeMatched;
 
     protected void validateArguments(Arguments args, SieveContext ctx) throws SieveException {
+        if (args.hasTests()) {
+            throw ctx.getCoordinate().syntaxException("Found unexpected tests");
+        }
         // Tagged arguments come in any order before the key list (RFC 5228 section 2.6.2, RFC 5173 section 5)
         TagArgument transformationTag = null;
         StringListArgument contentTypesArgument = null;

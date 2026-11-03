@@ -84,6 +84,11 @@ public class Elsif extends AbstractConditionalCommand {
         TestList testList = arguments.getTestList();
         if (null == testList || testList.getTests().isEmpty())
             throw context.getCoordinate().syntaxException("Expecting a Test");
+        if (testList.getTests().size() > 1)
+            throw context.getCoordinate().syntaxException(
+                    "Exactly 1 test permitted. Found " + testList.getTests().size());
+        if (!arguments.getArgumentList().isEmpty())
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
     }
 
 }

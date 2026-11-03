@@ -99,6 +99,10 @@ public abstract class AbstractActionCommand extends AbstractBodyCommand {
         if (1 != ((StringListArgument) argument).getList().size())
             throw context.getCoordinate().syntaxException(
                     "Expecting exactly one argument");
+
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

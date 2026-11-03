@@ -81,6 +81,11 @@ public class If extends AbstractConditionalCommand {
             throws SieveException {
         if (!arguments.hasTests())
             throw context.getCoordinate().syntaxException("Expecting a Test");
+        if (arguments.getTestList().getTests().size() > 1)
+            throw context.getCoordinate().syntaxException(
+                    "Exactly 1 test permitted. Found " + arguments.getTestList().getTests().size());
+        if (!arguments.getArgumentList().isEmpty())
+            throw context.getCoordinate().syntaxException("Found unexpected arguments");
     }
 
 }

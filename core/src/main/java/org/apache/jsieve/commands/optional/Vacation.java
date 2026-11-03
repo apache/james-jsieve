@@ -74,6 +74,9 @@ public class Vacation extends AbstractActionCommand {
 
     @Override
     protected void validateArguments(Arguments arguments, SieveContext context) throws SieveException {
+        if (arguments.hasTests()) {
+            throw context.getCoordinate().syntaxException("Found unexpected tests");
+        }
         retrieveAction(arguments);
     }
 

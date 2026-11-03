@@ -21,6 +21,7 @@ package org.apache.jsieve.tests;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
 
 /**
@@ -42,6 +43,18 @@ public class True extends AbstractTest {
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) {
         return true;
+    }
+
+    /**
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
+     */
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
+        super.validateArguments(arguments, context);
+        if (arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Found unexpected tests");
     }
 
 }

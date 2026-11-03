@@ -124,4 +124,11 @@ public class AnyOfTest {
         Assert.assertTrue(isTestPassed);
     }
 
+    @Test(expected = SyntaxException.class)
+    public void anyofWithoutTestsShouldThrow() throws Exception {
+        String script = "if anyof {keep;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
 }

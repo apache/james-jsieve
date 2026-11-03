@@ -122,4 +122,11 @@ public class AllOfTest {
         Assert.assertTrue(isTestPassed);
     }
 
+    @Test(expected = SyntaxException.class)
+    public void allofWithoutTestsShouldThrow() throws Exception {
+        String script = "if allof {throwTestException;}";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
 }

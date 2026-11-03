@@ -45,4 +45,16 @@ public class AnyOf extends AbstractTest {
         return arguments.getTestList().anyTestsPass(mail, context);
     }
 
+    /**
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
+     */
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
+        super.validateArguments(arguments, context);
+        if (!arguments.hasTests())
+            throw context.getCoordinate().syntaxException(
+                    "Expecting a TestList");
+    }
+
 }

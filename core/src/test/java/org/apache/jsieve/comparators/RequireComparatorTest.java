@@ -48,4 +48,28 @@ public class RequireComparatorTest {
             // Expected
         }
     }
+
+    @Test
+    public void requiredComparatorShouldBeDeclaredInsideABlock() throws Exception {
+        String script = "require \"comparator-i;ascii-numeric\";\r\n"
+                + "if true { if header :comparator \"i;ascii-numeric\" :is \"X-N\" \"5\" { keep; } }";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void undeclaredComparatorShouldBeRejectedInsideABlock() throws Exception {
+        String script = "if true { if header :comparator \"i;ascii-numeric\" :is \"X-N\" \"5\" { keep; } }";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test
+    public void requiredComparatorShouldBeDeclaredAfterABlock() throws Exception {
+        String script = "require \"comparator-i;ascii-numeric\";\r\n"
+                + "if true { }\r\n"
+                + "if header :comparator \"i;ascii-numeric\" :is \"X-N\" \"5\" { keep; }";
+
+        JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
 }

@@ -86,7 +86,6 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     }
 
     public Object visit(ASTcommands node, Object data) throws SieveException {
-        declaredComparators.clear();
         return visitNode(node, data);
     }
 

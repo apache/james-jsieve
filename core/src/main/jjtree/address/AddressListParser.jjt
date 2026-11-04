@@ -238,11 +238,12 @@ MORE :
     "[" : INDOMAINLITERAL
 }
 
+// the value is unfolded, so a CR or LF is only allowed quoted (RFC 5322 dtext, qtext, ctext and obs-qp)
 <INDOMAINLITERAL>
 MORE :
 {
     < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|   < ~["[", "]", "\\"] >
+|   < ~["[", "]", "\\", "\r", "\n"] >
 }
 
 <INDOMAINLITERAL>
@@ -272,7 +273,7 @@ MORE :
 {
     < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
 |   "(" { commentNest = 1; } : NESTED_COMMENT
-|   < <ANY>>
+|   < ~["\r", "\n"] >
 }
 
 <NESTED_COMMENT>
@@ -281,7 +282,7 @@ MORE :
     < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
 |   "(" { ++commentNest; }
 |   ")" { --commentNest; if (commentNest == 0) SwitchTo(INCOMMENT); }
-|   < <ANY>>
+|   < ~["\r", "\n"] >
 }
 
 
@@ -296,7 +297,7 @@ MORE :
 MORE :
 {
     < <QUOTEDPAIR>> { image.deleteCharAt(image.length() - 2); }
-|   < (~["\"", "\\"])+ >
+|   < (~["\"", "\\", "\r", "\n"])+ >
 }
 
 <INQUOTEDSTRING>

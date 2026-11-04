@@ -196,6 +196,21 @@ public class SieveAddressBuilderTest {
         Assert.assertEquals("[1Ȍ]", addresses[0].getDomain());
     }
 
+    @Test(expected = ParseException.class)
+    public void lineBreakInAQuotedLocalPartShouldThrow() throws Exception {
+        builder.addAddresses("\"wile\re\"@" + DOMAIN);
+    }
+
+    @Test(expected = ParseException.class)
+    public void lineBreakInACommentShouldThrow() throws Exception {
+        builder.addAddresses("(acme\ninc) " + COYOTE_ADDRESS);
+    }
+
+    @Test(expected = ParseException.class)
+    public void lineBreakInADomainLiteralShouldThrow() throws Exception {
+        builder.addAddresses(COYOTE + "@[1.2\r.3]");
+    }
+
     @Test(timeout = 120000)
     public void concurrentParsesShouldEachCountTheirOwnNestedComments() throws Exception {
         int threads = 8;

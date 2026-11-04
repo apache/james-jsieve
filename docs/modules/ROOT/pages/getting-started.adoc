@@ -64,6 +64,9 @@ used. This may be done programmatically but the recommended method is by alterin
 `org/apache/jsieve/commandsmap.properties`, `org/apache/jsieve/testsmap.properties` and
 `org/apache/jsieve/comparatorsmap.properties` resource files.
 
+A command or test that RFC 5228 does not define is an extension: a script uses it only after a
+`require` naming it, as in `require "log";` (RFC 5228 section 2.10.5).
+
 Commands generate actions that get transferred by commands to the `MailAdapter`. If you
 introduce new actions, you will have to extend the `MailAdapter` API if you need more
 information or actions from the mail server.

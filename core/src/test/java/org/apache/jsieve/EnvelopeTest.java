@@ -39,7 +39,7 @@ public class EnvelopeTest {
     @org.junit.Test
     public void testIfEnvelopeAllIsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -58,7 +58,7 @@ public class EnvelopeTest {
     @Test
     public void testCaseInsensitiveEnvelopeName() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is \"from\" \"user@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is \"from\" \"user@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -77,7 +77,7 @@ public class EnvelopeTest {
     @Test
     public void testOctetComparatorTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("uSeR@dOmAiN");
@@ -96,7 +96,7 @@ public class EnvelopeTest {
     @Test
     public void testOctetComparatorFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :comparator \"i;octet\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -115,7 +115,7 @@ public class EnvelopeTest {
     @Test
     public void testAsciiComparatorTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -134,7 +134,7 @@ public class EnvelopeTest {
     @Test
     public void testAsciiComparatorFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :comparator \"i;ascii-casemap\" :all :is \"From\" \"uSeR@dOmAiN\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain1");
@@ -153,7 +153,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiTrue1() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -173,7 +173,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiTrue2() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -193,7 +193,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiTrue3() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -213,7 +213,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiTrue4() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -233,7 +233,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllMatchesTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :matches \"From\" \"*@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :matches \"From\" \"*@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -252,7 +252,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllContainsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -271,7 +271,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartIsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -290,7 +290,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartMatchesTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :matches \"From\" \"*er\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :matches \"From\" \"*er\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -309,7 +309,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartContainsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -328,7 +328,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainIsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
 
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
@@ -348,7 +348,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainMatchesTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :matches \"From\" \"*main\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :matches \"From\" \"*main\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -367,7 +367,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainContainsTrue() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("user@domain");
@@ -386,7 +386,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is \"From\" \"user@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -405,7 +405,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllMatchesFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :matches \"From\" \"(.*)@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");
@@ -424,7 +424,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllContainsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :contains \"From\" \"r@dom\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -443,7 +443,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartIsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :is \"From\" \"user\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -462,7 +462,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartMatchesFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :matches \"From\" \"(.*)er\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -481,7 +481,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeLocalpartContainsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :localpart :contains \"From\" \"r\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -500,7 +500,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainIsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :is \"From\" \"domain\" {throwTestException;}";
 
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
@@ -520,7 +520,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainMatchesFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :matches \"From\" \"(.*)main\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -539,7 +539,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeDomainContainsFalse() {
         boolean isTestPassed = false;
-        String script = "if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :domain :contains \"From\" \"dom\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("tweety@pie");
@@ -558,7 +558,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiFalse1() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] \"user@domain\" {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");
@@ -578,7 +578,7 @@ public class EnvelopeTest {
     @Test
     public void testIfEnvelopeAllIsMultiFalse2() {
         boolean isTestPassed = false;
-        String script = "if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
+        String script = "require \"envelope\"; if envelope :all :is [\"From\", \"To\"] [\"user@domain\", \"tweety@pie\"] {throwTestException;}";
         try {
             SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
             mail.setEnvelopeFrom("bugs@bunny");

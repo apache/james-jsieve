@@ -3,7 +3,9 @@ package org.apache.jsieve;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
@@ -47,11 +49,22 @@ import static org.apache.jsieve.Constants.*;
  */
 public class SieveValidationVisitor implements SieveParserVisitor {
 
+    private static Set<String> lowerCased(List<String> names) {
+        return names.stream().map(name -> name.toLowerCase(Locale.ROOT)).collect(Collectors.toSet());
+    }
+
     private final CommandManager commandManager;
     private final TestManager testManager;
     private final ComparatorManager comparatorManager;
 
     private final Set<String> declaredComparators;
+
+    /** The commands and tests not in RFC 5228 itself, as the managers list them, lower-cased. */
+    private final Set<String> extensionCommands;
+    private final Set<String> extensionTests;
+
+    /** The lower-cased names of the extensions declared by a <code>require</code>. */
+    private final Set<String> declaredExtensions;
     
     private boolean requireAllowed = true;
     /** Is the visitor within a <code>require</code>? */
@@ -68,6 +81,9 @@ public class SieveValidationVisitor implements SieveParserVisitor {
         this.testManager = testManager;
         this.comparatorManager = comparatorManager;
         declaredComparators = new HashSet<String>();
+        extensionCommands = lowerCased(commandManager.getExtensions());
+        extensionTests = lowerCased(testManager.getExtensions());
+        declaredExtensions = new HashSet<String>();
     }
 
     public Object visit(SimpleNode node, Object data) throws SieveException {
@@ -92,6 +108,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     public Object visit(ASTcommand node, Object data) throws SieveException {
         final String name = node.getName();
         commandManager.getCommand(name);
+        extensionDeclared(name, extensionCommands);
         if ("require".equalsIgnoreCase(name)) {
             if (requireAllowed) {
                 isInRequire = true;
@@ -138,7 +155,21 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     }
 
     public Object visit(ASTtest node, Object data) throws SieveException {
+        final String name = node.getName();
+        testManager.getTest(name);
+        extensionDeclared(name, extensionTests);
         return visitNode(node, data);
+    }
+
+    /**
+     * An extension, a command or test not in RFC 5228 itself, is used only
+     * once a <code>require</code> declared it (RFC 5228 section 2.10.5).
+     */
+    private void extensionDeclared(String name, Set<String> extensions) throws SieveException {
+        final String lowerCaseName = name.toLowerCase(Locale.ROOT);
+        if (extensions.contains(lowerCaseName) && !declaredExtensions.contains(lowerCaseName)) {
+            throw new SieveException("\"" + name + "\" must be explicitly declared in a require statement.");
+        }
     }
 
     public Object visit(ASTtest_list node, Object data) throws SieveException {
@@ -188,6 +219,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                     // TODO: catching is inefficient, should just check
                     testManager.getTest(name);
                 }
+                declaredExtensions.add(name.toLowerCase(Locale.ROOT));
             }
         }
     }

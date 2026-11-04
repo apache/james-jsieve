@@ -29,7 +29,7 @@ public class WierdAddressTest {
      */
     @org.junit.Test
     public void testShouldParseAddressWithLotsOfStars() throws Exception {
-        String script = "if anyof (header :matches \"from\"" +
+        String script = "require \"fileinto\"; if anyof (header :matches \"from\"" +
                 "\"**********************************************address@yahoo.com\" ," +
                 "header :is \"subject\" \"5\" )" +
                 "{ fileinto \"Whatever\"; stop;}";

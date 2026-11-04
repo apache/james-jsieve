@@ -158,7 +158,7 @@ public class MultilineTextTest {
 
     private ActionReject runRejectScript(String script) throws SieveException, ParseException {
         MailAdapter mail = JUnitUtils.createMail();
-        JUnitUtils.interpret(mail, script);
+        JUnitUtils.interpret(mail, "require \"reject\"; " + script);
         assertTrue(mail.getActions().size() == 1);
         Object action = mail.getActions().get(0);
         assertTrue(action instanceof ActionReject);

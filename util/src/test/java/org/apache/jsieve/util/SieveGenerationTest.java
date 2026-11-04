@@ -38,7 +38,7 @@ public class SieveGenerationTest extends TestCase {
 
     public void testShouldGenerateSoloToEmailScriptFromNode() throws Exception {
         assertShouldRoundtripScript(
-                "if address :is :all [\"to\"] [\"coyote@desert.example.org\"] {"
+                "require [\"fileinto\"]; if address :is :all [\"to\"] [\"coyote@desert.example.org\"] {"
                 + "fileinto [\"coyote\"];} "
                 + "if address :is :all [\"to\"] [\"bugs@example.org\"] {"
                 + "fileinto [\"bugs\"];} "
@@ -53,7 +53,7 @@ public class SieveGenerationTest extends TestCase {
     }
     
     public void testShouldGenerateFileintoFromNode() throws Exception {
-        assertShouldRoundtripScript("fileinto [\"INBOX.test1\"]; fileinto [\"INBOX.test1\"];");
+        assertShouldRoundtripScript("require [\"fileinto\"]; fileinto [\"INBOX.test1\"]; fileinto [\"INBOX.test1\"];");
     }
     
     public void testShouldGenerateNumbersAboveIntegerRangeInFull() throws Exception {
@@ -77,12 +77,12 @@ public class SieveGenerationTest extends TestCase {
     }
     
     public void testShouldGenerateStringListsFromNode() throws Exception {
-        assertShouldRoundtripScript("if header :contains [\"subject\", \"to\"] [\"a\", \"b\"] {fileinto [\"c\"];}");
+        assertShouldRoundtripScript("require [\"fileinto\"]; if header :contains [\"subject\", \"to\"] [\"a\", \"b\"] {fileinto [\"c\"];}");
     }
     
     public void testShouldGenerateEscapedCarriageReturnAndFormFeedThatParseBack() throws Exception {
-        final String generated = toSieve("fileinto [\"a\rb\fc\\\"d\"];");
-        assertEquals("fileinto [\"a\\\rb\\\fc\\\"d\"];", generated);
+        final String generated = toSieve("require [\"fileinto\"]; fileinto [\"a\rb\fc\\\"d\"];");
+        assertEquals("require [\"fileinto\"]; fileinto [\"a\\\rb\\\fc\\\"d\"];", generated);
         assertEquals(generated, toSieve(generated));
     }
     

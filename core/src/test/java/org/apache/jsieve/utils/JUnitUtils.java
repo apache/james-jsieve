@@ -36,6 +36,13 @@ import org.apache.jsieve.parser.generated.ParseException;
  * Class JUnitUtils implements utility methods used during unit testing.
  */
 public class JUnitUtils {
+
+    /**
+     * Declares the test-only throwTestException command: like any command
+     * RFC 5228 does not define, it is an extension (section 2.10.5).
+     */
+    private static final String REQUIRE_TEST_COMMAND = "require \"throwtestexception\";";
+
     /**
      * Method interpret parses a script and evaluates it against a MailAdapter.
      * 
@@ -47,7 +54,7 @@ public class JUnitUtils {
     static public void interpret(MailAdapter mail, String script)
             throws SieveException, ParseException {
         new ConfigurationManager().build().interpret(mail,
-                new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)));
+                new ByteArrayInputStream((REQUIRE_TEST_COMMAND + script).getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

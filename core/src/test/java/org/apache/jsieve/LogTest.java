@@ -36,7 +36,7 @@ public class LogTest {
     @org.junit.Test
     public void testLogDebug() {
         boolean isTestPassed = false;
-        String script = "log :debug \"Log a debug message.\";";
+        String script = "require \"log\"; log :debug \"Log a debug message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -53,7 +53,7 @@ public class LogTest {
     @Test
     public void testLogError() {
         boolean isTestPassed = false;
-        String script = "log :error \"Log an error message.\";";
+        String script = "require \"log\"; log :error \"Log an error message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -70,7 +70,7 @@ public class LogTest {
     @Test
     public void testLogInfo() {
         boolean isTestPassed = false;
-        String script = "log :info \"Log an info message.\";";
+        String script = "require \"log\"; log :info \"Log an info message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -87,7 +87,7 @@ public class LogTest {
     @Test
     public void testLogTrace() {
         boolean isTestPassed = false;
-        String script = "log :trace \"Log a trace message.\";";
+        String script = "require \"log\"; log :trace \"Log a trace message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -104,7 +104,7 @@ public class LogTest {
     @Test
     public void testLogWarn() {
         boolean isTestPassed = false;
-        String script = "log :warn \"Log a warning message.\";";
+        String script = "require \"log\"; log :warn \"Log a warning message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -121,7 +121,7 @@ public class LogTest {
     @Test
     public void testLogDefault() {
         boolean isTestPassed = false;
-        String script = "log \"Log a default message.\";";
+        String script = "require \"log\"; log \"Log a default message.\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);

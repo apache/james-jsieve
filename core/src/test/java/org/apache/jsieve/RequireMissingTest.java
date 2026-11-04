@@ -19,6 +19,12 @@
 
 package org.apache.jsieve;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.junit.Assert;
@@ -100,5 +106,58 @@ public class RequireMissingTest {
         } catch (ParseException e) {
             // expected
         }
+    }
+
+    @Test(expected = ParseException.class)
+    public void extensionCommandWithoutRequireShouldThrow() throws Exception {
+        String script = "fileinto \"INBOX.a\";";
+
+        JUnitUtils.parse(script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void extensionTestWithoutRequireShouldThrow() throws Exception {
+        String script = "if envelope :all :is \"from\" \"user@example.com\" { keep; }";
+
+        JUnitUtils.parse(script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void extensionOtherThanTheRequiredOneShouldThrow() throws Exception {
+        String script = "require \"fileinto\"; reject \"No thanks\";";
+
+        JUnitUtils.parse(script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void extensionListedInAnotherCaseShouldStillNeedARequire() throws Exception {
+        ConfigurationManager configuration = new ConfigurationManager();
+        CommandManager commands = configuration.getCommandManager();
+        CommandManager mixedCase = new CommandManager() {
+            public ExecutableCommand getCommand(String name) throws LookupException {
+                return commands.getCommand(name);
+            }
+
+            public boolean isCommandSupported(String name) {
+                return commands.isCommandSupported(name);
+            }
+
+            public List<String> getExtensions() {
+                return commands.getExtensions().stream()
+                    .map(name -> name.equals("fileinto") ? "FileInto" : name)
+                    .collect(Collectors.toList());
+            }
+        };
+        SieveFactory factory = new SieveFactory(mixedCase, configuration.getComparatorManager(),
+            configuration.getTestManager());
+
+        factory.parse(new ByteArrayInputStream("fileinto \"INBOX.a\";".getBytes(StandardCharsets.UTF_8)));
+    }
+
+    @Test
+    public void requiredExtensionShouldBeAcceptedInAnyCase() throws Exception {
+        String script = "require \"fileinto\"; FileInto \"INBOX.a\";";
+
+        JUnitUtils.parse(script);
     }
 }

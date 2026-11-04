@@ -88,7 +88,7 @@ public class UnexpectedArgumentsTest {
 
     @Test(expected = SyntaxException.class)
     public void logWithATestShouldThrow() throws Exception {
-        String script = "log \"x\" true;";
+        String script = "require \"log\"; log \"x\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }

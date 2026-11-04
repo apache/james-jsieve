@@ -206,9 +206,9 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            // stop stands where a test is expected: rejected at parse
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -260,9 +260,9 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            // stop stands where a test is expected: rejected at parse
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -278,9 +278,9 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            // stop stands where a test is expected: rejected at parse
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);

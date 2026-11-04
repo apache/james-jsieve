@@ -33,7 +33,7 @@ Not all implementations may fully support all actions.
 |===
 |Action Command |Specification |Supported
 
-|fileinto |RFC 5228 (REQUIRED) |yes
+|fileinto |RFC 5228 (OPTIONAL) |yes
 |redirect |RFC 5228 (REQUIRED) |yes
 |keep |RFC 5228 (REQUIRED) |yes
 |discard |RFC 5228 (REQUIRED) |yes

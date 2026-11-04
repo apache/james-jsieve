@@ -32,6 +32,7 @@ import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.parser.generated.SieveParser;
 import org.apache.jsieve.parser.generated.SieveParserVisitor;
 import org.apache.jsieve.parser.generated.SimpleNode;
+import org.apache.jsieve.parser.generated.TokenMgrError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,6 +109,10 @@ public class SieveFactory {
         } catch (ParseException ex) {
             LOGGER.error("Parse failed.", ex);
             throw ex;
+        } catch (TokenMgrError ex) {
+            // The generated lexer reports a lexical error as an Error
+            LOGGER.error("Parse failed.", ex);
+            throw new ParseException(ex.getMessage());
         } catch (SieveException ex) {
             LOGGER.error("Parse failed.", ex);
             throw new ParseException(ex.getMessage());

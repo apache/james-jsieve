@@ -122,4 +122,18 @@ public class ScriptCheckMailAdapterTest {
 
         assertThat(testee.getHeader("FROM")).containsExactly("b@example.com");
     }
+
+    @Test
+    public void getHeaderShouldUnfoldALineBreakFollowingABackslash() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("X-Path: C:\\\r\n dir\r\n\r\nbody\r\n");
+
+        assertThat(testee.getMatchingHeader("X-Path")).containsExactly("C:\\ dir");
+    }
+
+    @Test
+    public void parseAddressesShouldUnfoldALineBreakFollowingABackslash() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: \"a\\\r\n b\"@example.com\r\n\r\nbody\r\n");
+
+        assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("a b");
+    }
 }

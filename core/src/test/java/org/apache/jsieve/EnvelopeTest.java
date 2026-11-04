@@ -671,4 +671,100 @@ public class EnvelopeTest {
         JUnitUtils.interpret(mail, "require \"envelope\";"
             + " if envelope :domain :is \"from\" \"\" {throwTestException;}");
     }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldBeAnAddressLiteralHoldingAnAt() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[x-tag:a@b]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"[x-tag:a@b]\" {throwTestException;}");
+    }
+
+    @Test
+    public void localPartOfAnInvalidAddressShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("a@b@c");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"a@b\" {throwTestException;}");
+    }
+
+    @Test
+    public void domainOfAnInvalidAddressShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("a b@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allOfAnInvalidAddressShouldStillMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("a b@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"a b@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void localPartWithoutDomainShouldMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeTo("Postmaster");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"to\" \"Postmaster\" {throwTestException;}");
+    }
+
+    @Test
+    public void addressLiteralThatIsNoAddressShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[garbage]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"user\" {throwTestException;}");
+    }
+
+    @Test
+    public void ipv4LiteralOutOfRangeShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[300.1.2.3]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"user\" {throwTestException;}");
+    }
+
+    @Test
+    public void ipv6LiteralThatIsNoAddressShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[IPv6:not-an-ip]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"user\" {throwTestException;}");
+    }
+
+    @Test
+    public void generalLiteralWithoutContentShouldNotMatch() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[x-tag:]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"user\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void ipv4LiteralShouldBeTheDomain() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[192.0.2.1]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"[192.0.2.1]\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void ipv6LiteralShouldBeTheDomain() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[IPv6:2001:db8::1]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"[IPv6:2001:db8::1]\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void ipv6LiteralEndingWithIpv4ShouldBeTheDomain() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@[IPv6:::ffff:192.0.2.1]");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"[IPv6:::ffff:192.0.2.1]\" {throwTestException;}");
+    }
 }

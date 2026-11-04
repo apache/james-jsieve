@@ -98,8 +98,8 @@ public class AsciiNumeric implements Comparator {
      */
     protected String computeCompareString(String string) {
         char[] chars = string.toCharArray();
-        for (int i = chars.length; i < chars.length; i++) {
-            if (!Character.isDigit(chars[i]))
+        for (int i = 0; i < chars.length; i++) {
+            if (!isDigit(chars[i]))
                 chars[i] = 0xff;
         }
         return new String(chars);

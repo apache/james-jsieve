@@ -117,4 +117,9 @@ public class AsciiNumericTest {
             // Expected
         }
     }
+
+    @Test
+    public void computeCompareStringShouldReplaceEveryCharacterThatIsNotAnAsciiDigit() {
+        Assert.assertEquals("12\u00ff3\u00ff", subject.computeCompareString("12a3\u0663"));
+    }
 }

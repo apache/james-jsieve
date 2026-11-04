@@ -273,6 +273,11 @@ public class VacationTest {
         assertThat(vacation.getAddresses()).containsExactly("me@example.com");
     }
 
+    @Test(expected = ParseException.class)
+    public void tagAfterTheReasonFollowingMimeShouldThrow() throws Exception {
+        JUnitUtils.interpret(sieveMailAdapter, "require \"vacation\"; vacation :mime \"entity\" :subject \"away\";");
+    }
+
     @Test
     public void mimeFollowedByTheReasonShouldStillWork() throws Exception {
         MailAdapter mail = JUnitUtils.createMail();

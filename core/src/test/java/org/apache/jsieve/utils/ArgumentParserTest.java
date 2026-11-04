@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.NumberArgument;
 import org.apache.jsieve.StringListArgument;
@@ -253,6 +254,26 @@ public class ArgumentParserTest {
             .isInstanceOf(SyntaxException.class);
         assertThatThrownBy(() -> argumentParser.throwOnUnvalidSeenSingleTag())
             .isInstanceOf(SyntaxException.class);
+    }
+
+    @Test
+    public void argumentAfterAFlagShouldBePositional() throws Exception {
+        ArgumentParser argumentParser = new ArgumentParser(Lists.newArrayList(ANY_TAG_ARGUMENT, SINGLE_STRING_ARGUMENT),
+            Sets.newHashSet(ANY_TAG));
+
+        assertThat(argumentParser.getSingleTags()).containsOnly(ANY_TAG);
+        assertThat(argumentParser.getRemainingStringValue("")).isEqualTo(STRING_VALUE);
+    }
+
+    @Test
+    public void tagAfterTheArgumentFollowingAFlagShouldBeReported() throws Exception {
+        ArgumentParser argumentParser = new ArgumentParser(
+            Lists.newArrayList(ANY_TAG_ARGUMENT, SINGLE_STRING_ARGUMENT, OTHER_TAG_ARGUMENT, NUMBER_ARGUMENT),
+            Sets.newHashSet(ANY_TAG));
+
+        assertThatThrownBy(() -> argumentParser.throwOnUnvalidSeenTagWithValue(OTHER_TAG))
+            .isInstanceOf(SyntaxException.class)
+            .hasMessageContaining("Tags after the positional arguments");
     }
 
 }

@@ -36,6 +36,7 @@ import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TagArgument;
+import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -177,9 +178,11 @@ public abstract class AbstractComparatorTest extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected arguments");
 
-        return new ComparatorTestArguments((addressPart == null ? ALL_TAG : addressPart),
+        final ComparatorTestArguments test = new ComparatorTestArguments((addressPart == null ? ALL_TAG : addressPart),
                 (comparator == null ? ASCII_CASEMAP_COMPARATOR : comparator),
                 (matchType == null ? IS_TAG : matchType), headerNames, keys);
+        ComparatorUtils.checkMatchType(test.comparator, test.matchType, context);
+        return test;
     }
 
     /**

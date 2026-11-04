@@ -84,6 +84,18 @@ public class ParseValidationTest {
         JUnitUtils.parse("if true { keep; } else { stop; } else { stop; }");
     }
 
+    @Test(expected = ParseException.class)
+    public void headerContainsWithAsciiNumericShouldBeRejectedAtParse() throws Exception {
+        JUnitUtils.parse("require \"comparator-i;ascii-numeric\";"
+            + " if false { if header :contains :comparator \"i;ascii-numeric\" \"X-N\" \"5\" { keep; } }");
+    }
+
+    @Test(expected = ParseException.class)
+    public void addressMatchesWithAsciiNumericShouldBeRejectedAtParse() throws Exception {
+        JUnitUtils.parse("require \"comparator-i;ascii-numeric\";"
+            + " if false { if address :matches :comparator \"i;ascii-numeric\" \"From\" \"5*\" { keep; } }");
+    }
+
     @Test
     public void validScriptShouldParse() throws Exception {
         JUnitUtils.parse("require [\"fileinto\", \"vacation\", \"envelope\"];"

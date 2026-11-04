@@ -98,6 +98,7 @@ public class Body extends AbstractTest {
         // :is and i;ascii-casemap by default (RFC 5173 section 4)
         matcher = matcherTag != null ? matcherTag.getTag() : IS_TAG;
         comparator = comparatorName != null ? comparatorName : ASCII_CASEMAP_COMPARATOR;
+        ComparatorUtils.checkMatchType(comparator, matcher, ctx);
     }
 
     private boolean isTransformation(TagArgument tag) {

@@ -18,6 +18,8 @@
  ****************************************************************/
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.ConfigurationManager;
+import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.junit.Assert;
@@ -71,5 +73,17 @@ public class RequireComparatorTest {
                 + "if header :comparator \"i;ascii-numeric\" :is \"X-N\" \"5\" { keep; }";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void comparatorCapabilityInAnotherCaseShouldThrow() throws Exception {
+        String script = "require \"comparator-I;ASCII-NUMERIC\";";
+
+        JUnitUtils.parse(script);
+    }
+
+    @Test(expected = LookupException.class)
+    public void comparatorNameInAnotherCaseShouldNotBeFound() throws Exception {
+        new ConfigurationManager().getComparatorManager().getComparator("I;OCTET");
     }
 }

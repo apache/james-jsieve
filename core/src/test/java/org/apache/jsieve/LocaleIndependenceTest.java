@@ -49,11 +49,11 @@ public class LocaleIndependenceTest {
     }
 
     @Test(expected = ThrowTestException.TestException.class)
-    public void commandTestAndComparatorNamesShouldBeCaseInsensitive() throws Exception {
+    public void commandAndTestNamesShouldBeCaseInsensitive() throws Exception {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("X-N", "1");
-        JUnitUtils.interpret(mail, "require [\"comparator-I;ASCII-NUMERIC\"];"
-            + " IF HEADER :comparator \"I;ASCII-NUMERIC\" :is \"X-N\" \"1\" {throwTestException;}");
+        JUnitUtils.interpret(mail, "require [\"comparator-i;ascii-numeric\"];"
+            + " IF HEADER :comparator \"i;ascii-numeric\" :is \"X-N\" \"1\" {throwTestException;}");
     }
 
     @Test(expected = ThrowTestException.TestException.class)

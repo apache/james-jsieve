@@ -39,7 +39,7 @@ public class FileIntoTest {
     @org.junit.Test
     public void testFileInto() {
         boolean isTestPassed = false;
-        String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test2\";";
+        String script = "require \"fileinto\"; fileinto \"INBOX.test1\"; fileinto \"INBOX.test2\";";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -65,7 +65,7 @@ public class FileIntoTest {
     @Test
     public void testDuplicateFileInto() {
         boolean isTestPassed = false;
-        String script = "fileinto \"INBOX.test1\"; fileinto \"INBOX.test1\";";
+        String script = "require \"fileinto\"; fileinto \"INBOX.test1\"; fileinto \"INBOX.test1\";";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -87,7 +87,7 @@ public class FileIntoTest {
     @Test
     public void testInvalidArgumentType() {
         boolean isTestPassed = false;
-        String script = "fileinto 1 ;";
+        String script = "require \"fileinto\"; fileinto 1 ;";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -105,7 +105,7 @@ public class FileIntoTest {
     @Test
     public void testInvalidArgumentNumber() {
         boolean isTestPassed = false;
-        String script = "fileinto [\"INBOX.test\", \"elsewhere\"];";
+        String script = "require \"fileinto\"; fileinto [\"INBOX.test\", \"elsewhere\"];";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -123,7 +123,7 @@ public class FileIntoTest {
     @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
-        String script = "fileinto 1 {throwTestException;}";
+        String script = "require \"fileinto\"; fileinto 1 {throwTestException;}";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);

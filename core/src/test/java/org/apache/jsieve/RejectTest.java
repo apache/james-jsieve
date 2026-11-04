@@ -41,7 +41,7 @@ public class RejectTest {
     @org.junit.Test
     public void testInvalidArguments() {
         boolean isTestPassed = false;
-        String script = "reject 1 ;";
+        String script = "require \"reject\"; reject 1 ;";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -59,7 +59,7 @@ public class RejectTest {
     @Test
     public void testInvalidBlock() {
         boolean isTestPassed = false;
-        String script = "reject \"Spam not consumed here!\" {throwTestException;}";
+        String script = "require \"reject\"; reject \"Spam not consumed here!\" {throwTestException;}";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -77,7 +77,7 @@ public class RejectTest {
     @Test
     public void testReject() {
         boolean isTestPassed = false;
-        String script = "reject \"Spam not consumed here!\";";
+        String script = "require \"reject\"; reject \"Spam not consumed here!\";";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -97,7 +97,7 @@ public class RejectTest {
     @Test
     public void testRejectMessage() throws Exception {
         String message = "Spam not consumed here!";
-        String script = "reject \"" + message + "\";";
+        String script = "require \"reject\"; reject \"" + message + "\";";
         ActionReject rejection = runRejectScript(script);
         Assert.assertEquals(message, rejection.getMessage());
     }
@@ -117,7 +117,7 @@ public class RejectTest {
     @Test
     public void testRejectMissingMessage() {
         boolean isTestPassed = false;
-        String script = "reject;";
+        String script = "require \"reject\"; reject;";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -137,7 +137,7 @@ public class RejectTest {
     @Test
     public void testDuplicateReject() {
         boolean isTestPassed = false;
-        String script = "reject \"Spam not consumed here!\"; reject \"Spam not consumed here!\";";
+        String script = "require \"reject\"; reject \"Spam not consumed here!\"; reject \"Spam not consumed here!\";";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -156,7 +156,7 @@ public class RejectTest {
     @Test
     public void testRejectAndAPrecedingCommand() {
         boolean isTestPassed = false;
-        String script = "keep; reject \"Spam not consumed here!\";";
+        String script = "require \"reject\"; keep; reject \"Spam not consumed here!\";";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();
@@ -175,7 +175,7 @@ public class RejectTest {
     @Test
     public void testRejectAndAFollowingCommand() {
         boolean isTestPassed = false;
-        String script = "reject \"Spam not consumed here!\"; keep;";
+        String script = "require \"reject\"; reject \"Spam not consumed here!\"; keep;";
 
         try {
             MailAdapter mail = JUnitUtils.createMail();

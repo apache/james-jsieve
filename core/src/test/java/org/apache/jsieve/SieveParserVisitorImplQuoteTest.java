@@ -51,8 +51,8 @@ public class SieveParserVisitorImplQuoteTest {
     }
 
     private ASTstring stringNode(String value) throws Exception {
-        Node node = JUnitUtils.parse("fileinto " + value + ";");
-        return (ASTstring) node.jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
+        Node node = JUnitUtils.parse("require \"fileinto\"; fileinto " + value + ";");
+        return (ASTstring) node.jjtGetChild(0).jjtGetChild(1).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
     }
 
     @org.junit.Test

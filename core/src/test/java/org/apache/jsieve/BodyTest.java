@@ -44,56 +44,56 @@ public class BodyTest {
 
     @Test(expected = SyntaxException.class)
     public void NoArgumentsShouldThrow() throws Exception {
-        String script = "if body {throwTestException;}";
+        String script = "require \"body\"; if body {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void invalidTransformationShouldThrow() throws Exception {
-        String script = "if body :invalid :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :invalid :contains \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void rawShouldThrowWithoutMatcher() throws Exception {
-        String script = "if body :raw \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :raw \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void rawShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "if body :raw :is \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :raw :is \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void rawShouldThrowWithoutValuesToMatch() throws Exception {
-        String script = "if body :raw :contains {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void rawShouldThrowWithInvalidValuesToMatch() throws Exception {
-        String script = "if body :raw :contains :fake {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void rawShouldThrowWithExtraArguments() throws Exception {
-        String script = "if body :raw :contains \"Wibble\" :hello {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains \"Wibble\" :hello {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test
     public void rawShouldWork() throws Exception {
-        String script = "if body :raw :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains \"Wibble\" {throwTestException;}";
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
 
@@ -104,7 +104,7 @@ public class BodyTest {
 
     @Test
     public void rawShouldWorkWithMultipleValues() throws Exception {
-        String script = "if body :raw :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains [\"Wibble\",\"other\"] {throwTestException;}";
         List<String> containedText = Arrays.asList("Wibble", "other");
         when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
 
@@ -115,42 +115,42 @@ public class BodyTest {
 
     @Test(expected = SyntaxException.class)
     public void textShouldThrowWithoutMatcher() throws Exception {
-        String script = "if body :text \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :text \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void textShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "if body :text :is \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :text :is \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void textShouldThrowWithoutValuesToMatch() throws Exception {
-        String script = "if body :text :contains {throwTestException;}";
+        String script = "require \"body\"; if body :text :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void textShouldThrowWithInvalidValuesToMatch() throws Exception {
-        String script = "if body :text :contains :fake {throwTestException;}";
+        String script = "require \"body\"; if body :text :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void textShouldThrowWithExtraArguments() throws Exception {
-        String script = "if body :text :contains \"Wibble\" :hello {throwTestException;}";
+        String script = "require \"body\"; if body :text :contains \"Wibble\" :hello {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test
     public void textShouldWork() throws Exception {
-        String script = "if body :text :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :text :contains \"Wibble\" {throwTestException;}";
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
 
@@ -161,7 +161,7 @@ public class BodyTest {
 
     @Test
     public void textShouldWorkWithMultipleValues() throws Exception {
-        String script = "if body :text :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        String script = "require \"body\"; if body :text :contains [\"Wibble\",\"other\"] {throwTestException;}";
         List<String> containedText = Arrays.asList("Wibble", "other");
         when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
 
@@ -172,63 +172,63 @@ public class BodyTest {
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithoutContentTypes() throws Exception {
-        String script = "if body :content {throwTestException;}";
+        String script = "require \"body\"; if body :content {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithInvalidContentTypes() throws Exception {
-        String script = "if body :content :fake {throwTestException;}";
+        String script = "require \"body\"; if body :content :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithoutMatcher() throws Exception {
-        String script = "if body :content \"any\" {throwTestException;}";
+        String script = "require \"body\"; if body :content \"any\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithInvalidMatcher() throws Exception {
-        String script = "if body :content \"text/plain\" \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "if body :content \"text/plain\" :is \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :is \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithoutValuesToMatch() throws Exception {
-        String script = "if body :content \"text/plain\" :contains {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithInvalidValuesToMatch() throws Exception {
-        String script = "if body :content \"text/plain\" :contains :fake {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void contentShouldThrowWithExtraArguments() throws Exception {
-        String script = "if body :content \"text/plain\" :contains \"Wibble\" :hello {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :contains \"Wibble\" :hello {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test
     public void contentShouldWork() throws Exception {
-        String script = "if body :content \"text/plain\" :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :contains \"Wibble\" {throwTestException;}";
         List<String> contentTypes = Collections.singletonList("text/plain");
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
@@ -240,7 +240,7 @@ public class BodyTest {
 
     @Test
     public void contentShouldWorkWithMultipleValues() throws Exception {
-        String script = "if body :content \"text/plain\" :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        String script = "require \"body\"; if body :content \"text/plain\" :contains [\"Wibble\",\"other\"] {throwTestException;}";
         List<String> containedText = Arrays.asList("Wibble", "other");
         List<String> contentTypes = Collections.singletonList("text/plain");
         when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
@@ -252,7 +252,7 @@ public class BodyTest {
 
     @Test
     public void contentShouldWorkWithMultipleContentTypes() throws Exception {
-        String script = "if body :content [\"text/plain\",\"text/html\"] :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :content [\"text/plain\",\"text/html\"] :contains \"Wibble\" {throwTestException;}";
         List<String> contentTypes = Arrays.asList("text/plain", "text/html");
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
@@ -264,7 +264,7 @@ public class BodyTest {
 
     @Test
     public void contentShouldWorkWithMultipleValuesAndMultipleContentTypes() throws Exception {
-        String script = "if body :content [\"text/plain\",\"text/html\"] :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        String script = "require \"body\"; if body :content [\"text/plain\",\"text/html\"] :contains [\"Wibble\",\"other\"] {throwTestException;}";
         List<String> containedText = Arrays.asList("Wibble", "other");
         List<String> contentTypes = Arrays.asList("text/plain", "text/html");
         when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
@@ -276,35 +276,35 @@ public class BodyTest {
 
     @Test(expected = SyntaxException.class)
     public void defaultShouldThrowWithoutMatcher() throws Exception {
-        String script = "if body \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void defaultShouldThrowWithoutValuesToMatch() throws Exception {
-        String script = "if body :contains {throwTestException;}";
+        String script = "require \"body\"; if body :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void defaultShouldThrowWithInvalidValuesToMatch() throws Exception {
-        String script = "if body :contains :fake {throwTestException;}";
+        String script = "require \"body\"; if body :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void defaultShouldThrowWithExtraArguments() throws Exception {
-        String script = "if body :contains \"Wibble\" :hello {throwTestException;}";
+        String script = "require \"body\"; if body :contains \"Wibble\" :hello {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test
     public void defaultShouldWork() throws Exception {
-        String script = "if body :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :contains \"Wibble\" {throwTestException;}";
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
 
@@ -315,7 +315,7 @@ public class BodyTest {
 
     @Test
     public void defaultShouldWorkWithMultipleValues() throws Exception {
-        String script = "if body :contains [\"Wibble\",\"other\"] {throwTestException;}";
+        String script = "require \"body\"; if body :contains [\"Wibble\",\"other\"] {throwTestException;}";
         List<String> containedText = Arrays.asList("Wibble", "other");
         when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
 
@@ -326,7 +326,7 @@ public class BodyTest {
 
     @Test
     public void rawShouldWorkAfterTheMatcher() throws Exception {
-        String script = "if body :contains :raw \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :contains :raw \"Wibble\" {throwTestException;}";
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyRaw(containedText)).thenReturn(false);
 
@@ -337,7 +337,7 @@ public class BodyTest {
 
     @Test
     public void textShouldWorkAfterTheMatcher() throws Exception {
-        String script = "if body :contains :text \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :contains :text \"Wibble\" {throwTestException;}";
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyText(containedText)).thenReturn(false);
 
@@ -348,7 +348,7 @@ public class BodyTest {
 
     @Test
     public void contentShouldWorkAfterTheMatcher() throws Exception {
-        String script = "if body :contains :content \"text/plain\" \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :contains :content \"text/plain\" \"Wibble\" {throwTestException;}";
         List<String> contentTypes = Collections.singletonList("text/plain");
         List<String> containedText = Collections.singletonList("Wibble");
         when(sieveMailAdapter.isInBodyContent(contentTypes, containedText)).thenReturn(false);
@@ -360,14 +360,14 @@ public class BodyTest {
 
     @Test(expected = SyntaxException.class)
     public void twoTransformationsShouldThrow() throws Exception {
-        String script = "if body :raw :contains :text \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :raw :contains :text \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void twoMatchersShouldThrow() throws Exception {
-        String script = "if body :contains :raw :contains \"Wibble\" {throwTestException;}";
+        String script = "require \"body\"; if body :contains :raw :contains \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }

@@ -39,6 +39,7 @@ public class ArgumentParser {
     private Map<String, Argument> tagsWithValues;
     private Set<String> parsedTags;
     private Set<String> duplicatedTags;
+    private Set<String> tagsAfterPositionalArguments;
 
     public ArgumentParser(List<Argument> arguments) {
         this.remainingArguments = new ArrayList<Argument>();
@@ -46,6 +47,7 @@ public class ArgumentParser {
         this.tagsWithValues = new HashMap<String, Argument>();
         this.parsedTags = new HashSet<String>();
         this.duplicatedTags = new HashSet<String>();
+        this.tagsAfterPositionalArguments = new HashSet<String>();
         initialize(arguments);
     }
 
@@ -54,10 +56,13 @@ public class ArgumentParser {
         for (Argument argument : arguments) {
             if (argument instanceof TagArgument) {
                 TagArgument tagArgument = (TagArgument) argument;
-                // each tag at most once (RFC 5228 section 2.6.2), reported by the throwOnUnvalid* methods;
-                // a tag after the positional arguments is accepted for compatibility with existing scripts
+                // each tag at most once, and before the positional arguments (RFC 5228 section 2.6.2),
+                // reported by the throwOnUnvalid* methods
                 if (!parsedTags.add(tagArgument.getTag())) {
                     duplicatedTags.add(tagArgument.getTag());
+                }
+                if (!remainingArguments.isEmpty()) {
+                    tagsAfterPositionalArguments.add(tagArgument.getTag());
                 }
                 handlePreviousTagArgument(previousSeenTagArgument);
                 previousSeenTagArgument = tagArgument;
@@ -134,6 +139,9 @@ public class ArgumentParser {
     private void validateTagCollectionWithExpectations(Set<String> seenTags, String[] expectations) throws SyntaxException {
         if (!duplicatedTags.isEmpty()) {
             throw new SyntaxException("Duplicated tags : " + duplicatedTags);
+        }
+        if (!tagsAfterPositionalArguments.isEmpty()) {
+            throw new SyntaxException("Tags after the positional arguments : " + tagsAfterPositionalArguments);
         }
         Set<String> validTagList = getSetFromStringArray(expectations);
         if (!validTagList.containsAll(seenTags)) {

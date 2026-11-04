@@ -62,42 +62,42 @@ public class VacationTest {
 
     @Test(expected = SyntaxException.class)
     public void uncompletedDaysTagShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :days;";
+        String script = "require \"vacation\"; vacation :days;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void daysTagWithStringShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :days \"string\";";
+        String script = "require \"vacation\"; vacation :days \"string\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void uncompletedSubjectTagShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :subject;";
+        String script = "require \"vacation\"; vacation :subject;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void uncompletedFromTagShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :from;";
+        String script = "require \"vacation\"; vacation :from;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void uncompletedAddressesTagShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :addresses;";
+        String script = "require \"vacation\"; vacation :addresses;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
     @Test(expected = SyntaxException.class)
     public void uncompletedHandleTagShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :handle;";
+        String script = "require \"vacation\"; vacation :handle;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
@@ -125,7 +125,7 @@ public class VacationTest {
 
     @Test
     public void daysShouldWork() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :days 3;";
+        String script = "require \"vacation\"; vacation :days 3 \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
@@ -139,7 +139,7 @@ public class VacationTest {
 
     @Test
     public void subjectShouldWork() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :subject \"any\";";
+        String script = "require \"vacation\"; vacation :subject \"any\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
@@ -153,7 +153,7 @@ public class VacationTest {
 
     @Test
     public void fromShouldWork() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :from \"benwa@apache.org\";";
+        String script = "require \"vacation\"; vacation :from \"benwa@apache.org\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
@@ -168,7 +168,7 @@ public class VacationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void addressesShouldWork() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :addresses \"benwa@apache.org\";";
+        String script = "require \"vacation\"; vacation :addresses \"benwa@apache.org\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
@@ -196,7 +196,7 @@ public class VacationTest {
 
     @Test
     public void handleShouldWork() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :handle \"plop\";";
+        String script = "require \"vacation\"; vacation :handle \"plop\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
 
@@ -210,7 +210,14 @@ public class VacationTest {
 
     @Test(expected = SyntaxException.class)
     public void reasonAndMimeTogetherShouldThrow() throws Exception {
-        String script = "require \"vacation\"; vacation \"reason\" :mime \"plop\";";
+        String script = "require \"vacation\"; vacation :mime \"plop\" \"reason\";";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test(expected = SyntaxException.class)
+    public void tagAfterTheReasonShouldThrow() throws Exception {
+        String script = "require \"vacation\"; vacation \"reason\" :days 3;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }

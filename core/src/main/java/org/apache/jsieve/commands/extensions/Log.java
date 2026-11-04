@@ -54,6 +54,17 @@ import org.slf4j.LoggerFactory;
 public class Log extends AbstractCommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
 
+    /** The arguments of a log command, checked, with the default level. */
+    private static final class LogArguments {
+        private final String logLevel;
+        private final String message;
+
+        private LogArguments(String logLevel, String message) {
+            this.logLevel = logLevel;
+            this.message = message;
+        }
+    }
+
     /**
      * Constructor for Log.
      */
@@ -67,6 +78,16 @@ public class Log extends AbstractCommand {
      */
     protected Object executeBasic(MailAdapter mail, Arguments arguments,
             Block block, SieveContext context) throws SieveException {
+        final LogArguments log = parse(arguments, context);
+        log(log.logLevel, log.message, context);
+        return null;
+    }
+
+    /**
+     * Checks the arguments of a log command.
+     */
+    private LogArguments parse(Arguments arguments, SieveContext context)
+            throws SieveException {
         String logLevel = null;
         String message = null;
 
@@ -115,9 +136,7 @@ public class Log extends AbstractCommand {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected arguments");
 
-        log(null == logLevel ? ":info" : logLevel, message, context);
-
-        return null;
+        return new LogArguments(null == logLevel ? ":info" : logLevel, message);
     }
 
     /**
@@ -195,10 +214,10 @@ public class Log extends AbstractCommand {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        // The arguments are validated in executeBasic()
         if (arguments.hasTests())
             throw context.getCoordinate().syntaxException(
                     "Found unexpected tests");
+        parse(arguments, context);
     }
 
 }

@@ -60,6 +60,16 @@ public abstract class AbstractTest implements ExecutableTest {
     }
 
     /**
+     * Checks the arguments as execute does before running the test.
+     *
+     * @see org.apache.jsieve.tests.ExecutableTest#validate(Arguments, SieveContext)
+     */
+    public void validate(Arguments arguments, SieveContext context)
+            throws SieveException {
+        validateArguments(arguments, context);
+    }
+
+    /**
      * Abstract method executeBasic invokes a Sieve Test.
      * 
      * @param mail

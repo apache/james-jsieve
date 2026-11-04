@@ -23,8 +23,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.commands.ThrowTestException;
-import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Before;
@@ -43,14 +43,14 @@ public class BodyTest {
         sieveMailAdapter = mock(SieveMailAdapter.class);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void NoArgumentsShouldThrow() throws Exception {
         String script = "require \"body\"; if body {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void invalidTransformationShouldThrow() throws Exception {
         String script = "require \"body\"; if body :invalid :contains \"Wibble\" {throwTestException;}";
 
@@ -73,21 +73,21 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void rawShouldThrowWithoutValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :raw :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void rawShouldThrowWithInvalidValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :raw :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void rawShouldThrowWithExtraArguments() throws Exception {
         String script = "require \"body\"; if body :raw :contains \"Wibble\" :hello {throwTestException;}";
 
@@ -132,21 +132,21 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void textShouldThrowWithoutValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :text :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void textShouldThrowWithInvalidValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :text :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void textShouldThrowWithExtraArguments() throws Exception {
         String script = "require \"body\"; if body :text :contains \"Wibble\" :hello {throwTestException;}";
 
@@ -175,21 +175,21 @@ public class BodyTest {
         verify(sieveMailAdapter).isInBodyText(containedText);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithoutContentTypes() throws Exception {
         String script = "require \"body\"; if body :content {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithInvalidContentTypes() throws Exception {
         String script = "require \"body\"; if body :content :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithoutMatcher() throws Exception {
         String script = "require \"body\"; if body :content \"any\" {throwTestException;}";
 
@@ -212,21 +212,21 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithoutValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :content \"text/plain\" :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithInvalidValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :content \"text/plain\" :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void contentShouldThrowWithExtraArguments() throws Exception {
         String script = "require \"body\"; if body :content \"text/plain\" :contains \"Wibble\" :hello {throwTestException;}";
 
@@ -289,21 +289,21 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void defaultShouldThrowWithoutValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :contains {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void defaultShouldThrowWithInvalidValuesToMatch() throws Exception {
         String script = "require \"body\"; if body :contains :fake {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void defaultShouldThrowWithExtraArguments() throws Exception {
         String script = "require \"body\"; if body :contains \"Wibble\" :hello {throwTestException;}";
 
@@ -366,14 +366,14 @@ public class BodyTest {
         verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void twoTransformationsShouldThrow() throws Exception {
         String script = "require \"body\"; if body :raw :contains :text \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void twoMatchersShouldThrow() throws Exception {
         String script = "require \"body\"; if body :contains :raw :contains \"Wibble\" {throwTestException;}";
 

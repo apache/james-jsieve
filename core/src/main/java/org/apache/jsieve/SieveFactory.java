@@ -92,7 +92,9 @@ public class SieveFactory {
      * successful parse means the script is lexically and grammatically valid
      * according to RFC 3028, section 8. The result is the start node of the
      * parsed Sieve script. The start node is reusable. Typically it is stored
-     * for reuse in subsequent evaluations of the script.
+     * for reuse in subsequent evaluations of the script. The arguments and
+     * the blocks of every command and test, reached or not, are checked as
+     * when they run (RFC 5228 section 2.10.6).
      * 
      * @param inputStream
      * @return Node
@@ -105,6 +107,8 @@ public class SieveFactory {
             SieveValidationVisitor visitor = new SieveValidationVisitor(
                     commandManager, testManager, comparatorManager);
             node.jjtAccept(visitor, null);
+            node.jjtAccept(new ArgumentValidationVisitor(new BaseSieveContext(
+                    commandManager, comparatorManager, testManager)), null);
             return node;
         } catch (ParseException ex) {
             LOGGER.error("Parse failed.", ex);

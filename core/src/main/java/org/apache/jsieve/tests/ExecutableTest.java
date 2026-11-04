@@ -43,4 +43,17 @@ public interface ExecutableTest {
     public boolean execute(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SieveException;
 
+    /**
+     * Checks the arguments of the test, as it checks them when it runs,
+     * without running it: SieveFactory#parse calls it on every test of a
+     * script, reached or not (RFC 5228 section 2.10.6). The default checks
+     * nothing.
+     *
+     * @param arguments the test arguments, not null
+     * @param context <code>SieveContext</code> giving the position, not null
+     * @throws SieveException when they are invalid
+     */
+    default void validate(Arguments arguments, SieveContext context) throws SieveException {
+    }
+
 }

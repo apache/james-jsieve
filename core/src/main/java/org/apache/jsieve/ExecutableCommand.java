@@ -44,4 +44,18 @@ public interface ExecutableCommand {
     public Object execute(MailAdapter mail, Arguments arguments, Block block,
             SieveContext context) throws SieveException;
 
+    /**
+     * Checks the arguments and the block of the command, as it checks them
+     * when it runs, without running it: SieveFactory#parse calls it on every
+     * command of a script, reached or not (RFC 5228 section 2.10.6). The
+     * default checks nothing.
+     *
+     * @param arguments the command arguments, not null
+     * @param block the block, null when there is none
+     * @param context <code>SieveContext</code> giving the position, not null
+     * @throws SieveException when they are invalid
+     */
+    default void validate(Arguments arguments, Block block, SieveContext context) throws SieveException {
+    }
+
 }

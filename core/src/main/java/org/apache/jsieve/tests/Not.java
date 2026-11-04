@@ -47,13 +47,23 @@ public class Not extends AbstractTest {
             SieveContext context) throws SieveException {
         boolean result = true;
         List<Test> tests = arguments.getTestList().getTests();
-        if (tests.size() != 1)
-            throw context.getCoordinate().syntaxException(
-                    new StringBuilder("Exactly 1 test permitted. Found ").append(tests.size()).toString());
         for (Test test: tests) {
             result = result && test.isTestPassed(mail, context);
         }
         return !result;
+    }
+
+    /**
+     * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,
+     *      SieveContext)
+     */
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
+        super.validateArguments(arguments, context);
+        List<Test> tests = arguments.getTestList().getTests();
+        if (tests.size() != 1)
+            throw context.getCoordinate().syntaxException(
+                    new StringBuilder("Exactly 1 test permitted. Found ").append(tests.size()).toString());
     }
 
 }

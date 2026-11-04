@@ -216,6 +216,8 @@ TOKEN :
               | "-" | "/" | "=" | "?"
               | "^" | "_" | "`" | "{"
               | "|" | "}" | "~"
+              // UTF8-non-ascii (RFC 6532 section 3.2)
+              | ["\u0080"-"\uffff"]
               )>
 |   < DOTATOM: <ATEXT> ( <ATEXT> | "." )* >
 }

@@ -211,6 +211,26 @@ public class SieveAddressBuilderTest {
         builder.addAddresses(COYOTE + "@[1.2\r.3]");
     }
 
+    @Test
+    public void unquotedDisplayNameShouldAcceptNonAsciiCharacters() throws Exception {
+        builder.addAddresses("\u0418\u0432\u0430\u043d <" + COYOTE_ADDRESS + ">");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test
+    public void addressShouldAcceptNonAsciiCharacters() throws Exception {
+        builder.addAddresses("\u0438\u0432\u0430\u043d@\u043f\u0440\u0438\u043c\u0435\u0440.\u0440\u0444");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals("\u0438\u0432\u0430\u043d", addresses[0].getLocalPart());
+        Assert.assertEquals("\u043f\u0440\u0438\u043c\u0435\u0440.\u0440\u0444", addresses[0].getDomain());
+    }
+
     @Test(timeout = 120000)
     public void concurrentParsesShouldEachCountTheirOwnNestedComments() throws Exception {
         int threads = 8;

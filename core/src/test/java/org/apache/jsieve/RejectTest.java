@@ -21,7 +21,6 @@ package org.apache.jsieve;
 
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionReject;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
@@ -45,9 +44,8 @@ public class RejectTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -63,9 +61,8 @@ public class RejectTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -125,8 +122,8 @@ public class RejectTest {
             Assert.assertTrue(mail.getActions().size() == 1);
             Assert.assertTrue(mail.getActions().get(0) instanceof ActionReject);
         } catch (ParseException e) {
-        } catch (SieveException e) {
             isTestPassed = true;
+        } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
     }

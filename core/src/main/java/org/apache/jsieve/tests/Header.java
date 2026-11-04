@@ -46,11 +46,42 @@ import org.apache.jsieve.mail.MailAdapter;
  */
 public class Header extends AbstractTest {
 
+    /** The arguments of a header test, checked, with their defaults. */
+    private static final class HeaderArguments {
+        private final String comparator;
+        private final String matchType;
+        private final List<String> headerNames;
+        private final List<String> keys;
+
+        private HeaderArguments(String comparator, String matchType, List<String> headerNames, List<String> keys) {
+            this.comparator = comparator;
+            this.matchType = matchType;
+            this.headerNames = headerNames;
+            this.keys = keys;
+        }
+    }
+
+    /** The arguments validateArguments checked, for executeBasic. */
+    private HeaderArguments checkedArguments;
+
+    /** The arguments validateArguments read checkedArguments from. */
+    private Arguments checkedFrom;
+
     /**
      * Constructor for Header.
      */
     public Header() {
         super();
+    }
+
+    /**
+     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
+     *      Arguments, SieveContext)
+     */
+    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
+            SieveContext context) throws SieveException {
+        final HeaderArguments header = arguments == checkedFrom ? checkedArguments : parse(arguments, context);
+        return match(mail, header.comparator, header.matchType, header.headerNames, header.keys, context);
     }
 
     /**
@@ -66,12 +97,12 @@ public class Header extends AbstractTest {
      * the optional parts is different, so I guess that the order is optional
      * too!
      * </p>
-     * 
-     * @see org.apache.jsieve.tests.AbstractTest#executeBasic(MailAdapter,
-     *      Arguments, SieveContext)
+     * <p>
+     * Checks the arguments and answers them with their defaults.
+     * </p>
      */
-    protected boolean executeBasic(MailAdapter mail, Arguments arguments,
-            SieveContext context) throws SieveException {
+    private HeaderArguments parse(Arguments arguments, SieveContext context)
+            throws SieveException {
         String comparator = null;
         String matchType = null;
         List<String> headerNames = null;
@@ -141,9 +172,9 @@ public class Header extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected arguments");
 
-        return match(mail, (comparator == null ? ASCII_CASEMAP_COMPARATOR
+        return new HeaderArguments((comparator == null ? ASCII_CASEMAP_COMPARATOR
                 : comparator), (matchType == null ? IS_TAG : matchType),
-                headerNames, keys, context);
+                headerNames, keys);
     }
 
     /**
@@ -232,6 +263,8 @@ public class Header extends AbstractTest {
         if (arguments.hasTests())
             throw context.getCoordinate().syntaxException(
                     "Found unexpected tests");
+        checkedArguments = parse(arguments, context);
+        checkedFrom = arguments;
     }
 
 }

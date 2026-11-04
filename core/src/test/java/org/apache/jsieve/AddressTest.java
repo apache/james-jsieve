@@ -553,12 +553,12 @@ public class AddressTest {
         Assert.assertTrue(isTestPassed);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void numericKeyListShouldBeASyntaxException() throws Exception {
         JUnitUtils.interpret(JUnitUtils.createMail(), "if address :all :is \"From\" 0 {keep;}");
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void tagAsKeyListShouldBeASyntaxException() throws Exception {
         JUnitUtils.interpret(JUnitUtils.createMail(), "if address \"From\" :is {keep;}");
     }

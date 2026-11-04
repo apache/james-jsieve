@@ -592,7 +592,7 @@ public class EnvelopeTest {
         Assert.assertTrue(isTestPassed);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void numericKeyListShouldBeASyntaxException() throws Exception {
         SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
         mail.setEnvelopeFrom("user@domain");

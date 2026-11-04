@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.Arrays;
 
-import org.apache.jsieve.exception.SyntaxException;
+import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.mail.ActionKeep;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.optional.ActionVacation;
@@ -46,63 +46,63 @@ public class VacationTest {
         sieveMailAdapter = mock(SieveMailAdapter.class);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void NoArgumentsShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void unknownTagsShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :unknown;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedDaysTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :days;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void daysTagWithStringShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :days \"string\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedSubjectTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :subject;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedFromTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :from;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedAddressesTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :addresses;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedHandleTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :handle;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void uncompletedMimeTagShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :mime;";
 
@@ -208,21 +208,21 @@ public class VacationTest {
         verifyNoMoreInteractions(sieveMailAdapter);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void reasonAndMimeTogetherShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation :mime \"plop\" \"reason\";";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void tagAfterTheReasonShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation \"reason\" :days 3;";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void reasonAsStringListWithMultipleEntriesShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation [\"reason\",\"too much\"];";
 
@@ -230,7 +230,7 @@ public class VacationTest {
     }
 
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void aNumberAsReasonShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation 3;";
 
@@ -251,12 +251,12 @@ public class VacationTest {
         verifyNoMoreInteractions(sieveMailAdapter);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void duplicatedTagShouldThrow() throws Exception {
         JUnitUtils.interpret(sieveMailAdapter, "require \"vacation\"; vacation :subject \"a\" :subject \"b\" \"reason\";");
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void duplicatedTagOfAnotherTypeShouldThrow() throws Exception {
         JUnitUtils.interpret(sieveMailAdapter, "require \"vacation\"; vacation :handle 2G :handle \"handle\" \"reason\";");
     }

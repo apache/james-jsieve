@@ -19,7 +19,7 @@
 
 package org.apache.jsieve;
 
-import org.apache.jsieve.exception.SyntaxException;
+import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Test;
@@ -30,126 +30,126 @@ import org.junit.Test;
  */
 public class UnexpectedArgumentsTest {
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void keepWithATestShouldThrow() throws Exception {
         String script = "keep true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void discardWithATestShouldThrow() throws Exception {
         String script = "discard true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void stopWithATestShouldThrow() throws Exception {
         String script = "stop true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void elseWithATestShouldThrow() throws Exception {
         String script = "if false {stop;} else true {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void fileintoWithATestShouldThrow() throws Exception {
         String script = "require \"fileinto\"; fileinto \"INBOX.a\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void redirectWithATestShouldThrow() throws Exception {
         String script = "redirect \"user@example.com\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void rejectWithATestShouldThrow() throws Exception {
         String script = "require \"reject\"; reject \"no\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void vacationWithATestShouldThrow() throws Exception {
         String script = "require \"vacation\"; vacation \"away\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void logWithATestShouldThrow() throws Exception {
         String script = "require \"log\"; log \"x\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void requireWithATestShouldThrow() throws Exception {
         String script = "require \"fileinto\" true;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void ifWithAnArgumentShouldThrow() throws Exception {
         String script = "if \"x\" true {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void elsifWithAnArgumentShouldThrow() throws Exception {
         String script = "if false {stop;} elsif \"x\" true {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void ifWithTwoTestsShouldThrow() throws Exception {
         String script = "if (true, false) {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void elsifWithTwoTestsShouldThrow() throws Exception {
         String script = "if false {stop;} elsif (true, false) {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void trueWithATestShouldThrow() throws Exception {
         String script = "if true false {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void falseWithATestShouldThrow() throws Exception {
         String script = "if false true {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void sizeWithATestShouldThrow() throws Exception {
         String script = "if size :over 0 true {keep;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void bodyWithATestShouldThrow() throws Exception {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().setText("x");

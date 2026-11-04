@@ -36,6 +36,17 @@ import org.apache.jsieve.mail.SieveMailException;
  */
 public class Size extends AbstractTest {
 
+    /** The arguments of a size test, checked: :over or :under, and the limit. */
+    private static final class SizeArguments {
+        private final String comparator;
+        private final NumberArgument size;
+
+        private SizeArguments(String comparator, NumberArgument size) {
+            this.comparator = comparator;
+            this.size = size;
+        }
+    }
+
     /**
      * Constructor for Size.
      */
@@ -55,6 +66,20 @@ public class Size extends AbstractTest {
      */
     protected boolean executeBasic(MailAdapter mail, Arguments arguments,
             SieveContext context) throws SyntaxException, SieveMailException {
+        final SizeArguments sizeArguments = parse(arguments, context);
+        final String comparator = sizeArguments.comparator;
+        final NumberArgument size = sizeArguments.size;
+        // held as Integer.MAX_VALUE, a larger number still exceeds every mail size, an int
+        if (size.isAboveIntegerRange())
+            return comparator.equals(":under");
+        return test(mail, comparator, size.getInteger());
+    }
+
+    /**
+     * Checks the arguments of a size test.
+     */
+    private SizeArguments parse(Arguments arguments, SieveContext context)
+            throws SyntaxException {
         String comparator = null;
         NumberArgument size = null;
         ListIterator<Argument> argumentsIter = arguments.getArgumentList().listIterator();
@@ -88,10 +113,7 @@ public class Size extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected argument(s)");
 
-        // held as Integer.MAX_VALUE, a larger number still exceeds every mail size, an int
-        if (size.isAboveIntegerRange())
-            return comparator.equals(":under");
-        return test(mail, comparator, size.getInteger());
+        return new SizeArguments(comparator, size);
     }
 
     /**
@@ -145,10 +167,10 @@ public class Size extends AbstractTest {
      */
     protected void validateArguments(Arguments arguments, SieveContext context)
             throws SieveException {
-        // The arguments are validated in executeBasic()
         if (arguments.hasTests())
             throw context.getCoordinate().syntaxException(
                     "Found unexpected tests");
+        parse(arguments, context);
     }
 
 }

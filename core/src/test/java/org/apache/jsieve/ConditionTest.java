@@ -22,7 +22,6 @@ package org.apache.jsieve;
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.junit.Assert;
@@ -188,9 +187,8 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -224,9 +222,8 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -242,9 +239,8 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);

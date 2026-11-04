@@ -135,6 +135,18 @@ public abstract class AbstractCommand implements ExecutableCommand {
     }
 
     /**
+     * Checks the arguments and the block as execute does before running the
+     * command.
+     *
+     * @see org.apache.jsieve.ExecutableCommand#validate(Arguments, Block, SieveContext)
+     */
+    public void validate(Arguments arguments, Block block, SieveContext context)
+            throws SieveException {
+        validateArguments(arguments, context);
+        validateBlock(block, context);
+    }
+
+    /**
      * Abstract method executeBasic invokes a Sieve Command.
      * 
      * @param mail

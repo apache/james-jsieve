@@ -21,7 +21,7 @@ package org.apache.jsieve;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.jsieve.exception.SyntaxException;
+import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionDiscard;
 import org.apache.jsieve.mail.MailAdapter;
@@ -38,14 +38,14 @@ public class DiscardTest {
         }
     };
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void discardShouldThrowOnInvalidArguments() throws Exception {
         String script = "discard 1 ;";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = SyntaxException.class)
+    @Test(expected = ParseException.class)
     public void discardShouldThrowOnInvalidFollowingBlock() throws Exception {
         String script = "discard {throwTestException;}";
 

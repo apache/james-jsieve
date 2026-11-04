@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.jsieve.exception.SieveException;
-import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.ActionFileInto;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.parser.generated.ParseException;
@@ -91,9 +90,8 @@ public class FileIntoTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -109,9 +107,8 @@ public class FileIntoTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -127,9 +124,8 @@ public class FileIntoTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (SyntaxException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);

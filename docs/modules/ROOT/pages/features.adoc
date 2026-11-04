@@ -2,15 +2,15 @@
 
 == Sieve Features Supported By jSieve
 
-jSieve is limited only by the platform on which it runs.
+Apart from the nesting depth, jSieve is limited only by the platform on which it runs.
 
 [cols="1,1"]
 |===
 |Limits |
 
 |Maximum Number Of Actions |No intrinsic limit
-|Maximum Number Of Nested Blocks |No intrinsic limit
-|Maximum Number Of Nested Test Lists |No intrinsic limit
+|Maximum Number Of Nested Blocks |100, blocks and tests counted together (`SieveParser.MAX_NESTING`)
+|Maximum Number Of Nested Test Lists |100, blocks and tests counted together (`SieveParser.MAX_NESTING`)
 |===
 
 jSieve supports the standard control commands specified in RFC 5228.

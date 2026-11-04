@@ -96,7 +96,8 @@ public class NodeToSieveAdapterTest extends MockObjectTestCase {
 
     public void testASTargumentTag() throws Exception {
         String tag = "Hugo";
-        mock.expects(once()).method("argument").with(eq(tag));
+        // tags are case-insensitive, and read lower cased
+        mock.expects(once()).method("argument").with(eq("hugo"));
         ASTargument argument = new ASTargument(SieveParserTreeConstants.JJTARGUMENTS);
         argument.setValue(new TagArgument(new Token(0, tag)));
         subject.start(argument); 

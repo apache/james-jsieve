@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import java.util.Locale;
+
 import org.apache.jsieve.parser.generated.Token;
 
 /**
@@ -139,20 +141,22 @@ public class NumberArgument implements Argument {
      *            The Token from which to extract the value to set
      */
     protected void setValue(Token aToken) {
-        int endIndex = aToken.image.length();
+        // digits and an ASCII quantifier, which is case-insensitive (RFC 5228 section 8.1)
+        final String image = aToken.image.toUpperCase(Locale.ROOT);
+        int endIndex = image.length();
         int magnitude = 1;
-        if (aToken.image.endsWith("K")) {
+        if (image.endsWith("K")) {
             magnitude = 1024;
             endIndex--;
-        } else if (aToken.image.endsWith("M")) {
+        } else if (image.endsWith("M")) {
             magnitude = 1048576;
             endIndex--;
-        } else if (aToken.image.endsWith("G")) {
+        } else if (image.endsWith("G")) {
             magnitude = 1073741824;
             endIndex--;
         }
 
-        final long number = parseSaturated(aToken.image.substring(0, endIndex));
+        final long number = parseSaturated(image.substring(0, endIndex));
         final long value = number > Long.MAX_VALUE / magnitude ? Long.MAX_VALUE : number * magnitude;
         setValue((int) Math.min(value, Integer.MAX_VALUE));
         longValue = value;

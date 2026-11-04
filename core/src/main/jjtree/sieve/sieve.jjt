@@ -182,14 +182,14 @@ TOKEN : /* TAG */
 TOKEN : /* LITERALS */
 {
 // number = 1*DIGIT [QUANTIFIER]
-// QUANTIFIER = "K" / "M" / "G"
+// QUANTIFIER = "K" / "M" / "G", case-insensitive like every number (RFC 5228 section 8.1)
    < NUMBER: 
        <DECIMAL_LITERAL> (<QUANTIFIER>)?
    >
 |
   < #DECIMAL_LITERAL: (["0"-"9"])+ >
 |
-  < #QUANTIFIER: ["K","M","G"] >    
+  < #QUANTIFIER: ["K","M","G","k","m","g"] >    
 |
 // quoted-string = DQUOTE *CHAR DQUOTE
 // in general, \ CHAR inside a string maps to CHAR

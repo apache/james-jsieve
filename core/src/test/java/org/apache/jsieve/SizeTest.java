@@ -252,4 +252,14 @@ public class SizeTest {
         JUnitUtils.interpret(largestMail(), "if size :over 2147483648 {throwTestException;}");
     }
 
+    @Test(expected = ThrowTestException.TestException.class)
+    public void lowerCaseQuantifierShouldBeRead() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :under 1k {throwTestException;}");
+    }
+
+    @Test
+    public void lowerCaseQuantifierShouldMultiply() throws Exception {
+        JUnitUtils.interpret(smallMail(), "if size :over 1m {throwTestException;}");
+    }
+
 }

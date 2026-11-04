@@ -44,6 +44,15 @@ import org.apache.jsieve.parser.*;
 public class SieveParser {
 
   /**
+   * The deepest nesting accepted, blocks and tests counted together: well
+   * above the fifteen levels of nested blocks and of nested test lists that
+   * RFC 5228 section 2.10.7 requires. Parsing, validating and evaluating a
+   * script recurse once per level: an unbounded nesting would overflow the
+   * stack.
+   */
+  public static final int MAX_NESTING = 100;
+
+  /**
    * The value of a multi-line literal (RFC 5228 section 2.4.2): its lines
    * after "text:" and the comment or CRLF ending it, without the terminating
    * "." CRLF nor the line break of the last line, dot-stuffing removed. Lines
@@ -93,6 +102,19 @@ public class SieveParser {
       }
     }
     return value.toString();
+  }
+
+  /** The blocks and tests enclosing the current token. */
+  private int nesting;
+
+  /**
+   * Enters a block or a test, the token just read opening it.
+   */
+  private void enterNesting() throws ParseException {
+    if (++nesting > MAX_NESTING) {
+      throw new ParseException("Blocks and tests nested deeper than " + MAX_NESTING + " levels, counted together, at line "
+          + token.beginLine + ", column " + token.beginColumn + ".");
+    }
   }
 
   public void jjtreeOpenNodeScope(Node n) {
@@ -244,6 +266,7 @@ TOKEN : /* LITERALS */
 SimpleNode start() :
 {  }
 {
+  { nesting = 0; } // a parser reused through ReInit counts again from the top
   commands()
   (<EOF_HASH_COMMENT>)? // Allow a Hash comment immediately prior to EOF
   <EOF>
@@ -271,7 +294,7 @@ void command() :
 void block() :
 { }
 {
-   "{" commands() "}"
+   "{" { enterNesting(); } commands() "}" { nesting--; }
 }
 
 //   arguments = *argument [test / test-list]
@@ -300,9 +323,10 @@ void argument() :
 void test() :
 { Token identifier = null; }
 {
-  (identifier = <IDENTIFIER> arguments())
+  (identifier = <IDENTIFIER> { enterNesting(); } arguments())
   {
     jjtThis.setName(identifier.image);
+    nesting--;
   }   
 }
 

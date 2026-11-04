@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.parser.generated.ParseException;
-import org.apache.jsieve.parser.generated.TokenMgrError;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Test;
@@ -38,16 +37,16 @@ public class UnicodeEscapeTest {
     @Test
     public void incompleteUnicodeEscapeShouldBeALexicalError() {
         assertThatThrownBy(() -> JUnitUtils.parse("\\u3"))
-            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
+            .isInstanceOf(ParseException.class);
         assertThatThrownBy(() -> JUnitUtils.parse("i\\u7"))
-            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
+            .isInstanceOf(ParseException.class);
     }
 
     @Test
     public void unicodeEscapeShouldNotBeDecoded() {
         // was read as "keep;"
         assertThatThrownBy(() -> JUnitUtils.parse("\\u006beep;"))
-            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
+            .isInstanceOf(ParseException.class);
     }
 
     @Test(expected = ThrowTestException.TestException.class)
@@ -61,7 +60,7 @@ public class UnicodeEscapeTest {
     public void backslashAtTheLexerBufferBoundaryShouldNotThrowArrayIndexOutOfBounds() {
         String script = "a".repeat(3000) + "/*" + "x".repeat(1093) + "\\u0041*/";
         assertThatThrownBy(() -> JUnitUtils.parse(script))
-            .isInstanceOfAny(ParseException.class, TokenMgrError.class);
+            .isInstanceOf(ParseException.class);
     }
 
 }

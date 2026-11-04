@@ -141,12 +141,13 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         List<String> result = Collections.EMPTY_LIST;
         if (mail != null) {
             try {
-                String[] values = mail.getHeader(name);
-                if (values != null) {
-                    // We need to do unfold headers + decoding here
-                    result = new LinkedList<String>();
-                    for (String value: values) {
-                        result.add(MimeUtility.decodeText(MimeUtility.unfold(value)));
+                // Message#getHeader ignores the case of the name: keep only the fields named exactly name
+                result = new LinkedList<String>();
+                for (final Enumeration<?> en = mail.getAllHeaders(); en.hasMoreElements(); ) {
+                    final Header header = (Header) en.nextElement();
+                    if (header.getName().equals(name)) {
+                        // We need to do unfold headers + decoding here
+                        result.add(MimeUtility.decodeText(MimeUtility.unfold(header.getValue())));
                     }
                 }
             } catch (MessagingException e) {

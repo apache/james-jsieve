@@ -21,6 +21,8 @@ package org.apache.jsieve.util;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
@@ -41,6 +43,13 @@ public class ScriptCheckMailAdapterTest {
     
     private static final String ENCODED_SUBJECT_MATCH = "if header :is \"subject\" \"Test però £ ù €\" { "
             + "redirect \"test@test.test\";" + "}";
+
+    private static ScriptCheckMailAdapter adapterFor(String message) throws Exception {
+        ScriptCheckMailAdapter adapter = new ScriptCheckMailAdapter();
+        adapter.setMail(new MimeMessage(Session.getDefaultInstance(new Properties()),
+                new ByteArrayInputStream(message.getBytes(StandardCharsets.US_ASCII))));
+        return adapter;
+    }
 
     private SieveFactory sieveFactory;
 
@@ -98,5 +107,19 @@ public class ScriptCheckMailAdapterTest {
         // Test is OK if we have the "redirect" action
         assertThat(testee.getActions()).hasSize(1);
         assertThat(testee.getActions().get(0)).isInstanceOf(ActionRedirect.class);
+    }
+
+    @Test
+    public void getMatchingHeaderShouldReturnEachFieldOnceWhenNamesDifferByCase() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("From: a@example.com\r\nFROM: b@example.com\r\n\r\nbody\r\n");
+
+        assertThat(testee.getMatchingHeader("from")).containsExactly("a@example.com", "b@example.com");
+    }
+
+    @Test
+    public void getHeaderShouldReturnOnlyTheFieldsWithTheExactName() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("From: a@example.com\r\nFROM: b@example.com\r\n\r\nbody\r\n");
+
+        assertThat(testee.getHeader("FROM")).containsExactly("b@example.com");
     }
 }

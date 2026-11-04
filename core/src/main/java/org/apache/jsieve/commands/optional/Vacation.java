@@ -19,6 +19,8 @@
 
 package org.apache.jsieve.commands.optional;
 
+import java.util.Collections;
+
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
 import org.apache.jsieve.SieveContext;
@@ -43,6 +45,10 @@ public class Vacation extends AbstractActionCommand {
     public static final String ADDRESSES = ":addresses";
     public static final String ADDRESSES_EXCEPTION_MESSAGE = "Expecting a string list argument setting the additional addresses this script is authorized to respond to after tag " + ADDRESSES;
     public static final String MIME = ":mime";
+    /**
+     * @deprecated :mime is a flag and takes no value (RFC 5230 section 4): nothing reports this message
+     */
+    @Deprecated
     public static final String MIME_EXCEPTION_MESSAGE = "Expecting a string argument setting a mime message instead of the reason string after tag " + MIME;
     public static final String HANDLE = ":handle";
     public static final String HANDLE_EXCEPTION_MESSAGE = "Expecting a string argument setting handle string after tag " + HANDLE;
@@ -81,11 +87,10 @@ public class Vacation extends AbstractActionCommand {
     }
 
     private ActionVacation retrieveAction(Arguments arguments) throws SieveException {
-        ArgumentParser argumentParser = new ArgumentParser(arguments.getArgumentList());
-        // RFC 5230 section 4: :mime is a flag, the reason then being a MIME entity. Followed by
-        // the reason, it is read as a tag with a value, which gives the same action.
+        // RFC 5230 section 4: :mime is a flag, the reason then being a MIME entity
+        ArgumentParser argumentParser = new ArgumentParser(arguments.getArgumentList(), Collections.singleton(MIME));
         argumentParser.throwOnUnvalidSeenSingleTag(MIME);
-        argumentParser.throwOnUnvalidSeenTagWithValue(FROM, SUBJECT, HANDLE, MIME, DAYS, ADDRESSES);
+        argumentParser.throwOnUnvalidSeenTagWithValue(FROM, SUBJECT, HANDLE, DAYS, ADDRESSES);
         final boolean mimeFlag = argumentParser.getSingleTags().contains(MIME);
         final String reason = argumentParser.getRemainingStringValue("Expecting a single String value as a reason");
 
@@ -93,7 +98,7 @@ public class Vacation extends AbstractActionCommand {
             .addresses(argumentParser.getStringListForTag(ADDRESSES, ADDRESSES_EXCEPTION_MESSAGE))
             .duration(argumentParser.getNumericValueForTag(DAYS, DAYS_EXCEPTION_MESSAGE))
             .handle(argumentParser.getStringValueForTag(HANDLE, HANDLE_EXCEPTION_MESSAGE))
-            .mime(mimeFlag ? reason : argumentParser.getStringValueForTag(MIME, MIME_EXCEPTION_MESSAGE))
+            .mime(mimeFlag ? reason : null)
             .subject(argumentParser.getStringValueForTag(SUBJECT, SUBJECT_EXCEPTION_MESSAGE))
             .from(argumentParser.getStringValueForTag(FROM, FROM_EXCEPTION_MESSAGE))
             .reason(mimeFlag ? null : reason)

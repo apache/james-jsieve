@@ -26,6 +26,7 @@ import org.apache.jsieve.TagArgument;
 import org.apache.jsieve.exception.SyntaxException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,8 +41,22 @@ public class ArgumentParser {
     private Set<String> parsedTags;
     private Set<String> duplicatedTags;
     private Set<String> tagsAfterPositionalArguments;
+    private final Set<String> flags;
 
     public ArgumentParser(List<Argument> arguments) {
+        this(arguments, Collections.<String>emptySet());
+    }
+
+    /**
+     * Reads the arguments, some tags being flags, such as :mime of vacation
+     * (RFC 5230 section 4).
+     *
+     * @param arguments the arguments to read
+     * @param flags the tags that never take a value: the argument after one
+     *            is a positional argument
+     */
+    public ArgumentParser(List<Argument> arguments, Set<String> flags) {
+        this.flags = flags;
         this.remainingArguments = new ArrayList<Argument>();
         this.singleTags = new HashSet<String>();
         this.tagsWithValues = new HashMap<String, Argument>();
@@ -65,7 +80,12 @@ public class ArgumentParser {
                     tagsAfterPositionalArguments.add(tagArgument.getTag());
                 }
                 handlePreviousTagArgument(previousSeenTagArgument);
-                previousSeenTagArgument = tagArgument;
+                if (flags.contains(tagArgument.getTag())) {
+                    singleTags.add(tagArgument.getTag());
+                    previousSeenTagArgument = null;
+                } else {
+                    previousSeenTagArgument = tagArgument;
+                }
             } else {
                 handleOtherArguments(previousSeenTagArgument, argument);
                 previousSeenTagArgument = null;

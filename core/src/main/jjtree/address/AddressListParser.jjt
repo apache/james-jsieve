@@ -33,6 +33,8 @@ options {
     NODE_SCOPE_HOOK=true;
     NODE_EXTENDS="org.apache.jsieve.parser.address.AddressNode"; 
     OUTPUT_DIRECTORY="./org/apache/jsieve/parser/generated/address";
+    // Any character above U+00FF, not only those whose low byte is accepted
+    UNICODE_INPUT=true;
     //DEBUG_PARSER=true;
     //DEBUG_TOKEN_MANAGER=true;
     JDK_VERSION="1.5";

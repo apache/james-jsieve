@@ -166,6 +166,36 @@ public class SieveAddressBuilderTest {
         builder.addAddresses(". Wile <" + COYOTE_ADDRESS + ">");
     }
 
+    @Test
+    public void quotedDisplayNameShouldAcceptAnyNonAsciiCharacter() throws Exception {
+        builder.addAddresses("\"Иван\" <" + COYOTE_ADDRESS + ">");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test
+    public void commentShouldAcceptAnyNonAsciiCharacter() throws Exception {
+        builder.addAddresses("(Ĉ) " + COYOTE_ADDRESS);
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals(DOMAIN, addresses[0].getDomain());
+    }
+
+    @Test
+    public void domainLiteralShouldAcceptAnyNonAsciiCharacter() throws Exception {
+        builder.addAddresses(COYOTE + "@[1Ȍ]");
+
+        Address[] addresses = builder.getAddresses();
+        Assert.assertEquals(1, addresses.length);
+        Assert.assertEquals(COYOTE, addresses[0].getLocalPart());
+        Assert.assertEquals("[1Ȍ]", addresses[0].getDomain());
+    }
+
     @Test(timeout = 120000)
     public void concurrentParsesShouldEachCountTheirOwnNestedComments() throws Exception {
         int threads = 8;

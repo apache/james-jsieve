@@ -21,6 +21,8 @@ package org.apache.jsieve;
 
 import static org.apache.jsieve.Constants.TAG_COMPARATOR;
 
+import java.util.Locale;
+
 import org.apache.jsieve.parser.generated.Token;
 
 /**
@@ -92,13 +94,14 @@ public class TagArgument implements Argument {
     }
     
     /**
-     * Sets the tag.
+     * Sets the tag, lower cased.
      * 
      * @param tag
      *            The tag to set
      */
     protected void setTag(String tag) {
-        fieldTag = tag;
+        // Tags are case-insensitive (RFC 5228 section 8.1), and ASCII
+        fieldTag = tag.toLowerCase(Locale.ROOT);
     }
 
     /**

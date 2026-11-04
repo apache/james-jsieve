@@ -94,7 +94,8 @@ public class SieveFactory {
      * parsed Sieve script. The start node is reusable. Typically it is stored
      * for reuse in subsequent evaluations of the script. The arguments and
      * the blocks of every command and test, reached or not, are checked as
-     * when they run (RFC 5228 section 2.10.6).
+     * when they run, and each elsif or else must follow an if or elsif (RFC
+     * 5228 sections 2.10.6 and 3.1).
      * 
      * @param inputStream
      * @return Node

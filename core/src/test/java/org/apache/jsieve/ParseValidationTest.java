@@ -69,6 +69,21 @@ public class ParseValidationTest {
         JUnitUtils.parse("require \"vacation\"; if false { vacation :days \"x\" \"reason\"; }");
     }
 
+    @Test(expected = ParseException.class)
+    public void elseAfterAnotherCommandShouldBeRejectedAtParse() throws Exception {
+        JUnitUtils.parse("if false { if true { keep; } stop; else { keep; } }");
+    }
+
+    @Test(expected = ParseException.class)
+    public void elsifFirstInABlockShouldBeRejectedAtParse() throws Exception {
+        JUnitUtils.parse("if false { elsif true { keep; } }");
+    }
+
+    @Test(expected = ParseException.class)
+    public void elseAfterAnElseShouldBeRejectedAtParse() throws Exception {
+        JUnitUtils.parse("if true { keep; } else { stop; } else { stop; }");
+    }
+
     @Test
     public void validScriptShouldParse() throws Exception {
         JUnitUtils.parse("require [\"fileinto\", \"vacation\", \"envelope\"];"

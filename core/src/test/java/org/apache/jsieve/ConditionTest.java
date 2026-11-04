@@ -20,7 +20,6 @@
 package org.apache.jsieve;
 
 import org.apache.jsieve.commands.ThrowTestException;
-import org.apache.jsieve.exception.CommandException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ParseException;
 import org.apache.jsieve.utils.JUnitUtils;
@@ -169,9 +168,8 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (CommandException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -310,9 +308,8 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (CommandException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
@@ -328,36 +325,35 @@ public class ConditionTest {
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
-        } catch (CommandException e) {
-            isTestPassed = true;
         } catch (ParseException e) {
+            isTestPassed = true;
         } catch (SieveException e) {
         }
         Assert.assertTrue(isTestPassed);
     }
 
-    @Test(expected = CommandException.class)
+    @Test(expected = ParseException.class)
     public void elseAfterAnotherCommandShouldThrow() throws Exception {
         String script = "if false {stop;} keep; else {throwTestException;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = CommandException.class)
+    @Test(expected = ParseException.class)
     public void elsifAfterAnotherCommandShouldThrow() throws Exception {
         String script = "if false {stop;} keep; elsif true {throwTestException;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = CommandException.class)
+    @Test(expected = ParseException.class)
     public void elseAfterASkippedElseShouldThrow() throws Exception {
         String script = "if true {keep;} else {stop;} else {stop;}";
 
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
-    @Test(expected = CommandException.class)
+    @Test(expected = ParseException.class)
     public void elsifAfterASkippedElseShouldThrow() throws Exception {
         String script = "if true {keep;} else {stop;} elsif true {stop;}";
 

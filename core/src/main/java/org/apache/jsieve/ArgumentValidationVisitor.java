@@ -21,19 +21,22 @@ package org.apache.jsieve;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ASTcommand;
+import org.apache.jsieve.parser.generated.ASTcommands;
 import org.apache.jsieve.parser.generated.ASTstart;
 import org.apache.jsieve.parser.generated.ASTtest;
 
 /**
  * Checks, when a script is parsed, the arguments and blocks that each command
- * and test checks when it runs, on code that is reached or not: RFC 5228
- * section 2.10.6 allows these checks on code that is not reached, and a
- * script that would fail on them is better rejected at upload than when a
- * mail reaches that code. It builds commands and tests as
- * {@link SieveParserVisitorImpl} does, and runs none of them.
+ * and test checks when it runs, and that each elsif or else follows an if or
+ * elsif, on code that is reached or not: RFC 5228 section 2.10.6 allows these
+ * checks on code that is not reached, and a script that would fail on them is
+ * better rejected at upload than when a mail reaches that code. It builds
+ * commands and tests as {@link SieveParserVisitorImpl} does, and runs none of
+ * them.
  */
 class ArgumentValidationVisitor extends SieveParserVisitorImpl {
 
@@ -47,6 +50,23 @@ class ArgumentValidationVisitor extends SieveParserVisitorImpl {
     public Object visit(ASTstart node, Object data) throws SieveException {
         node.childrenAccept(this, new ArrayList<Object>());
         return data;
+    }
+
+    public Object visit(ASTcommands node, Object data) throws SieveException {
+        // An elsif or else directly follows an if or elsif (RFC 5228 section 3.1)
+        String previous = null;
+        for (int i = 0; i < node.jjtGetNumChildren(); i++) {
+            final ASTcommand command = (ASTcommand) node.jjtGetChild(i);
+            final String name = command.getName().toLowerCase(Locale.ROOT);
+            if ((name.equals("elsif") || name.equals("else"))
+                    && !("if".equals(previous) || "elsif".equals(previous))) {
+                context.setCoordinate(command.getCoordinate());
+                throw context.getCoordinate().commandException(
+                        "Unexpected Command: \"" + name + "\".");
+            }
+            previous = name;
+        }
+        return super.visit(node, data);
     }
 
     @SuppressWarnings("unchecked")

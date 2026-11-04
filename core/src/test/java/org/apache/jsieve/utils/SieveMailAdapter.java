@@ -21,7 +21,6 @@ package org.apache.jsieve.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -178,8 +177,16 @@ public class SieveMailAdapter implements MailAdapter {
      */
     public List<String> getHeader(String name) throws SieveMailException {
         try {
-            String[] headers = getMessage().getHeader(name);
-            return (headers == null ? new ArrayList<String>(0) : Arrays.asList(headers));
+            // Message#getHeader ignores the case of the name: keep only the fields named exactly name
+            List<String> headers = new ArrayList<String>();
+            Enumeration allHeaders = getMessage().getAllHeaders();
+            while (allHeaders.hasMoreElements()) {
+                Header header = (Header) allHeaders.nextElement();
+                if (header.getName().equals(name)) {
+                    headers.add(header.getValue());
+                }
+            }
+            return headers;
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         }

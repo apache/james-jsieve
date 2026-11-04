@@ -25,4 +25,16 @@ package org.apache.jsieve.comparators;
  */
 public interface Comparator extends Equals, Contains, Matches {
 
+    /**
+     * Can this comparator be used with :contains and :matches? RFC 4790
+     * section 4.2 calls these the substring operation, and RFC 5228 section
+     * 2.7.3 makes it an error to use a comparator with a match type it does
+     * not support.
+     *
+     * @return true by default
+     */
+    default boolean isSubstringSupported() {
+        return true;
+    }
+
 }

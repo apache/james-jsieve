@@ -41,6 +41,24 @@ public class ComparatorUtils {
     }
 
     /**
+     * Checks that the comparator can be used with the match type: RFC 5228
+     * section 2.7.3 makes it an error to use with :contains or :matches a
+     * comparator that has no substring operation.
+     * 
+     * @param comparatorName not null
+     * @param matchType not null
+     * @param context not null
+     * @throws SieveException when they cannot be used together
+     */
+    public static void checkMatchType(String comparatorName, String matchType,
+            SieveContext context) throws SieveException {
+        if (!matchType.equals(IS_TAG)
+                && !context.getComparatorManager().getComparator(comparatorName).isSubstringSupported())
+            throw context.getCoordinate().syntaxException(
+                    "Comparator " + comparatorName + " cannot be used with " + matchType);
+    }
+
+    /**
      * Method <code>match</code> answers a boolean indicating if the parameter
      * <code>matchTarget</code> compares to parameter
      * <code>matchArgument</code> is a match of <code>matchType</code> using

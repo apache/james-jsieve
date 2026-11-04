@@ -106,6 +106,16 @@ public class AsciiNumeric implements Comparator {
     }
 
     /**
+     * i;ascii-numeric has no substring operation (RFC 4790 section 9.1.1).
+     *
+     * @see org.apache.jsieve.comparators.Comparator#isSubstringSupported()
+     */
+    @Override
+    public boolean isSubstringSupported() {
+        return false;
+    }
+
+    /**
      * Unsupported, see <a href='http://tools.ietf.org/html/rfc4790#section-9.1.1'>RFC4790</a>.
      *
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)

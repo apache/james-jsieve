@@ -172,9 +172,11 @@ public class Header extends AbstractTest {
             throw context.getCoordinate().syntaxException(
                     "Found unexpected arguments");
 
-        return new HeaderArguments((comparator == null ? ASCII_CASEMAP_COMPARATOR
+        final HeaderArguments header = new HeaderArguments((comparator == null ? ASCII_CASEMAP_COMPARATOR
                 : comparator), (matchType == null ? IS_TAG : matchType),
                 headerNames, keys);
+        ComparatorUtils.checkMatchType(header.comparator, header.matchType, context);
+        return header;
     }
 
     /**

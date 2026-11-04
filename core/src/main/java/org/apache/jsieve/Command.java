@@ -146,7 +146,7 @@ public class Command implements Executable {
      * @see org.apache.jsieve.Executable#execute(MailAdapter, SieveContext)
      */
     public Object execute(MailAdapter mail, SieveContext context) throws SieveException {
-        LOGGER.debug(toString());
+        LOGGER.debug("{}", this);
         coordinate.debugDiagnostics();
         // commands are executed after the parsing phase
         // recursively from the top level block

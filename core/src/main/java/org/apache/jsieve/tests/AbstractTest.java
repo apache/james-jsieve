@@ -90,7 +90,7 @@ public abstract class AbstractTest implements ExecutableTest {
         if (!arguments.getArgumentList().isEmpty()) {
             LOGGER.warn("Unexpected arguments for {}", getClass().getName());
             context.getCoordinate().logDiagnosticsInfo();
-            LOGGER.debug(arguments.toString());
+            LOGGER.debug("{}", arguments);
             final String message = context.getCoordinate()
                     .addStartLineAndColumn("Found unexpected arguments.");
             throw new SyntaxException(message);

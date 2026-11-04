@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.mail.Header;
 import javax.mail.Message;
@@ -46,6 +47,18 @@ import org.apache.jsieve.parser.generated.address.ParseException;
  * be retrieved by {@link #getExecutedActions()}.
  */
 public class ScriptCheckMailAdapter implements MailAdapter {
+
+    /** A line break followed by white space. */
+    private static final Pattern FOLDING = Pattern.compile("\r?\n(?=[ \t])");
+
+    /**
+     * Unfolds a header field value: removes every line break followed by white
+     * space (RFC 5322 section 2.2.3). Unlike MimeUtility#unfold, a backslash
+     * does not escape the line break, and is kept.
+     */
+    private static String unfold(String value) {
+        return FOLDING.matcher(value).replaceAll("");
+    }
 
     private final List<Action> actions;
 
@@ -147,7 +160,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                     final Header header = (Header) en.nextElement();
                     if (header.getName().equals(name)) {
                         // We need to do unfold headers + decoding here
-                        result.add(MimeUtility.decodeText(MimeUtility.unfold(header.getValue())));
+                        result.add(MimeUtility.decodeText(unfold(header.getValue())));
                     }
                 }
             } catch (MessagingException e) {
@@ -274,7 +287,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(MimeUtility.decodeText(MimeUtility.unfold(header.getValue())));
+                    builder.addAddresses(MimeUtility.decodeText(unfold(header.getValue())));
                 }
             }
 

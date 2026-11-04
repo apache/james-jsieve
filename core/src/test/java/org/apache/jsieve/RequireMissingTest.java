@@ -154,6 +154,20 @@ public class RequireMissingTest {
         factory.parse(new ByteArrayInputStream("fileinto \"INBOX.a\";".getBytes(StandardCharsets.UTF_8)));
     }
 
+    @Test(expected = ParseException.class)
+    public void capabilityInAnotherCaseShouldThrow() throws Exception {
+        String script = "require \"FILEINTO\"; fileinto \"INBOX.a\";";
+
+        JUnitUtils.parse(script);
+    }
+
+    @Test(expected = ParseException.class)
+    public void commandOfRfc5228AsACapabilityShouldThrow() throws Exception {
+        String script = "require \"keep\"; keep;";
+
+        JUnitUtils.parse(script);
+    }
+
     @Test
     public void requiredExtensionShouldBeAcceptedInAnyCase() throws Exception {
         String script = "require \"fileinto\"; FileInto \"INBOX.a\";";

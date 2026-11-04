@@ -37,7 +37,7 @@ public class RequireTest {
     @org.junit.Test
     public void testSingleCommandSatisfied() {
         boolean isTestPassed = false;
-        String script = "require \"if\";";
+        String script = "require \"fileinto\";";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -53,7 +53,7 @@ public class RequireTest {
      */
     @Test
     public void testSingleTestSatisfied() throws Exception {
-        String script = "require \"true\";";
+        String script = "require \"envelope\";";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
@@ -62,7 +62,7 @@ public class RequireTest {
      */
     @Test
     public void testMultipleCommandSatisfied() throws Exception {
-        String script = "require [\"if\", \"elsif\", \"else\"];";
+        String script = "require [\"fileinto\", \"reject\", \"vacation\"];";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
@@ -71,7 +71,7 @@ public class RequireTest {
      */
     @Test
     public void testMultipleTestSatisfied() throws Exception {
-        String script = "require [\"true\", \"false\", \"not\"];";
+        String script = "require [\"envelope\", \"body\"];";
         JUnitUtils.interpret(JUnitUtils.createMail(), script);
     }
 
@@ -129,7 +129,7 @@ public class RequireTest {
     @Test
     public void testExtraArgument() throws Exception {
         boolean isTestPassed = false;
-        String script = "require \"if\" 1;";
+        String script = "require \"fileinto\" 1;";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);
@@ -145,7 +145,7 @@ public class RequireTest {
     @Test
     public void testRejectBlock() throws Exception {
         boolean isTestPassed = false;
-        String script = "require \"if\" {stop;}";
+        String script = "require \"fileinto\" {stop;}";
 
         try {
             JUnitUtils.interpret(JUnitUtils.createMail(), script);

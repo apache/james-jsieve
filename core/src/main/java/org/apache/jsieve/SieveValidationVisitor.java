@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.parser.generated.ASTargument;
 import org.apache.jsieve.parser.generated.ASTarguments;
@@ -63,7 +62,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
     private final Set<String> extensionCommands;
     private final Set<String> extensionTests;
 
-    /** The lower-cased names of the extensions declared by a <code>require</code>. */
+    /** The extensions declared by a <code>require</code>. */
     private final Set<String> declaredExtensions;
     
     private boolean requireAllowed = true;
@@ -212,14 +211,11 @@ public class SieveValidationVisitor implements SieveParserVisitor {
 //                  TODO: Replace with more finely grained exception
                     throw new SieveException("Comparator " + comparatorName + " is not supported");
                 }
+            } else if (extensionCommands.contains(name) || extensionTests.contains(name)) {
+                // Capability strings are case-sensitive (RFC 5228 section 6)
+                declaredExtensions.add(name);
             } else {
-                try {
-                    commandManager.getCommand(name);
-                } catch (LookupException e) {
-                    // TODO: catching is inefficient, should just check
-                    testManager.getTest(name);
-                }
-                declaredExtensions.add(name.toLowerCase(Locale.ROOT));
+                throw new SieveException("Capability \"" + name + "\" is not supported.");
             }
         }
     }

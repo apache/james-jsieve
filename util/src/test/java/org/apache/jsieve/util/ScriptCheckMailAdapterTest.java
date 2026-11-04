@@ -136,4 +136,13 @@ public class ScriptCheckMailAdapterTest {
 
         assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("a b");
     }
+
+    @Test
+    public void parseAddressesShouldIgnoreOnlyTheAsciiCaseOfTheName() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("Subject: test\r\n\r\nbody\r\n");
+        ((MimeMessage) testee.getMail()).addHeader("T\u00f6", "a@example.com");
+        ((MimeMessage) testee.getMail()).addHeader("T\u00d6", "b@example.com");
+
+        assertThat(testee.parseAddresses("T\u00f6")).extracting(address -> address.getLocalPart()).containsExactly("a");
+    }
 }

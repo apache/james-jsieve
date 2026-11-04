@@ -33,6 +33,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -261,7 +262,8 @@ public class SieveMailAdapter implements MailAdapter {
             for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
-                if (name.trim().equalsIgnoreCase(headerName)) {
+                // Header names are compared with i;ascii-casemap (RFC 5228 section 2.7)
+                if (AsciiCasemap.toAsciiUpperCase(name.trim()).equals(AsciiCasemap.toAsciiUpperCase(headerName))) {
                     builder.addAddresses(header.getValue());
                 }
             }

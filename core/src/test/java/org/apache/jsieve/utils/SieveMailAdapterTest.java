@@ -34,4 +34,13 @@ public class SieveMailAdapterTest {
         assertThat(mail.getMatchingHeader("from")).containsExactlyInAnyOrder("a@example.com", "b@example.com");
     }
 
+    @Test
+    public void getMatchingHeaderShouldIgnoreOnlyTheAsciiCase() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("\u00c4", "upper");
+        mail.getMessage().addHeader("\u00e4", "lower");
+
+        assertThat(mail.getMatchingHeader("\u00c4")).containsExactly("upper");
+    }
+
 }

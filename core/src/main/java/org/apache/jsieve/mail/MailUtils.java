@@ -22,6 +22,8 @@ package org.apache.jsieve.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jsieve.comparators.AsciiCasemap;
+
 /**
  * Class MailUtils implements utility methods that are useful when processing
  * Sieve mail.
@@ -55,8 +57,10 @@ public class MailUtils {
     static public List<String> getMatchingHeader(MailAdapter mail, String name)
             throws SieveMailException {
         final List<String> matchedHeaderValues = new ArrayList<String>(32);
+        // Header names are compared with i;ascii-casemap (RFC 5228 section 2.7)
+        final String asciiUpperCaseName = AsciiCasemap.toAsciiUpperCase(name);
         for (String headerName: mail.getHeaderNames()) {
-            if (headerName.trim().equalsIgnoreCase(name))
+            if (AsciiCasemap.toAsciiUpperCase(headerName.trim()).equals(asciiUpperCaseName))
                 matchedHeaderValues.addAll(mail.getHeader(headerName));
         }
         return matchedHeaderValues;

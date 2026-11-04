@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.apache.jsieve.commands.ThrowTestException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
@@ -56,16 +57,18 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void rawShouldThrowWithoutMatcher() throws Exception {
-        String script = "require \"body\"; if body :raw \"Wibble\" {throwTestException;}";
+    @Test(expected = ThrowTestException.TestException.class)
+    public void rawWithoutMatchTypeShouldUseIs() throws Exception {
+        when(sieveMailAdapter.getBodyRaw()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :raw \"wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void rawShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "require \"body\"; if body :raw :is \"Wibble\" {throwTestException;}";
+    @Test
+    public void rawIsShouldMatchTheWholeRawBody() throws Exception {
+        when(sieveMailAdapter.getBodyRaw()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :raw :is \"Wib\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
@@ -113,16 +116,18 @@ public class BodyTest {
         verify(sieveMailAdapter).isInBodyRaw(containedText);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void textShouldThrowWithoutMatcher() throws Exception {
-        String script = "require \"body\"; if body :text \"Wibble\" {throwTestException;}";
+    @Test(expected = ThrowTestException.TestException.class)
+    public void textWithoutMatchTypeShouldUseIs() throws Exception {
+        when(sieveMailAdapter.getBodyText()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :text \"wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void textShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "require \"body\"; if body :text :is \"Wibble\" {throwTestException;}";
+    @Test(expected = ThrowTestException.TestException.class)
+    public void textIsShouldIgnoreAsciiCase() throws Exception {
+        when(sieveMailAdapter.getBodyText()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :text :is \"WIBBLE\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
@@ -191,16 +196,18 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void contentShouldThrowWithInvalidMatcher() throws Exception {
+    @Test(expected = ThrowTestException.TestException.class)
+    public void contentWithoutMatchTypeShouldUseIs() throws Exception {
+        when(sieveMailAdapter.getBodyContent(Collections.singletonList("text/plain"))).thenReturn(Collections.singletonList("Wibble"));
         String script = "require \"body\"; if body :content \"text/plain\" \"Wibble\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void contentShouldThrowWithoutMatcherContains() throws Exception {
-        String script = "require \"body\"; if body :content \"text/plain\" :is \"Wibble\" {throwTestException;}";
+    @Test
+    public void contentIsShouldMatchAWholePart() throws Exception {
+        when(sieveMailAdapter.getBodyContent(Collections.singletonList("text/plain"))).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :content \"text/plain\" :is \"Wib\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
@@ -274,9 +281,10 @@ public class BodyTest {
         verify(sieveMailAdapter).isInBodyContent(contentTypes, containedText);
     }
 
-    @Test(expected = SyntaxException.class)
-    public void defaultShouldThrowWithoutMatcher() throws Exception {
-        String script = "require \"body\"; if body \"Wibble\" {throwTestException;}";
+    @Test(expected = ThrowTestException.TestException.class)
+    public void defaultShouldBeIsWithAsciiCasemap() throws Exception {
+        when(sieveMailAdapter.getBodyText()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body \"WIBBLE\" {throwTestException;}";
 
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
@@ -372,4 +380,19 @@ public class BodyTest {
         JUnitUtils.interpret(sieveMailAdapter, script);
     }
 
+    @Test(expected = ThrowTestException.TestException.class)
+    public void matchesShouldUseAGlob() throws Exception {
+        when(sieveMailAdapter.getBodyText()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :matches \"wib*\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
+
+    @Test
+    public void comparatorShouldBeUsed() throws Exception {
+        when(sieveMailAdapter.getBodyText()).thenReturn(Collections.singletonList("Wibble"));
+        String script = "require \"body\"; if body :comparator \"i;octet\" :contains \"wibble\" {throwTestException;}";
+
+        JUnitUtils.interpret(sieveMailAdapter, script);
+    }
 }

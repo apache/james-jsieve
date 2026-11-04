@@ -199,6 +199,47 @@ public interface MailAdapter {
      * @throws SieveMailException when the search cannot be completed
      */
     public boolean isInBodyContent(final List<String> contentTypes, final List<String> phrasesCaseInsensitive) throws SieveMailException;
+
+    /**
+     * The strings the :text body transform matches against: the text of the
+     * body, decoded as well as the adapter can (RFC 5173 section 5.3). The
+     * body test calls it for any match type and comparator other than
+     * :contains with i;ascii-casemap, which isInBodyText serves. The default
+     * throws: an adapter supports these body tests by implementing it.
+     *
+     * @return the strings to match, empty when the message has no body
+     * @throws SieveMailException when the body cannot be read
+     */
+    default List<String> getBodyText() throws SieveMailException {
+        throw new SieveMailException("This mail adapter does not give the body text");
+    }
+
+    /**
+     * The strings the :raw body transform matches against: the undecoded
+     * body as a single string (RFC 5173 section 5.1). The body test calls it
+     * for any match type and comparator other than :contains with
+     * i;ascii-casemap, which isInBodyRaw serves. The default throws.
+     *
+     * @return the strings to match, empty when the message has no body
+     * @throws SieveMailException when the body cannot be read
+     */
+    default List<String> getBodyRaw() throws SieveMailException {
+        throw new SieveMailException("This mail adapter does not give the raw body");
+    }
+
+    /**
+     * The strings the :content body transform matches against: the decoded
+     * MIME parts of the given content types (RFC 5173 section 5.2). The body
+     * test calls it for any match type and comparator other than :contains
+     * with i;ascii-casemap, which isInBodyContent serves. The default throws.
+     *
+     * @param contentTypes the content types of the parts, not null
+     * @return the strings to match, empty when no part has these types
+     * @throws SieveMailException when the body cannot be read
+     */
+    default List<String> getBodyContent(List<String> contentTypes) throws SieveMailException {
+        throw new SieveMailException("This mail adapter does not give the body contents");
+    }
     
     /**
      * <p>

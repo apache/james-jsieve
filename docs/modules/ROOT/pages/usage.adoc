@@ -130,7 +130,10 @@ server. It wraps one message and exposes what scripts need to test:
 * Header access — `getHeader(String)`, `getMatchingHeader(String)` (case and whitespace
 insensitive, as RFC 5228 requires) and `getHeaderNames()`
 * Message properties — `getSize()`, `getContentType()`
-* Body searches backing the `body` test — `isInBodyText`, `isInBodyRaw`, `isInBodyContent`
+* Body searches backing the `body` test — `isInBodyText`, `isInBodyRaw`, `isInBodyContent` for
+`:contains` with the default `i;ascii-casemap` comparator, and the default methods `getBodyText`,
+`getBodyRaw`, `getBodyContent` for every other match type and comparator (RFC 5173); these throw
+until the adapter implements them
 * Address parsing — `parseAddresses(String)`, returning ``MailAdapter.Address``es
 * Action handling — `addAction(Action)`, `getActions()` and `executeActions()`
 

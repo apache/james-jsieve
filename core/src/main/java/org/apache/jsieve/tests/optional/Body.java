@@ -19,13 +19,21 @@
 
 package org.apache.jsieve.tests.optional;
 
+import static org.apache.jsieve.comparators.ComparatorNames.ASCII_CASEMAP_COMPARATOR;
+import static org.apache.jsieve.comparators.MatchTypeTags.CONTAINS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.IS_TAG;
+import static org.apache.jsieve.comparators.MatchTypeTags.MATCHES_TAG;
+import static org.apache.jsieve.tests.ComparatorTags.COMPARATOR_TAG;
+
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.TagArgument;
+import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SyntaxException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -43,7 +51,8 @@ public class Body extends AbstractTest {
     public static final String CONTENT = ":content";
     private TagArgument transformation;
     private StringListArgument contentTypes;
-    private TagArgument matcher;
+    private String comparator;
+    private String matcher;
     private StringListArgument valuesToBeMatched;
 
     protected void validateArguments(Arguments args, SieveContext ctx) throws SieveException {
@@ -54,6 +63,7 @@ public class Body extends AbstractTest {
         TagArgument transformationTag = null;
         StringListArgument contentTypesArgument = null;
         TagArgument matcherTag = null;
+        String comparatorName = null;
         Iterator<Argument> arguments = args.getArgumentList().iterator();
         Argument argument = nextArgument(arguments);
         while (argument instanceof TagArgument) {
@@ -66,6 +76,11 @@ public class Body extends AbstractTest {
                 if (tag.getTag().equals(CONTENT)) {
                     contentTypesArgument = retrieveContentTypes(arguments);
                 }
+            } else if (tag.getTag().equals(COMPARATOR_TAG)) {
+                if (comparatorName != null) {
+                    throw new SyntaxException("Only one comparator is allowed. See RFC-5228 section 2.7.3.");
+                }
+                comparatorName = retrieveComparator(arguments);
             } else {
                 TagArgument matcherCandidate = retrieveMatcher(tag);
                 if (matcherTag != null) {
@@ -75,18 +90,14 @@ public class Body extends AbstractTest {
             }
             argument = nextArgument(arguments);
         }
-        if (matcherTag == null && argument != null) {
-            throw new SyntaxException("Expecting a matcher :contains and not a " + argument.getClass());
-        }
-        if (matcherTag == null) {
-            throw new SyntaxException("Expecting a matcher :contains");
-        }
         valuesToBeMatched = retrieveMatchValues(argument);
         assureNoMoreArguments(arguments);
         // by default transformation should be :text
         transformation = transformationTag != null ? transformationTag : new TagArgument(new Token(0, TEXT));
         contentTypes = contentTypesArgument;
-        matcher = matcherTag;
+        // :is and i;ascii-casemap by default (RFC 5173 section 4)
+        matcher = matcherTag != null ? matcherTag.getTag() : IS_TAG;
+        comparator = comparatorName != null ? comparatorName : ASCII_CASEMAP_COMPARATOR;
     }
 
     private boolean isTransformation(TagArgument tag) {
@@ -101,6 +112,17 @@ public class Body extends AbstractTest {
     }
 
     protected boolean executeBasic(MailAdapter mail, Arguments args, SieveContext ctx) throws SieveException {
+        if (!matcher.equals(CONTAINS_TAG) || !comparator.equals(ASCII_CASEMAP_COMPARATOR)) {
+            for (String value : bodyValues(mail)) {
+                for (String key : valuesToBeMatched.getList()) {
+                    if (ComparatorUtils.match(comparator, matcher, value, key, ctx)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        // the case insensitive search the MailAdapter has always offered
         if (transformation.getTag().equals(RAW)) {
             return mail.isInBodyRaw(valuesToBeMatched.getList());
         } else if (transformation.getTag().equals(CONTENT)) {
@@ -110,6 +132,27 @@ public class Body extends AbstractTest {
         } else {
             throw new RuntimeException("Invalid transformation caught. Is your argument parsing buggy ?");
         }
+    }
+
+    private List<String> bodyValues(MailAdapter mail) throws SieveException {
+        if (transformation.getTag().equals(RAW)) {
+            return mail.getBodyRaw();
+        } else if (transformation.getTag().equals(CONTENT)) {
+            return mail.getBodyContent(contentTypes.getList());
+        } else {
+            return mail.getBodyText();
+        }
+    }
+
+    private String retrieveComparator(Iterator<Argument> arguments) throws SyntaxException {
+        if (arguments.hasNext()) {
+            Argument comparatorArgument = arguments.next();
+            if (comparatorArgument instanceof StringListArgument
+                    && ((StringListArgument) comparatorArgument).getList().size() == 1) {
+                return ((StringListArgument) comparatorArgument).getList().get(0);
+            }
+        }
+        throw new SyntaxException("Expecting the name of a comparator following :comparator");
     }
 
     private StringListArgument retrieveContentTypes(Iterator<Argument> matchingSpecifications) throws SyntaxException {
@@ -124,18 +167,19 @@ public class Body extends AbstractTest {
     }
 
     private TagArgument retrieveMatcher(TagArgument matcherArgument) throws SyntaxException {
-        if (!matcherArgument.getTag().equals(":contains")) {
-            throw new SyntaxException("Expecting a matcher :contains. Matcher " + matcherArgument.getTag() + " is currently not supported.");
+        final String tag = matcherArgument.getTag();
+        if (!tag.equals(IS_TAG) && !tag.equals(CONTAINS_TAG) && !tag.equals(MATCHES_TAG)) {
+            throw new SyntaxException("Expecting a match type :is, :contains or :matches and not " + tag);
         }
         return matcherArgument;
     }
 
     private StringListArgument retrieveMatchValues(Argument matchValues) throws SyntaxException {
         if (matchValues == null) {
-            throw new SyntaxException("Matcher :contains should be followed by a StringList");
+            throw new SyntaxException("Expecting the key list of the body test");
         }
         if (! (matchValues instanceof StringListArgument)) {
-            throw new SyntaxException("Matcher :contains should be followed by a StringList and not a " + matchValues.getClass());
+            throw new SyntaxException("Expecting the key list of the body test and not a " + matchValues.getClass());
         }
         return (StringListArgument) matchValues;
     }

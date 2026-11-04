@@ -21,6 +21,7 @@ package org.apache.jsieve.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -283,6 +284,17 @@ public class SieveMailAdapter implements MailAdapter {
                 }
             }
             return false;
+        } catch (MessagingException ex) {
+            throw new SieveMailException(ex);
+        } catch (IOException ex) {
+            throw new SieveMailException(ex);
+        }
+    }
+
+    @Override
+    public List<String> getBodyText() throws SieveMailException {
+        try {
+            return Collections.singletonList(getMessage().getContent().toString());
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         } catch (IOException ex) {

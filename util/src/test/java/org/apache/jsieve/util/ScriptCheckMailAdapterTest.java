@@ -19,6 +19,7 @@
 package org.apache.jsieve.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +30,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.SieveFactory;
+import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.mail.ActionRedirect;
 import org.apache.jsieve.parser.generated.Node;
 import org.apache.jsieve.util.check.ScriptCheckMailAdapter;
@@ -144,5 +146,30 @@ public class ScriptCheckMailAdapterTest {
         ((MimeMessage) testee.getMail()).addHeader("T\u00d6", "b@example.com");
 
         assertThat(testee.parseAddresses("T\u00f6")).extracting(address -> address.getLocalPart()).containsExactly("a");
+    }
+
+    @Test
+    public void parseAddressesShouldThrowAnInternetAddressExceptionOnAMalformedValue() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: [x] <a@example.com>\r\n\r\nbody\r\n");
+
+        assertThatThrownBy(() -> testee.parseAddresses("To")).isInstanceOf(InternetAddressException.class);
+    }
+
+    @Test
+    public void parseAddressesShouldKeepTheValidFieldsBesideAMalformedOne() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: [x] <a@example.com>\r\nTo: b@example.com\r\n\r\nbody\r\n");
+
+        assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("b");
+    }
+
+    @Test
+    public void addressTestShouldNotMatchAMalformedValue() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: [x] <a@example.com>\r\n\r\nbody\r\n");
+        Node script = sieveFactory.parse(new ByteArrayInputStream(
+            "if not address :localpart :is \"to\" \"a\" { redirect \"test@test.test\"; }".getBytes(StandardCharsets.UTF_8)));
+
+        sieveFactory.evaluate(testee, script);
+
+        assertThat(testee.getActions()).hasSize(1).first().isInstanceOf(ActionRedirect.class);
     }
 }

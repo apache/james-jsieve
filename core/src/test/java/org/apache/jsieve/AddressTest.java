@@ -570,4 +570,33 @@ public class AddressTest {
         // U+212A KELVIN SIGN lower cases to an ASCII k
         JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"\u212A.IT\" {throwTestException;}");
     }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void localpartShouldNotMatchAMalformedAddressHeader() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "[x] <user@domain>");
+        JUnitUtils.interpret(mail, "if not address :localpart :is \"From\" \"user\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldNotMatchAMalformedAddressHeader() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "[x] <user@domain>");
+        JUnitUtils.interpret(mail, "if not address :domain :is \"From\" \"domain\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void validFieldBesideAMalformedOneShouldStillMatch() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "[x] <x@y>");
+        mail.getMessage().addHeader("From", "user@domain");
+        JUnitUtils.interpret(mail, "if address :localpart :is \"From\" \"user\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldNotMatchAMalformedAddressHeader() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "[x] <user@domain>");
+        JUnitUtils.interpret(mail, "if not address :all :contains \"From\" \"\" {throwTestException;}");
+    }
 }

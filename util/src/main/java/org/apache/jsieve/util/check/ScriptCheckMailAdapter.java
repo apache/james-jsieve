@@ -34,6 +34,7 @@ import javax.mail.internet.MimeUtility;
 
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.comparators.AsciiCasemap;
+import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -267,7 +268,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     }
 
     public Address[] parseAddresses(String headerName)
-            throws SieveMailException {
+            throws SieveMailException, InternetAddressException {
         return parseAddresses(headerName, mail);
     }
 
@@ -278,29 +279,38 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      * @param message    <code>Message</code>, not null
      * @return <code>Address</code> array, not null possibly empty
      * @throws SieveMailException
+     * @throws InternetAddressException when no address was read and a field of
+     *                                   that name is not an address list
      */
     public Address[] parseAddresses(final String headerName,
-                                    final Message message) throws SieveMailException {
+                                    final Message message) throws SieveMailException, InternetAddressException {
         try {
             final SieveAddressBuilder builder = new SieveAddressBuilder();
+            ParseException invalidField = null;
 
             for (Enumeration<?> en = message.getAllHeaders(); en.hasMoreElements(); ) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 // Header names are compared with i;ascii-casemap (RFC 5228 section 2.7)
                 if (AsciiCasemap.toAsciiUpperCase(name.trim()).equals(AsciiCasemap.toAsciiUpperCase(headerName))) {
-                    builder.addAddresses(MimeUtility.decodeText(unfold(header.getValue())));
+                    try {
+                        builder.addAddresses(MimeUtility.decodeText(unfold(header.getValue())));
+                    } catch (ParseException ex) {
+                        // Only the addresses of this field are not matched (RFC 5228 section 2.7.4)
+                        invalidField = ex;
+                    }
                 }
             }
 
             final Address[] results = builder.getAddresses();
+            if (results.length == 0 && invalidField != null) {
+                throw new InternetAddressException(invalidField);
+            }
             return results;
 
         } catch (MessagingException ex) {
             throw new SieveMailException(ex);
         } catch (UnsupportedEncodingException ex) {
-            throw new SieveMailException(ex);
-        } catch (ParseException ex) {
             throw new SieveMailException(ex);
         }
     }

@@ -31,6 +31,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.MailAdapter;
@@ -257,7 +258,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     }
 
     public Address[] parseAddresses(String headerName)
-            throws SieveMailException {
+            throws SieveMailException, InternetAddressException {
         return parseAddresses(headerName, mail);
     }
 
@@ -270,25 +271,36 @@ public class ScriptCheckMailAdapter implements MailAdapter {
      *            <code>Message</code>, not null
      * @return <code>Address</code> array, not null possibly empty
      * @throws SieveMailException
+     * @throws InternetAddressException
+     *             when no address was read and a field of that name is not
+     *             an address list
      */
     public Address[] parseAddresses(final String headerName,
-            final Message message) throws SieveMailException {
+            final Message message) throws SieveMailException, InternetAddressException {
         try {
             final SieveAddressBuilder builder = new SieveAddressBuilder();
+            org.apache.jsieve.parser.generated.address.ParseException invalidField = null;
 
             for (Enumeration en = message.getAllHeaders(); en.hasMoreElements();) {
                 final Header header = (Header) en.nextElement();
                 final String name = header.getName();
                 if (name.trim().equalsIgnoreCase(headerName)) {
-                    builder.addAddresses(header.getValue());
+                    try {
+                        builder.addAddresses(header.getValue());
+                    } catch (org.apache.jsieve.parser.generated.address.ParseException ex) {
+                        // Only the addresses of this field are not matched (RFC 5228 section 2.7.4)
+                        invalidField = ex;
+                    }
                 }
             }
 
-            return builder.getAddresses();
+            final Address[] results = builder.getAddresses();
+            if (results.length == 0 && invalidField != null) {
+                throw new InternetAddressException(invalidField);
+            }
+            return results;
 
         } catch (MessagingException ex) {
-            throw new SieveMailException(ex);
-        } catch (org.apache.jsieve.parser.generated.address.ParseException ex) {
             throw new SieveMailException(ex);
         }
     }

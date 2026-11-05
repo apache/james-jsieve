@@ -56,10 +56,18 @@ public class Address extends AbstractComparatorTest {
         return isMatched;
     }
 
+    /**
+     * The addresses of the header, none when its value does not parse as an
+     * address list: an address that is not syntactically valid is not matched
+     * (RFC 5228 section 2.7.4), whatever the address part.
+     */
     private MailAdapter.Address[] getMatchingValues(MailAdapter mail,
-            String valueName) throws SieveMailException,
-            InternetAddressException {
-        return mail.parseAddresses(valueName);
+            String valueName) throws SieveMailException {
+        try {
+            return mail.parseAddresses(valueName);
+        } catch (InternetAddressException e) {
+            return new MailAdapter.Address[0];
+        }
     }
 
     protected boolean match(String addressPart, String comparator,

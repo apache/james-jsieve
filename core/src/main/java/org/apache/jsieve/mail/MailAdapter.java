@@ -253,6 +253,14 @@ public interface MailAdapter {
      * considered equal.
      * </p>
      * 
+     * <p>
+     * When the header appears several times, a field that is not an address
+     * list should be skipped and the addresses of the others returned: an
+     * address that is not syntactically valid is not matched (RFC 5228
+     * section 2.7.4), the valid ones still are. The address test reads an
+     * InternetAddressException as a header holding no address.
+     * </p>
+     * 
      * @param headerName
      *            name of the header whose value is to be split
      * @return addresses listed in the given header not null, possibly empty

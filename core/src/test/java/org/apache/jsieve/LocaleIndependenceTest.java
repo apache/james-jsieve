@@ -60,7 +60,7 @@ public class LocaleIndependenceTest {
     public void addressDomainShouldIgnoreCase() throws Exception {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("From", "user@info.it");
-        JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"INFO.IT\" {throwTestException;}");
+        JUnitUtils.interpret(mail, "if address :domain :is \"From\" \"INFO.IT\" {throwTestException;}");
     }
 
     @Test(expected = ThrowTestException.TestException.class)
@@ -68,7 +68,7 @@ public class LocaleIndependenceTest {
         SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
         mail.setEnvelopeFrom("user@info.it");
         JUnitUtils.interpret(mail, "require \"envelope\";"
-            + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"INFO.IT\" {throwTestException;}");
+            + " if envelope :domain :is \"from\" \"INFO.IT\" {throwTestException;}");
     }
 
 }

@@ -568,7 +568,21 @@ public class AddressTest {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("From", "user@k.it");
         // U+212A KELVIN SIGN lower cases to an ASCII k
-        JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"\u212A.IT\" {throwTestException;}");
+        JUnitUtils.interpret(mail, "if address :domain :is \"From\" \"\u212A.IT\" {throwTestException;}");
+    }
+
+    @Test
+    public void domainShouldKeepItsCaseForACaseSensitiveComparator() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "user@example.com");
+        JUnitUtils.interpret(mail, "if address :domain :comparator \"i;octet\" :is \"From\" \"EXAMPLE.COM\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldIgnoreCaseWithTheDefaultComparator() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "user@example.com");
+        JUnitUtils.interpret(mail, "if address :domain :is \"From\" \"EXAMPLE.COM\" {throwTestException;}");
     }
 
     @Test(expected = ThrowTestException.TestException.class)

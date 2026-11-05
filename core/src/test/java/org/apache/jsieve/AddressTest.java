@@ -572,6 +572,48 @@ public class AddressTest {
     }
 
     @Test(expected = ThrowTestException.TestException.class)
+    public void quotedLocalPartShouldBeComparedByItsContent() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "\"john\"@example.com");
+        JUnitUtils.interpret(mail, "if address :localpart :is \"From\" \"john\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void quotedPairsShouldBeComparedByTheirCharacter() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "\"a\\\"b\"@example.com");
+        JUnitUtils.interpret(mail, "if address :localpart :is \"From\" \"a\\\"b\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldWriteADotAtomLocalPartWithoutQuotes() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "\"john\"@example.com");
+        JUnitUtils.interpret(mail, "if address :all :is \"From\" \"john@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldKeepALocalPartWithConsecutiveDotsUnquoted() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "taro..yamada@docomo.ne.jp");
+        JUnitUtils.interpret(mail, "if address :all :is \"From\" \"taro..yamada@docomo.ne.jp\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldKeepALocalPartWithATrailingDotUnquoted() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "taro.@docomo.ne.jp");
+        JUnitUtils.interpret(mail, "if address :all :is \"From\" \"taro.@docomo.ne.jp\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldQuoteALocalPartThatIsNoDotAtom() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("From", "\"a b\"@example.com");
+        JUnitUtils.interpret(mail, "if address :all :is \"From\" \"\\\"a b\\\"@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
     public void localpartShouldNotMatchAMalformedAddressHeader() throws Exception {
         SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
         mail.getMessage().addHeader("From", "[x] <user@domain>");

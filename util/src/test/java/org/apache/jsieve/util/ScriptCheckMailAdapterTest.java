@@ -133,6 +133,27 @@ public class ScriptCheckMailAdapterTest {
     }
 
     @Test
+    public void parseAddressesShouldNotReadAnAddressOutOfAnEncodedWord() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: =?utf-8?q?evil=40attacker=2Ecom=2C?= <user@example.com>\r\n\r\nbody\r\n");
+
+        assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("user");
+    }
+
+    @Test
+    public void parseAddressesShouldReadAnAddressAfterAnEncodedSpecial() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: =?utf-8?q?a=3Cb?= <user@example.com>\r\n\r\nbody\r\n");
+
+        assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("user");
+    }
+
+    @Test
+    public void parseAddressesShouldReadAnAddressBesideAnEncodedWordOfAnUnknownCharset() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("To: =?x-unknown?q?a?= <a@example.com>\r\n\r\nbody\r\n");
+
+        assertThat(testee.parseAddresses("To")).extracting(address -> address.getLocalPart()).containsExactly("a");
+    }
+
+    @Test
     public void parseAddressesShouldUnfoldALineBreakFollowingABackslash() throws Exception {
         ScriptCheckMailAdapter testee = adapterFor("To: \"a\\\r\n b\"@example.com\r\n\r\nbody\r\n");
 

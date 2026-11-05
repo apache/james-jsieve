@@ -201,6 +201,9 @@ public class SieveFactory {
     /**
      * <p>Answer a List of supported Sieve extensions. This depends on the configured Command, Comparator
      * and Test managers.
+     * <p>Each one is the capability string a script names in a require, as the ManageSieve SIEVE
+     * capability lists them (RFC 5804 section 1.7): a comparator is named with the "comparator-"
+     * prefix (RFC 5228 section 2.7.3).
      *
      * @return a List of supported Sieve extensions
      */
@@ -211,7 +214,9 @@ public class SieveFactory {
         List<String> extensions = new ArrayList<String>(commands.size() + comparators.size()
                 + tests.size());
         extensions.addAll(commands);
-        extensions.addAll(comparators);
+        for (String comparator : comparators) {
+            extensions.add(Constants.COMPARATOR_PREFIX + comparator);
+        }
         extensions.addAll(tests);
         return extensions;
     }

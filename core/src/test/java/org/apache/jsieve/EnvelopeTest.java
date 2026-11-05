@@ -605,7 +605,7 @@ public class EnvelopeTest {
         mail.setEnvelopeFrom("user@k.it");
         // U+212A KELVIN SIGN lower cases to an ASCII k
         JUnitUtils.interpret(mail, "require \"envelope\";"
-            + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"\u212A.IT\" {throwTestException;}");
+            + " if envelope :domain :is \"from\" \"\u212A.IT\" {throwTestException;}");
     }
 
     @Test(expected = ThrowTestException.TestException.class)
@@ -614,6 +614,22 @@ public class EnvelopeTest {
         mail.setEnvelopeFrom("\"a@b\"@example.com");
         JUnitUtils.interpret(mail, "require \"envelope\";"
             + " if envelope :domain :is \"from\" \"example.com\" {throwTestException;}");
+    }
+
+    @Test
+    public void domainShouldKeepItsCaseForACaseSensitiveComparator() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :comparator \"i;octet\" :is \"from\" \"EXAMPLE.COM\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void domainShouldIgnoreCaseWithTheDefaultComparator() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("user@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :domain :is \"from\" \"EXAMPLE.COM\" {throwTestException;}");
     }
 
     @Test(expected = ThrowTestException.TestException.class)

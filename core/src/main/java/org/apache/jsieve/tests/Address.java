@@ -19,11 +19,9 @@
 
 package org.apache.jsieve.tests;
 
-import static org.apache.jsieve.tests.AddressPartTags.DOMAIN_TAG;
 import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
 
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.ComparatorUtils;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
@@ -81,20 +79,11 @@ public class Address extends AbstractComparatorTest {
         if (addressPart.equals(":all"))
             matchAddress = canonicalAddress(localPart, domain);
         else {
-            matchAddress = (addressPart.equals(LOCALPART_TAG) ? localPart
-                    : AsciiCasemap.toAsciiUpperCase(domain));
+            matchAddress = (addressPart.equals(LOCALPART_TAG) ? localPart : domain);
         }
 
-        // domain matches MUST ignore case, others should not
-        String matchKey = null;
-        if (addressPart.equals(DOMAIN_TAG)) {
-            matchKey = AsciiCasemap.toAsciiUpperCase(key);
-        } else {
-            matchKey = key;
-        }
-
-        // Match using the specified comparator
+        // The comparator decides whether case matters, for the domain too (RFC 5228 section 5.1)
         return ComparatorUtils.match(comparator, matchType, matchAddress,
-                matchKey, context);
+                key, context);
     }
 }

@@ -18,6 +18,8 @@
  ****************************************************************/
 package org.apache.jsieve.comparators;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.apache.jsieve.ConfigurationManager;
 import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.parser.generated.ParseException;
@@ -85,5 +87,32 @@ public class RequireComparatorTest {
     @Test(expected = LookupException.class)
     public void comparatorNameInAnotherCaseShouldNotBeFound() throws Exception {
         new ConfigurationManager().getComparatorManager().getComparator("I;OCTET");
+    }
+
+    @Test
+    public void unknownComparatorShouldBeReportedAsNotSupported() {
+        String script = "if header :comparator \"I;OCTET\" :is \"Subject\" \"hello\" { }";
+
+        assertThatThrownBy(() -> JUnitUtils.parse(script))
+            .isInstanceOf(ParseException.class)
+            .hasMessageContaining("Comparator \"I;OCTET\" is not supported.");
+    }
+
+    @Test
+    public void undeclaredComparatorShouldBeNamedInTheError() {
+        String script = "if header :comparator \"i;ascii-numeric\" :is \"Subject\" \"5\" { }";
+
+        assertThatThrownBy(() -> JUnitUtils.parse(script))
+            .isInstanceOf(ParseException.class)
+            .hasMessageContaining("Comparator \"i;ascii-numeric\" must be explicitly declared in a require statement.");
+    }
+
+    @Test
+    public void requiredUnknownComparatorShouldBeNamedInTheError() {
+        String script = "require \"comparator-I;ASCII-NUMERIC\";";
+
+        assertThatThrownBy(() -> JUnitUtils.parse(script))
+            .isInstanceOf(ParseException.class)
+            .hasMessageContaining("Comparator \"I;ASCII-NUMERIC\" is not supported.");
     }
 }

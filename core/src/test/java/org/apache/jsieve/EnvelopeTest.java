@@ -767,4 +767,27 @@ public class EnvelopeTest {
         JUnitUtils.interpret(mail, "require \"envelope\";"
             + " if envelope :domain :is \"from\" \"[IPv6:::ffff:192.0.2.1]\" {throwTestException;}");
     }
+
+    @Test(expected = ParseException.class)
+    public void unknownEnvelopePartShouldThrowAParseException() throws Exception {
+        JUnitUtils.parse("require \"envelope\"; if envelope \"x-foo\" \"user@domain\" {keep;}");
+    }
+
+    @Test(expected = ParseException.class)
+    public void unknownEnvelopePartInAListShouldThrowAParseException() throws Exception {
+        JUnitUtils.parse("require \"envelope\"; if envelope [\"from\", \"auth\"] \"user@domain\" {keep;}");
+    }
+
+    @Test(expected = ParseException.class)
+    public void envelopePartWithSpacesShouldThrowAParseException() throws Exception {
+        JUnitUtils.parse("require \"envelope\"; if envelope \" from\" \"user@domain\" {keep;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void envelopePartsShouldIgnoreCase() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeTo("user@domain");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"TO\" \"user@domain\" {throwTestException;}");
+    }
 }

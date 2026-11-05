@@ -192,8 +192,12 @@ public class SieveValidationVisitor implements SieveParserVisitor {
             // Comparators must either be declared (either implicitly or explicitly)
             if (!comparatorManager.isImplicitlyDeclared(name)) {
                 if (!declaredComparators.contains(name)) {
+                    // An unknown comparator and an undeclared one are two errors (RFC 5228 section 2.7.3)
+                    if (!comparatorManager.isSupported(name)) {
+                        throw new SieveException("Comparator \"" + name + "\" is not supported.");
+                    }
                     // TODO: replace with better exception
-                    throw new SieveException("Comparator must be explicitly declared in a require statement.");
+                    throw new SieveException("Comparator \"" + name + "\" must be explicitly declared in a require statement.");
                 }
             }
         }
@@ -209,7 +213,7 @@ public class SieveValidationVisitor implements SieveParserVisitor {
                     declaredComparators.add(comparatorName);
                 } else {
 //                  TODO: Replace with more finely grained exception
-                    throw new SieveException("Comparator " + comparatorName + " is not supported");
+                    throw new SieveException("Comparator \"" + comparatorName + "\" is not supported.");
                 }
             } else if (extensionCommands.contains(name) || extensionTests.contains(name)) {
                 // Capability strings are case-sensitive (RFC 5228 section 6)

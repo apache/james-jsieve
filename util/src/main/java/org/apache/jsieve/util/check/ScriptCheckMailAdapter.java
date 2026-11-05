@@ -273,7 +273,10 @@ public class ScriptCheckMailAdapter implements MailAdapter {
     }
 
     /**
-     * Parses the value from the given message into addresses.
+     * Parses the value from the given message into addresses. The unfolded
+     * value is parsed as written: an encoded word may only stand for a display
+     * name or a comment, so it is decoded after parsing, never before (RFC 2047
+     * sections 5 and 6.1), and the address test compares neither.
      *
      * @param headerName header name, to be matched case insensitively
      * @param message    <code>Message</code>, not null
@@ -294,7 +297,7 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                 // Header names are compared with i;ascii-casemap (RFC 5228 section 2.7)
                 if (AsciiCasemap.toAsciiUpperCase(name.trim()).equals(AsciiCasemap.toAsciiUpperCase(headerName))) {
                     try {
-                        builder.addAddresses(MimeUtility.decodeText(unfold(header.getValue())));
+                        builder.addAddresses(unfold(header.getValue()));
                     } catch (ParseException ex) {
                         // Only the addresses of this field are not matched (RFC 5228 section 2.7.4)
                         invalidField = ex;
@@ -309,8 +312,6 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             return results;
 
         } catch (MessagingException ex) {
-            throw new SieveMailException(ex);
-        } catch (UnsupportedEncodingException ex) {
             throw new SieveMailException(ex);
         }
     }

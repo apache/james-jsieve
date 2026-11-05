@@ -141,16 +141,16 @@ SKIP : /* WHITE SPACE */
 | "\f"
 }
 
-SPECIAL_TOKEN : /* COMMENTS */
+SPECIAL_TOKEN : /* COMMENTS, without NUL: no Sieve character (RFC 5228 section 8.1) */
 {
-  <HASH_COMMENT: "#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  <HASH_COMMENT: "#" (~["\n","\r","\u0000"])* ("\n"|"\r"|"\r\n")>
 | 
-  <BRACKET_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+  <BRACKET_COMMENT: "/*" (~["*","\u0000"])* "*" ("*" | (~["*","/","\u0000"] (~["*","\u0000"])* "*"))* "/">
 }
 
 TOKEN : /* Can't make this one special */
 {
-  <EOF_HASH_COMMENT: "#" (~["\n","\r"])*>
+  <EOF_HASH_COMMENT: "#" (~["\n","\r","\u0000"])*>
 }              
 
 
@@ -194,10 +194,10 @@ TOKEN : /* LITERALS */
 // quoted-string = DQUOTE *CHAR DQUOTE
 // in general, \ CHAR inside a string maps to CHAR
 // so \" maps to " and \\ maps to \
-// note that newlines and other characters are all allowed strings
+// note that newlines and other characters are all allowed strings, but NUL (RFC 5228 section 8.1)
   < QUOTED_STRING:
       "\""
-      (~["\"","\\"]|<ESCAPED_CHAR>)*
+      (~["\"","\\","\u0000"]|<ESCAPED_CHAR>)*
       "\""
   >
 |
@@ -241,11 +241,11 @@ TOKEN : /* LITERALS */
   >  
 |
   < #CHAR_NOT_DOT:
-      (~[".","\n","\r"])
+      (~[".","\n","\r","\u0000"])
   >
 |
   < #CHAR_NOT_NEWLINE: 
-      (~["\n","\r"])
+      (~["\n","\r","\u0000"])
   >   
 |
 // multi-line-dotstuff = "." 1*CHAR-NOT-CRLF CRLF

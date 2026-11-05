@@ -617,6 +617,46 @@ public class EnvelopeTest {
     }
 
     @Test(expected = ThrowTestException.TestException.class)
+    public void quotedLocalPartShouldBeComparedByItsContent() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("\"john\"@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"john\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void quotedPairsShouldBeComparedByTheirCharacter() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("\"a\\\"b\"@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :localpart :is \"from\" \"a\\\"b\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldWriteADotAtomLocalPartWithoutQuotes() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<\"john\"@example.com>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"john@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldQuoteALocalPartThatIsNoDotAtom() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("\"a b\"@example.com");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"\\\"a b\\\"@example.com\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
+    public void allShouldKeepTheNullReversePathEmpty() throws Exception {
+        SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
+        mail.setEnvelopeFrom("<>");
+        JUnitUtils.interpret(mail, "require \"envelope\";"
+            + " if envelope :all :is \"from\" \"\" {throwTestException;}");
+    }
+
+    @Test(expected = ThrowTestException.TestException.class)
     public void localPartShouldHoldTheAtOfAQuotedLocalPart() throws Exception {
         SieveEnvelopeMailAdapter mail = JUnitUtils.createEnvelopeMail();
         mail.setEnvelopeFrom("\"a@b\"@example.com");

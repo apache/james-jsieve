@@ -57,7 +57,9 @@ public class Envelope extends AbstractComparatorTest {
     }
 
     /**
-     * The local part and the domain of an address, or null when it is not a
+     * The local part, the content of a Quoted-string without its quotes and
+     * the backslashes of its quoted pairs (RFC 5321 section 4.1.2, RFC 5322
+     * section 3.2.4), and the domain of an address, or null when it is not a
      * mailbox of RFC 5321 section 4.1.2 (with the non-ASCII text RFC 6531
      * section 3.3 adds): neither :localpart nor :domain matches such an
      * address (RFC 5228 section 2.7.4). An address without domain, such as
@@ -73,13 +75,34 @@ public class Envelope extends AbstractComparatorTest {
             return null;
         }
         if (localEnd == address.length()) {
-            return new String[] {address, ""};
+            return new String[] {unquoted(address), ""};
         }
         final String domain = address.substring(localEnd + 1);
         if (address.charAt(localEnd) != '@' || !isDomain(domain)) {
             return null;
         }
-        return new String[] {address.substring(0, localEnd), domain};
+        return new String[] {unquoted(address.substring(0, localEnd)), domain};
+    }
+
+    /**
+     * The content of a local part: a Quoted-string without its quotes and the
+     * backslashes of its quoted pairs, a Dot-string as it is.
+     */
+    private static String unquoted(String localPart) {
+        if (!localPart.startsWith("\"")) {
+            return localPart;
+        }
+        final StringBuilder content = new StringBuilder(localPart.length());
+        for (int i = 1; i < localPart.length() - 1; i++) {
+            final char c = localPart.charAt(i);
+            if (c == '\\') {
+                i++;
+                content.append(localPart.charAt(i));
+            } else {
+                content.append(c);
+            }
+        }
+        return content.toString();
     }
 
     /**
@@ -328,11 +351,12 @@ public class Envelope extends AbstractComparatorTest {
 
         // Extract the part of the address we are matching on
         final String address = address(headerValue);
+        final String[] parts = mailboxParts(address);
         String matchAddress = null;
         if (addressPart.equals(":all"))
-            matchAddress = address;
+            // an address that is no mailbox, or the null reverse-path, is compared as it is
+            matchAddress = parts == null || address.isEmpty() ? address : canonicalAddress(parts[0], parts[1]);
         else {
-            final String[] parts = mailboxParts(address);
             if (parts == null) {
                 return false;
             }

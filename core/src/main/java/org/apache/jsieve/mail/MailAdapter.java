@@ -283,6 +283,9 @@ public interface MailAdapter {
         /**
          * Gets the local part of the email address. Specified in <a
          * href='http://james.apache.org/server/rfclist/basic/rfc0822.txt'>RFC822</a>.
+         * A quoted local part is given by its content, without its quotes and
+         * the backslashes of its quoted pairs (RFC 5322 sections 3.2.1 and
+         * 3.2.4), as the mime4j Mailbox#getLocalPart gives it.
          * 
          * @return local part, not null
          */

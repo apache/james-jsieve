@@ -79,7 +79,7 @@ public class Address extends AbstractComparatorTest {
         // Extract the part of the address we are matching on
         final String matchAddress;
         if (addressPart.equals(":all"))
-            matchAddress = localPart + "@" + domain;
+            matchAddress = canonicalAddress(localPart, domain);
         else {
             matchAddress = (addressPart.equals(LOCALPART_TAG) ? localPart
                     : AsciiCasemap.toAsciiUpperCase(domain));

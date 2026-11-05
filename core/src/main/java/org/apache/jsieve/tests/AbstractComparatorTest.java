@@ -63,6 +63,59 @@ public abstract class AbstractComparatorTest extends AbstractTest {
         }
     }
 
+    /**
+     * The address that :all compares, written as RFC 5322 section 3.4.1 does:
+     * the local part as it is when the address parsers read it without quotes,
+     * else as a quoted string (RFC 5322 section 3.2.4), then "@" and the domain
+     * when there is one.
+     *
+     * @param localPart the content of the local part, not null
+     * @param domain the domain, empty when there is none, not null
+     * @return the address, not null
+     */
+    protected static String canonicalAddress(String localPart, String domain) {
+        final String local = isUnquotedLocalPart(localPart) ? localPart : quoted(localPart);
+        return domain.isEmpty() ? local : local + "@" + domain;
+    }
+
+    /**
+     * Is it a local part the address parsers read without quotes: an atext
+     * character, then atext characters or dots? A dot-atom (RFC 5322 section
+     * 3.2.3) is one, and so is a local part with consecutive or trailing dots,
+     * such as taro..yamada, which some providers give and the parsers accept
+     * unquoted.
+     */
+    private static boolean isUnquotedLocalPart(String text) {
+        if (text.isEmpty() || !isAtext(text.charAt(0))) {
+            return false;
+        }
+        for (int i = 1; i < text.length(); i++) {
+            if (text.charAt(i) != '.' && !isAtext(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Is it an atext character (RFC 5322 section 3.2.3), any non-ASCII one included (RFC 6532 section 3.2)? */
+    private static boolean isAtext(char c) {
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c >= 0x80
+                || "!#$%&'*+-/=?^_`{|}~".indexOf(c) >= 0;
+    }
+
+    /** The text as a quoted string, its quotes and backslashes as quoted pairs. */
+    private static String quoted(String text) {
+        final StringBuilder result = new StringBuilder(text.length() + 2).append('"');
+        for (int i = 0; i < text.length(); i++) {
+            final char c = text.charAt(i);
+            if (c == '"' || c == '\\') {
+                result.append('\\');
+            }
+            result.append(c);
+        }
+        return result.append('"').toString();
+    }
+
     /** The arguments validateArguments checked, for executeBasic. */
     private ComparatorTestArguments checkedArguments;
 

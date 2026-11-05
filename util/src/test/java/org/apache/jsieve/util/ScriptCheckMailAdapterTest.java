@@ -133,6 +133,13 @@ public class ScriptCheckMailAdapterTest {
     }
 
     @Test
+    public void getHeaderShouldKeepAnEncodedWordOfAnUnknownCharsetAsWritten() throws Exception {
+        ScriptCheckMailAdapter testee = adapterFor("Subject: =?x-unknown?q?a?= b\r\n\r\nbody\r\n");
+
+        assertThat(testee.getMatchingHeader("Subject")).containsExactly("=?x-unknown?q?a?= b");
+    }
+
+    @Test
     public void parseAddressesShouldNotReadAnAddressOutOfAnEncodedWord() throws Exception {
         ScriptCheckMailAdapter testee = adapterFor("To: =?utf-8?q?evil=40attacker=2Ecom=2C?= <user@example.com>\r\n\r\nbody\r\n");
 

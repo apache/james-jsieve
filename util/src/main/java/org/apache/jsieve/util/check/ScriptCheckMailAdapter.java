@@ -62,6 +62,19 @@ public class ScriptCheckMailAdapter implements MailAdapter {
         return FOLDING.matcher(value).replaceAll("");
     }
 
+    /**
+     * Decodes the encoded words of a header field value (RFC 2047), or keeps
+     * the value as written when one names a charset Java does not know: RFC
+     * 2047 section 6.2 lets a reader show such a word as it is.
+     */
+    private static String decode(String value) {
+        try {
+            return MimeUtility.decodeText(value);
+        } catch (UnsupportedEncodingException e) {
+            return value;
+        }
+    }
+
     private final List<Action> actions;
 
     private final List<Action> executedActions;
@@ -162,12 +175,10 @@ public class ScriptCheckMailAdapter implements MailAdapter {
                     final Header header = (Header) en.nextElement();
                     if (header.getName().equals(name)) {
                         // We need to do unfold headers + decoding here
-                        result.add(MimeUtility.decodeText(unfold(header.getValue())));
+                        result.add(decode(unfold(header.getValue())));
                     }
                 }
             } catch (MessagingException e) {
-                throw new SieveMailException(e);
-            } catch (UnsupportedEncodingException e) {
                 throw new SieveMailException(e);
             }
         }

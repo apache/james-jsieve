@@ -52,6 +52,10 @@ To discover which extensions the current configuration supports:
 List<String> extensions = sieveFactory.getExtensions();
 ----
 
+Each entry is the capability string a script names in `require`, such as `fileinto` or
+`comparator-i;ascii-numeric`, so the list can be given as the ManageSieve `SIEVE` capability
+(RFC 5804 section 1.7).
+
 == Running a script
 
 `SieveFactory` exposes three operations.

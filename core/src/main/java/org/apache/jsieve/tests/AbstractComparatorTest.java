@@ -163,6 +163,7 @@ public abstract class AbstractComparatorTest extends AbstractTest {
         if (null == headerNames)
             throw context.getCoordinate().syntaxException(
                     "Expecting a StringList of header names");
+        validateHeaderNames(headerNames, context);
 
         // The next argument MUST be a string-list of keys
         if (argumentsIter.hasNext()) {
@@ -257,6 +258,18 @@ public abstract class AbstractComparatorTest extends AbstractTest {
     protected abstract boolean match(MailAdapter mail, String addressPart,
             String comparator, String matchType, String headerName, String key,
             SieveContext context) throws SieveException;
+
+    /**
+     * Checks the header names, or the envelope parts, the test compares. Every
+     * name is accepted here.
+     *
+     * @param headerNames not null
+     * @param context not null
+     * @throws SieveException when a name is not accepted
+     */
+    protected void validateHeaderNames(List<String> headerNames, SieveContext context)
+            throws SieveException {
+    }
 
     /**
      * @see org.apache.jsieve.tests.AbstractTest#validateArguments(Arguments,

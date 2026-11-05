@@ -294,6 +294,23 @@ public class Envelope extends AbstractComparatorTest {
     }
 
     /**
+     * RFC 5228 section 5.4 defines the "from" and "to" envelope parts, case
+     * insensitive, and implementations SHOULD consider unknown envelope parts
+     * an error: jSieve implements no extension defining another one.
+     */
+    @Override
+    protected void validateHeaderNames(List<String> envelopeParts, SieveContext context)
+            throws SieveException {
+        for (final String envelopePart : envelopeParts) {
+            final String name = AsciiCasemap.toAsciiUpperCase(envelopePart);
+            if (!name.equals("FROM") && !name.equals("TO")) {
+                throw context.getCoordinate().syntaxException(
+                        "Unknown envelope part \"" + envelopePart + "\", expecting \"from\" or \"to\"");
+            }
+        }
+    }
+
+    /**
      * Method match.
      * 
      * @param addressPart

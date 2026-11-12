@@ -76,15 +76,42 @@ public class SieveFactory {
     private final TestManager testManager;
 
     /**
-     * Constructor for SieveFactory.
+     * Default number of characters the comparisons of a single evaluation may
+     * compare: seconds of work.
+     */
+    public static final long DEFAULT_COMPARISON_BUDGET = 10_000_000_000L;
+
+    private final long comparisonBudget;
+
+    /**
+     * Constructor for SieveFactory, using the
+     * {@link #DEFAULT_COMPARISON_BUDGET}.
      */
     public SieveFactory(final CommandManager commandManager,
             final ComparatorManager comparatorManager,
             final TestManager testManager) {
+        this(commandManager, comparatorManager, testManager, DEFAULT_COMPARISON_BUDGET);
+    }
+
+    /**
+     * Constructor for SieveFactory.
+     *
+     * @param comparisonBudget the number of characters the comparisons of a
+     * single evaluation may compare. An evaluation going beyond fails
+     * with a {@link SieveException}.
+     */
+    public SieveFactory(final CommandManager commandManager,
+            final ComparatorManager comparatorManager,
+            final TestManager testManager,
+            final long comparisonBudget) {
         super();
+        if (comparisonBudget < 0) {
+            throw new IllegalArgumentException("The comparison budget cannot be negative");
+        }
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
         this.testManager = testManager;
+        this.comparisonBudget = comparisonBudget;
     }
 
     /**
@@ -147,7 +174,7 @@ public class SieveFactory {
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
         final SieveContext context = new BaseSieveContext(commandManager,
-                comparatorManager, testManager);
+                comparatorManager, testManager, comparisonBudget);
         try {
             // Ensure that the context is set on the mail
             mail.setContext(context);

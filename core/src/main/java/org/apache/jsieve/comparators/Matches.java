@@ -19,6 +19,7 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.SieveException;
 
 /**
@@ -35,5 +36,25 @@ public interface Matches {
      * @return boolean
      */
     public boolean matches(String string, String glob) throws SieveException;
+
+    /**
+     * Same as {@link #matches(String, String)}, charging the evaluation
+     * budget of the context with the characters compared. Its cost being
+     * unknown, an implementation that does not override this method is
+     * charged the worst case of a glob matcher before running: the product of
+     * the lengths.
+     *
+     * @param string not null
+     * @param glob not null
+     * @param context not null
+     * @return boolean
+     * @throws SieveException when the glob is invalid or the budget is
+     * exhausted
+     */
+    default boolean matches(String string, String glob, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.quadraticCost(string, glob));
+        return matches(string, glob);
+    }
 
 }

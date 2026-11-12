@@ -19,6 +19,8 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
 
 /**
@@ -59,6 +61,28 @@ public class AsciiCasemap implements Comparator {
             throws SievePatternException {
         return ComparatorUtils.matches(toAsciiUpperCase(string),
                 toAsciiUpperCase(glob));
+    }
+
+    /**
+     * The search being linear, charges the lengths.
+     * @see org.apache.jsieve.comparators.Contains#contains(String, String, SieveContext)
+     */
+    @Override
+    public boolean contains(String container, String content, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.linearCost(container, content));
+        return contains(container, content);
+    }
+
+    /**
+     * Charges the steps the matcher takes.
+     * @see org.apache.jsieve.comparators.Matches#matches(String, String, SieveContext)
+     */
+    @Override
+    public boolean matches(String string, String glob, SieveContext context)
+            throws SieveException {
+        return ComparatorUtils.matches(toAsciiUpperCase(string),
+                toAsciiUpperCase(glob), context);
     }
 
     /**

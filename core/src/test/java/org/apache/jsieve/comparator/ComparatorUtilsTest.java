@@ -122,6 +122,36 @@ public class ComparatorUtilsTest {
     }
 
     @Test
+    public void containsShouldFindContentsOverlappingAPartialMatch() throws Exception {
+        Assert.assertTrue(ComparatorUtils.contains("aabaabaaab", "aaab"));
+        Assert.assertTrue(ComparatorUtils.contains("abababc", "ababc"));
+        Assert.assertTrue(ComparatorUtils.contains("abcabd", "abd"));
+        Assert.assertTrue(ComparatorUtils.contains("", ""));
+        Assert.assertTrue(ComparatorUtils.contains("abc", ""));
+        Assert.assertFalse(ComparatorUtils.contains("aaa", "aaaa"));
+        Assert.assertFalse(ComparatorUtils.contains("", "a"));
+    }
+
+    @Test
+    public void containsShouldAgreeWithIndexOfOnRandomStrings() throws Exception {
+        Random random = new Random(42);
+        for (int i = 0; i < 20_000; i++) {
+            String container = randomAbc(random, random.nextInt(12));
+            String contents = randomAbc(random, random.nextInt(5));
+            Assert.assertEquals("container=" + container + " contents=" + contents,
+                container.contains(contents), ComparatorUtils.contains(container, contents));
+        }
+    }
+
+    private static String randomAbc(Random random, int length) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            builder.append((char) ('a' + random.nextInt(3)));
+        }
+        return builder.toString();
+    }
+
+    @Test
     public void supplementaryCharacterShouldNotBeAWildcard() throws Exception {
         // U+1002A must not be truncated into '*'
         Assert.assertFalse(ComparatorUtils.matches("x", "\uD800\uDC2A"));

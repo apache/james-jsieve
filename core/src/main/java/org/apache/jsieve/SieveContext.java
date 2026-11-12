@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.SieveException;
+
 /**
  * Context for sieve operations.
  * 
@@ -75,4 +77,15 @@ public abstract class SieveContext {
      * @return test manager, not null
      */
     public abstract TestManager getTestManager();
+
+    /**
+     * Charges the evaluation budget with a comparison of the given cost,
+     * in characters compared.
+     * By default, evaluation is not limited.
+     *
+     * @param cost not negative
+     * @throws SieveException when the budget is exhausted
+     */
+    public void chargeComparison(long cost) throws SieveException {
+    }
 }

@@ -19,7 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.FeatureException;
+import org.apache.jsieve.exception.SieveException;
 
 
 /**
@@ -38,5 +40,25 @@ public interface Contains {
      * @throws FeatureException when substring is unsupported
      */
     public boolean contains(String container, String content) throws FeatureException;
+
+    /**
+     * Same as {@link #contains(String, String)}, charging the evaluation
+     * budget of the context with the characters compared. Its cost being
+     * unknown, an implementation that does not override this method is
+     * charged the worst case of a naive search before running: the product of
+     * the lengths.
+     *
+     * @param container not null
+     * @param content not null
+     * @param context not null
+     * @return boolean
+     * @throws SieveException when substring is unsupported or the budget is
+     * exhausted
+     */
+    default boolean contains(String container, String content, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.quadraticCost(container, content));
+        return contains(container, content);
+    }
 
 }

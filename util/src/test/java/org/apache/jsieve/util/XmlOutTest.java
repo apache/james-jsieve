@@ -65,4 +65,15 @@ public class XmlOutTest {
         assertThat(write("\uD83Dx", "").getAttribute("a")).isEqualTo("?x");
     }
 
+    @Test
+    public void anEmptyNonStringPrefixShouldNotQualifyTheName() throws Exception {
+        StringWriter writer = new StringWriter();
+        XmlOut out = new XmlOut(writer);
+        out.openElement("e");
+        out.attribute("a", "urn:x", new StringBuilder(), "v");
+        out.closeElement();
+
+        assertThat(writer.toString()).contains(" a=").doesNotContain(":a=");
+    }
+
 }

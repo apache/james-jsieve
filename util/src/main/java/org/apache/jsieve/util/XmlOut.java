@@ -654,7 +654,7 @@ public final class XmlOut implements SieveToXml.Out {
 
     private CharSequence toName(CharSequence localName, CharSequence uri, CharSequence prefix) {
         final CharSequence name;
-        if (prefix == null || "".equals(prefix) || uri == null || "".equals(uri)) {
+        if (prefix == null || prefix.length() == 0 || uri == null || uri.length() == 0) {
             name = localName;
         } else {
             name = prefix + ":" + localName;

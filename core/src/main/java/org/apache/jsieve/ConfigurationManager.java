@@ -97,6 +97,8 @@ public class ConfigurationManager {
      */
     private int initialConcurrencyLevel = DEFAULT_INITIAL_CONCURRENCY_LEVEL;
 
+    private long comparisonBudget = SieveFactory.DEFAULT_COMPARISON_BUDGET;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationManager.class);
 
     /**
@@ -280,8 +282,22 @@ public class ConfigurationManager {
         return new TestManagerImpl(fieldTestMap);
     }
 
+    /**
+     * Sets the number of characters the comparisons of a single evaluation
+     * may compare, {@link SieveFactory#DEFAULT_COMPARISON_BUDGET}
+     * by default.
+     *
+     * @param comparisonBudget not negative
+     */
+    public void setComparisonBudget(long comparisonBudget) {
+        if (comparisonBudget < 0) {
+            throw new IllegalArgumentException("The comparison budget cannot be negative");
+        }
+        this.comparisonBudget = comparisonBudget;
+    }
+
     public SieveFactory build() {
         return new SieveFactory(getCommandManager(), getComparatorManager(),
-                getTestManager());
+                getTestManager(), comparisonBudget);
     }
 }

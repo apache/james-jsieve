@@ -75,8 +75,10 @@ public class ComparatorUtils {
             String matchTarget, String matchArgument, SieveContext context)
             throws SieveException {
         boolean isMatched = false;
-        if (matchType.equals(IS_TAG))
+        if (matchType.equals(IS_TAG)) {
+            context.chargeComparison(linearCost(matchTarget, matchArgument));
             isMatched = is(comparatorName, matchTarget, matchArgument, context);
+        }
         else if (matchType.equals(CONTAINS_TAG))
             isMatched = contains(comparatorName, matchTarget, matchArgument,
                     context);
@@ -85,6 +87,31 @@ public class ComparatorUtils {
                     context);
         return isMatched;
     }
+
+    /**
+     * Cost, in characters compared, of a comparison linear in the length of
+     * its values, such as <code>:is</code> or {@link #contains(String, String)}.
+     */
+    static long linearCost(String first, String second) {
+        return first.length() + 1L + second.length() + 1L;
+    }
+
+    /**
+     * Cost, in characters compared, of a comparison quadratic in the length
+     * of its values: the worst case of a naive substring search or of a glob
+     * matcher.
+     */
+    static long quadraticCost(String first, String second) {
+        // Lengths are below 2^31: the product cannot overflow
+        return (first.length() + 1L) * (second.length() + 1L);
+    }
+
+    /**
+     * Number of steps of the glob matcher charged to the evaluation budget at
+     * once: the budget is checked as the matcher runs, without charging it
+     * at each step.
+     */
+    private static final int STEPS_CHARGED_AT_ONCE = 1 << 16;
 
     /**
      * <p>
@@ -107,6 +134,31 @@ public class ComparatorUtils {
      */
     static public boolean matches(String string, String glob)
             throws SievePatternException {
+        try {
+            return matches(string, glob, null);
+        } catch (SieveException e) {
+            // Not reached: nothing is charged without context
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * Same as {@link #matches(String, String)}, charging the evaluation
+     * budget of the context with the steps the matcher really takes, so that
+     * a pathological glob fails once the budget is exhausted while an
+     * ordinary one on a large value is charged little more than its length.
+     *
+     * @param string not null
+     * @param glob not null
+     * @param context charged with the steps taken, nothing charged when null
+     * @return boolean
+     * @throws SieveException when the budget is exhausted
+     */
+    static public boolean matches(String string, String glob, SieveContext context)
+            throws SieveException {
+        if (context != null) {
+            context.chargeComparison(linearCost(string, glob));
+        }
         final int[] pattern = compileGlob(glob);
         final int[] target = string.codePoints().toArray();
 
@@ -116,7 +168,14 @@ public class ComparatorUtils {
         int afterStar = -1;
         // Position in the target the last star is currently matched up to
         int starMatchEnd = 0;
+        // Steps taken and not charged yet
+        int uncharged = 0;
+        boolean mismatch = false;
         while (t < target.length) {
+            if (context != null && ++uncharged == STEPS_CHARGED_AT_ONCE) {
+                context.chargeComparison(uncharged);
+                uncharged = 0;
+            }
             if (p < pattern.length && pattern[p] == GLOB_STAR) {
                 afterStar = ++p;
                 starMatchEnd = t;
@@ -130,8 +189,15 @@ public class ComparatorUtils {
                 p = afterStar;
                 t = ++starMatchEnd;
             } else {
-                return false;
+                mismatch = true;
+                break;
             }
+        }
+        if (context != null) {
+            context.chargeComparison(uncharged);
+        }
+        if (mismatch) {
+            return false;
         }
         while (p < pattern.length && pattern[p] == GLOB_STAR) {
             p++;
@@ -181,21 +247,61 @@ public class ComparatorUtils {
      * Like <code>:matches</code>, it compares characters (RFC 5228 section
      * 2.7.1): a match never starts or ends inside a surrogate pair.
      * </p>
+     * <p>
+     * The search is linear (Knuth-Morris-Pratt): it compares at most
+     * <code>2 * container length + contents length</code> characters,
+     * whatever the values.
+     * </p>
      *
      * @param container
      * @param contents
      * @return boolean
      */
     static public boolean contains(String container, String contents) {
-        int index = container.indexOf(contents);
-        while (index >= 0) {
-            if (!splitsSurrogatePair(container, index)
-                    && !splitsSurrogatePair(container, index + contents.length())) {
-                return true;
+        final int length = contents.length();
+        if (length == 0) {
+            return true;
+        }
+        final int[] border = borders(contents);
+        // Number of characters of contents matched so far
+        int matched = 0;
+        for (int i = 0; i < container.length(); i++) {
+            final char c = container.charAt(i);
+            while (matched > 0 && contents.charAt(matched) != c) {
+                matched = border[matched - 1];
             }
-            index = container.indexOf(contents, index + 1);
+            if (contents.charAt(matched) == c) {
+                matched++;
+            }
+            if (matched == length) {
+                final int end = i + 1;
+                if (!splitsSurrogatePair(container, end - length)
+                        && !splitsSurrogatePair(container, end)) {
+                    return true;
+                }
+                matched = border[matched - 1];
+            }
         }
         return false;
+    }
+
+    /**
+     * Knuth-Morris-Pratt failure function: for each prefix of the string,
+     * the length of its longest proper prefix that is also a suffix.
+     */
+    private static int[] borders(String string) {
+        final int[] border = new int[string.length()];
+        int length = 0;
+        for (int i = 1; i < string.length(); i++) {
+            while (length > 0 && string.charAt(i) != string.charAt(length)) {
+                length = border[length - 1];
+            }
+            if (string.charAt(i) == string.charAt(length)) {
+                length++;
+            }
+            border[i] = length;
+        }
+        return border;
     }
 
     private static boolean splitsSurrogatePair(String string, int index) {
@@ -232,7 +338,7 @@ public class ComparatorUtils {
     public static boolean contains(String comparatorName, String container,
             String contents, SieveContext context) throws SieveException {
         Contains comparatorObj = context.getComparatorManager().getComparator(comparatorName);
-        return comparatorObj.contains(container, contents);
+        return comparatorObj.contains(container, contents, context);
     }
 
     /**
@@ -265,7 +371,7 @@ public class ComparatorUtils {
     public static boolean matches(String comparatorName, String string,
             String glob, SieveContext context) throws SieveException {
         Matches comparatorObj = context.getComparatorManager().getComparator(comparatorName);
-        return comparatorObj.matches(string, glob);
+        return comparatorObj.matches(string, glob, context);
     }
 
 }

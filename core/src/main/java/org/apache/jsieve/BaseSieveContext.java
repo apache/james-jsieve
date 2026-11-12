@@ -19,6 +19,8 @@
 
 package org.apache.jsieve;
 
+import org.apache.jsieve.exception.SieveException;
+
 /**
  * Bean based implementation of context.
  */
@@ -36,9 +38,26 @@ public class BaseSieveContext extends SieveContext {
 
     private final TestManager testManager;
 
+    private long remainingComparisonBudget;
+
     public BaseSieveContext(final CommandManager commandManager,
                             final ComparatorManager comparatorManager,
                             final TestManager testManager) {
+        this(commandManager, comparatorManager, testManager, Long.MAX_VALUE);
+    }
+
+    /**
+     * @param comparisonBudget the number of characters the comparisons of an
+     * evaluation may compare, see {@link #chargeComparison(long)}
+     */
+    public BaseSieveContext(final CommandManager commandManager,
+                            final ComparatorManager comparatorManager,
+                            final TestManager testManager,
+                            final long comparisonBudget) {
+        if (comparisonBudget < 0) {
+            throw new IllegalArgumentException("The comparison budget cannot be negative");
+        }
+        this.remainingComparisonBudget = comparisonBudget;
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
@@ -112,5 +131,17 @@ public class BaseSieveContext extends SieveContext {
     @Override
     public TestManager getTestManager() {
         return testManager;
+    }
+
+    /**
+     * @see SieveContext#chargeComparison(long)
+     */
+    @Override
+    public void chargeComparison(long cost) throws SieveException {
+        if (cost > remainingComparisonBudget) {
+            remainingComparisonBudget = 0;
+            throw new SieveException("Evaluation budget exceeded: the script compares too much content");
+        }
+        remainingComparisonBudget -= cost;
     }
 }

@@ -47,6 +47,17 @@ public class AsciiCasemap implements Comparator {
     }
 
     /**
+     * The comparison being linear, charges the lengths.
+     * @see org.apache.jsieve.comparators.Equals#equals(String, String, SieveContext)
+     */
+    @Override
+    public boolean equals(String string1, String string2, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.linearCost(string1, string2));
+        return equals(string1, string2);
+    }
+
+    /**
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
     public boolean contains(String container, String content) {

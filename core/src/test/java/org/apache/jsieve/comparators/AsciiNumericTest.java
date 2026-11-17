@@ -92,6 +92,26 @@ public class AsciiNumericTest {
     }
 
     @Test
+    public void zerosShouldBeEqual() throws Exception {
+        Assert.assertTrue(subject.equals("0", "000"));
+        Assert.assertTrue(subject.equals("00A", "0"));
+        Assert.assertFalse(subject.equals("0", "001"));
+    }
+
+    @Test
+    public void equalityShouldCompareEveryDigit() throws Exception {
+        Assert.assertTrue(subject.equals("00123456789123456789", "123456789123456789x"));
+        Assert.assertFalse(subject.equals("123456789123456789", "123456789123456788"));
+        Assert.assertFalse(subject.equals("12345678912345678", "123456789123456789"));
+    }
+
+    @Test
+    public void nonAsciiDigitsShouldEndTheNumber() throws Exception {
+        Assert.assertTrue(subject.equals("12\u0663", "12"));
+        Assert.assertFalse(subject.equals("\u0663", "3"));
+    }
+
+    @Test
     public void testStingsThatDoNotStartWithADigitRepresentPositiveInfinityWhenUsedInEquality() throws Exception {
         Assert.assertFalse(subject.equals("1", "A4"));
         Assert.assertFalse(subject.equals("x", "4"));

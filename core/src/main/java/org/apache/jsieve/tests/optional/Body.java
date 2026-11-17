@@ -123,7 +123,9 @@ public class Body extends AbstractTest {
             }
             return false;
         }
-        // the case insensitive search the MailAdapter has always offered
+        // the case insensitive search the MailAdapter has always offered,
+        // charged as :contains: the size of the mail for each key
+        chargeSearch(mail, ctx);
         if (transformation.getTag().equals(RAW)) {
             return mail.isInBodyRaw(valuesToBeMatched.getList());
         } else if (transformation.getTag().equals(CONTENT)) {
@@ -132,6 +134,18 @@ public class Body extends AbstractTest {
             return mail.isInBodyText(valuesToBeMatched.getList());
         } else {
             throw new RuntimeException("Invalid transformation caught. Is your argument parsing buggy ?");
+        }
+    }
+
+    /**
+     * The MailAdapter searches the mail for each key: charges, as a linear
+     * :contains, the size of the mail plus the length of the key for each
+     * key, an unknown size being charged nothing.
+     */
+    private void chargeSearch(MailAdapter mail, SieveContext ctx) throws SieveException {
+        final long size = Math.max(mail.getSize(), 0);
+        for (String key : valuesToBeMatched.getList()) {
+            ctx.chargeComparison(size + 1L + key.length() + 1L);
         }
     }
 

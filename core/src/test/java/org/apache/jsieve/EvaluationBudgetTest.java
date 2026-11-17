@@ -103,6 +103,28 @@ public class EvaluationBudgetTest {
     }
 
     @Test
+    public void theSearchOfTheBodyByTheMailAdapterShouldBeCharged() throws Exception {
+        SieveMailAdapter mail = mailWithBody("lorem ipsum dolor sit amet ".repeat(40_000));
+        String test = "if body :contains \"absent\" { discard; }";
+        String script = "require \"body\"; " + test.repeat(100);
+
+        assertThatThrownBy(() -> factoryWithBudget(10_000_000).interpret(mail, script(script)))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+        assertThat(mail.getActions()).isEmpty();
+    }
+
+    @Test
+    public void aSearchOfTheBodyWithinTheBudgetShouldBeEvaluated() throws Exception {
+        SieveMailAdapter mail = mailWithBody("Gone for holidays");
+        String script = "require \"body\"; if body :contains [\"absent\", \"HOLIDAYS\"] { discard; }";
+
+        factoryWithBudget(10_000).interpret(mail, script(script));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test
     public void aComparatorWithoutCostShouldBeChargedTheWorstCase() throws Exception {
         ConfigurationManager configurationManager = new ConfigurationManager();
         SieveContext context = new BaseSieveContext(configurationManager.getCommandManager(),
@@ -190,6 +212,14 @@ public class EvaluationBudgetTest {
 
     private static ByteArrayInputStream script(String script) {
         return new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static SieveMailAdapter mailWithBody(String body) throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().setText(body);
+        mail.getMessage().saveChanges();
+        // copied so that JavaMail reports the size of the whole message
+        return (SieveMailAdapter) JUnitUtils.copyMail(mail);
     }
 
     private static SieveMailAdapter mailWithSubject(String subject) throws Exception {

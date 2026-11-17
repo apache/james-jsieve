@@ -170,6 +170,9 @@ public interface MailAdapter {
     /**
      * Is the given phrase found in the body text of this mail?
      * This search should be case insensitive.
+     * The body test charges the evaluation, before calling it, with
+     * {@link #getSize()} plus the length of the phrase for each phrase: the
+     * search should be linear in the size of the mail for each phrase.
      * @param phrasesCaseInsensitive the phrases to search
      * @return true when the mail has a textual body and contains the phrase
      * (case insensitive), false otherwise
@@ -181,6 +184,9 @@ public interface MailAdapter {
     /**
      * Is the given phrase found in the body raw of this mail?
      * This search should be case insensitive and the mail should not be decoded.
+     * The body test charges the evaluation, before calling it, with
+     * {@link #getSize()} plus the length of the phrase for each phrase: the
+     * search should be linear in the size of the mail for each phrase.
      * @param phrasesCaseInsensitive the phrases to search
      * @return true when the mail has a textual body and contains the phrase
      * (case insensitive), false otherwise
@@ -192,6 +198,9 @@ public interface MailAdapter {
     /**
      * Is the given phrase found in the body contents of the specified content types of this mail?
      * This search should be case insensitive.
+     * The body test charges the evaluation, before calling it, with
+     * {@link #getSize()} plus the length of the phrase for each phrase: the
+     * search should be linear in the size of the mail for each phrase.
      * @param contentTypes Content types of the body parts we should search into.
      * @param phrasesCaseInsensitive the phrases to search
      * @return true when the mail has a textual body and contains the phrase

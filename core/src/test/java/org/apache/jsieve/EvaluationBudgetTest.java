@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.jsieve.comparators.Contains;
+import org.apache.jsieve.comparators.Equals;
 import org.apache.jsieve.comparators.Matches;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionDiscard;
@@ -86,6 +87,21 @@ public class EvaluationBudgetTest {
         assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
     }
 
+    @Test(timeout = 30_000)
+    public void manyAsciiNumericKeysOnAMegabyteOfDigitsShouldBeEvaluatedInLinearTime() throws Exception {
+        String digits = "7".repeat(1_000_000);
+        SieveMailAdapter mail = mailWithSubject(digits);
+        String keys = IntStream.range(0, 100)
+            .mapToObj(i -> "\"" + "7".repeat(1_000) + i + "\"")
+            .collect(Collectors.joining(", "));
+        String script = "require \"comparator-i;ascii-numeric\";"
+            + " if header :comparator \"i;ascii-numeric\" :is \"Subject\" [" + keys + ", \"000" + digits + "\"] { discard; }";
+
+        JUnitUtils.interpret(mail, script);
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
     @Test
     public void aComparatorWithoutCostShouldBeChargedTheWorstCase() throws Exception {
         ConfigurationManager configurationManager = new ConfigurationManager();
@@ -93,11 +109,15 @@ public class EvaluationBudgetTest {
             configurationManager.getComparatorManager(), configurationManager.getTestManager(), 1_000);
         Contains naiveContains = String::contains;
         Matches naiveMatches = (string, glob) -> string.equals(glob);
+        Equals naiveEquals = String::equals;
 
         assertThatThrownBy(() -> naiveContains.contains("a".repeat(100), "b".repeat(10), context))
             .isInstanceOf(SieveException.class)
             .hasMessageContaining("budget");
         assertThatThrownBy(() -> naiveMatches.matches("a".repeat(100), "b".repeat(10), context))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+        assertThatThrownBy(() -> naiveEquals.equals("a".repeat(100), "b".repeat(10), context))
             .isInstanceOf(SieveException.class)
             .hasMessageContaining("budget");
     }

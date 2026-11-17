@@ -19,9 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.FeatureException;
-
-import java.math.BigInteger;
+import org.apache.jsieve.exception.SieveException;
 
 /**
  * Class AsciiNumeric implements the EQUALITY operation of the i;ascii-numeric
@@ -37,33 +37,57 @@ public class AsciiNumeric implements Comparator {
     }
 
     /**
+     * Compares the leading digits of the values as numbers, without parsing
+     * them: linear in their length, whatever the number of digits.
+     *
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
     public boolean equals(String string1, String string2) {
-        final boolean result;
-        if (isPositiveInfinity(string1)) {
-            result = isPositiveInfinity(string2);
-        } else {
-            if (isPositiveInfinity(string2)) {
-                result = false;
-            } else {
-                final BigInteger integer1 = toInteger(string1);
-                final BigInteger integer2 = toInteger(string2);
-                result = integer1.equals(integer2);
-            }
+        if (isPositiveInfinity(string1) || isPositiveInfinity(string2)) {
+            return isPositiveInfinity(string1) && isPositiveInfinity(string2);
         }
-        return result;
+        final int end1 = digitEnd(string1);
+        final int end2 = digitEnd(string2);
+        final int start1 = firstSignificantDigit(string1, end1);
+        final int start2 = firstSignificantDigit(string2, end2);
+        final int length = end1 - start1;
+        return length == end2 - start2
+                && string1.regionMatches(start1, string2, start2, length);
     }
 
-    private BigInteger toInteger(final String value) {
-        int i;
-        for (i = 0; i < value.length(); i++) {
-            final char next = value.charAt(i);
-            if (!isDigit(next)) {
-                break;
-            }
+    /**
+     * The comparison being linear, charges the lengths.
+     * @see org.apache.jsieve.comparators.Equals#equals(String, String, SieveContext)
+     */
+    @Override
+    public boolean equals(String string1, String string2, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.linearCost(string1, string2));
+        return equals(string1, string2);
+    }
+
+    /**
+     * Index of the first character that is not a digit, the length of the
+     * value when all are.
+     */
+    private int digitEnd(final String value) {
+        int i = 0;
+        while (i < value.length() && isDigit(value.charAt(i))) {
+            i++;
         }
-        return new BigInteger(value.substring(0, i));
+        return i;
+    }
+
+    /**
+     * Index of the first digit that is not a leading zero, the last digit
+     * standing for zero when all are.
+     */
+    private int firstSignificantDigit(final String value, final int digitEnd) {
+        int i = 0;
+        while (i < digitEnd - 1 && value.charAt(i) == '0') {
+            i++;
+        }
+        return i;
     }
 
     /**

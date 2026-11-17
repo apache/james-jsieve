@@ -22,7 +22,6 @@ package org.apache.jsieve.comparators;
 import java.util.Arrays;
 
 import org.apache.jsieve.SieveContext;
-import org.apache.jsieve.exception.LookupException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.exception.SievePatternException;
 
@@ -75,10 +74,8 @@ public class ComparatorUtils {
             String matchTarget, String matchArgument, SieveContext context)
             throws SieveException {
         boolean isMatched = false;
-        if (matchType.equals(IS_TAG)) {
-            context.chargeComparison(linearCost(matchTarget, matchArgument));
+        if (matchType.equals(IS_TAG))
             isMatched = is(comparatorName, matchTarget, matchArgument, context);
-        }
         else if (matchType.equals(CONTAINS_TAG))
             isMatched = contains(comparatorName, matchTarget, matchArgument,
                     context);
@@ -352,9 +349,9 @@ public class ComparatorUtils {
      * @return boolean
      */
     public static boolean is(String comparatorName, String string1,
-            String string2, SieveContext context) throws LookupException {
+            String string2, SieveContext context) throws SieveException {
         Equals comparatorObj = context.getComparatorManager().getComparator(comparatorName);
-        return comparatorObj.equals(string1, string2);
+        return comparatorObj.equals(string1, string2, context);
     }
 
     /**

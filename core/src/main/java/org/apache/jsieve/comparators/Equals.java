@@ -19,6 +19,9 @@
 
 package org.apache.jsieve.comparators;
 
+import org.apache.jsieve.SieveContext;
+import org.apache.jsieve.exception.SieveException;
+
 /**
  * Interface Equals defines the method signatures for equals comparators.
  */
@@ -33,4 +36,22 @@ public interface Equals {
      * @return boolean
      */
     public boolean equals(String string1, String string2);
+
+    /**
+     * Same as {@link #equals(String, String)}, charging the evaluation
+     * budget of the context with the characters compared. Its cost being
+     * unknown, an implementation that does not override this method is
+     * charged the product of the lengths before running.
+     *
+     * @param string1 not null
+     * @param string2 not null
+     * @param context not null
+     * @return boolean
+     * @throws SieveException when the budget is exhausted
+     */
+    default boolean equals(String string1, String string2, SieveContext context)
+            throws SieveException {
+        context.chargeComparison(ComparatorUtils.quadraticCost(string1, string2));
+        return equals(string1, string2);
+    }
 }

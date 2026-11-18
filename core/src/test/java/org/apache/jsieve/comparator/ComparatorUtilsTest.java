@@ -183,6 +183,15 @@ public class ComparatorUtilsTest {
     }
 
     @Test
+    public void questionMarkShouldMatchAnUnpairedSurrogate() throws Exception {
+        assertMatch("a\uD83Db", "a?b");
+        assertMatch("a\uDE00b", "a?b");
+        assertNoMatch("a\uD83D\uDE00b", "a??b");
+        assertMatch("\uDE00\uD83D\uDE00", "*?");
+        assertMatch("\uDE00\uD83D\uDE00", "??");
+    }
+
+    @Test
     public void supplementaryCharacterShouldNotBeAWildcard() throws Exception {
         // U+1002A must not be truncated into '*'
         Assert.assertFalse(ComparatorUtils.matches("x", "\uD800\uDC2A"));
@@ -293,7 +302,7 @@ public class ComparatorUtilsTest {
     }
 
     private static final String[] ALPHABET = {"a", "b", "A", "*", "?", "\\", ".", "\n", "\r",
-            "ß", "😀"};
+            "ß", "😀", "\uD83D", "\uDE00"};
 
     private static String randomString(Random random, int maxLength) {
         int length = random.nextInt(maxLength + 1);

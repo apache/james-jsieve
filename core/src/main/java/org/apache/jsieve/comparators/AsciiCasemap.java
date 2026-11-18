@@ -42,8 +42,7 @@ public class AsciiCasemap implements Comparator {
      * @see org.apache.jsieve.comparators.Equals#equals(String, String)
      */
     public boolean equals(String string1, String string2) {
-        return ComparatorUtils.equals(toAsciiUpperCase(string1),
-                toAsciiUpperCase(string2));
+        return ComparatorUtils.equalsIgnoringAsciiCase(string1, string2);
     }
 
     /**
@@ -61,8 +60,7 @@ public class AsciiCasemap implements Comparator {
      * @see org.apache.jsieve.comparators.Contains#contains(String, String)
      */
     public boolean contains(String container, String content) {
-        return ComparatorUtils.contains(toAsciiUpperCase(container),
-                toAsciiUpperCase(content));
+        return ComparatorUtils.contains(container, content, true);
     }
 
     /**
@@ -70,8 +68,14 @@ public class AsciiCasemap implements Comparator {
      */
     public boolean matches(String string, String glob)
             throws SievePatternException {
-        return ComparatorUtils.matches(toAsciiUpperCase(string),
-                toAsciiUpperCase(glob));
+        try {
+            return ComparatorUtils.matches(string, glob, null, true);
+        } catch (SievePatternException e) {
+            throw e;
+        } catch (SieveException e) {
+            // Not reached: nothing is charged without context
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -92,8 +96,7 @@ public class AsciiCasemap implements Comparator {
     @Override
     public boolean matches(String string, String glob, SieveContext context)
             throws SieveException {
-        return ComparatorUtils.matches(toAsciiUpperCase(string),
-                toAsciiUpperCase(glob), context);
+        return ComparatorUtils.matches(string, glob, context, true);
     }
 
     /**
@@ -103,13 +106,7 @@ public class AsciiCasemap implements Comparator {
      * the string.
      */
     public static String toAsciiUpperCase(String string) {
-        final char[] chars = string.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] >= 'a' && chars[i] <= 'z') {
-                chars[i] = (char) (chars[i] - ('a' - 'A'));
-            }
-        }
-        return new String(chars);
+        return ComparatorUtils.toAsciiUpperCase(string);
     }
 
 }

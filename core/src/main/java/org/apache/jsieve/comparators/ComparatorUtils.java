@@ -153,10 +153,20 @@ public class ComparatorUtils {
      */
     static public boolean matches(String string, String glob, SieveContext context)
             throws SieveException {
+        return matches(string, glob, context, false);
+    }
+
+    /**
+     * Same as {@link #matches(String, String, SieveContext)}, comparing the
+     * characters after {@link #toAsciiUpperCase(int)} when
+     * <code>ignoreAsciiCase</code>, without copying the string.
+     */
+    static boolean matches(String string, String glob, SieveContext context,
+            boolean ignoreAsciiCase) throws SieveException {
         if (context != null) {
             context.chargeComparison(linearCost(string, glob));
         }
-        final int[] pattern = compileGlob(glob);
+        final int[] pattern = compileGlob(glob, ignoreAsciiCase);
         // The string is walked by code point, without copying it: ? matches
         // a character and a match never splits a surrogate pair
         final int length = string.length();
@@ -180,11 +190,12 @@ public class ComparatorUtils {
                 starMatchEnd = t;
                 continue;
             }
-            final int c = string.codePointAt(t);
+            final int codePoint = string.codePointAt(t);
+            final int c = ignoreAsciiCase ? toAsciiUpperCase(codePoint) : codePoint;
             if (p < pattern.length
                     && (pattern[p] == GLOB_ANY || pattern[p] == c)) {
                 p++;
-                t += Character.charCount(c);
+                t += Character.charCount(codePoint);
             } else if (afterStar >= 0) {
                 // Mismatch: let the last star swallow one more character.
                 // Earlier stars never need revisiting.
@@ -226,8 +237,10 @@ public class ComparatorUtils {
      * 2.7.1 and 2.4.2, a backslash makes the following character literal,
      * an undefined escape such as <code>\a</code> standing for <code>a</code>.
      * A trailing backslash stands for itself. Consecutive stars are merged.
+     * Literals are upper-cased by {@link #toAsciiUpperCase(int)} when
+     * <code>ignoreAsciiCase</code>.
      */
-    private static int[] compileGlob(String glob) {
+    private static int[] compileGlob(String glob, boolean ignoreAsciiCase) {
         final int[] codePoints = glob.codePoints().toArray();
         final int[] result = new int[codePoints.length];
         int length = 0;
@@ -240,9 +253,9 @@ public class ComparatorUtils {
             } else if (c == '?') {
                 result[length++] = GLOB_ANY;
             } else if (c == '\\' && i + 1 < codePoints.length) {
-                result[length++] = codePoints[++i];
+                result[length++] = ignoreAsciiCase ? toAsciiUpperCase(codePoints[++i]) : codePoints[++i];
             } else {
-                result[length++] = c;
+                result[length++] = ignoreAsciiCase ? toAsciiUpperCase(c) : c;
             }
         }
         return Arrays.copyOf(result, length);
@@ -264,8 +277,9 @@ public class ComparatorUtils {
      * searched with {@link String#indexOf(String, int)}: at most
      * {@link #SHORT_CONTENTS} characters are compared per character of the
      * container, and the JIT runs it much faster than a scalar loop. A
-     * longer contents is searched with Knuth-Morris-Pratt, which compares at
-     * most <code>2 * container length + contents length</code> characters.
+     * longer contents, or one compared ignoring the ASCII case, is searched
+     * with Knuth-Morris-Pratt, which compares at most
+     * <code>2 * container length + contents length</code> characters.
      * </p>
      *
      * @param container
@@ -273,11 +287,29 @@ public class ComparatorUtils {
      * @return boolean
      */
     static public boolean contains(String container, String contents) {
+        return contains(container, contents, false);
+    }
+
+    /**
+     * Same as {@link #contains(String, String)}, comparing the characters
+     * after {@link #toAsciiUpperCase(int)} when <code>ignoreAsciiCase</code>,
+     * without copying the container.
+     */
+    static boolean contains(String container, String contents, boolean ignoreAsciiCase) {
         final int length = contents.length();
         if (length == 0) {
             return true;
         }
-        if (length <= SHORT_CONTENTS) {
+        if (ignoreAsciiCase) {
+            // The contents is short, usually a constant of the script
+            contents = toAsciiUpperCase(contents);
+            if (!hasAsciiLetter(contents)) {
+                // A character of the container matches a non-letter only
+                // when equal to it: the case is irrelevant
+                ignoreAsciiCase = false;
+            }
+        }
+        if (!ignoreAsciiCase && length <= SHORT_CONTENTS) {
             for (int i = container.indexOf(contents); i >= 0; i = container.indexOf(contents, i + 1)) {
                 if (!splitsSurrogatePair(container, i)
                         && !splitsSurrogatePair(container, i + length)) {
@@ -286,11 +318,14 @@ public class ComparatorUtils {
             }
             return false;
         }
+        // Ignoring the case, no intrinsic applies: a naive search would compare
+        // up to SHORT_CONTENTS characters per character of the container while
+        // the budget is charged linearly
         final int[] border = borders(contents);
         // Number of characters of contents matched so far
         int matched = 0;
         for (int i = 0; i < container.length(); i++) {
-            final char c = container.charAt(i);
+            final char c = ignoreAsciiCase ? toAsciiUpperCase(container.charAt(i)) : container.charAt(i);
             while (matched > 0 && contents.charAt(matched) != c) {
                 matched = border[matched - 1];
             }
@@ -307,6 +342,64 @@ public class ComparatorUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Maps a-z onto A-Z and leaves every other character untouched, as
+     * defined by RFC 4790 section 9.2.
+     */
+    static int toAsciiUpperCase(int c) {
+        return c >= 'a' && c <= 'z' ? c - ('a' - 'A') : c;
+    }
+
+    private static char toAsciiUpperCase(char c) {
+        return c >= 'a' && c <= 'z' ? (char) (c - ('a' - 'A')) : c;
+    }
+
+    /**
+     * Same as {@link #toAsciiUpperCase(int)} for each character of the
+     * string, the string itself being returned when nothing changes.
+     */
+    static String toAsciiUpperCase(String string) {
+        int i = 0;
+        while (i < string.length() && toAsciiUpperCase(string.charAt(i)) == string.charAt(i)) {
+            i++;
+        }
+        if (i == string.length()) {
+            return string;
+        }
+        final char[] chars = string.toCharArray();
+        for (; i < chars.length; i++) {
+            chars[i] = toAsciiUpperCase(chars[i]);
+        }
+        return new String(chars);
+    }
+
+    private static boolean hasAsciiLetter(String upperCase) {
+        for (int i = 0; i < upperCase.length(); i++) {
+            final char c = upperCase.charAt(i);
+            if (c >= 'A' && c <= 'Z') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Equality of the strings after {@link #toAsciiUpperCase(int)}, without
+     * copying them.
+     */
+    static boolean equalsIgnoringAsciiCase(String string1, String string2) {
+        final int length = string1.length();
+        if (length != string2.length()) {
+            return false;
+        }
+        for (int i = 0; i < length; i++) {
+            if (toAsciiUpperCase(string1.charAt(i)) != toAsciiUpperCase(string2.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

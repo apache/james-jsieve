@@ -50,7 +50,7 @@ public class EvaluationBudgetTest {
     @Test(timeout = 10_000)
     public void aPathologicalMatchOnALargeHeaderShouldFailOnceTheBudgetIsSpent() throws Exception {
         SieveMailAdapter mail = mailWithSubject("a".repeat(2_000_000));
-        String script = "if header :matches \"Subject\" \"*" + "a".repeat(10_000) + "b\" { discard; }";
+        String script = "if header :matches \"Subject\" \"*" + "a".repeat(10_000) + "b*\" { discard; }";
 
         assertThatThrownBy(() -> factoryWithBudget(100_000_000).interpret(mail, script(script)))
             .isInstanceOf(SieveException.class)
@@ -129,7 +129,7 @@ public class EvaluationBudgetTest {
     public void theGlobMatcherShouldBeChargedTheCharactersItComparesAgain() throws Exception {
         // Each of the ~1000 attempts compares up to 100 characters before failing
         String string = "a".repeat(1_000);
-        String glob = "*" + "a".repeat(99) + "b";
+        String glob = "*" + "a".repeat(99) + "b*";
 
         assertThatThrownBy(() -> new AsciiCasemap().matches(string, glob, contextWithBudget(50_000)))
             .isInstanceOf(SieveException.class)
@@ -143,6 +143,16 @@ public class EvaluationBudgetTest {
 
         // The value up front, then one step per character the star swallows
         assertThat(new AsciiCasemap().matches(string, "*b", contextWithBudget(200_010))).isTrue();
+    }
+
+    @Test
+    public void theEndAfterTheLastStarShouldBeComparedOnce() throws Exception {
+        String string = "a".repeat(100_000);
+        String glob = "*" + "a".repeat(999) + "b";
+
+        // The lengths up front only: the end is not searched for
+        assertThat(new AsciiCasemap().matches(string, glob, contextWithBudget(101_003))).isFalse();
+        assertThat(new AsciiCasemap().matches(string + "B", glob, contextWithBudget(101_004))).isTrue();
     }
 
     private static SieveContext contextWithBudget(long budget) throws Exception {

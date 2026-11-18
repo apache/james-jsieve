@@ -34,6 +34,29 @@ import javax.mail.MessagingException;
  */
 public class HeaderTest {
 
+    @Test
+    public void anEncodedHeaderShouldBeDecodedInEveryTestReadingIt() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("Subject", "=?UTF-8?Q?Caf=C3=A9_cr=C3=A8me?=");
+        String script = "if header :contains \"Subject\" \"absent\" { stop; }"
+            + " if header :is \"Subject\" \"Caf\u00e9 cr\u00e8me\" { if header :matches \"Subject\" \"*cr\u00e8me\" { throwTestException; } }";
+
+        Assert.assertThrows(ThrowTestException.TestException.class, () -> JUnitUtils.interpret(mail, script));
+    }
+
+    @Test
+    public void aHeaderValueShouldBeDecodedOncePerContext() throws Exception {
+        ConfigurationManager configurationManager = new ConfigurationManager();
+        SieveContext context = new BaseSieveContext(configurationManager.getCommandManager(),
+            configurationManager.getComparatorManager(), configurationManager.getTestManager());
+
+        String decoded = context.decodeHeaderValue("=?UTF-8?Q?Caf=C3=A9?=\r\n =?UTF-8?Q?_cr=C3=A8me?=");
+
+        Assert.assertEquals("Caf\u00e9 cr\u00e8me", decoded);
+        Assert.assertSame(decoded, context.decodeHeaderValue("=?UTF-8?Q?Caf=C3=A9?=\r\n =?UTF-8?Q?_cr=C3=A8me?="));
+        Assert.assertEquals("plain", context.decodeHeaderValue("plain"));
+    }
+
     /**
      * Test for Test 'header'
      */

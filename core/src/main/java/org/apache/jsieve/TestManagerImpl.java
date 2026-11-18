@@ -45,6 +45,8 @@ public class TestManagerImpl implements TestManager {
     }
 
     private final ConcurrentMap<String, String> classNameMap;
+    private final ImplementationCache<ExecutableTest> implementations =
+            new ImplementationCache<>(ExecutableTest.class, "Test", getClass().getClassLoader());
 
     /**
      * TestManager is instanciated with getInstance
@@ -65,18 +67,7 @@ public class TestManagerImpl implements TestManager {
      * @throws LookupException
      */
     public Class lookup(String name) throws LookupException {
-        Class testClass;
-
-        try {
-            testClass = getClass().getClassLoader().loadClass(
-                    getClassName(name));
-        } catch (ClassNotFoundException e) {
-            throw new LookupException("Test named '" + name + "' not found.");
-        }
-        if (!ExecutableTest.class.isAssignableFrom(testClass))
-            throw new LookupException("Class " + testClass.getName()
-                    + " must implement " + ExecutableTest.class.getName());
-        return testClass;
+        return implementations.lookup(name, getClassName(name));
     }
 
     /**
@@ -91,13 +82,7 @@ public class TestManagerImpl implements TestManager {
      * @throws LookupException
      */
     public ExecutableTest getTest(String name) throws LookupException {
-        try {
-            return (ExecutableTest) lookup(name).newInstance();
-        } catch (InstantiationException e) {
-            throw new LookupException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new LookupException(e.getMessage());
-        }
+        return implementations.newInstance(name, getClassName(name));
     }
 
     /**

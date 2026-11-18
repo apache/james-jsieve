@@ -44,6 +44,8 @@ public class CommandManagerImpl implements CommandManager {
     }
 
     private final ConcurrentMap<String, String> classNameMap;
+    private final ImplementationCache<ExecutableCommand> implementations =
+            new ImplementationCache<>(ExecutableCommand.class, "Command", getClass().getClassLoader());
 
     /**
      * Constructor for CommandManager.
@@ -64,17 +66,7 @@ public class CommandManagerImpl implements CommandManager {
      * @throws LookupException
      */
     private Class lookup(String name) throws LookupException {
-        Class cmdClass;
-        try {
-            cmdClass = getClass().getClassLoader()
-                    .loadClass(getClassName(name));
-        } catch (ClassNotFoundException e) {
-            throw new LookupException("Command named '" + name + "' not found.");
-        }
-        if (!ExecutableCommand.class.isAssignableFrom(cmdClass))
-            throw new LookupException("Class " + cmdClass.getName()
-                    + " must implement " + ExecutableCommand.class.getName());
-        return cmdClass;
+        return implementations.lookup(name, getClassName(name));
     }
 
     /**
@@ -89,13 +81,7 @@ public class CommandManagerImpl implements CommandManager {
      * @throws LookupException
      */
     public ExecutableCommand getCommand(String name) throws LookupException {
-        try {
-            return (ExecutableCommand) lookup(name).newInstance();
-        } catch (InstantiationException e) {
-            throw new LookupException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new LookupException(e.getMessage());
-        }
+        return implementations.newInstance(name, getClassName(name));
     }
 
     /**

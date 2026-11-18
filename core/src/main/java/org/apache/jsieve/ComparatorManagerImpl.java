@@ -52,6 +52,8 @@ public class ComparatorManagerImpl implements ComparatorManager {
     }
     
     private final ConcurrentMap<String, String> classNameMap;
+    private final ImplementationCache<Comparator> implementations =
+            new ImplementationCache<>(Comparator.class, "Comparator", getClass().getClassLoader());
     /** 
      * The names of those comparisons for which <code>require</code> is not necessary before usage.
      * See <a href='http://tools.ietf.org/html/rfc5228#section-2.7.3'>RFC5228, 2.7.3 Comparators</a>. 
@@ -99,18 +101,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * @throws LookupException
      */
     public Class lookup(String name) throws LookupException {
-        Class comparatorClass;
-        try {
-            comparatorClass = getClass().getClassLoader().loadClass(
-                    getClassName(name));
-        } catch (ClassNotFoundException e) {
-            throw new LookupException("Comparator named '" + name
-                    + "' not found.");
-        }
-        if (!Comparator.class.isAssignableFrom(comparatorClass))
-            throw new LookupException("Class " + comparatorClass.getName()
-                    + " must implement " + Comparator.class.getName());
-        return comparatorClass;
+        return implementations.lookup(name, getClassName(name));
     }
 
     /**
@@ -125,13 +116,7 @@ public class ComparatorManagerImpl implements ComparatorManager {
      * @throws LookupException
      */
     public Comparator getComparator(String name) throws LookupException {
-        try {
-            return (Comparator) lookup(name).newInstance();
-        } catch (InstantiationException e) {
-            throw new LookupException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new LookupException(e.getMessage());
-        }
+        return implementations.newInstance(name, getClassName(name));
     }
 
     /**

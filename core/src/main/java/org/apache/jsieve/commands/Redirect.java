@@ -21,6 +21,7 @@ package org.apache.jsieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;
+import org.apache.jsieve.CommandStateManager;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.StringListArgument;
 import org.apache.jsieve.exception.SieveException;
@@ -57,6 +58,18 @@ public class Redirect extends AbstractActionCommand {
         String recipient = ((StringListArgument) arguments
                 .getArgumentList().get(0)).getList().get(0);
 
+        final CommandStateManager state = context.getCommandStateManager();
+        if (!state.addRedirect(recipient)) {
+            // The address already gets a copy of the mail
+            return null;
+        }
+        if (state.getRedirectCount() > context.getMaxRedirects()) {
+            // Each redirect sends a copy of the mail: site policy limits
+            // them (RFC 5228 section 2.10.4)
+            throw context.getCoordinate().commandException(
+                    "Too many redirect actions: at most " + context.getMaxRedirects()
+                    + " distinct addresses");
+        }
         mail.addAction(new ActionRedirect(recipient));
 
         return null;

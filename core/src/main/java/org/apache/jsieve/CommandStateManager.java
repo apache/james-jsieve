@@ -19,6 +19,10 @@
 
 package org.apache.jsieve;
 
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
 /**
  * Thread singleton class CommandStateManager records the state of a Sieve
  * evaluation.
@@ -49,6 +53,11 @@ public class CommandStateManager {
      * Did vacation instruction already executed for this script ?
      */
     private boolean vacationProcessed = false;
+
+    /**
+     * The addresses redirected to, their domain lower-cased
+     */
+    private final Set<String> redirectAddresses = new HashSet<>();
 
     /**
      * Constructor for CommandStateManager.
@@ -159,5 +168,27 @@ public class CommandStateManager {
 
     public void setVacationProcessed(boolean vacationProcessed) {
         this.vacationProcessed = vacationProcessed;
+    }
+
+    /**
+     * Records a redirect to the address. Addresses differing only by the case
+     * of their domain are the same: the local part is case-sensitive (RFC
+     * 5321 section 2.4).
+     *
+     * @param address not null
+     * @return false when the evaluation already redirected to the address
+     */
+    public boolean addRedirect(String address) {
+        final int at = address.lastIndexOf('@');
+        final String key = at < 0 ? address
+                : address.substring(0, at) + address.substring(at).toLowerCase(Locale.ROOT);
+        return redirectAddresses.add(key);
+    }
+
+    /**
+     * @return the number of distinct addresses the evaluation redirected to
+     */
+    public int getRedirectCount() {
+        return redirectAddresses.size();
     }
 }

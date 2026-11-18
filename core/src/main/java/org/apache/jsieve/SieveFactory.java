@@ -84,6 +84,15 @@ public class SieveFactory {
     private final long comparisonBudget;
 
     /**
+     * Default number of distinct addresses a single evaluation may redirect
+     * the mail to: each redirect sends a copy of the mail, a site policy
+     * limit as allowed by RFC 5228 section 2.10.4.
+     */
+    public static final int DEFAULT_MAX_REDIRECTS = 32;
+
+    private final int maxRedirects;
+
+    /**
      * Constructor for SieveFactory, using the
      * {@link #DEFAULT_COMPARISON_BUDGET}.
      */
@@ -104,14 +113,36 @@ public class SieveFactory {
             final ComparatorManager comparatorManager,
             final TestManager testManager,
             final long comparisonBudget) {
+        this(commandManager, comparatorManager, testManager, comparisonBudget, DEFAULT_MAX_REDIRECTS);
+    }
+
+    /**
+     * Constructor for SieveFactory.
+     *
+     * @param comparisonBudget the number of characters the comparisons of a
+     * single evaluation may compare. An evaluation going beyond fails
+     * with a {@link SieveException}.
+     * @param maxRedirects the number of distinct addresses a single
+     * evaluation may redirect the mail to. An evaluation going beyond fails
+     * with a {@link SieveException}, and none of its actions is executed.
+     */
+    public SieveFactory(final CommandManager commandManager,
+            final ComparatorManager comparatorManager,
+            final TestManager testManager,
+            final long comparisonBudget,
+            final int maxRedirects) {
         super();
         if (comparisonBudget < 0) {
             throw new IllegalArgumentException("The comparison budget cannot be negative");
+        }
+        if (maxRedirects < 0) {
+            throw new IllegalArgumentException("The maximum number of redirects cannot be negative");
         }
         this.commandManager = commandManager;
         this.comparatorManager = comparatorManager;
         this.testManager = testManager;
         this.comparisonBudget = comparisonBudget;
+        this.maxRedirects = maxRedirects;
     }
 
     /**
@@ -174,7 +205,7 @@ public class SieveFactory {
     public void evaluate(MailAdapter mail, Node startNode)
             throws SieveException {
         final SieveContext context = new BaseSieveContext(commandManager,
-                comparatorManager, testManager, comparisonBudget);
+                comparatorManager, testManager, comparisonBudget, maxRedirects);
         try {
             // Ensure that the context is set on the mail
             mail.setContext(context);

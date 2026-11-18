@@ -157,27 +157,34 @@ public class ComparatorUtils {
             context.chargeComparison(linearCost(string, glob));
         }
         final int[] pattern = compileGlob(glob);
-        final int[] target = string.codePoints().toArray();
+        // The string is walked by code point, without copying it: ? matches
+        // a character and a match never splits a surrogate pair
+        final int length = string.length();
 
+        // Position, in chars, in the string
         int t = 0;
         int p = 0;
         // Position in the pattern right after the last star seen, -1 if none
         int afterStar = -1;
-        // Position in the target the last star is currently matched up to
+        // Position, in chars, in the string the last star is currently
+        // matched up to
         int starMatchEnd = 0;
         // Steps of failed attempts not charged yet. The steps that are never
         // undone (stars, and characters matched before the last star or in
         // the last attempt) are at most the lengths charged up front.
         long uncharged = 0;
         boolean mismatch = false;
-        while (t < target.length) {
+        while (t < length) {
             if (p < pattern.length && pattern[p] == GLOB_STAR) {
                 afterStar = ++p;
                 starMatchEnd = t;
-            } else if (p < pattern.length
-                    && (pattern[p] == GLOB_ANY || pattern[p] == target[t])) {
+                continue;
+            }
+            final int c = string.codePointAt(t);
+            if (p < pattern.length
+                    && (pattern[p] == GLOB_ANY || pattern[p] == c)) {
                 p++;
-                t++;
+                t += Character.charCount(c);
             } else if (afterStar >= 0) {
                 // Mismatch: let the last star swallow one more character.
                 // Earlier stars never need revisiting.
@@ -190,7 +197,8 @@ public class ComparatorUtils {
                     }
                 }
                 p = afterStar;
-                t = ++starMatchEnd;
+                starMatchEnd += Character.charCount(string.codePointAt(starMatchEnd));
+                t = starMatchEnd;
             } else {
                 mismatch = true;
                 break;

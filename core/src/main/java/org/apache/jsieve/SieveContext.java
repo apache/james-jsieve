@@ -94,6 +94,16 @@ public abstract class SieveContext {
     }
 
     /**
+     * Gets the number of distinct addresses an evaluation may redirect the
+     * mail to. By default, it is not limited.
+     *
+     * @return not negative
+     */
+    public int getMaxRedirects() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
      * Raw header values already decoded, with their decoded value. A context
      * lives for one evaluation: this holds at most the header values of the
      * mail evaluated.

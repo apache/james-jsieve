@@ -99,6 +99,8 @@ public class ConfigurationManager {
 
     private long comparisonBudget = SieveFactory.DEFAULT_COMPARISON_BUDGET;
 
+    private int maxRedirects = SieveFactory.DEFAULT_MAX_REDIRECTS;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationManager.class);
 
     /**
@@ -296,8 +298,21 @@ public class ConfigurationManager {
         this.comparisonBudget = comparisonBudget;
     }
 
+    /**
+     * Sets the number of distinct addresses a single evaluation may redirect
+     * the mail to, {@link SieveFactory#DEFAULT_MAX_REDIRECTS} by default.
+     *
+     * @param maxRedirects not negative
+     */
+    public void setMaxRedirects(int maxRedirects) {
+        if (maxRedirects < 0) {
+            throw new IllegalArgumentException("The maximum number of redirects cannot be negative");
+        }
+        this.maxRedirects = maxRedirects;
+    }
+
     public SieveFactory build() {
         return new SieveFactory(getCommandManager(), getComparatorManager(),
-                getTestManager(), comparisonBudget);
+                getTestManager(), comparisonBudget, maxRedirects);
     }
 }

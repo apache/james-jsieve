@@ -40,6 +40,8 @@ public class BaseSieveContext extends SieveContext {
 
     private long remainingComparisonBudget;
 
+    private final int maxRedirects;
+
     public BaseSieveContext(final CommandManager commandManager,
                             final ComparatorManager comparatorManager,
                             final TestManager testManager) {
@@ -54,10 +56,28 @@ public class BaseSieveContext extends SieveContext {
                             final ComparatorManager comparatorManager,
                             final TestManager testManager,
                             final long comparisonBudget) {
+        this(commandManager, comparatorManager, testManager, comparisonBudget, Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param comparisonBudget the number of characters the comparisons of an
+     * evaluation may compare, see {@link #chargeComparison(long)}
+     * @param maxRedirects the number of distinct addresses an evaluation may
+     * redirect the mail to, see {@link #getMaxRedirects()}
+     */
+    public BaseSieveContext(final CommandManager commandManager,
+                            final ComparatorManager comparatorManager,
+                            final TestManager testManager,
+                            final long comparisonBudget,
+                            final int maxRedirects) {
         if (comparisonBudget < 0) {
             throw new IllegalArgumentException("The comparison budget cannot be negative");
         }
+        if (maxRedirects < 0) {
+            throw new IllegalArgumentException("The maximum number of redirects cannot be negative");
+        }
         this.remainingComparisonBudget = comparisonBudget;
+        this.maxRedirects = maxRedirects;
         this.commandStateManager = new CommandStateManager();
         this.conditionManager = new ConditionManager();
         this.testManager = testManager;
@@ -131,6 +151,14 @@ public class BaseSieveContext extends SieveContext {
     @Override
     public TestManager getTestManager() {
         return testManager;
+    }
+
+    /**
+     * @see SieveContext#getMaxRedirects()
+     */
+    @Override
+    public int getMaxRedirects() {
+        return maxRedirects;
     }
 
     /**

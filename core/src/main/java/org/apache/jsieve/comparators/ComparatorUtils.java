@@ -184,18 +184,39 @@ public class ComparatorUtils {
         // the last attempt) are at most the lengths charged up front.
         long uncharged = 0;
         boolean mismatch = false;
+        // After the last star, the pattern can only match the end of the
+        // string: it is compared there once instead of at each position
+        int lastStar = pattern.length - 1;
+        while (lastStar >= 0 && pattern[lastStar] != GLOB_STAR) {
+            lastStar--;
+        }
         while (t < length) {
             if (p < pattern.length && pattern[p] == GLOB_STAR) {
+                if (p == lastStar) {
+                    if (context != null) {
+                        context.chargeComparison(uncharged);
+                    }
+                    return matchesEnd(string, t, pattern, p + 1, ignoreAsciiCase);
+                }
                 afterStar = ++p;
                 starMatchEnd = t;
                 continue;
             }
-            final int codePoint = string.codePointAt(t);
-            final int c = ignoreAsciiCase ? toAsciiUpperCase(codePoint) : codePoint;
+            // String#codePointAt costs several times charAt on this path,
+            // taken for each step: a pair is only looked for at a high
+            // surrogate
+            final char ch = string.charAt(t);
+            int c = ignoreAsciiCase ? toAsciiUpperCase(ch) : ch;
+            int width = 1;
+            if (Character.isHighSurrogate(ch) && t + 1 < length
+                    && Character.isLowSurrogate(string.charAt(t + 1))) {
+                c = Character.toCodePoint(ch, string.charAt(t + 1));
+                width = 2;
+            }
             if (p < pattern.length
                     && (pattern[p] == GLOB_ANY || pattern[p] == c)) {
                 p++;
-                t += Character.charCount(codePoint);
+                t += width;
             } else if (afterStar >= 0) {
                 // Mismatch: let the last star swallow one more character.
                 // Earlier stars never need revisiting.
@@ -225,6 +246,34 @@ public class ComparatorUtils {
             p++;
         }
         return p == pattern.length;
+    }
+
+    /**
+     * Whether the end of <code>string</code>, from <code>start</code> on,
+     * ends with <code>pattern</code> from <code>from</code> on, a part
+     * without star: each of its elements matches one character, so the
+     * characters it matches are the last ones.
+     */
+    private static boolean matchesEnd(String string, int start, int[] pattern, int from,
+            boolean ignoreAsciiCase) {
+        int i = string.length();
+        for (int k = pattern.length - 1; k >= from; k--) {
+            if (i <= start) {
+                return false;
+            }
+            final char ch = string.charAt(i - 1);
+            int c = ignoreAsciiCase ? toAsciiUpperCase(ch) : ch;
+            i--;
+            if (Character.isLowSurrogate(ch) && i > start
+                    && Character.isHighSurrogate(string.charAt(i - 1))) {
+                c = Character.toCodePoint(string.charAt(i - 1), ch);
+                i--;
+            }
+            if (pattern[k] != GLOB_ANY && pattern[k] != c) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static final int GLOB_STAR = -1;

@@ -192,6 +192,20 @@ public class ComparatorUtilsTest {
     }
 
     @Test
+    public void theEndAfterTheLastStarShouldBeMatchedByCharacter() throws Exception {
+        assertMatch("x\uD83D\uDE00", "*?");
+        assertMatch("\uD83D\uDE00", "*?");
+        assertNoMatch("\uD83D\uDE00", "*??");
+        assertMatch("a\uD83D\uDE00\uD83Db", "a*\uD83D\uDE00?b");
+        assertNoMatch("ab", "a*ab");
+        assertMatch("aab", "a*ab");
+        assertMatch("xay", "*a*y");
+        assertNoMatch("xa", "*a*y");
+        assertMatch("anything", "*");
+        assertMatch("anything", "any*");
+    }
+
+    @Test
     public void supplementaryCharacterShouldNotBeAWildcard() throws Exception {
         // U+1002A must not be truncated into '*'
         Assert.assertFalse(ComparatorUtils.matches("x", "\uD800\uDC2A"));

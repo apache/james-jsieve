@@ -20,6 +20,7 @@
 package org.apache.jsieve;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -106,8 +107,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         if (null != node.getValue()) {
             argument = (Argument) node.getValue();
         } else {
-            argument = new StringListArgument(((List) node.childrenAccept(this,
-                    children)));
+            argument = new StringListArgument(Collections.unmodifiableList(
+                    (List) node.childrenAccept(this, children)));
         }
         ((List) data).add(argument);
 
@@ -129,7 +130,7 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
         while (childrenIter.hasNext()) {
             Object next = childrenIter.next();
             if (next instanceof Test)
-                testList = new TestList((Test) next);
+                testList = new TestList(Collections.singletonList((Test) next));
             else if (next instanceof TestList)
                 testList = (TestList) next;
             else if (next instanceof Argument) {
@@ -139,7 +140,12 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
             }
         }
 
-        Arguments arguments = new Arguments(argList, testList);
+        // Set up front: the tree is shared by evaluations, nothing may be
+        // initialised lazily
+        if (testList == null) {
+            testList = new TestList(Collections.<Test>emptyList());
+        }
+        Arguments arguments = new Arguments(Collections.unmodifiableList(argList), testList);
         ((List) data).add(arguments);
         return data;
     }
@@ -193,8 +199,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     @SuppressWarnings("unchecked")
     public Object visit(ASTcommands node, Object data) throws SieveException {
         List<Command> children = new ArrayList<Command>(node.jjtGetNumChildren());
-        Commands commands = new Commands(((List) node.childrenAccept(this,
-                children)));
+        Commands commands = new Commands(Collections.unmodifiableList(
+                (List) node.childrenAccept(this, children)));
         ((List) data).add(commands);
         return data;
     }
@@ -211,12 +217,20 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
                     + (data == null ? "<null>" : data.getClass().getName())
                     + ".");
 
-        // Start is an implicit Block
-        // There will be one child, an instance of Commands
-        List children = new ArrayList(node.jjtGetNumChildren());
-        Commands commands = (Commands) ((List) node.childrenAccept(this,
-                children)).get(0);
-        Block block = new Block(commands);
+        // The executable tree depends only on the script: built at the first
+        // evaluation, it is kept on the node for the next ones. It is not
+        // changed once built, every state of an evaluation being kept in
+        // the context.
+        Block block = (Block) node.getExecutable();
+        if (block == null) {
+            // Start is an implicit Block
+            // There will be one child, an instance of Commands
+            List children = new ArrayList(node.jjtGetNumChildren());
+            Commands commands = (Commands) ((List) node.childrenAccept(this,
+                    children)).get(0);
+            block = new Block(commands);
+            node.setExecutable(block);
+        }
         context.setCoordinate(node.getCoordinate());
         // Answer the result of executing the Block
         return block.execute((MailAdapter) data, context);
@@ -248,8 +262,8 @@ public class SieveParserVisitorImpl implements SieveParserVisitor {
     public Object visit(ASTtest_list node, Object data) throws SieveException {
         // return visitChildren(node, data);
         List<Test> children = new ArrayList<Test>(node.jjtGetNumChildren());
-        TestList testList = new TestList(((List<Test>) node.childrenAccept(this,
-                children)));
+        TestList testList = new TestList(Collections.unmodifiableList(
+                (List<Test>) node.childrenAccept(this, children)));
         ((List) data).add(testList);
         return data;
     }

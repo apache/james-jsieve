@@ -48,7 +48,10 @@ class ArgumentValidationVisitor extends SieveParserVisitorImpl {
     }
 
     public Object visit(ASTstart node, Object data) throws SieveException {
-        node.childrenAccept(this, new ArrayList<Object>());
+        final List<Object> children = new ArrayList<Object>();
+        node.childrenAccept(this, children);
+        // The tree validated is the one evaluations run
+        node.setExecutable(new Block((Commands) children.get(0)));
         return data;
     }
 

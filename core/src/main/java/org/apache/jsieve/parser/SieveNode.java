@@ -41,6 +41,12 @@ public class SieveNode {
 
     private Token firstToken;
 
+    /**
+     * What evaluation builds from this node, once: see
+     * {@link #getExecutable()}.
+     */
+    private volatile Object executable;
+
     private Token lastToken;
 
     /**
@@ -127,6 +133,27 @@ public class SieveNode {
      */
     public void setLastToken(Token lastToken) {
         this.lastToken = lastToken;
+    }
+
+    /**
+     * Gets what evaluation built from this node and keeps for the next
+     * evaluations, as the node depends only on the script. Several threads
+     * may evaluate the same node: what is kept must not change once set.
+     *
+     * @return what was set, null when nothing was
+     */
+    public Object getExecutable() {
+        return executable;
+    }
+
+    /**
+     * Sets what evaluation built from this node, see
+     * {@link #getExecutable()}.
+     *
+     * @param executable not changed once set
+     */
+    public void setExecutable(Object executable) {
+        this.executable = executable;
     }
 
     /**

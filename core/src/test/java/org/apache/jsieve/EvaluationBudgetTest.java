@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.Contains;
 import org.apache.jsieve.comparators.Equals;
 import org.apache.jsieve.comparators.Matches;
@@ -122,6 +123,32 @@ public class EvaluationBudgetTest {
         factoryWithBudget(10_000).interpret(mail, script(script));
 
         assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test
+    public void theGlobMatcherShouldBeChargedTheCharactersItComparesAgain() throws Exception {
+        // Each of the ~1000 attempts compares up to 100 characters before failing
+        String string = "a".repeat(1_000);
+        String glob = "*" + "a".repeat(99) + "b";
+
+        assertThatThrownBy(() -> new AsciiCasemap().matches(string, glob, contextWithBudget(50_000)))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+        assertThat(new AsciiCasemap().matches(string, glob, contextWithBudget(150_000))).isFalse();
+    }
+
+    @Test
+    public void aStarScanningAValueShouldBeChargedLinearly() throws Exception {
+        String string = "a".repeat(100_000) + "b";
+
+        // The value up front, then one step per character the star swallows
+        assertThat(new AsciiCasemap().matches(string, "*b", contextWithBudget(200_010))).isTrue();
+    }
+
+    private static SieveContext contextWithBudget(long budget) throws Exception {
+        ConfigurationManager configurationManager = new ConfigurationManager();
+        return new BaseSieveContext(configurationManager.getCommandManager(),
+            configurationManager.getComparatorManager(), configurationManager.getTestManager(), budget);
     }
 
     @Test

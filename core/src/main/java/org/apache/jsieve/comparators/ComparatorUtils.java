@@ -245,9 +245,13 @@ public class ComparatorUtils {
      * 2.7.1): a match never starts or ends inside a surrogate pair.
      * </p>
      * <p>
-     * The search is linear (Knuth-Morris-Pratt): it compares at most
-     * <code>2 * container length + contents length</code> characters,
-     * whatever the values.
+     * The search is linear whatever the values. A contents of at most
+     * {@link #SHORT_CONTENTS} characters, the usual case of a script key, is
+     * searched with {@link String#indexOf(String, int)}: at most
+     * {@link #SHORT_CONTENTS} characters are compared per character of the
+     * container, and the JIT runs it much faster than a scalar loop. A
+     * longer contents is searched with Knuth-Morris-Pratt, which compares at
+     * most <code>2 * container length + contents length</code> characters.
      * </p>
      *
      * @param container
@@ -258,6 +262,15 @@ public class ComparatorUtils {
         final int length = contents.length();
         if (length == 0) {
             return true;
+        }
+        if (length <= SHORT_CONTENTS) {
+            for (int i = container.indexOf(contents); i >= 0; i = container.indexOf(contents, i + 1)) {
+                if (!splitsSurrogatePair(container, i)
+                        && !splitsSurrogatePair(container, i + length)) {
+                    return true;
+                }
+            }
+            return false;
         }
         final int[] border = borders(contents);
         // Number of characters of contents matched so far
@@ -281,6 +294,13 @@ public class ComparatorUtils {
         }
         return false;
     }
+
+    /**
+     * Longest contents searched by {@link String#indexOf(String, int)}: its
+     * worst case, quadratic, stays within a constant factor of a linear
+     * search.
+     */
+    static final int SHORT_CONTENTS = 64;
 
     /**
      * Knuth-Morris-Pratt failure function: for each prefix of the string,

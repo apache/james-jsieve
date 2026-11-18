@@ -143,6 +143,37 @@ public class ComparatorUtilsTest {
         }
     }
 
+    @Test
+    public void containsShouldAgreeWithIndexOfOnRandomLongContents() throws Exception {
+        Random random = new Random(42);
+        for (int i = 0; i < 5_000; i++) {
+            // Over 64 characters, the search is no longer delegated to indexOf
+            String contents = repeat("ab", 32) + randomAbc(random, 1 + random.nextInt(4));
+            String container = randomAbc(random, random.nextInt(8)) + repeat("ab", random.nextInt(40))
+                + randomAbc(random, random.nextInt(8)) + contents.substring(0, random.nextInt(contents.length() + 1))
+                + randomAbc(random, random.nextInt(8));
+            Assert.assertEquals("container=" + container + " contents=" + contents,
+                container.contains(contents), ComparatorUtils.contains(container, contents));
+        }
+    }
+
+    @Test
+    public void containsShouldNotMatchHalfOfASurrogatePairWithALongContents() throws Exception {
+        String longContents = repeat("x", 70);
+        String angryFace = "a😠" + longContents + "😠b";
+
+        Assert.assertFalse(ComparatorUtils.contains(angryFace, "\uDE20" + longContents));
+        Assert.assertFalse(ComparatorUtils.contains(angryFace, longContents + "\uD83D"));
+        Assert.assertTrue(ComparatorUtils.contains(angryFace, "😠" + longContents + "😠"));
+    }
+
+    @Test
+    public void containsShouldSkipAMatchSplittingASurrogatePairAndFindTheNextOne() throws Exception {
+        Assert.assertTrue(ComparatorUtils.contains("😠b\uDE20b", "\uDE20b"));
+        Assert.assertTrue(ComparatorUtils.contains("😠" + repeat("b", 70) + "\uDE20" + repeat("b", 70),
+            "\uDE20" + repeat("b", 70)));
+    }
+
     private static String randomAbc(Random random, int length) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {

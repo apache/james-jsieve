@@ -165,14 +165,12 @@ public class ComparatorUtils {
         int afterStar = -1;
         // Position in the target the last star is currently matched up to
         int starMatchEnd = 0;
-        // Steps taken and not charged yet
-        int uncharged = 0;
+        // Steps of failed attempts not charged yet. The steps that are never
+        // undone (stars, and characters matched before the last star or in
+        // the last attempt) are at most the lengths charged up front.
+        long uncharged = 0;
         boolean mismatch = false;
         while (t < target.length) {
-            if (context != null && ++uncharged == STEPS_CHARGED_AT_ONCE) {
-                context.chargeComparison(uncharged);
-                uncharged = 0;
-            }
             if (p < pattern.length && pattern[p] == GLOB_STAR) {
                 afterStar = ++p;
                 starMatchEnd = t;
@@ -183,6 +181,14 @@ public class ComparatorUtils {
             } else if (afterStar >= 0) {
                 // Mismatch: let the last star swallow one more character.
                 // Earlier stars never need revisiting.
+                if (context != null) {
+                    // The characters matched since the star are compared again
+                    uncharged += t - starMatchEnd + 1;
+                    if (uncharged >= STEPS_CHARGED_AT_ONCE) {
+                        context.chargeComparison(uncharged);
+                        uncharged = 0;
+                    }
+                }
                 p = afterStar;
                 t = ++starMatchEnd;
             } else {

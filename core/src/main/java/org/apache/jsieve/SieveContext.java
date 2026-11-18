@@ -19,6 +19,10 @@
 
 package org.apache.jsieve;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.james.mime4j.util.MimeUtil;
 import org.apache.jsieve.exception.SieveException;
 
 /**
@@ -87,5 +91,29 @@ public abstract class SieveContext {
      * @throws SieveException when the budget is exhausted
      */
     public void chargeComparison(long cost) throws SieveException {
+    }
+
+    /**
+     * Raw header values already decoded, with their decoded value. A context
+     * lives for one evaluation: this holds at most the header values of the
+     * mail evaluated.
+     */
+    private Map<String, String> decodedHeaderValues;
+
+    /**
+     * Decodes a raw header value, unfolding it and decoding its RFC 2047
+     * encoded words. A value is decoded once per context, that is per
+     * evaluation, whatever the number of tests reading it. The decoded values
+     * are kept as long as the context: a context must not be reused across
+     * evaluations, nor shared between threads.
+     *
+     * @param rawValue not null
+     * @return the decoded value, not null
+     */
+    public String decodeHeaderValue(String rawValue) {
+        if (decodedHeaderValues == null) {
+            decodedHeaderValues = new HashMap<>();
+        }
+        return decodedHeaderValues.computeIfAbsent(rawValue, MimeUtil::unscrambleHeaderValue);
     }
 }

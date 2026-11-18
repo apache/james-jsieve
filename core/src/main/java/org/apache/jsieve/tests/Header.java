@@ -31,7 +31,6 @@ import java.util.ListIterator;
 
 import org.apache.james.mime4j.codec.DecodeMonitor;
 import org.apache.james.mime4j.codec.DecoderUtil;
-import org.apache.james.mime4j.util.MimeUtil;
 import org.apache.jsieve.Argument;
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.SieveContext;
@@ -224,7 +223,7 @@ public class Header extends AbstractTest {
         boolean isMatched = false;
         Iterator<String> headerValuesIter = headerValues.iterator();
         while (!isMatched && headerValuesIter.hasNext()) {
-            String headerValue = MimeUtil.unscrambleHeaderValue(headerValuesIter.next());
+            String headerValue = context.decodeHeaderValue(headerValuesIter.next());
             isMatched = match(comparator, matchType, headerValue, keys, context);
         }
         return isMatched;

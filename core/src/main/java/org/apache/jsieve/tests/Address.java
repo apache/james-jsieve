@@ -23,10 +23,8 @@ import static org.apache.jsieve.tests.AddressPartTags.LOCALPART_TAG;
 
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.comparators.ComparatorUtils;
-import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
-import org.apache.jsieve.mail.SieveMailException;
 
 /**
  * Class Address implements the Addresss Test as defined in RFC 3028, section
@@ -43,7 +41,7 @@ public class Address extends AbstractComparatorTest {
     protected boolean match(MailAdapter mail, String addressPart,
             String comparator, String matchType, String headerName, String key,
             SieveContext context) throws SieveException {
-        final MailAdapter.Address[] addresses = getMatchingValues(mail, headerName);
+        final MailAdapter.Address[] addresses = getMatchingValues(mail, headerName, context);
         final int length = addresses.length;
         int i = 0;
         boolean isMatched = false;
@@ -57,15 +55,12 @@ public class Address extends AbstractComparatorTest {
     /**
      * The addresses of the header, none when its value does not parse as an
      * address list: an address that is not syntactically valid is not matched
-     * (RFC 5228 section 2.7.4), whatever the address part.
+     * (RFC 5228 section 2.7.4), whatever the address part. The header is
+     * parsed once per evaluation, whatever the number of keys.
      */
     private MailAdapter.Address[] getMatchingValues(MailAdapter mail,
-            String valueName) throws SieveMailException {
-        try {
-            return mail.parseAddresses(valueName);
-        } catch (InternetAddressException e) {
-            return new MailAdapter.Address[0];
-        }
+            String valueName, SieveContext context) throws SieveException {
+        return context.parseAddresses(mail, valueName);
     }
 
     protected boolean match(String addressPart, String comparator,

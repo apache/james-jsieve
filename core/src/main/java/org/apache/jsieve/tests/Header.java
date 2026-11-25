@@ -197,8 +197,8 @@ public class Header extends AbstractTest {
         boolean isMatched = false;
         Iterator headerNamesIter = headerNames.iterator();
         while (!isMatched && headerNamesIter.hasNext()) {
-            isMatched = match(comparator, matchType, mail
-                    .getMatchingHeader((String) headerNamesIter.next()), keys,
+            isMatched = match(comparator, matchType, context
+                    .getMatchingHeader(mail, (String) headerNamesIter.next()), keys,
                     context);
         }
         return isMatched;

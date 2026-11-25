@@ -20,10 +20,13 @@
 package org.apache.jsieve;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.james.mime4j.util.MimeUtil;
+import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
+import org.apache.jsieve.mail.MailAdapter;
 
 /**
  * Context for sieve operations.
@@ -125,5 +128,95 @@ public abstract class SieveContext {
             decodedHeaderValues = new HashMap<>();
         }
         return decodedHeaderValues.computeIfAbsent(rawValue, MimeUtil::unscrambleHeaderValue);
+    }
+
+    /**
+     * Header values already looked up, by the header name of the script.
+     */
+    private Map<String, List<String>> matchingHeaders;
+
+    /**
+     * Addresses already parsed, by the header name of the script.
+     */
+    private Map<String, MailAdapter.Address[]> parsedAddresses;
+
+    /**
+     * The characters of the header names of the mail, plus one per name, or
+     * -1 before they are counted.
+     */
+    private long headerNamesLength = -1;
+
+    /**
+     * Looks up the values of the headers of the mail with the given name, see
+     * {@link MailAdapter#getMatchingHeader(String)}. A name is looked up once
+     * per context, that is per evaluation. A lookup is charged to the
+     * evaluation budget: the header names of the mail it walks, the name, and
+     * the values it returns.
+     *
+     * @param mail not null
+     * @param name not null
+     * @return the values, not null
+     * @throws SieveException when the budget is exhausted or the mail cannot be read
+     */
+    public List<String> getMatchingHeader(MailAdapter mail, String name) throws SieveException {
+        if (matchingHeaders == null) {
+            matchingHeaders = new HashMap<>();
+        }
+        List<String> values = matchingHeaders.get(name);
+        if (values == null) {
+            chargeComparison(headerNamesLength(mail) + name.length() + 1L);
+            values = mail.getMatchingHeader(name);
+            chargeComparison(length(values));
+            matchingHeaders.put(name, values);
+        }
+        return values;
+    }
+
+    /**
+     * Parses the addresses of the headers of the mail with the given name,
+     * see {@link MailAdapter#parseAddresses(String)}: none when they do not
+     * parse as address lists. A name is parsed once per context, that is per
+     * evaluation. A parse is charged to the evaluation budget: the header
+     * names of the mail it walks and the values it parses.
+     *
+     * @param mail not null
+     * @param headerName not null
+     * @return the addresses, not null
+     * @throws SieveException when the budget is exhausted or the mail cannot be read
+     */
+    public MailAdapter.Address[] parseAddresses(MailAdapter mail, String headerName) throws SieveException {
+        if (parsedAddresses == null) {
+            parsedAddresses = new HashMap<>();
+        }
+        MailAdapter.Address[] addresses = parsedAddresses.get(headerName);
+        if (addresses == null) {
+            final List<String> values = getMatchingHeader(mail, headerName);
+            chargeComparison(headerNamesLength(mail) + length(values));
+            try {
+                addresses = mail.parseAddresses(headerName);
+            } catch (InternetAddressException e) {
+                addresses = new MailAdapter.Address[0];
+            }
+            parsedAddresses.put(headerName, addresses);
+        }
+        return addresses;
+    }
+
+    private long headerNamesLength(MailAdapter mail) throws SieveException {
+        if (headerNamesLength < 0) {
+            final List<String> headerNames = mail.getHeaderNames();
+            final long length = length(headerNames);
+            chargeComparison(length);
+            headerNamesLength = length;
+        }
+        return headerNamesLength;
+    }
+
+    private static long length(List<String> strings) {
+        long length = 0;
+        for (String string : strings) {
+            length += string.length() + 1L;
+        }
+        return length;
     }
 }

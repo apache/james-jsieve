@@ -370,7 +370,12 @@ public class Envelope extends AbstractComparatorTest {
     protected boolean match(MailAdapter mail, String addressPart,
             String comparator, String matchType, String headerName, String key,
             SieveContext context) throws SieveException {
-        final List<String> headerValues = getMatchingValues(mail, headerName);
+        return match(addressPart, comparator, matchType,
+                getMatchingValues(mail, headerName), key, context);
+    }
+
+    private boolean match(String addressPart, String comparator, String matchType,
+            List<String> headerValues, String key, SieveContext context) throws SieveException {
         boolean isMatched = false;
         for (final String value:headerValues) {
             isMatched = match(addressPart, comparator, matchType, value, key, context);
@@ -379,6 +384,28 @@ public class Envelope extends AbstractComparatorTest {
             }
         }
         return isMatched;
+    }
+
+    /**
+     * Looks the envelope part up once, whatever the number of keys, and
+     * charges the lookup to the evaluation budget: the name and the values.
+     */
+    @Override
+    protected boolean match(MailAdapter mail, String addressPart,
+            String comparator, String matchType, String headerName, List<String> keys,
+            SieveContext context) throws SieveException {
+        final List<String> headerValues = getMatchingValues(mail, headerName);
+        long length = headerName.length() + 1L;
+        for (final String value:headerValues) {
+            length += value.length() + 1L;
+        }
+        context.chargeComparison(length);
+        for (final String key:keys) {
+            if (match(addressPart, comparator, matchType, headerValues, key, context)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

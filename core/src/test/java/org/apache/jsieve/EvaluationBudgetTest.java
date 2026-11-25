@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -126,6 +127,56 @@ public class EvaluationBudgetTest {
     }
 
     @Test
+    public void theParseOfAnAddressHeaderShouldBeCharged() throws Exception {
+        SieveMailAdapter mail = mailWithFrom("(" + "a".repeat(1_000_000) + ") <");
+        String script = "if address :all \"From\" \"key\" { discard; }";
+
+        assertThatThrownBy(() -> factoryWithBudget(1_000_000).interpret(mail, script(script)))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test
+    public void anAddressHeaderShouldBeParsedOnceWhateverTheNumberOfKeys() throws Exception {
+        SieveMailAdapter mail = mailWithFrom("(" + "a".repeat(100_000) + ") <");
+        String script = "if address :all \"From\" [" + keys(10_000) + "] { discard; }";
+
+        factoryWithBudget(1_000_000).interpret(mail, script(script));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionKeep.class);
+    }
+
+    @Test
+    public void theHeaderLookupsOfExistsShouldBeCharged() throws Exception {
+        SieveMailAdapter mail = mailWithHeaders(10_000);
+        String script = "if exists [" + headerNames(10_000) + "] { discard; }";
+
+        assertThatThrownBy(() -> factoryWithBudget(10_000_000).interpret(mail, script(script)))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test
+    public void theHeaderLookupsOfHeaderShouldBeCharged() throws Exception {
+        SieveMailAdapter mail = mailWithHeaders(10_000);
+        String script = "if header :is [" + headerNames(10_000).replace("X-Header-", "X-Absent-") + "] \"key\" { discard; }";
+
+        assertThatThrownBy(() -> factoryWithBudget(10_000_000).interpret(mail, script(script)))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test
+    public void aHeaderNameShouldBeLookedUpOncePerEvaluation() throws Exception {
+        SieveMailAdapter mail = mailWithHeaders(10_000);
+        String script = "if exists [" + String.join(", ", Collections.nCopies(10_000, "\"X-Header-1\"")) + "] { discard; }";
+
+        factoryWithBudget(10_000_000).interpret(mail, script(script));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test
     public void theGlobMatcherShouldBeChargedTheCharactersItComparesAgain() throws Exception {
         // Each of the ~1000 attempts compares up to 100 characters before failing
         String string = "a".repeat(1_000);
@@ -185,7 +236,7 @@ public class EvaluationBudgetTest {
     public void comparisonsWithinTheBudgetShouldBeEvaluated() throws Exception {
         SieveMailAdapter mail = mailWithSubject("Gone for holidays");
 
-        factoryWithBudget(40).interpret(mail, script(CONTAINS_SCRIPT));
+        factoryWithBudget(70).interpret(mail, script(CONTAINS_SCRIPT));
 
         assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
     }
@@ -204,14 +255,14 @@ public class EvaluationBudgetTest {
         SieveMailAdapter mail = mailWithSubject("Gone for holidays");
         String script = CONTAINS_SCRIPT + CONTAINS_SCRIPT;
 
-        assertThatThrownBy(() -> factoryWithBudget(40).interpret(mail, script(script)))
+        assertThatThrownBy(() -> factoryWithBudget(70).interpret(mail, script(script)))
             .isInstanceOf(SieveException.class)
             .hasMessageContaining("budget");
     }
 
     @Test
     public void theBudgetShouldBeRenewedForEachEvaluation() throws Exception {
-        SieveFactory factory = factoryWithBudget(40);
+        SieveFactory factory = factoryWithBudget(70);
 
         for (int i = 0; i < 3; i++) {
             SieveMailAdapter mail = mailWithSubject("Gone for holidays");
@@ -257,6 +308,26 @@ public class EvaluationBudgetTest {
         mail.getMessage().saveChanges();
         // copied so that JavaMail reports the size of the whole message
         return (SieveMailAdapter) JUnitUtils.copyMail(mail);
+    }
+
+    private static String headerNames(int count) {
+        return IntStream.range(0, count)
+            .mapToObj(i -> "\"X-Header-" + i + "\"")
+            .collect(Collectors.joining(", "));
+    }
+
+    private static SieveMailAdapter mailWithFrom(String from) throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().setHeader("From", from);
+        return mail;
+    }
+
+    private static SieveMailAdapter mailWithHeaders(int count) throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        for (int i = 0; i < count; i++) {
+            mail.getMessage().addHeader("X-Header-" + i, "value");
+        }
+        return mail;
     }
 
     private static SieveMailAdapter mailWithSubject(String subject) throws Exception {

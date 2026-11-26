@@ -25,7 +25,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -36,6 +38,8 @@ import org.apache.jsieve.comparators.Matches;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionDiscard;
 import org.apache.jsieve.mail.ActionKeep;
+import org.apache.jsieve.mail.MailUtils;
+import org.apache.jsieve.mail.SieveMailException;
 import org.apache.jsieve.utils.JUnitUtils;
 import org.apache.jsieve.utils.SieveMailAdapter;
 import org.junit.Test;
@@ -164,6 +168,42 @@ public class EvaluationBudgetTest {
         assertThatThrownBy(() -> factoryWithBudget(10_000_000).interpret(mail, script(script)))
             .isInstanceOf(SieveException.class)
             .hasMessageContaining("budget");
+    }
+
+    @Test(timeout = 10_000)
+    public void theSpellingsOfANameShouldBeLookedUpLinearlyWhenTheAdapterIgnoresCase() throws Exception {
+        SieveMailAdapter mail = mailWithSpellings(new CaseInsensitiveMailAdapter(), "XXXXXXXXXXXXXX", 10_000);
+
+        assertThat(MailUtils.getMatchingHeader(mail, "xxxxxxxxxxxxxx")).hasSize(10_000);
+        factoryWithBudget(10_000_000).interpret(mail, script("if exists \"XXXXXXXXXXXXXX\" { discard; }"));
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test
+    public void theSpellingsOfANameShouldEachBeLookedUpWhenTheAdapterMatchesTheExactName() throws Exception {
+        SieveMailAdapter mail = mailWithSpellings((SieveMailAdapter) JUnitUtils.createMail(), "XXXXXXXXXXXXXX", 100);
+
+        assertThat(MailUtils.getMatchingHeader(mail, "xxxxxxxxxxxxxx")).hasSize(100).doesNotHaveDuplicates();
+    }
+
+    @Test
+    public void spellingsSharingAValueShouldEachBeLookedUpWhenTheAdapterMatchesTheExactName() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X-Spam", "yes");
+        mail.getMessage().addHeader("x-spam", "yes");
+        mail.getMessage().addHeader("X-SPAM", "no");
+
+        assertThat(MailUtils.getMatchingHeader(mail, "x-spam")).containsExactlyInAnyOrder("yes", "yes", "no");
+    }
+
+    @Test
+    public void spellingsSharingAValueShouldBeLookedUpOnceWhenTheAdapterIgnoresCase() throws Exception {
+        SieveMailAdapter mail = new CaseInsensitiveMailAdapter();
+        mail.getMessage().addHeader("X-Spam", "yes");
+        mail.getMessage().addHeader("x-spam", "yes");
+        mail.getMessage().addHeader("X-SPAM", "no");
+
+        assertThat(MailUtils.getMatchingHeader(mail, "x-spam")).containsExactlyInAnyOrder("yes", "yes", "no");
     }
 
     @Test
@@ -328,6 +368,43 @@ public class EvaluationBudgetTest {
             mail.getMessage().addHeader("X-Header-" + i, "value");
         }
         return mail;
+    }
+
+    /**
+     * Adds the given number of spellings of the name, differing in the case
+     * of their letters, each with its own value.
+     */
+    private static SieveMailAdapter mailWithSpellings(SieveMailAdapter mail, String name, int count) throws Exception {
+        for (int i = 0; i < count; i++) {
+            StringBuilder spelling = new StringBuilder(name);
+            for (int bit = 0; bit < name.length(); bit++) {
+                if ((i & (1 << bit)) != 0) {
+                    spelling.setCharAt(bit, Character.toLowerCase(name.charAt(bit)));
+                }
+            }
+            mail.getMessage().addHeader(spelling.toString(), "value" + i);
+        }
+        return mail;
+    }
+
+    /**
+     * Answers the fields of every case of the name, as JavaMail does and as
+     * James's adapter relies on.
+     */
+    private static class CaseInsensitiveMailAdapter extends SieveMailAdapter {
+        CaseInsensitiveMailAdapter() {
+            super(((SieveMailAdapter) JUnitUtils.createMail()).getMessage());
+        }
+
+        @Override
+        public List<String> getHeader(String name) throws SieveMailException {
+            try {
+                String[] values = getMessage().getHeader(name);
+                return values == null ? Collections.emptyList() : Arrays.asList(values);
+            } catch (javax.mail.MessagingException e) {
+                throw new SieveMailException(e);
+            }
+        }
     }
 
     private static SieveMailAdapter mailWithSubject(String subject) throws Exception {

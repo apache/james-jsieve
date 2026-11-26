@@ -120,6 +120,12 @@ public interface MailAdapter {
      * are considered equal.
      * </p>
      * 
+     * <p>
+     * The address test asks {@link #parseAddresses(String)} only for a name
+     * this method answers values for, and charges the parse by those values:
+     * it must answer every field that parseAddresses parses.
+     * </p>
+     * 
      * @param name
      * @return <code>List</code>, not null possibly empty, possible
      *         unmodifiable

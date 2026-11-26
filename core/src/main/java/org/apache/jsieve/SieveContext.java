@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.james.mime4j.util.MimeUtil;
+import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
@@ -176,8 +177,10 @@ public abstract class SieveContext {
      * Parses the addresses of the headers of the mail with the given name,
      * see {@link MailAdapter#parseAddresses(String)}: none when they do not
      * parse as address lists. A name is parsed once per context, that is per
-     * evaluation. A parse is charged to the evaluation budget: the header
-     * names of the mail it walks and the values it parses.
+     * evaluation, whatever its ASCII case. A parse is charged to the
+     * evaluation budget: the header names of the mail it walks and the values
+     * it parses, as {@link #getMatchingHeader(MailAdapter, String)} looks
+     * them up. A name with no such value, or outside ASCII, is not parsed.
      *
      * @param mail not null
      * @param headerName not null
@@ -188,18 +191,39 @@ public abstract class SieveContext {
         if (parsedAddresses == null) {
             parsedAddresses = new HashMap<>();
         }
-        MailAdapter.Address[] addresses = parsedAddresses.get(headerName);
+        // The spellings of a name that differ in ASCII case are one name
+        final String key = AsciiCasemap.toAsciiUpperCase(headerName);
+        MailAdapter.Address[] addresses = parsedAddresses.get(key);
         if (addresses == null) {
             final List<String> values = getMatchingHeader(mail, headerName);
-            chargeComparison(headerNamesLength(mail) + length(values));
-            try {
-                addresses = mail.parseAddresses(headerName);
-            } catch (InternetAddressException e) {
+            if (values.isEmpty() || !isAscii(headerName)) {
+                // The adapter parses the fields it looks up itself, and may
+                // match more names than the ASCII ones of getMatchingHeader
+                // (String#equalsIgnoreCase folds U+017F to s): only a parse of
+                // the values charged here is charged right. A field name is
+                // ASCII (RFC 5322 section 3.6.8), so a name outside ASCII
+                // holds no address.
                 addresses = new MailAdapter.Address[0];
+            } else {
+                chargeComparison(headerNamesLength(mail) + length(values));
+                try {
+                    addresses = mail.parseAddresses(headerName);
+                } catch (InternetAddressException e) {
+                    addresses = new MailAdapter.Address[0];
+                }
             }
-            parsedAddresses.put(headerName, addresses);
+            parsedAddresses.put(key, addresses);
         }
         return addresses;
+    }
+
+    private static boolean isAscii(String string) {
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) > 0x7F) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private long headerNamesLength(MailAdapter mail) throws SieveException {

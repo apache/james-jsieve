@@ -35,6 +35,7 @@ import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.comparators.Contains;
 import org.apache.jsieve.comparators.Equals;
 import org.apache.jsieve.comparators.Matches;
+import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.ActionDiscard;
 import org.apache.jsieve.mail.ActionKeep;
@@ -148,6 +149,30 @@ public class EvaluationBudgetTest {
         factoryWithBudget(1_000_000).interpret(mail, script(script));
 
         assertThat(mail.getActions()).singleElement().isInstanceOf(ActionKeep.class);
+    }
+
+    @Test
+    public void aNameMatchingNoHeaderShouldNotBeParsed() throws Exception {
+        ParseCountingMailAdapter mail = new ParseCountingMailAdapter();
+        mail.getMessage().setHeader("Subject", "(" + "a".repeat(1_000_000) + ") <");
+        // U+017F folds to s under String#equalsIgnoreCase, not under i;ascii-casemap
+        String script = "if address :all [\"\u017Fubject\", \"\u017FUBJECT\", \"X-Absent\"] \"key\" { discard; }";
+
+        factoryWithBudget(100_000).interpret(mail, script(script));
+
+        assertThat(mail.parses).isZero();
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionKeep.class);
+    }
+
+    @Test
+    public void theAsciiCaseSpellingsOfANameShouldBeParsedOnce() throws Exception {
+        ParseCountingMailAdapter mail = new ParseCountingMailAdapter();
+        mail.getMessage().setHeader("From", "user@example.com");
+        String script = "if address :all [\"From\", \"FROM\", \"from\", \"fRoM\"] \"key\" { discard; }";
+
+        factoryWithBudget(100_000).interpret(mail, script(script));
+
+        assertThat(mail.parses).isEqualTo(1);
     }
 
     @Test
@@ -385,6 +410,20 @@ public class EvaluationBudgetTest {
             mail.getMessage().addHeader(spelling.toString(), "value" + i);
         }
         return mail;
+    }
+
+    private static class ParseCountingMailAdapter extends SieveMailAdapter {
+        int parses;
+
+        ParseCountingMailAdapter() {
+            super(((SieveMailAdapter) JUnitUtils.createMail()).getMessage());
+        }
+
+        @Override
+        public Address[] parseAddresses(String headerName) throws SieveMailException, InternetAddressException {
+            parses++;
+            return super.parseAddresses(headerName);
+        }
     }
 
     /**

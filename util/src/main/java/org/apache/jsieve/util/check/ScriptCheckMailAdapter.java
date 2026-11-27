@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.mail.Header;
@@ -183,6 +184,14 @@ public class ScriptCheckMailAdapter implements MailAdapter {
             }
         }
         return result;
+    }
+
+    /**
+     * getHeader matches the exact name.
+     */
+    @Override
+    public Optional<Boolean> getHeaderIgnoresCase() {
+        return Optional.of(false);
     }
 
     /**

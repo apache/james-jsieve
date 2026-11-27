@@ -20,6 +20,7 @@
 package org.apache.jsieve.mail;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
@@ -105,6 +106,22 @@ public interface MailAdapter {
      * @throws SieveMailException
      */
     public List<String> getHeader(String name) throws SieveMailException;
+
+    /**
+     * Tells whether {@link #getHeader(String)} matches the name ignoring its
+     * ASCII case, as the getHeader of JavaMail does: then each case spelling
+     * of a name answers the values of all of them. An adapter that knows it
+     * should answer it: {@link MailUtils#getMatchingHeader(MailAdapter, String)}
+     * otherwise tells it by asking getHeader a case spelling the mail does not
+     * hold, and when a crafted mail holds every case spelling of every name,
+     * by asking getHeader every spelling of the name looked up.
+     *
+     * @return whether getHeader ignores the ASCII case of the name, or empty
+     *         when unknown, the default
+     */
+    default Optional<Boolean> getHeaderIgnoresCase() {
+        return Optional.empty();
+    }
 
     /**
      * <p>

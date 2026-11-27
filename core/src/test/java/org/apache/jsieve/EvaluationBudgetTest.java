@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -202,6 +203,121 @@ public class EvaluationBudgetTest {
         assertThat(MailUtils.getMatchingHeader(mail, "xxxxxxxxxxxxxx")).hasSize(10_000);
         factoryWithBudget(10_000_000).interpret(mail, script("if exists \"XXXXXXXXXXXXXX\" { discard; }"));
         assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test(timeout = 10_000)
+    public void anAdapterDeclaringItIgnoresCaseShouldNotBeProbed() throws Exception {
+        GetHeaderCountingMailAdapter mail = new GetHeaderCountingMailAdapter(Optional.of(true));
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < 1_000; i++) {
+            mail.getMessage().addHeader("A-" + i, "upper");
+            mail.getMessage().addHeader("a-" + i, "lower");
+            names.append(i == 0 ? "" : ", ").append("\"A-").append(i).append("\", \"a-").append(i).append('"');
+        }
+        mail.getMessage().addHeader("B", "b".repeat(1_000_000));
+
+        factoryWithBudget(100_000_000).interpret(mail, script("if exists [" + names + "] { discard; }"));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+        assertThat(mail.returnedCharacters).isLessThan(1_000_000);
+    }
+
+    @Test(timeout = 10_000)
+    public void anotherNameShouldBeProbedOncePerEvaluationWhenTheAdapterDoesNotDeclareItsCase() throws Exception {
+        GetHeaderCountingMailAdapter mail = new GetHeaderCountingMailAdapter(Optional.empty());
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < 1_000; i++) {
+            mail.getMessage().addHeader("A-" + i, "upper");
+            mail.getMessage().addHeader("a-" + i, "lower");
+            names.append(i == 0 ? "" : ", ").append("\"A-").append(i).append('"');
+        }
+        mail.getMessage().addHeader("B", "b".repeat(1_000_000));
+
+        factoryWithBudget(100_000_000).interpret(mail, script("if exists [" + names + "] { discard; }"));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+        assertThat(mail.returnedCharacters).isLessThan(2_000_000);
+    }
+
+    @Test
+    public void everySpellingShouldBeLookedUpWhenNoNameCanBeProbedAndTheAdapterMatchesTheExactName() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("X", "a");
+        mail.getMessage().addHeader("x", "b");
+
+        factoryWithBudget(10_000_000).interpret(mail, script("if allof (header :is \"x\" \"a\", header :is \"X\" \"b\") { discard; }"));
+
+        assertThat(mail.getActions()).singleElement().isInstanceOf(ActionDiscard.class);
+    }
+
+    @Test
+    public void eachValueShouldBeLookedUpOnceWhenNoNameCanBeProbedAndTheAdapterIgnoresCase() throws Exception {
+        SieveMailAdapter mail = new CaseInsensitiveMailAdapter();
+        mail.getMessage().addHeader("X", "a");
+        mail.getMessage().addHeader("x", "b");
+
+        assertThat(MailUtils.getMatchingHeader(mail, "x")).containsExactlyInAnyOrder("a", "b");
+    }
+
+    @Test(timeout = 10_000)
+    public void lookingUpEverySpellingShouldBeChargedWhenNoNameCanBeProbed() throws Exception {
+        SieveMailAdapter mail = mailWithSpellings(new CaseInsensitiveMailAdapter(), "XXXXXXXXXXXX", 4_096);
+
+        assertThatThrownBy(() -> factoryWithBudget(100_000_000).interpret(mail, script("if exists \"XXXXXXXXXXXX\" { discard; }")))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test(timeout = 10_000)
+    public void anExhaustedBudgetShouldFailTheEvaluationWhenTheAdapterSwallowsIt() throws Exception {
+        SieveMailAdapter mail = mailWithSpellings(new SwallowingMailAdapter(), "XXXXXXXXXXXX", 4_096);
+
+        assertThatThrownBy(() -> factoryWithBudget(100_000_000).interpret(mail, script("if exists \"XXXXXXXXXXXX\" { discard; }")))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test(timeout = 10_000)
+    public void anExhaustedBudgetShouldFailTheEvaluationWhenTheAdapterWrapsItUnchecked() throws Exception {
+        SieveMailAdapter mail = mailWithSpellings(new UncheckedMailAdapter(), "XXXXXXXXXXXX", 4_096);
+
+        assertThatThrownBy(() -> factoryWithBudget(100_000_000).interpret(mail, script("if exists \"XXXXXXXXXXXX\" { discard; }")))
+            .isInstanceOf(SieveException.class)
+            .hasMessageContaining("budget");
+    }
+
+    @Test(timeout = 10_000)
+    public void everySpellingShouldNotBeAskedOutOfAnEvaluation() throws Exception {
+        GetHeaderCountingMailAdapter mail = new GetHeaderCountingMailAdapter(Optional.empty());
+        mailWithSpellings(mail, "XXXXXXXXXXXX", 4_096);
+
+        assertThat(MailUtils.getMatchingHeader(mail, "XXXXXXXXXXXX")).hasSize(4_096);
+        assertThat(mail.calls).isEqualTo(1);
+    }
+
+    @Test
+    public void theProbedValuesShouldBeTheValuesLookedUpWhenTheAdapterIgnoresCase() throws Exception {
+        GetHeaderCountingMailAdapter mail = new GetHeaderCountingMailAdapter(Optional.empty());
+        mail.getMessage().addHeader("X-Spam", "yes");
+        mail.getMessage().addHeader("x-spam", "no");
+        mail.getMessage().addHeader("B", "b".repeat(1_000));
+
+        assertThat(MailUtils.getMatchingHeader(mail, "x-spam")).containsExactlyInAnyOrder("yes", "no");
+        assertThat(mail.calls).isEqualTo(1);
+        assertThat(mail.returnedCharacters).isEqualTo(5);
+    }
+
+    @Test
+    public void everyCaseSpellingOfANameShouldBeLookedUpWhenTheAdapterMatchesTheExactName() throws Exception {
+        SieveMailAdapter mail = (SieveMailAdapter) JUnitUtils.createMail();
+        mail.getMessage().addHeader("To", "a@example.com");
+        mail.getMessage().addHeader("TO", "b@example.com");
+        mail.getMessage().addHeader("tO", "c@example.com");
+        mail.getMessage().addHeader("to", "evil@example.com");
+        mail.getMessage().addHeader("Subject", "hello");
+
+        assertThat(MailUtils.getMatchingHeader(mail, "to"))
+            .containsExactlyInAnyOrder("a@example.com", "b@example.com", "c@example.com", "evil@example.com");
     }
 
     @Test
@@ -423,6 +539,63 @@ public class EvaluationBudgetTest {
         public Address[] parseAddresses(String headerName) throws SieveMailException, InternetAddressException {
             parses++;
             return super.parseAddresses(headerName);
+        }
+    }
+
+    /**
+     * Ignores case, and answers no value when a lookup fails.
+     */
+    private static class SwallowingMailAdapter extends CaseInsensitiveMailAdapter {
+        @Override
+        public List<String> getMatchingHeader(String name) {
+            try {
+                return super.getMatchingHeader(name);
+            } catch (SieveMailException e) {
+                return Collections.emptyList();
+            }
+        }
+    }
+
+    /**
+     * Ignores case, and wraps the failure of a lookup in an unchecked exception.
+     */
+    private static class UncheckedMailAdapter extends CaseInsensitiveMailAdapter {
+        @Override
+        public List<String> getMatchingHeader(String name) {
+            try {
+                return super.getMatchingHeader(name);
+            } catch (SieveMailException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+
+    /**
+     * Ignores case, declares it or not, and counts the calls of getHeader and
+     * the characters they return.
+     */
+    private static class GetHeaderCountingMailAdapter extends CaseInsensitiveMailAdapter {
+        private final Optional<Boolean> declaredIgnoresCase;
+        long returnedCharacters;
+        int calls;
+
+        GetHeaderCountingMailAdapter(Optional<Boolean> declaredIgnoresCase) {
+            this.declaredIgnoresCase = declaredIgnoresCase;
+        }
+
+        @Override
+        public Optional<Boolean> getHeaderIgnoresCase() {
+            return declaredIgnoresCase;
+        }
+
+        @Override
+        public List<String> getHeader(String name) throws SieveMailException {
+            calls++;
+            List<String> values = super.getHeader(name);
+            for (String value : values) {
+                returnedCharacters += value.length();
+            }
+            return values;
         }
     }
 

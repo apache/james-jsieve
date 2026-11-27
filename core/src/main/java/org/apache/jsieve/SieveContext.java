@@ -28,6 +28,7 @@ import org.apache.jsieve.comparators.AsciiCasemap;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
 import org.apache.jsieve.mail.MailAdapter;
+import org.apache.jsieve.mail.MailUtils;
 
 /**
  * Context for sieve operations.
@@ -132,12 +133,19 @@ public abstract class SieveContext {
     }
 
     /**
-     * Header values already looked up, by the header name of the script.
+     * Header values already looked up, by the ASCII upper case of the header
+     * name of the script.
      */
     private Map<String, List<String>> matchingHeaders;
 
     /**
-     * Addresses already parsed, by the header name of the script.
+     * The state the header lookups of the evaluation share in {@link MailUtils}.
+     */
+    private MailUtils.HeaderLookups headerLookups;
+
+    /**
+     * Addresses already parsed, by the ASCII upper case of the header name of
+     * the script.
      */
     private Map<String, MailAdapter.Address[]> parsedAddresses;
 
@@ -150,7 +158,7 @@ public abstract class SieveContext {
     /**
      * Looks up the values of the headers of the mail with the given name, see
      * {@link MailAdapter#getMatchingHeader(String)}. A name is looked up once
-     * per context, that is per evaluation. A lookup is charged to the
+     * per context, that is per evaluation, whatever its ASCII case. A lookup is charged to the
      * evaluation budget: the header names of the mail it walks, the name, and
      * the values it returns.
      *
@@ -163,12 +171,17 @@ public abstract class SieveContext {
         if (matchingHeaders == null) {
             matchingHeaders = new HashMap<>();
         }
-        List<String> values = matchingHeaders.get(name);
+        // The spellings of a name that differ in ASCII case are one name
+        final String key = AsciiCasemap.toAsciiUpperCase(name);
+        List<String> values = matchingHeaders.get(key);
         if (values == null) {
             chargeComparison(headerNamesLength(mail) + name.length() + 1L);
-            values = mail.getMatchingHeader(name);
+            if (headerLookups == null) {
+                headerLookups = new MailUtils.HeaderLookups(this::chargeComparison);
+            }
+            values = MailUtils.lookUp(headerLookups, () -> mail.getMatchingHeader(name));
             chargeComparison(length(values));
-            matchingHeaders.put(name, values);
+            matchingHeaders.put(key, values);
         }
         return values;
     }
